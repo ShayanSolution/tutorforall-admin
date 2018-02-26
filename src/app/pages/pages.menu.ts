@@ -15,10 +15,10 @@ export const PAGES_MENU = [
         }
       },
       {
-        path: 'editors',
+        path: '',
         data: {
           menu: {
-            title: 'general.menu.editors',
+            title: 'general.menu.users',
             icon: 'ion-edit',
             selected: false,
             expanded: false,
@@ -27,16 +27,24 @@ export const PAGES_MENU = [
         },
         children: [
           {
-            path: 'ckeditor',
+            path: 'students',
             data: {
               menu: {
-                title: 'general.menu.ck_editor',
+                title: 'general.menu.students',
+              }
+            }
+          },
+          {
+            path: 'tutors',
+            data: {
+              menu: {
+                title: 'general.menu.tutors',
               }
             }
           }
         ]
       },
-      {
+     /* {
         path: 'components',
         data: {
           menu: {
@@ -348,7 +356,7 @@ export const PAGES_MENU = [
             target: '_blank'
           }
         }
-      }
+      }*/
     ]
   }
 ];

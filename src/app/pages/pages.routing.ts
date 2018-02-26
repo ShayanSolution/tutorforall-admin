@@ -14,13 +14,13 @@ export const routes: Routes = [
     ],
     loadChildren: 'app/pages/login/login.module#LoginModule'
   },
-  {
+  /*{
     path: 'register',
     canActivate: [
       GuestGuard
     ],
     loadChildren: 'app/pages/register/register.module#RegisterModule'
-  },
+  },*/
   {
     path: 'pages',
     component: Pages,
@@ -30,13 +30,15 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-      { path: 'editors', loadChildren: './editors/editors.module#EditorsModule' },
-      { path: 'components', loadChildren: './components/components.module#ComponentsModule' },
-      { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
-      { path: 'ui', loadChildren: './ui/ui.module#UiModule' },
-      { path: 'forms', loadChildren: './forms/forms.module#FormsModule' },
-      { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
-      { path: 'maps', loadChildren: './maps/maps.module#MapsModule' }
+      { path: 'students', loadChildren: './students/students.module#StudentsModule' },
+      { path: 'tutors', loadChildren: './tutors/tutors.module#TutorsModule' }, 
+      //{ path: 'editors', loadChildren: './editors/editors.module#EditorsModule' },
+      //{ path: 'components', loadChildren: './components/components.module#ComponentsModule' },
+      //{ path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
+      //{ path: 'ui', loadChildren: './ui/ui.module#UiModule' },
+      //{ path: 'forms', loadChildren: './forms/forms.module#FormsModule' },
+      //{ path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
+      //{ path: 'maps', loadChildren: './maps/maps.module#MapsModule' }
     ]
   }
 ];
