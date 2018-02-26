@@ -1,7 +1,7 @@
 import { Routes, RouterModule }  from '@angular/router';
 import { Pages } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
-import {AuthenticationGuard} from "../guards/index";
+import { AuthenticationGuard, GuestGuard } from "../guards/index";
 // noinspection TypeScriptValidateTypes
 
 // export function loadChildren(path) { return System.import(path); };
@@ -9,10 +9,16 @@ import {AuthenticationGuard} from "../guards/index";
 export const routes: Routes = [
   {
     path: 'login',
+    canActivate: [
+      GuestGuard
+    ],
     loadChildren: 'app/pages/login/login.module#LoginModule'
   },
   {
     path: 'register',
+    canActivate: [
+      GuestGuard
+    ],
     loadChildren: 'app/pages/register/register.module#RegisterModule'
   },
   {

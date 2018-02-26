@@ -21,16 +21,17 @@ import { PagesModule } from './pages/pages.module';
 import { AuthenticationService } from './services/index';
 
 //App Guards
-import { AuthenticationGuard } from './guards/index';
+import { AuthenticationGuard, GuestGuard } from './guards/index';
 
 // Application wide providers
 const APP_PROVIDERS = [
-  AppState,
-  GlobalState,
+    AppState,
+    GlobalState,
 ];
 
 const APP_GUARDS = [
-  AuthenticationGuard
+    AuthenticationGuard,
+    GuestGuard,
 ];
 
 export type StoreType = {
