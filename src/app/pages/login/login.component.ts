@@ -33,7 +33,6 @@ export class Login {
   public onSubmit(values : Object) : void {
     this.submitted = true;
     if (this.form.valid) {
-      //console.log(request);
 
       this.authenticationService.login(values)
       .subscribe(result => {

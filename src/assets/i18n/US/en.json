@@ -58,6 +58,11 @@
     "created_with": "Created with"
   },
   "dashboard": {
+    "no_of_sessions": "Sessions",
+    "no_of_students": "Students",
+    "no_of_tutors": "Tutors",
+    "total_earning": "Earning",
+
     "acquisition_channels": "Acquisition Channels",
     "users_by_country": "Users by Country",
     "revenue": "Revenue",
