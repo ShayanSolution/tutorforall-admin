@@ -19,7 +19,7 @@ export const PAGES_MENU = [
         data: {
           menu: {
             title: 'general.menu.users',
-            icon: 'ion-edit',
+            icon: 'ion-person-stalker',
             selected: false,
             expanded: false,
             order: 100,

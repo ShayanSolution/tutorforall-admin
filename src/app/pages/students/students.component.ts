@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {StudentsService} from "./students.service";
-import {LocalDataSource} from "ng2-smart-table/index";
+import { StudentsService } from "./students.service";
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
     selector: 'students',
@@ -10,7 +10,8 @@ import {LocalDataSource} from "ng2-smart-table/index";
 export class StudentsComponent {
     query: string = '';
 
-    settings = {
+    public settings = {
+        actions: false,
         add: {
             addButtonContent: '<i class="ion-ios-plus-outline"></i>',
             createButtonContent: '<i class="ion-checkmark"></i>',
@@ -38,18 +39,26 @@ export class StudentsComponent {
                 title: 'Last Name',
                 type: 'string'
             },
+            username: {
+                title: 'Username',
+                type: 'string'
+            },
             email: {
                 title: 'E-mail',
                 type: 'string'
             },
-            age: {
-                title: 'Age',
-                type: 'number'
+            city: {
+                title: 'City',
+                type: 'string'
+            },
+            country: {
+                title: 'Country',
+                type: 'string'
             }
         }
     };
 
-    source: LocalDataSource = new LocalDataSource();
+    public source: LocalDataSource = new LocalDataSource();
 
     constructor(protected service: StudentsService) {
         this.service.getData().subscribe((data) => {
