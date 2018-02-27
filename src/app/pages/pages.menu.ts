@@ -44,7 +44,7 @@ export const PAGES_MENU = [
           }
         ]
       },
-     /* {
+      /*{
         path: 'components',
         data: {
           menu: {
@@ -65,8 +65,8 @@ export const PAGES_MENU = [
             }
           }
         ]
-      },
-      {
+      },*/
+      /*{
         path: 'charts',
         data: {
           menu: {
@@ -87,8 +87,8 @@ export const PAGES_MENU = [
             }
           }
         ]
-      },
-      {
+      },*/
+      /*{
         path: 'ui',
         data: {
           menu: {
@@ -149,8 +149,8 @@ export const PAGES_MENU = [
             }
           },
         ]
-      },
-      {
+      },*/
+      /*{
         path: 'forms',
         data: {
           menu: {
@@ -179,8 +179,8 @@ export const PAGES_MENU = [
             }
           }
         ]
-      },
-      {
+      },*/
+      /*{
         path: 'tables',
         data: {
           menu: {
@@ -225,8 +225,8 @@ export const PAGES_MENU = [
              }
            }
         ]
-      },
-      {
+      },*/
+      /*{
         path: 'maps',
         data: {
           menu: {
@@ -271,8 +271,8 @@ export const PAGES_MENU = [
             }
           }
         ]
-      },
-      {
+      },*/
+      /*{
         path: '',
         data: {
           menu: {
@@ -301,8 +301,8 @@ export const PAGES_MENU = [
             }
           }
         ]
-      },
-      {
+      },*/
+      /*{
         path: '',
         data: {
           menu: {
@@ -344,8 +344,8 @@ export const PAGES_MENU = [
             ]
           }
         ]
-      },
-      {
+      },*/
+      /*{
         path: '',
         data: {
           menu: {
