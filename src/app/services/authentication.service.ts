@@ -20,6 +20,7 @@ export class AuthenticationService {
             client_id: environment.ApiClientID,
             client_secret: environment.apiSec,
             scope: '',
+            role: 'admin',
         }, values);
         return this.http.post(environment.apiURL+'/login', request)
             .map((response: Response) => {
