@@ -41,7 +41,23 @@ export const PAGES_MENU = [
                 title: 'general.menu.tutors',
               }
             }
-          }
+          },
+          {
+            path: 'new',
+            data: {
+              menu: {
+                title: 'general.menu.new',
+              }
+            }
+          },
+          /*{
+            path: ['register'],
+            data: {
+              menu: {
+                title: 'general.menu.register'
+              }
+            }
+          }*/
         ]
       },
       /*{

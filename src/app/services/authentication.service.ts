@@ -35,6 +35,21 @@ export class AuthenticationService {
             });
     }
 
+    register(values): Observable<boolean> {
+        var request = Object.assign({
+            grant_type: 'password',
+            client_id: environment.ApiClientID,
+            client_secret: environment.apiSec,
+            scope: '',
+            role: 'admin',
+        }, values);
+
+        return this.http.post(environment.apiURL+'/register-tutor', request)
+            .map((response: Response) => {
+                //console.log(request);
+                return true;
+            });
+    }
     logout(): void {
         this.token = null;
         localStorage.removeItem('currentUser');
