@@ -43,21 +43,13 @@ export const PAGES_MENU = [
             }
           },
           {
-            path: 'new',
-            data: {
-              menu: {
-                title: 'general.menu.new',
-              }
-            }
-          },
-          /*{
             path: ['register'],
             data: {
               menu: {
                 title: 'general.menu.register'
               }
             }
-          }*/
+          }
         ]
       },
       /*{

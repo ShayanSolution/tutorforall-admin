@@ -1,8 +1,6 @@
 <div class="auth-main">
   <div class="auth-block">
-    <h1>Sign up to tutor4all-admin</h1>
-    <a routerLink="/login" class="auth-link">Already have an tutor4all admin account? Sign in!</a>
-
+    <h1>Register Tutor</h1>
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
       <div class="form-group row" [ngClass]="{'has-error': (!name.valid && name.touched), 'has-success': (name.valid && name.touched)}">
         <label for="inputName3" class="col-sm-2 control-label">Name</label>

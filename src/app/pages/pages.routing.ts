@@ -32,6 +32,7 @@ export const routes: Routes = [
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
       { path: 'students', loadChildren: './students/students.module#StudentsModule' },
       { path: 'tutors', loadChildren: './tutors/tutors.module#TutorsModule' },
+      { path: 'register', loadChildren: './new/register.module#RegisterModule'},
       //{ path: 'editors', loadChildren: './editors/editors.module#EditorsModule' },
       //{ path: 'components', loadChildren: './components/components.module#ComponentsModule' },
       //{ path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
