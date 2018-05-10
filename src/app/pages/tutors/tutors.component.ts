@@ -5,13 +5,13 @@ import {LocalDataSource} from "ng2-smart-table/index";
 @Component({
     selector: 'tutors',
     templateUrl: './tutors.html',
-    styleUrls: ['./tutors.scss']
+    styleUrls: ['./tutors.scss'],
 })
 export class TutorsComponent {
     query: string = '';
 
     public settings = {
-        actions: false,
+        actions: true,
         add: {
             addButtonContent: '<i class="ion-ios-plus-outline"></i>',
             createButtonContent: '<i class="ion-checkmark"></i>',
@@ -54,7 +54,17 @@ export class TutorsComponent {
             country: {
                 title: 'Country',
                 type: 'string'
-            }
+            },
+            actions: //or something
+            {
+                title:'Detail',
+                type:'html',
+                valuePrepareFunction:(cell,row)=>{
+                    return `<a title="Student deserving" href="/#/pages/session/${row.id}"> 
+                            <i class="ion-ios-eye session-detail"></i></a>`
+                },
+                filter:false
+            },
         }
     };
 

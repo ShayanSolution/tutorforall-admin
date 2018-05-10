@@ -8,13 +8,18 @@ import {GlobalState} from '../../../global.state';
   templateUrl: './baContentTop.html',
 })
 export class BaContentTop {
-
+  public isValid:boolean = false;
   public activePageTitle:string = '';
 
   constructor(private _state:GlobalState) {
     this._state.subscribe('menu.activeLink', (activeLink) => {
       if (activeLink) {
         this.activePageTitle = activeLink.title;
+      }
+      if(this.activePageTitle == 'general.menu.tutors'){
+        this.isValid = true;
+      }else{
+        this.isValid = false;
       }
     });
   }

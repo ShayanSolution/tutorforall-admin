@@ -15,6 +15,18 @@ export const PAGES_MENU = [
         }
       },
       {
+        path: 'session',
+        data: {
+          menu: {
+            title: 'User Sessions',
+            icon: 'ion-android-home',
+            selected: false,
+            expanded: false,
+            order: 0
+          }
+        }
+      },
+      {
         path: '',
         data: {
           menu: {
@@ -42,14 +54,6 @@ export const PAGES_MENU = [
               }
             }
           },
-          {
-            path: ['register'],
-            data: {
-              menu: {
-                title: 'general.menu.register'
-              }
-            }
-          }
         ]
       },
       /*{

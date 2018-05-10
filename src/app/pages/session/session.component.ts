@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
-import { StudentsService } from "./students.service";
-import { LocalDataSource } from 'ng2-smart-table';
+import { Component, OnInit } from '@angular/core';
+import {SessionService} from "./session.service";
+import {LocalDataSource} from "ng2-smart-table/index";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'students',
-    templateUrl: './students.html',
-    styleUrls: ['./students.scss'],
-
+    selector: 'session',
+    templateUrl: './session.html',
+    styleUrls: ['./session.scss']
 })
-export class StudentsComponent {
+export class SessionComponent {
     query: string = '';
+    userid: number;
 
     public settings = {
         actions: true,
@@ -28,51 +29,43 @@ export class StudentsComponent {
             confirmDelete: true
         },
         columns: {
-            id: {
-                title: 'ID',
-                type: 'number'
-            },
             firstName: {
-                title: 'First Name',
+                title: 'Student First Name',
                 type: 'string'
             },
             lastName: {
-                title: 'Last Name',
+                title: 'Student Last Name',
                 type: 'string'
             },
-            username: {
-                title: 'Username',
+            p_name: {
+                title: 'Programme',
                 type: 'string'
             },
-            email: {
-                title: 'E-mail',
+            s_name: {
+                title: 'Subject',
                 type: 'string'
             },
-            city: {
-                title: 'City',
+            session_status: {
+                title: 'Status',
                 type: 'string'
             },
-            country: {
-                title: 'Country',
-                type: 'string'
-            },
-            actions: //or something
-            {
-                title:'Deserve',
-                type:'html',
-                valuePrepareFunction:(cell,row)=>{
-                    return `button (click)="onClick()">Click</button>`
-                },
-                filter:false
-            },
+
         }
     };
 
     public source: LocalDataSource = new LocalDataSource();
 
-    constructor(protected service: StudentsService) {
-        this.service.getData().subscribe((data) => {
+    constructor(private route: ActivatedRoute, protected service: SessionService) {        
+        this.service.getData(this.userid).subscribe((data) => {
             this.source.load(data);
+        });
+    }
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.userid = +params['id']; // (+) converts string 'id' to a number
+            //console.log(this.userid);
+            // In a real app: dispatch action to load the details here.
         });
     }
 
@@ -82,9 +75,5 @@ export class StudentsComponent {
         } else {
             event.confirm.reject();
         }
-    }
-
-    onClick() {
-        alert();
     }
 }
