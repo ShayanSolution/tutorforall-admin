@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
-import {TutorsService} from "./tutors.service";
+import { Component, OnInit } from '@angular/core';
+import {RemoveService} from "./remove.service";
 import {LocalDataSource} from "ng2-smart-table/index";
-
+import { ActivatedRoute } from '@angular/router';
+import {environment} from "../../../environments/environment";
 @Component({
-    selector: 'tutors',
-    templateUrl: './tutors.html',
-    styleUrls: ['./tutors.scss'],
+    selector: 'remove',
+    templateUrl: './remove.html',
+    styleUrls: ['./remove.scss']
 })
-export class TutorsComponent {
+export class RemoveComponent {
     query: string = '';
+    userid: number;
 
     public settings = {
         actions: true,
@@ -55,21 +57,17 @@ export class TutorsComponent {
                 title: 'Country',
                 type: 'string'
             },
-            is_active: {
-                title: 'Active',
+            is_deserving: {
+                title: 'Deserving',
                 type: 'string'
             },
             actions: //or something
             {
-                title:'Detail',
+                title:'Actions',
                 type:'html',
                 valuePrepareFunction:(cell,row)=>{
-                    return `<a title="Session Detail" href="/#/pages/session/${row.id}"> 
-                            <i class="ion-ios-eye session-detail"></i></a>
-                            |<a title="active/inactive" href="/#/pages/active/tutor/${row.id}"> 
-                            <i class="ion-settings session-detail"></i></a>
-                            |<a title="delete" href="/#/pages/remove/tutor/${row.id}"> 
-                            <i class="ion-close session-detail"></i></a>`
+                    return `<a title="deserving" href="/#/pages/active/${row.id}"> 
+                            <i class="ion-settings student-detail"></i></a>`
                 },
                 filter:false
             },
@@ -78,9 +76,24 @@ export class TutorsComponent {
 
     public source: LocalDataSource = new LocalDataSource();
 
-    constructor(protected service: TutorsService) {
-        this.service.getData().subscribe((data) => {
+    constructor(private route: ActivatedRoute, protected service: RemoveService) {
+        this.service.getData(this.userid).subscribe((data) => {
             this.source.load(data);
+        });
+        var url = window.location.href;
+        var result= url.split('/');
+        var Param = result[result.length-2];
+        if(Param == 'tutor'){
+            window.location.href='http://localhost:4200/#/pages/tutors';
+        }else{
+            window.location.href='http://localhost:4200/#/pages/students';
+        }
+              
+    }
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.userid = +params['id']; // (+) converts string 'id' to a number
         });
     }
 

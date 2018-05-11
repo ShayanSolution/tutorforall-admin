@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { StudentsService } from "./students.service";
 import { LocalDataSource } from 'ng2-smart-table';
+import {environment} from "../../../environments/environment";
 
 @Component({
     selector: 'students',
     templateUrl: './students.html',
-    styleUrls: ['./students.scss'],
+    styleUrls: ['./students.scss']
 
 })
 export class StudentsComponent {
@@ -56,14 +57,27 @@ export class StudentsComponent {
                 title: 'Country',
                 type: 'string'
             },
+            is_deserving: {
+                title: 'Deserving',
+                type: 'string'
+            },
+            is_active: {
+                title: 'Active',
+                type: 'string'
+            },
             actions: //or something
             {
-                title:'Deserve',
+                title:'Actions',
                 type:'html',
                 valuePrepareFunction:(cell,row)=>{
-                    return `button (click)="onClick()">Click</button>`
+                    return `<a title="deserving" href="/#/pages/deserve/${row.id}"> 
+                            <i class="ion-settings student-detail"></i></a>
+                            |<a title="active/inactive" href="/#/pages/active/${row.id}"> 
+                            <i class="ion-contrast student-detail"></i></a>
+                            |<a title="delete" href="/#/pages/remove/${row.id}"> 
+                            <i class="ion-close student-detail"></i></a>`
                 },
-                filter:false
+                filter:true
             },
         }
     };
@@ -84,7 +98,7 @@ export class StudentsComponent {
         }
     }
 
-    onClick() {
+    doSomething() {
         alert();
     }
 }
