@@ -77,6 +77,9 @@ export class IsActiveComponent {
     public source: LocalDataSource = new LocalDataSource();
 
     constructor(private route: ActivatedRoute, protected service: IsActiveService) {
+        this.service.getData(this.userid).subscribe((data) => {
+            this.source.load(data);
+        });
         var url = window.location.href;
         var result= url.split('/');
         var Param = result[result.length-2];
@@ -85,10 +88,7 @@ export class IsActiveComponent {
         }else{
             window.location.href='http://localhost:4200/#/pages/students';
         }
-        this.service.getData(this.userid).subscribe((data) => {
-            this.source.load(data);
-        });
-              
+
     }
 
     ngOnInit() {

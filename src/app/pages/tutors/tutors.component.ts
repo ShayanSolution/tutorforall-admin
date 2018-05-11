@@ -67,7 +67,7 @@ export class TutorsComponent {
                     return `<a title="Session Detail" href="/#/pages/session/${row.id}"> 
                             <i class="ion-ios-eye session-detail"></i></a>
                             |<a title="active/inactive" href="/#/pages/active/tutor/${row.id}"> 
-                            <i class="ion-settings session-detail"></i></a>
+                            <i class="ion-contrast session-detail"></i></a>
                             |<a title="delete" href="/#/pages/remove/tutor/${row.id}"> 
                             <i class="ion-close session-detail"></i></a>`
                 },
