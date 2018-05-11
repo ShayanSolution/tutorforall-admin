@@ -84,9 +84,9 @@ export class IsActiveComponent {
         var result= url.split('/');
         var Param = result[result.length-2];
         if(Param == 'tutor'){
-            window.location.href='http://localhost:4200/#/pages/tutors';
+            window.location.href='http://tutor4all-admin.shayansolutions.com/#/pages/tutors';
         }else{
-            window.location.href='http://localhost:4200/#/pages/students';
+            window.location.href='http://tutor4all-admin.shayansolutions.com/#/pages/students';
         }
 
     }

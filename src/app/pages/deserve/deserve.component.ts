@@ -80,7 +80,7 @@ export class DeserveComponent {
         this.service.getData(this.userid).subscribe((data) => {
             this.source.load(data);
         });
-        window.location.href='http://localhost:4200/#/pages/students';
+        window.location.href='http://tutor4all-admin.shayansolutions.com/#/pages/students';
     }
 
     ngOnInit() {
