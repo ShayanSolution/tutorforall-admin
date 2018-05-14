@@ -33,19 +33,20 @@ export class PieChart {
           stats: data.tutors,
           percent: Math.round( ( data.students / data.users ) * 100 ),
           icon: 'face',
-        }, {
-          color: pieColor,
-          description: 'dashboard.no_of_sessions',
-          stats: data.sessions,
-          percent: 0,
-          icon: 'person',
-        }, {
-          color: pieColor,
-          description: 'dashboard.total_earning',
-          stats: data.earning,
-          percent: 0,
-          icon: 'money',
-        }
+        },
+        // {
+        //   color: pieColor,
+        //   description: 'dashboard.no_of_sessions',
+        //   stats: data.sessions,
+        //   percent: 0,
+        //   icon: 'person',
+        // }, {
+        //   color: pieColor,
+        //   description: 'dashboard.total_earning',
+        //   stats: data.earning,
+        //   percent: 0,
+        //   icon: 'money',
+        // }
       ];
       this._loadPieCharts();
     });

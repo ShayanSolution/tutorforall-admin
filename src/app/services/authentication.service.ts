@@ -63,4 +63,20 @@ export class AuthenticationService {
             return false;
         }
     }
+
+    update(values): Observable<boolean> {
+        var request = Object.assign({
+            grant_type: 'password',
+            client_id: environment.ApiClientID,
+            client_secret: environment.apiSec,
+            scope: '',
+            role: 'admin',
+        }, values);
+        console.log(values);
+        return this.http.post(environment.apiURL+'/update-user', request)
+            .map((response: Response) => {
+                //console.log(request);
+                return true;
+            });
+    }
 }

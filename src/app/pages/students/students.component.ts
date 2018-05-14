@@ -71,7 +71,7 @@ export class StudentsComponent {
                 type:'html',
                 valuePrepareFunction:(cell,row)=>{
                     return `<a title="deserving" href="/#/pages/deserve/${row.id}"> 
-                            <i class="ion-settings student-detail"></i></a>
+                            <i class="ion-refresh student-detail"></i></a>
                             |<a title="active/inactive" href="/#/pages/active/${row.id}"> 
                             <i class="ion-contrast student-detail"></i></a>
                             |<a title="delete" href="/#/pages/remove/${row.id}"> 

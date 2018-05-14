@@ -26,6 +26,7 @@ export const routes: Routes = [
       { path: 'students', loadChildren: './students/students.module#StudentsModule' },
       { path: 'tutors', loadChildren: './tutors/tutors.module#TutorsModule' },
       { path: 'register', loadChildren: './new/register.module#RegisterModule' },
+      { path: 'profile/:id', loadChildren: './profile/profile.module#ProfileModule' },
       { path: 'session/:id', loadChildren: './session/session.module#SessionModule' },
       { path: 'active/:id', loadChildren: './isactive/isactive.module#IsActiveModule' },
       { path: 'active/tutor/:id', loadChildren: './isactive/isactive.module#IsActiveModule' },

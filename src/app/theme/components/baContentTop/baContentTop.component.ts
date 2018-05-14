@@ -16,7 +16,11 @@ export class BaContentTop {
       if (activeLink) {
         this.activePageTitle = activeLink.title;
       }
-      if(this.activePageTitle == 'general.menu.tutors'){
+      var url = window.location.href;
+      var result= url.split('/');
+      var Param = result[result.length-2];
+
+      if(this.activePageTitle == 'general.menu.tutors' && Param !='session'){
         this.isValid = true;
       }else{
         this.isValid = false;

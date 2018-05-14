@@ -14,18 +14,18 @@ export const PAGES_MENU = [
           }
         }
       },
-      {
-        path: 'session',
-        data: {
-          menu: {
-            title: 'User Sessions',
-            icon: 'ion-android-home',
-            selected: false,
-            expanded: false,
-            order: 0
-          }
-        }
-      },
+      // {
+      //   path: 'session',
+      //   data: {
+      //     menu: {
+      //       title: 'User Sessions',
+      //       icon: 'ion-android-home',
+      //       selected: false,
+      //       expanded: false,
+      //       order: 0
+      //     }
+      //   }
+      // },
       {
         path: '',
         data: {
