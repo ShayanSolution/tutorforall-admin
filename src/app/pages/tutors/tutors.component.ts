@@ -70,7 +70,7 @@ export class TutorsComponent {
                             <i class="ion-contrast session-detail"></i></a>
                             |<a title="delete" href="/#/pages/remove/tutor/${row.id}"> 
                             <i class="ion-close session-detail"></i></a>
-                            |<a title="delete" href="/#/pages/profile/${row.id}"> 
+                            |<a title="edit" href="/#/pages/profile/${row.id}"> 
                             <i class="ion-edit session-detail"></i></a>`
                 },
                 filter:false
@@ -81,6 +81,7 @@ export class TutorsComponent {
     public source: LocalDataSource = new LocalDataSource();
 
     constructor(protected service: TutorsService) {
+        $('.content-top').show();
         this.service.getData().subscribe((data) => {
             this.source.load(data);
         });
