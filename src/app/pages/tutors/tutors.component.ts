@@ -69,7 +69,9 @@ export class TutorsComponent {
                             |<a title="active/inactive" href="/#/pages/active/tutor/${row.id}"> 
                             <i class="ion-contrast session-detail"></i></a>
                             |<a title="delete" href="/#/pages/remove/tutor/${row.id}"> 
-                            <i class="ion-close session-detail"></i></a>`
+                            <i class="ion-close session-detail"></i></a>
+                            |<a title="delete" href="/#/pages/profile/${row.id}"> 
+                            <i class="ion-edit session-detail"></i></a>`
                 },
                 filter:false
             },

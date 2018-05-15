@@ -1,12 +1,13 @@
 import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ProfileComponent } from './profile.component';
 import { routing } from './profile.routing';
 import {NgaModule} from "../../theme/nga.module";
 import {Ng2SmartTableModule} from "ng2-smart-table/ng2-smart-table.module";
 import {ProfileService} from "./profile.service";
+import { ProfileComponent } from './profile.component';
+
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import {ProfileService} from "./profile.service";
         routing,
         Ng2SmartTableModule,
         NgaModule,
+        ReactiveFormsModule
     ],
     declarations: [
         ProfileComponent

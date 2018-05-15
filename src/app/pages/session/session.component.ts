@@ -62,6 +62,7 @@ export class SessionComponent {
     }
 
     ngOnInit() {
+        $('.content-top').hide();
         this.route.params.subscribe(params => {
             this.userid = +params['id']; // (+) converts string 'id' to a number
             //console.log(this.userid);

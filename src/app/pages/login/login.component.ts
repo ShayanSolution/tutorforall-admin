@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthenticationService} from "../../services/index";
+import { Compiler } from '@angular/core';
 
 @Component({
   selector: 'login',
@@ -19,8 +20,10 @@ export class Login {
   constructor(
       fb:FormBuilder,
       private router : Router,
-      private authenticationService: AuthenticationService
+      private authenticationService: AuthenticationService,
+      private _compiler: Compiler
   ) {
+    this._compiler.clearCache();
     this.form = fb.group({
       'username': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
       'password': ['', Validators.compose([Validators.required, Validators.minLength(4)])]

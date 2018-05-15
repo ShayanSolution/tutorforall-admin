@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers, Response,RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 import { environment } from '../../environments/environment';
@@ -64,19 +64,20 @@ export class AuthenticationService {
         }
     }
 
-    update(values): Observable<boolean> {
+    update(values,userid): Observable<boolean> {
         var request = Object.assign({
             grant_type: 'password',
             client_id: environment.ApiClientID,
             client_secret: environment.apiSec,
             scope: '',
             role: 'admin',
+            userid: userid,
         }, values);
-        console.log(values);
+
         return this.http.post(environment.apiURL+'/update-user', request)
             .map((response: Response) => {
-                //console.log(request);
+                console.log(response);
                 return true;
-            });
+        });
     }
 }
