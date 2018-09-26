@@ -41,7 +41,7 @@
             <li class="dropdown">
                 <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="index.html#"> <img src="{{Auth::user()->profileImage}}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{Auth::user()->username}}</b> </a>
                 <ul class="dropdown-menu dropdown-user animated flipInY">
-                    <li><a href="{{route('updatePasswordPage')}}"><i class="ti-settings"></i>Update Password</a></li>
+                    {{--<li><a href="{{route('updatePasswordPage')}}"><i class="ti-settings"></i>Update Password</a></li>--}}
                     <li><a href="{{route('logout')}}"><i class="fa fa-power-off"></i>  Logout</a></li>
                 </ul>
                 <!-- /.dropdown-user -->

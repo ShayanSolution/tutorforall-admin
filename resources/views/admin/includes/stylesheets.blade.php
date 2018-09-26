@@ -6,6 +6,8 @@
 <link rel="icon" type="image/png" sizes="16x16" href="{{url('admin_assets/plugins/images/favicon.png')}}">
 <!-- Bootstrap Core CSS -->
 <link href="{{url('admin_assets/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+<link href="{{url('admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{url('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}" rel="stylesheet" type="text/css" />
 <!-- Menu CSS -->
 <link href="{{url('admin_assets/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}" rel="stylesheet">
 <!-- Morris CSS -->

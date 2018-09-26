@@ -31,7 +31,7 @@ Route::group(['middleware' => 'guest'],function (){
     ]);
 });
 //Guests Middleware ends
-//Guest Middleware starts
+//admin Middleware starts
 Route::group(['middleware' => 'admin'],function (){
     Route::get('admin/dashboard',[
         'as' => 'dashboard',
@@ -42,8 +42,24 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'updatePasswordPage',
         'uses' => 'AdminController@updatePasswordPage'
     ]);
+
+    Route::post('admin/tutor/add',[
+        'as'   => 'tutorAdd',
+        'uses' => 'AdminController@tutorAdd'
+    ]);
+
+    Route::get('admin/tutors/list',[
+        'as' => 'tutorsList',
+        'uses' => 'AdminController@tutorsList'
+    ]);
+    Route::get('admin/students/list',[
+        'as' => 'studentsList',
+        'uses' => 'AdminController@studentsList'
+    ]);
+
     Route::get('admin/logout',[
         'as' => 'logout',
         'uses' => 'AuthController@logout'
     ]);
 });
+//admin Middleware ends
