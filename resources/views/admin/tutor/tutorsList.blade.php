@@ -22,7 +22,6 @@
                     <table id="myTable" class="table table-striped">
                         <thead>
                         <tr>
-                            <th>First Name</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Active</th>
@@ -31,7 +30,6 @@
                         <tbody>
                             @foreach($tutors as $tutor)
                                 <tr>
-                                    <td>{{$tutor->firstName}}</td>
                                     <td>{{$tutor->email}}</td>
                                     <td>{{$tutor->phone}}</td>
                                     <td>@if($tutor->is_active == 1) Yes @else No @endif</td>
