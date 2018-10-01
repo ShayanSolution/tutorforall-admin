@@ -47,7 +47,9 @@
     <script src="{{url('admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable({
+                "bSort": false
+            });
         });
     </script>
 @stop
