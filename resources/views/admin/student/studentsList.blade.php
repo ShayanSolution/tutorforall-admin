@@ -36,11 +36,7 @@
                                 <td>{{$student->phone}}</td>
                                 <td>@if($student->is_active == 1) Yes @else No @endif</td>
                                 <td>
-<!--                                    --><?php
-//                                    $student_find = \App\Models\Profile::find($student->id);
-//                                    ?>
                                     <input type="checkbox" data-student-id="{{ $student->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($student->profile->is_deserving == 1) checked @endif>
-                                    {{--<a href="{{'admin/student/is_deserving/'.$student_find->id}}" type="checkbox" class="js-switch" data-color="#99d683" @if($$student_id->is_deserving == 1) checked @endif></a>--}}
                                 </td>
                             </tr>
                         @endforeach
@@ -79,16 +75,7 @@
             $('.js-switch').each(function () {
                 new Switchery($(this)[0], $(this).data());
                 var base_url = $(this).data('url');
-
-
             });
-        // $(".js-switch").on("change", function() {
-        //     var taskId = $(this).attr("data-taskid"); // gets task ID of clicked checkbox
-        //     var state = $(this).is(':checked'); // gets if checkbox is checked or not
-        //
-        //     $.post("/changestatustask", {'idTask':taskId, 'checkboxStatus':state}, function() {
-        //         // you can add some code here in response to ajax request
-        //     );
-        // });
+
     </script>
 @stop

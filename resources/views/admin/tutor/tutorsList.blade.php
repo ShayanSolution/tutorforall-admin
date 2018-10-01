@@ -24,6 +24,7 @@
                         <tr>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>Rating</th>
                             <th>Active</th>
                         </tr>
                         </thead>
@@ -32,6 +33,7 @@
                                 <tr>
                                     <td>{{$tutor->email}}</td>
                                     <td>{{$tutor->phone}}</td>
+                                    <td>{{$tutor->rating->avg('rating')}}</td>
                                     <td>@if($tutor->is_active == 1) Yes @else No @endif</td>
                                 </tr>
                             @endforeach
