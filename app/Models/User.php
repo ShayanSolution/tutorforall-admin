@@ -9,4 +9,9 @@ class User extends Authenticatable
 {
     protected $table = 'users';
     public $remember_token=false;
+
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile');
+    }
 }

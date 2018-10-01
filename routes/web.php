@@ -43,7 +43,7 @@ Route::group(['middleware' => 'admin'],function (){
         'uses' => 'AdminController@updatePasswordPage'
     ]);
 
-    Route::post('admin/tutor/add',[
+    Route::get('admin/tutor/add',[
         'as'   => 'tutorAdd',
         'uses' => 'AdminController@tutorAdd'
     ]);
@@ -55,6 +55,10 @@ Route::group(['middleware' => 'admin'],function (){
     Route::get('admin/students/list',[
         'as' => 'studentsList',
         'uses' => 'AdminController@studentsList'
+    ]);
+    Route::get('admin/changeStudentDeserving',[
+        'as' => 'changeStudentDeserving',
+        'uses' => 'AdminController@changeStudentDeserving'
     ]);
 
     Route::get('admin/logout',[
