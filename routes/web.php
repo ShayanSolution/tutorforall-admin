@@ -43,6 +43,34 @@ Route::group(['middleware' => 'admin'],function (){
         'uses' => 'AdminController@updatePasswordPage'
     ]);
 
+    //Programs
+    Route::get('admin/program/add',[
+        'as' => 'programAdd',
+        'uses' => 'ProgramController@programAdd'
+    ]);
+    Route::post('admin/program/save',[
+        'as' => 'programSave',
+        'uses' => 'ProgramController@programSave'
+    ]);
+    Route::get('admin/programs/list',[
+        'as' => 'programsList',
+        'uses' => 'ProgramController@programsList'
+    ]);
+
+    //Subjects
+    Route::get('admin/subject/add',[
+        'as'   => 'subjectAdd',
+        'uses' => 'SubjectController@subjectAdd'
+    ]);
+    Route::get('admin/subjects/list',[
+        'as' => 'subjectsList',
+        'uses' => 'SubjectController@subjectsList'
+    ]);
+    Route::post('admin/subject/save',[
+        'as' => 'subjectSave',
+        'uses' => 'SubjectController@subjectSave'
+    ]);
+    //Tutors
     Route::get('admin/tutor/add',[
         'as'   => 'tutorAdd',
         'uses' => 'AdminController@tutorAdd'
@@ -52,6 +80,9 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'tutorsList',
         'uses' => 'AdminController@tutorsList'
     ]);
+
+
+    //Students
     Route::get('admin/students/list',[
         'as' => 'studentsList',
         'uses' => 'AdminController@studentsList'

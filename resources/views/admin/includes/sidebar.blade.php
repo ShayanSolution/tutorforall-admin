@@ -8,6 +8,22 @@
             <li class="nav-small-cap m-t-10">--- Main Menu</li>
             <li> <a href="{{url('admin/dashboard')}}" class="waves-effect"><i class="ti-dashboard p-r-10"></i> <span class="hide-menu">Dashboard</span></a> </li>
             <li class="nav-small-cap m-t-10">--- Professional</li>
+            <li> <a href="#" class="waves-effect"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Programs <span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li> <a href="{{route('programsList')}}">All Programs</a> </li>
+                    <li> <a href="{{route('programAdd')}}">Add Program</a> </li>
+                    {{--<li> <a href="#">Edit Professor</a> </li>--}}
+                    {{--<li> <a href="#">Professor Profile</a> </li>--}}
+                </ul>
+            </li>
+            <li> <a href="#" class="waves-effect"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Subjects <span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li> <a href="{{route('subjectsList')}}">All Subjects</a> </li>
+                    <li> <a href="{{route('subjectAdd')}}">Add Subject</a> </li>
+                    {{--<li> <a href="#">Edit Professor</a> </li>--}}
+                    {{--<li> <a href="#">Professor Profile</a> </li>--}}
+                </ul>
+            </li>
             <li> <a href="#" class="waves-effect"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Tutors <span class="fa arrow"></span></span></a>
                 <ul class="nav nav-second-level">
                     <li> <a href="{{route('tutorsList')}}">All Tutors</a> </li>
