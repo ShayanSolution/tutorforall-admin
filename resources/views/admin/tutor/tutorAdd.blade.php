@@ -16,66 +16,88 @@
         </div>
         <div class="row">
             <div class="white-box">
-                <form class="form-material form-horizontal">
-                    <div class="form-group">
-                        <label class="col-md-12" for="example-text">Name</label>
+                <form class="form-material form-horizontal" action="{{route('tutorSave')}}" method="POST">
+                    {{ csrf_field() }}
+                    <!-- First Name -->
+                    <div class="form-group col-md-6">
+                        <label class="col-md-12" for="example-text">First Name</label>
                         <div class="col-md-12">
-                            <input type="text" id="example-text" name="example-text" class="form-control" placeholder="enter your name">
+                            <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Enter first name" value="{{ old('firstName') }}" required>
+                            @if ($errors->has('firstName'))
+                                <span class="text-danger">{{ $errors->first('firstName') }}</span>
+                            @endif
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- Last Name -->
+                    <div class="form-group col-md-6">
+                        <label class="col-md-12" for="example-text">Last Name</label>
+                        <div class="col-md-12">
+                            <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Enter last name" value="{{ old('lastName') }}" required>
+                            @if ($errors->has('lastName'))
+                                <span class="text-danger">{{ $errors->first('lastName') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <!-- Email -->
+                    <div class="form-group col-md-6">
+                        <label class="col-md-12" for="example-text">Email</label>
+                        <div class="col-md-12">
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" value="{{ old('email') }}" required>
+                            @if ($errors->has('email'))
+                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <!-- Phone # -->
+                    <div class="form-group col-md-6">
+                        <label class="col-md-12" for="example-text">Phone Number</label>
+                        <div class="col-md-12">
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter phone number" value="{{ old('phone') }}" required>
+                            @if ($errors->has('phone'))
+                                <span class="text-danger">{{ $errors->first('phone') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <!-- Password -->
+                    <div class="form-group col-md-6">
+                        <label class="col-md-12" for="example-text">Password</label>
+                        <div class="col-md-12">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+                            @if ($errors->has('password'))
+                                <span class="text-danger">{{ $errors->first('password') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <!-- Confirm Password -->
+                    <div class="form-group col-md-6">
+                        <label class="col-md-12" for="example-text">Confirm Password</label>
+                        <div class="col-md-12">
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm password" required>
+                            @if ($errors->has('confirm_password'))
+                                <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
                         <label class="col-md-12" for="bdate">Date of Birth</label>
                         <div class="col-md-12">
-                            <input type="text" id="bdate" name="bdate" class="form-control mydatepicker" placeholder="enter your birth date">
+                            <input type="text" id="dob" name="dob" class="form-control mydatepicker" placeholder="enter your birth date" value="{{ old('dob') }}" required>
+                            @if ($errors->has('dob'))
+                                <span class="text-danger">{{ $errors->first('dob') }}</span>
+                            @endif
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                         <label class="col-sm-12">Gender</label>
                         <div class="col-sm-12">
-                            <select class="form-control">
-                                <option>Select Gender</option>
-                                <option>Male</option>
-                                <option>Female</option>
+                            <select name="gender_id" class="form-control" required>
+                                <option value="">Select Gender</option>
+                                <option value="1" {{ (old("gender_id") == 1 ? "selected":"") }} >Male</option>
+                                <option value="2" {{ (old("gender_id") == 2 ? "selected":"") }} >Female</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-12">Profile Image</label>
-                        <div class="col-sm-12">
-                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div> <span class="input-group-addon btn btn-default btn-file"> <span class="fileinput-new">Select file</span> <span class="fileinput-exists">Change</span>
-                                            <input type="file" name="..."> </span> <a href="add-professor.html#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-12">Department</label>
-                        <div class="col-sm-12">
-                            <select class="form-control">
-                                <option>Select Department</option>
-                                <option>Computer</option>
-                                <option>Mechanical</option>
-                                <option>Electrical</option>
-                                <option>Medical</option>
-                                <option>BCA/MCA</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-12" for="position">Position</span></label>
-                        <div class="col-md-12">
-                            <input type="text" id="position" name="position" class="form-control" placeholder="e.g. Asst. Professor">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-12">Description</label>
-                        <div class="col-md-12">
-                            <textarea class="form-control" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-12" for="url">Website URL</span></label>
-                        <div class="col-md-12">
-                            <input type="text" id="url" name="url" class="form-control" placeholder="your website">
+                            @if ($errors->has('gender_id'))
+                                <span class="text-danger">{{ $errors->first('gender_id') }}</span>
+                            @endif
                         </div>
                     </div>
                     <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
@@ -87,10 +109,12 @@
 @endsection
 @section('javascripts')
     @parent
-    {{--<script src="{{url('admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>--}}
-    {{--<script>--}}
-        {{--$(document).ready(function () {--}}
-            {{--$('#myTable').DataTable();--}}
-        {{--});--}}
-    {{--</script>--}}
+    <script src="{{url('admin_assets/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dob').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+        });
+    </script>
 @stop

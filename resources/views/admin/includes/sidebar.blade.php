@@ -27,7 +27,7 @@
             <li> <a href="#" class="waves-effect"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Tutors <span class="fa arrow"></span></span></a>
                 <ul class="nav nav-second-level">
                     <li> <a href="{{route('tutorsList')}}">All Tutors</a> </li>
-                    {{--<li> <a href="{{route('tutorAdd')}}">Add Tutor</a> </li>--}}
+                    <li> <a href="{{route('tutorAdd')}}">Add Tutor</a> </li>
                     {{--<li> <a href="#">Edit Professor</a> </li>--}}
                     {{--<li> <a href="#">Professor Profile</a> </li>--}}
                 </ul>
