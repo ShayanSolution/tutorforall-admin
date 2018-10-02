@@ -21,6 +21,11 @@ class SubjectController extends Controller
         return view('admin.subject.subjectAdd',compact('programs'));
     }
     public function subjectSave(Request $request){
+        $request->validate([
+            'program'    => 'required',
+            'name'       => 'required',
+            'status'     => 'required'
+        ]);
         $subject = new Subject();
         $subject->programme_id     =   $request->program;
         $subject->name             =   $request->name;
@@ -28,21 +33,25 @@ class SubjectController extends Controller
         $subject->save();
         return redirect()->route('subjectsList')->with('success','Subject added Successfully');
     }
-//    public function studentsList(){
-//        $students = User::where('role_id',3)->with('profile')->orderby('id','DESC')->get();
-//        return view('admin.student.studentsList',compact('students'));
-//    }
-//    public function changeStudentDeserving(Request $request){
-//        $student_id = $request->student_id;
-//        $is_deserving = $request->is_deserving;
-//        $profile = Profile::where('user_id', $student_id)->first();
-//        if ($is_deserving == 'true'){
-//            $profile->is_deserving = 1;
-//            $profile->save();
-//        }else{
-//            $profile->is_deserving = 0;
-//            $profile->save();
-//        }
-//    }
+    public function subjectsEdit(Subject $subject){
+        $programs = Program::where('status','1')->get();
+        return view('admin.subject.subjectEdit',compact('subject','programs'));
+    }
+    public function subjectUpdate(Request $request, Subject $subject){
+        $request->validate([
+            'name'    => 'required',
+            'status'    => 'required',
+            'program'    => 'required'
+        ]);
+        $subject->name = $request->name;
+        $subject->status = $request->status;
+        $subject->programme_id = $request->program;
+        $subject->save();
+        return redirect()->route('subjectsList')->with('success','Program Updated successfully');
+    }
+    public function subjectDelete(Subject $subject){
+        $subject->delete();
+        return redirect()->route('subjectsList')->with('success','Subject Deleted successfully');
+    }
 
 }

@@ -11,4 +11,8 @@ class Program extends Model
         'name',
         'status',
     ];
+
+    public function subjects(){
+        return $this->hasMany('App\Models\Subject');
+    }
 }
