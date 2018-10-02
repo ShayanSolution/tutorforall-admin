@@ -17,7 +17,7 @@
         <div class="row">
             <div class="white-box">
                 <div class="col-lg-2 col-sm-4 col-xs-12 pull-right">
-                    <a type="button" class="btn btn-block btn-danger" href="{{route('programAdd')}}">Add Program</a>
+                    <a type="button" class="btn btn-block btn-primary" href="{{route('programAdd')}}">Add Program</a>
                 </div>
                 <h3 class="box-title m-b-0">Programs List Details</h3>
                 <hr>
@@ -27,6 +27,8 @@
                         <tr>
                             <th>Name</th>
                             <th>Active</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -35,9 +37,16 @@
                             <tr>
                                 <td>{{$program->name}}</td>
                                 <td>@if($program->status == 1) Yes @else No @endif</td>
-                                {{--<td>--}}
-                                    {{--<input type="checkbox" data-student-id="{{ $student->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($student->profile->is_deserving == 1) checked @endif>--}}
-                                {{--</td>--}}
+                                <td>
+                                    <div class="col-lg-4 col-sm-4 col-xs-4">
+                                        <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('programEdit',$program->id)}}">Edit</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-4 col-sm-4 col-xs-4">
+                                        <a type="button" class="fcbtn btn btn-danger btn-outline btn-1d" href="{{route('programDelete',$program->id)}}">Delete</a>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -50,32 +59,11 @@
 @section('javascripts')
     @parent
     <script src="{{url('admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
-    {{--<script src="{{url('admin_assets/plugins/bower_components/switchery/dist/switchery.min.js')}}"></script>--}}
-    {{--<script src="{{url('admin_assets/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>--}}
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable({
                 "bSort": false
             });
         });
-        {{--$('.js-switch').on('change.bootstrapSwitch', function(e) {--}}
-            {{--var base_url = $(this).data('url');--}}
-            {{--var student_id = $(this).attr("data-student-id");--}}
-            {{--$.ajax({--}}
-                {{--url:base_url+'/admin/changeStudentDeserving',--}}
-                {{--type: 'GET',--}}
-                {{--data: { student_id :student_id, is_deserving: e.target.checked},--}}
-                {{--success:function(response){--}}
-                    {{--console.log(response);--}}
-                {{--}--}}
-            {{--});--}}
-        {{--});--}}
-        {{--// Switchery--}}
-        {{--var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));--}}
-            {{--$('.js-switch').each(function () {--}}
-                {{--new Switchery($(this)[0], $(this).data());--}}
-                {{--var base_url = $(this).data('url');--}}
-            {{--});--}}
-
-    // </script>
+    </script>
 @stop

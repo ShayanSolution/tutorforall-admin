@@ -11,4 +11,7 @@ class Subject extends Model
         'status',
         'programme_id',
     ];
+    public function program(){
+        return $this->belongsTo('App\Models\Program', 'programme_id');
+    }
 }

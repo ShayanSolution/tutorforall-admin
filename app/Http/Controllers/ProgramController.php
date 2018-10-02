@@ -17,27 +17,32 @@ class ProgramController extends Controller
        return view('admin.program.programAdd');
     }
     public function programSave(Request $request){
+        $request->validate([
+            'name'    => 'required',
+            'status'     => 'required'
+        ]);
         $program = new Program();
         $program->name     =   $request->name;
         $program->status   =   $request->status;
         $program->save();
         return redirect()->route('programsList')->with('success','Program added Successfully');
     }
-//    public function studentsList(){
-//        $students = User::where('role_id',3)->with('profile')->orderby('id','DESC')->get();
-//        return view('admin.student.studentsList',compact('students'));
-//    }
-//    public function changeStudentDeserving(Request $request){
-//        $student_id = $request->student_id;
-//        $is_deserving = $request->is_deserving;
-//        $profile = Profile::where('user_id', $student_id)->first();
-//        if ($is_deserving == 'true'){
-//            $profile->is_deserving = 1;
-//            $profile->save();
-//        }else{
-//            $profile->is_deserving = 0;
-//            $profile->save();
-//        }
-//    }
+    public function programsEdit(Program $program){
+        return view('admin.program.programEdit',compact('program'));
+    }
+    public function programUpdate(Request $request, Program $program){
+        $request->validate([
+            'name'    => 'required',
+            'status'    => 'required'
+        ]);
+        $program->name = $request->name;
+        $program->status = $request->status;
+        $program->save();
+        return redirect()->route('programsList')->with('success','Program Updated successfully');
+    }
+    public function programDelete(Program $program){
+        $program->delete();
+        return redirect()->route('programsList')->with('success','Program Deleted successfully');
+    }
 
 }

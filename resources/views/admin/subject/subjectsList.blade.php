@@ -16,6 +16,9 @@
         </div>
         <div class="row">
             <div class="white-box">
+                <div class="col-lg-2 col-sm-4 col-xs-12 pull-right">
+                    <a type="button" class="btn btn-block btn-primary" href="{{route('subjectAdd')}}">Add Subject</a>
+                </div>
                 <h3 class="box-title m-b-0">Subject List Details</h3>
                 <hr>
                 <div class="table-responsive">
@@ -25,6 +28,8 @@
                             <th>Name</th>
                             <th>Status</th>
                             <th>Program</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,7 +38,17 @@
                             <tr>
                                 <td>{{$subject->name}}</td>
                                 <td>@if($subject->status == 1) Yes @else No @endif</td>
-                                <td>{{$subject->programme_id}}</td>
+                                <td>{{$subject->program->name}}</td>
+                                <td>
+                                    <div class="col-lg-4 col-sm-4 col-xs-4">
+                                        <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('subjectEdit',$subject->id)}}">Edit</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-4 col-sm-4 col-xs-4">
+                                        <a type="button" class="fcbtn btn btn-danger btn-outline btn-1d" href="{{route('subjectDelete',$subject->id)}}">Delete</a>
+                                    </div>
+                                </td>
                                 {{--<td>--}}
                                     {{--<input type="checkbox" data-student-id="{{ $student->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($student->profile->is_deserving == 1) checked @endif>--}}
                                 {{--</td>--}}

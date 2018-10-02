@@ -26,7 +26,6 @@ class AdminController extends Controller
     public function changeStudentDeserving(Request $request){
         $student_id = $request->student_id;
         $is_deserving = $request->is_deserving;
-//        dd($student_id.'and'.$is_deserving);
         $profile = Profile::where('user_id', $student_id)->first();
         if ($is_deserving == 'true'){
             $profile->is_deserving = 1;

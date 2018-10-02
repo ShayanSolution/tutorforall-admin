@@ -56,6 +56,18 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'programsList',
         'uses' => 'ProgramController@programsList'
     ]);
+    Route::get('admin/program/edit/{program}',[
+        'as' => 'programEdit',
+        'uses' => 'ProgramController@programsEdit'
+    ]);
+    Route::post('admin/program/update/{program}',[
+        'as' => 'programUpdate',
+        'uses' => 'ProgramController@programUpdate'
+    ]);
+    Route::get('admin/program/delete/{program}',[
+        'as' => 'programDelete',
+        'uses' => 'ProgramController@programDelete'
+    ]);
 
     //Subjects
     Route::get('admin/subject/add',[
@@ -70,6 +82,19 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'subjectSave',
         'uses' => 'SubjectController@subjectSave'
     ]);
+    Route::get('admin/subject/edit/{subject}',[
+        'as' => 'subjectEdit',
+        'uses' => 'SubjectController@subjectsEdit'
+    ]);
+    Route::post('admin/subject/update/{subject}',[
+        'as' => 'subjectUpdate',
+        'uses' => 'SubjectController@subjectUpdate'
+    ]);
+    Route::get('admin/subject/delete/{subject}',[
+        'as' => 'subjectDelete',
+        'uses' => 'SubjectController@subjectDelete'
+    ]);
+
     //Tutors
     Route::get('admin/tutor/add',[
         'as'   => 'tutorAdd',
