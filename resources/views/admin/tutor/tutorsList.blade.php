@@ -33,7 +33,7 @@
                                 <tr>
                                     <td>{{$tutor->email}}</td>
                                     <td>{{$tutor->phone}}</td>
-                                    <td>{{$tutor->rating->avg('rating')}}</td>
+                                    <td>{{round($tutor->rating->avg('rating'),2)}}</td>
                                     <td>@if($tutor->is_active == 1) Yes @else No @endif</td>
                                 </tr>
                             @endforeach
