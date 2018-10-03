@@ -13,6 +13,6 @@ class Program extends Model
     ];
 
     public function subjects(){
-        return $this->hasMany('App\Models\Subject');
+        return $this->hasMany('App\Models\Subject','programme_id');
     }
 }

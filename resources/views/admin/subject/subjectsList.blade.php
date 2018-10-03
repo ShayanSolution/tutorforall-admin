@@ -49,9 +49,6 @@
                                         <a type="button" class="fcbtn btn btn-danger btn-outline btn-1d" href="{{route('subjectDelete',$subject->id)}}">Delete</a>
                                     </div>
                                 </td>
-                                {{--<td>--}}
-                                    {{--<input type="checkbox" data-student-id="{{ $student->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($student->profile->is_deserving == 1) checked @endif>--}}
-                                {{--</td>--}}
                             </tr>
                         @endforeach
                         </tbody>

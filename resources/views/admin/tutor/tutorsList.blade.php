@@ -17,7 +17,7 @@
         <div class="row">
             <div class="white-box">
                 <div class="col-lg-2 col-sm-4 col-xs-12 pull-right">
-                    <a type="button" class="btn btn-block btn-danger" href="{{route('tutorAdd')}}">Add Tutor</a>
+                    <a type="button" class="btn btn-block btn-primary" href="{{route('tutorAdd')}}">Add Tutor</a>
                 </div>
                 <h3 class="box-title m-b-0">Tutors List Details</h3>
                 <hr>
