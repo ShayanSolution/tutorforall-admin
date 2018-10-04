@@ -19,7 +19,7 @@
                 <div class="col-md-4 col-xs-12">
                     <div class="white-box">
                         @if($user->profileImage != '' || $user->profileImage != null)
-                            <div class="user-bg"> <img width="100%" alt="user" src="{{url('images/'.$user->profileImage)}}"> </div>
+                            <div class="user-bg"> <img width="100%" alt="user" src="{{ env('TUTOR_IMAGE_URL').$user->profileImage}}"> </div>
                         @else
                             <div class="user-bg"> <img width="100%" alt="user" src="{{url('admin_assets/images/default.png')}}">
                         @endif
