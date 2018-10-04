@@ -29,6 +29,7 @@
                             <th>Phone</th>
                             <th>Rating</th>
                             <th>Active</th>
+                            <th>Detail</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -36,8 +37,10 @@
                                 <tr>
                                     <td>{{$tutor->email}}</td>
                                     <td>{{$tutor->phone}}</td>
-                                    <td>{{round($tutor->rating->avg('rating'),2)}}</td>
-                                    <td>@if($tutor->is_active == 1) Yes @else No @endif</td>
+                                    <td>{{round($tutor->rating->avg('rating'),1)}}</td>
+                                    {{--<td>@if($tutor->is_active == 1) Yes @else No @endif</td>--}}
+                                    <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($tutor->is_active == 1) checked @endif></td>
+                                    <td><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="{{route('tutorView',$tutor->id)}}" alt="default">View</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -50,11 +53,31 @@
 @section('javascripts')
     @parent
     <script src="{{url('admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{url('admin_assets/plugins/bower_components/switchery/dist/switchery.min.js')}}"></script>
+    <script src="{{url('admin_assets/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable({
                 "bSort": false
             });
+        });
+        $('.js-switch').on('change.bootstrapSwitch', function(e) {
+            var base_url = $(this).data('url');
+            var tutor_id = $(this).attr("data-tutor-id");
+            $.ajax({
+                url:base_url+'/admin/changeTutorStatus',
+                type: 'GET',
+                data: { tutor_id :tutor_id, is_active: e.target.checked},
+                success:function(response){
+                    console.log(response);
+                }
+            });
+        });
+        // Switchery
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        $('.js-switch').each(function () {
+            new Switchery($(this)[0], $(this).data());
+            var base_url = $(this).data('url');
         });
     </script>
 @stop
