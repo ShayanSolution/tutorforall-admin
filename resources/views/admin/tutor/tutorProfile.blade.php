@@ -18,7 +18,11 @@
             <div class="row">
                 <div class="col-md-4 col-xs-12">
                     <div class="white-box">
-                        <div class="user-bg"> <img width="100%" alt="user" src="{{url('images/'.$user->profileImage)}}"> </div>
+                        @if($user->profileImage != '' || $user->profileImage != null)
+                            <div class="user-bg"> <img width="100%" alt="user" src="{{url('images/'.$user->profileImage)}}"> </div>
+                        @else
+                            <div class="user-bg"> <img width="100%" alt="user" src="{{url('admin_assets/images/default.png')}}">
+                        @endif
                         <div class="user-btm-box">
                             <!-- .row -->
                             <div class="row text-center m-t-10">

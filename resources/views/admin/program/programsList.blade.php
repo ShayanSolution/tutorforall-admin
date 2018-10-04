@@ -40,7 +40,7 @@
                                 <td>@if($program->status == 1) Yes @else No @endif</td>
                                 <td>
                                     <div class="col-lg-4 col-sm-4 col-xs-4">
-                                        <a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="{{--{{route('programEdit',$program->id)}}--}}" alt="default" data-toggle="modal" data-target="#myModal" >View</a>
+                                        <a type="button" class="fcbtn btn btn-warning btn-outline btn-1d"  alt="default" data-toggle="modal" data-target="#myModal{{$program->id}}" >View</a>
                                     </div>
                                 </td>
                                 <td>
@@ -55,7 +55,7 @@
                                 </td>
                             </tr>
                             <!-- sample modal content -->
-                            <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div id="myModal{{$program->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -63,7 +63,9 @@
                                             <h4 class="modal-title" id="myModalLabel">Subjects</h4> </div>
                                         <div class="modal-body">
                                             <ul class="list-group">
-                                                    <li class="list-group-item"></li>
+                                                @foreach($program->subjects as $subject)
+                                                    <li class="list-group-item">{{ $subject->name }}</li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                         <div class="modal-footer">
