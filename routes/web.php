@@ -110,7 +110,14 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'tutorsList',
         'uses' => 'AdminController@tutorsList'
     ]);
-
+    Route::get('admin/changeTutorStatus',[
+        'as' => 'changeTutorStatus',
+        'uses' => 'TutorController@changeTutorStatus'
+    ]);
+    Route::get('admin/tutorView/{user}',[
+        'as' => 'tutorView',
+        'uses' => 'TutorController@tutorView'
+    ]);
 
     //Students
     Route::get('admin/students/list',[
