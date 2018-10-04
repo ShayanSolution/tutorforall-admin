@@ -9,7 +9,7 @@
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                 <ol class="breadcrumb">
                     <li><a href="#">Admin</a></li>
-                    <li class="active">StudentsList</li>
+                    <li class="active">Students List</li>
                 </ol>
             </div>
             <!-- /.col-lg-12 -->
