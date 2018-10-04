@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
-                    <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                    <a href="{{route('tutorsList')}}" class="btn btn-inverse waves-effect waves-light">Cancel</a>
                 </form>
             </div>
         </div>

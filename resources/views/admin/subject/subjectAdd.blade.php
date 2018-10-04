@@ -46,6 +46,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
+                    <a href="{{route('subjectsList')}}" class="btn btn-inverse waves-effect waves-light">Cancel</a>
                 </form>
             </div>
         </div>

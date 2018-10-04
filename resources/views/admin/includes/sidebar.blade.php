@@ -2,13 +2,11 @@
     <div class="sidebar-nav navbar-collapse slimscrollsidebar">
         <ul class="nav" id="side-menu">
             <li class="user-pro">
-                <a href="{{route('dashboard')}}" class="waves-effect"><img src="{{Auth::user()->profileImage}}" alt="user-img" class="img-circle"> <span class="hide-menu">{{Auth::user()->username}}</span>
+                <a href="" class="waves-effect"><img src="{{Auth::user()->profileImage}}" alt="user-img" class="img-circle"> <span class="hide-menu">{{Auth::user()->username}}</span>
                 </a>
             </li>
-            <li class="nav-small-cap m-t-10">--- Main Menu</li>
-            <li> <a href="{{url('admin/dashboard')}}" class="waves-effect"><i class="ti-dashboard p-r-10"></i> <span class="hide-menu">Dashboard</span></a> </li>
-            <li class="nav-small-cap m-t-10">--- Professional</li>
-            <li> <a href="#" class="waves-effect"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Classes <span class="fa arrow"></span></span></a>
+            {{--<li> <a href="{{url('admin/dashboard')}}" class="waves-effect"><i class="ti-dashboard p-r-10"></i> <span class="hide-menu">Dashboard</span></a> </li>--}}
+            <li> <a href="#" class="waves-effect"><i class="fa fa-bars p-r-10"></i> <span class="hide-menu"> Classes <span class="fa arrow"></span></span></a>
                 <ul class="nav nav-second-level">
                     <li> <a href="{{route('programsList')}}">All Classes</a> </li>
                     <li> <a href="{{route('programAdd')}}">Add Class</a> </li>
@@ -16,7 +14,7 @@
                     {{--<li> <a href="#">Professor Profile</a> </li>--}}
                 </ul>
             </li>
-            <li> <a href="#" class="waves-effect"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Subjects <span class="fa arrow"></span></span></a>
+            <li> <a href="#" class="waves-effect"><i class="fa fa-book p-r-10"></i> <span class="hide-menu"> Subjects <span class="fa arrow"></span></span></a>
                 <ul class="nav nav-second-level">
                     <li> <a href="{{route('subjectsList')}}">All Subjects</a> </li>
                     <li> <a href="{{route('subjectAdd')}}">Add Subject</a> </li>

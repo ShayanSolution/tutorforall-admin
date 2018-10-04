@@ -63,7 +63,7 @@
                                             <h4 class="modal-title" id="myModalLabel">Subjects</h4> </div>
                                         <div class="modal-body">
                                             <ul class="list-group">
-                                                    <li class="list-group-item">{{$subject->name}}</li>
+                                                    <li class="list-group-item"></li>
                                             </ul>
                                         </div>
                                         <div class="modal-footer">

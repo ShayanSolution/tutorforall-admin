@@ -20,7 +20,7 @@
 
 //Guest Middleware starts
 Route::group(['middleware' => 'guest'],function (){
-    Route::get('admin/login',[
+    Route::get('/',[
        'as' => 'login',
        'uses' => 'AuthController@login'
     ]);
@@ -33,10 +33,10 @@ Route::group(['middleware' => 'guest'],function (){
 //Guests Middleware ends
 //admin Middleware starts
 Route::group(['middleware' => 'admin'],function (){
-    Route::get('admin/dashboard',[
-        'as' => 'dashboard',
-        'uses' => 'AdminController@dashboard'
-    ]);
+//    Route::get('admin/dashboard',[
+//        'as' => 'dashboard',
+//        'uses' => 'AdminController@dashboard'
+//    ]);
 
     Route::get('admin/updatePasswordPage',[
         'as' => 'updatePasswordPage',
