@@ -33,6 +33,6 @@ class User extends Authenticatable
 
     public function rating()
     {
-        return $this->hasMany("App\Models\Rating");
+        return $this->hasMany("App\Models\Rating")->orderBy('created_at', 'Desc');
     }
 }

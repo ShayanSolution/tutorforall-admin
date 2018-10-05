@@ -95,6 +95,35 @@ Route::group(['middleware' => 'admin'],function (){
         'uses' => 'SubjectController@subjectDelete'
     ]);
 
+    //Categories
+    Route::get('admin/category/add',[
+        'as' => 'categoryAdd',
+        'uses' => 'CategoryController@categoryAdd'
+    ]);
+    Route::post('admin/category/save',[
+        'as' => 'categorySave',
+        'uses' => 'CategoryController@categorySave'
+    ]);
+    Route::get('admin/categories/list',[
+        'as' => 'categoriesList',
+        'uses' => 'CategoryController@categoriesList'
+    ]);
+    Route::get('admin/changeCategoryStatus',[
+        'as' => 'changeCategoryStatus',
+        'uses' => 'CategoryController@changeCategoryStatus'
+    ]);
+    Route::get('admin/category/edit/{category}',[
+        'as' => 'categoryEdit',
+        'uses' => 'CategoryController@categoriesEdit'
+    ]);
+    Route::post('admin/category/update/{category}',[
+        'as' => 'categoryUpdate',
+        'uses' => 'CategoryController@categoryUpdate'
+    ]);
+    Route::get('admin/category/delete/{category}',[
+        'as' => 'categoryDelete',
+        'uses' => 'CategoryController@categoryDelete'
+    ]);
     //Tutors
     Route::get('admin/tutor/add',[
         'as'   => 'tutorAdd',

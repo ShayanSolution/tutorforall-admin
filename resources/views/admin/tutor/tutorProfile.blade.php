@@ -47,7 +47,7 @@
                             <hr>
                             <div class="row text-center m-t-10">
                             <div class="col-md-12"><strong>Phone</strong>
-                                <p>@if ($user->phone =! '')
+                                <p>@if ($user->phone != '')
                                         {{$user->phone}}
                                     @else
                                         {{'Not Available'}}
