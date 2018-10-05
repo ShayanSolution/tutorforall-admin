@@ -17,7 +17,7 @@ class Subject extends Model
 
     protected $softDelete = true;
 
-    public function program(){
+    public function programme(){
         return $this->belongsTo('App\Models\Program', 'programme_id');
     }
 }

@@ -61,7 +61,7 @@ class TutorController extends Controller
             $tutor->save();
         }
     }
-    public function tutorView(User $user){
+    public function tutorProfile(User $user){
         return view('admin.tutor.tutorProfile',compact('user'));
     }
 }

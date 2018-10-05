@@ -13536,6 +13536,12 @@ ul.list-icons li i {
   transform: translate3d(0, -100px, 0);
   pointer-events: none;
 }
+
+.star-rating{
+  color: yellow;
+  font-size: 16px;
+}
+
 @media screen and (max-width: 58em) {
   .tabs-style-iconfall nav li .sticon::before {
     opacity: 1;
@@ -15744,5 +15750,8 @@ ul.pro-amenities li span i {
   }
   .pro-agent .agent-name {
     padding: 2px 0 10px 15px;
+  }
+  .profile-style{
+    vertical-align: middle;
   }
 }

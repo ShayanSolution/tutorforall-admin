@@ -19,43 +19,67 @@
                 <div class="col-md-4 col-xs-12">
                     <div class="white-box">
                         @if($user->profileImage != '' || $user->profileImage != null)
-                            <div class="user-bg"> <img width="100%" alt="user" src="{{ env('TUTOR_IMAGE_URL').$user->profileImage}}"> </div>
+                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ env('TUTOR_IMAGE_URL').$user->profileImage}}" style="max-width: 200px; height: auto"></div>
                         @else
-                            <div class="user-bg"> <img width="100%" alt="user" src="{{url('admin_assets/images/default.png')}}">
+                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{url('admin_assets/images/user.png')}}"></div>
                         @endif
                         <div class="user-btm-box">
-                            <!-- .row -->
+                            <hr>
                             <div class="row text-center m-t-10">
                                 <div class="col-md-12"><strong>Name</strong>
-                                    <p>{{$user->firstName." ".$user->lastName}}</p>
+                                    <p>@if ($user->firstName != '' || $user->lastName  != '')
+                                            {{$user->firstName." ".$user->lastName}}
+                                           @else
+                                            {{'Not Available'}}
+                                    @endif</p>
                                 </div>
                             </div>
-                            <!-- /.row -->
                             <hr>
-                            <!-- .row -->
                             <div class="row text-center m-t-10">
-                                <div class="col-md-6 b-r"><strong>Email ID</strong>
-                                    <p>{{$user->email}}</p>
-                                </div>
-                                <div class="col-md-6"><strong>Phone</strong>
-                                    <p>{{$user->phone}}</p>
+                                <div class="col-md-12"><strong>Email ID</strong>
+                                    <p>@if ($user->email != '')
+                                            {{$user->email}}
+                                        @else
+                                            {{'Not Available'}}
+                                    @endif</p>
                                 </div>
                             </div>
-                            <!-- /.row -->
+                            <hr>
+                            <div class="row text-center m-t-10">
+                            <div class="col-md-12"><strong>Phone</strong>
+                                <p>@if ($user->phone =! '')
+                                        {{$user->phone}}
+                                    @else
+                                        {{'Not Available'}}
+                                @endif</p>
+                            </div>
+                            </div>
                             <hr>
                             <div class="row text-center m-t-10">
                                 <div class="col-md-6 b-r"><strong>Qualification</strong>
-                                    <p>{{$user->qualification}}</p>
+                                    <p>@if ($user->qualification != '')
+                                            {{$user->qualification}}
+                                        @else
+                                            {{'Not Available'}}
+                                    @endif</p>
                                 </div>
                                 <div class="col-md-6"><strong>Experience</strong>
-                                    <p>{{$user->experience}}</p>
+                                    <p>@if ($user->experience != '')
+                                            {{$user->experience}}
+                                        @else
+                                            {{'Not Available'}}
+                                    @endif</p>
                                 </div>
                             </div>
                             <hr>
                             <!-- .row -->
                             <div class="row text-center m-t-10">
                                 <div class="col-md-12"><strong>Address</strong>
-                                    <p>{{$user->address}}</p>
+                                    <p>@if ($user->experience != '')
+                                            {{$user->address}}
+                                        @else
+                                            {{'Not Available'}}
+                                    @endif</p>
                                 </div>
                             </div>
                             <hr>
@@ -74,23 +98,54 @@
                         <!-- /.tabs -->
                         <div class="tab-content">
                             <!-- .tabs 1 -->
+                            @if (count($user->rating)>0)
                             <div class="tab-pane active" id="home">
                                 <div class="steamline">
                                     <hr>
                                     @foreach($user->rating as $review)
-                                        @if ($review->review != null)
+                                        <div class="row">
+                                            <span class="m-l-5 pull-right" style="color: orange">
+                                                     @if ($review->rating != null)
+                                                    @php $rating = $review->rating; @endphp
+                                                    @foreach(range(1,5) as $i)
+                                                        @if($rating >0)
+                                                            @if($rating >0.5)
+                                                                <i class="fa fa-star"></i>
+                                                            @else
+                                                                <i class="fa fa-star-half-o"></i>
+                                                            @endif
+                                                        @else
+                                                            <i class="fa fa-star-o"></i>
+                                                        @endif
+                                                        <?php $rating--; ?>
+                                                    @endforeach
+                                        </span>
+                                        </div>
                                             <div class="sl-item">
                                                 <div class="sl-right">
                                                     <div class="m-l-40">{{--<a href="" class="text-info">Jane Doe</a>--}}
-                                                        <p class="m-t-10"> {{$review->review}}</p>
+                                                        <p class="m-t-10"> @if ($review->review != '')
+                                                                {{$review->review}}
+                                                                               @else
+                                                                               {{'Rewiew not found'}}
+                                                        @endif</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <hr>
                                         @endif
-                                        @endforeach
+                                    @endforeach
                                 </div>
                             </div>
+                                    @else
+                                        <div class="sl-item">
+                                            <div class="sl-right">
+                                                <div class="m-l-40">{{--<a href="" class="text-info">Jane Doe</a>--}}
+                                                    <p class="m-t-10"> No Reviews Found</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                @endif
                             <!-- /.tabs1 -->
                         </div>
                     </div>

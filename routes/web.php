@@ -114,9 +114,9 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'changeTutorStatus',
         'uses' => 'TutorController@changeTutorStatus'
     ]);
-    Route::get('admin/tutorView/{user}',[
-        'as' => 'tutorView',
-        'uses' => 'TutorController@tutorView'
+    Route::get('admin/tutorProfile/{user}',[
+        'as' => 'tutorProfile',
+        'uses' => 'TutorController@tutorProfile'
     ]);
 
     //Students

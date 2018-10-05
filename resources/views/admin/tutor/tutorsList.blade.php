@@ -40,7 +40,7 @@
                                     <td>{{round($tutor->rating->avg('rating'),1)}}</td>
                                     {{--<td>@if($tutor->is_active == 1) Yes @else No @endif</td>--}}
                                     <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($tutor->is_active == 1) checked @endif></td>
-                                    <td><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="{{route('tutorView',$tutor->id)}}" alt="default">View</a></td>
+                                    <td><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="{{route('tutorProfile',$tutor->id)}}" alt="default">View</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
