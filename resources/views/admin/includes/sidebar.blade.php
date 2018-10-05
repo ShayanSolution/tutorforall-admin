@@ -22,7 +22,7 @@
                     {{--<li> <a href="#">Professor Profile</a> </li>--}}
                 </ul>
             </li>
-            <li> <a href="#" class="waves-effect"><i class="fa fa-bars p-r-10"></i> <span class="hide-menu"> Categories <span class="fa arrow"></span></span></a>
+            <li> <a href="#" class="waves-effect"><i class="fa fa-list-ol p-r-10"></i> <span class="hide-menu"> Categories <span class="fa arrow"></span></span></a>
                 <ul class="nav nav-second-level">
                     <li> <a href="{{route('categoriesList')}}">All Categories</a> </li>
                     <li> <a href="{{route('categoryAdd')}}">Add Category</a> </li>
