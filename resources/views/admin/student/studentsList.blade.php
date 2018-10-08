@@ -34,10 +34,8 @@
                             <tr>
                                 <td>{{$student->email}}</td>
                                 <td>{{$student->phone}}</td>
-                                <td>@if($student->is_active == 1) Yes @else No @endif</td>
-                                <td>
-                                    <input type="checkbox" data-student-id="{{ $student->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($student->profile->is_deserving == 1) checked @endif>
-                                </td>
+                                <td><input type="checkbox" data-student-id = "{{$student->id}}" class="js-switch-is_active" data-color="#99d683" @if($student->is_active == 1) checked @endif ></td>
+                                <td><input type="checkbox" data-student-id = "{{$student->id}}"  class="js-switch" data-color="#99d683" @if($student->profile->is_deserving == 1) checked @endif></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -57,24 +55,40 @@
             $('#myTable').DataTable( {
                 "bSort": false
             } );
-        });
-        $('.js-switch').on('change.bootstrapSwitch', function(e) {
-            var base_url = $(this).data('url');
-            var student_id = $(this).attr("data-student-id");
-            $.ajax({
-                url:base_url+'/admin/changeStudentDeserving',
-                type: 'GET',
-                data: { student_id :student_id, is_deserving: e.target.checked},
-                success:function(response){
-                    console.log(response);
-                }
+            var base_url = '{{url('/')}}';
+            var _token = "{{csrf_token()}}";
+            $('.js-switch').on('change.bootstrapSwitch', function(e) {
+                var student_id = $(this).attr("data-student-id");
+                $.ajax({
+                    url:base_url+'/admin/changeStudentDeserving',
+                    type: 'POST',
+                    data: { student_id :student_id, is_deserving: e.target.checked, _token:_token},
+                    success:function(response){
+                        console.log(response);
+                    }
+                });
+            });
+            $('.js-switch-is_active').on('change.bootstrapSwitch',function (e) {
+                var student_id = $(this).attr("data-student-id");
+                $.ajax({
+                    url:base_url+'/admin/changeStudentStatus',
+                    type:'POST',
+                    data:{student_id: student_id, is_active:e.target.checked, _token:_token},
+                    success:function (response) {
+                        console.log(response);
+                    }
+                });
             });
         });
+
+
         // Switchery
         var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
             $('.js-switch').each(function () {
                 new Switchery($(this)[0], $(this).data());
-                var base_url = $(this).data('url');
+            });
+            $('.js-switch-is_active').each(function () {
+                new Switchery($(this)[0], $(this).data());
             });
 
     </script>

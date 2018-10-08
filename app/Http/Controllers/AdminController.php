@@ -35,6 +35,18 @@ class AdminController extends Controller
             $profile->save();
         }
     }
+    public function changeStudentStatus(Request $request){
+        $student_id = $request->student_id;
+        $is_active = $request->is_active;
+        $user = User::where('id', $student_id)->first();
+        if ($is_active == 'true'){
+            $user->is_active = 1;
+            $user->save();
+        }else{
+            $user->is_active = 0;
+            $user->save();
+        }
+    }
     public function updatePasswordPage(){
         return view('admin.updatePasswordPage');
     }

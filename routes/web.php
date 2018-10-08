@@ -153,9 +153,13 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'studentsList',
         'uses' => 'AdminController@studentsList'
     ]);
-    Route::get('admin/changeStudentDeserving',[
+    Route::post('admin/changeStudentDeserving',[
         'as' => 'changeStudentDeserving',
         'uses' => 'AdminController@changeStudentDeserving'
+    ]);
+    Route::post('admin/changeStudentStatus',[
+        'as' => 'changeStudentStatus',
+        'uses' => 'AdminController@changeStudentStatus'
     ]);
 
     Route::get('admin/logout',[
