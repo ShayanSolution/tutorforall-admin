@@ -92,7 +92,7 @@
                             <hr>
                             <div class="row text-center m-t-10">
                                 <div class="col-md-12"><strong>Address</strong>
-                                    <p>@if ($user->experience != '')
+                                    <p>@if ($user->address != '')
                                             {{$user->address}}
                                         @else
                                             {{'Not Available'}}
