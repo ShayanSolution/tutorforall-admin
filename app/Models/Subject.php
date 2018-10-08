@@ -20,4 +20,8 @@ class Subject extends Model
     public function programme(){
         return $this->belongsTo('App\Models\Program', 'programme_id');
     }
+
+//    public function profiles(){
+//        return $this->hasMany('App\Models\Profile');
+//    }
 }

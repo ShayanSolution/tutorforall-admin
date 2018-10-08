@@ -21,4 +21,11 @@ class Profile extends Model
         'call_student',
     ];
     protected $table = 'profiles';
+
+    public function programme(){
+        return $this->belongsTo('App\Models\Program','programme_id');
+    }
+    public function subject(){
+        return $this->belongsTo('App\Models\Subject','subject_id');
+    }
 }

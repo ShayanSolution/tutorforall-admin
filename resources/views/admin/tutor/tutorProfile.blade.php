@@ -72,17 +72,34 @@
                                 </div>
                             </div>
                             <hr>
+                            <div class="row text-center m-t-10">
+                                <div class="col-md-6 b-r"><strong>Programme</strong>
+                                    <p>@if ($user->profile->programme->name != '')
+                                            {{$user->profile->programme->name}}
+                                        @else
+                                            {{'Not Available'}}
+                                        @endif</p>
+                                </div>
+                                <div class="col-md-6"><strong>Subjects</strong>
+                                    <p>@if ($user->profile->subject->name != '')
+                                            {{$user->profile->subject->name}}
+                                        @else
+                                            {{'Not Available'}}
+                                        @endif</p>
+                                </div>
+                            </div>
                             <!-- .row -->
+                            <hr>
                             <div class="row text-center m-t-10">
                                 <div class="col-md-12"><strong>Address</strong>
                                     <p>@if ($user->experience != '')
                                             {{$user->address}}
                                         @else
                                             {{'Not Available'}}
-                                    @endif</p>
+                                        @endif</p>
                                 </div>
                             </div>
-                            <hr>
+
                             <!-- /.row -->
                         </div>
                     </div>
