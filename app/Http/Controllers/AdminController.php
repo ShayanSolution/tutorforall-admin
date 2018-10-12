@@ -12,13 +12,6 @@ class AdminController extends Controller
     public function dashboard(){
         return view('admin.dashboard');
     }
-    public function tutorsList(){
-        $tutors = User::where('role_id',2)->orderBy('id', 'DESC')->get();
-        return view('admin.tutor.tutorsList',compact('tutors'));
-    }
-//    public function tutorAdd(Request $request){
-//        return view('admin.tutor.tutorAdd');
-//    }
     public function studentsList(){
         $students = User::where('role_id',3)->with('profile')->orderby('id','DESC')->get();
         return view('admin.student.studentsList',compact('students'));

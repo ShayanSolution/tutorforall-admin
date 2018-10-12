@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Program;
+use App\Models\ProgramSubject;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\User;
 
 class TutorController extends Controller
 {
     public function tutorAdd(){
-        return view('admin.tutor.tutorAdd');
+        $classes = Program::where('status',1)->get();
+        return view('admin.tutor.tutorAdd',compact('classes'));
+    }
+    public function getSubjects($class_id){
+        $subjects = Subject::where('programme_id',$class_id)->get();
+        return response()->json([
+            'subjects' => $subjects,
+        ]);
     }
 
     public function tutorSave(Request $request){
@@ -16,22 +26,33 @@ class TutorController extends Controller
         request()->validate([
             'firstName' => 'required|min:2|max:50',
             'lastName' => 'required|min:2|max:50',
+            'fatherName' => 'required|min:2|max:50',
             'phone' => 'required|min:10|numeric|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|max:20',
             'confirm_password' => 'required|min:6|max:20|same:password',
             'dob' => 'required',
             'gender_id' => 'required',
+            'experience' => 'required',
+            'qualification' => 'required',
+            'cnic_no' => 'required',
+            'subject_id' => 'required',
         ], [
             'firstName.required' => 'Name is required',
             'firstName.min' => 'Name must be at least 2 characters.',
             'firstName.max' => 'Name should not be greater than 50 characters.',
             'lastName.required' => 'Name is required',
             'lastName.min' => 'Name must be at least 2 characters.',
+            'fatherName.required' => 'Name is required',
+            'fatherName.min' => 'Name must be at least 2 characters.',
             'lastName.max' => 'Name should not be greater than 50 characters.',
             'dob.required' => 'Date of birth is required.',
             'phone.required' => 'Phone number is required.',
             'gender_id.required' => 'Select gender',
+            'experience.required' => 'Select experience',
+            'qualification.required' => 'Qualification is required',
+            'cnic_no.required' => 'Enter CNIC number',
+            'subject_id.required' => 'Select subject',
         ]);
 
         $input = request()->except('password','confirm_password');
@@ -41,6 +62,16 @@ class TutorController extends Controller
         $user->is_active = 1;
         $user->role_id = 2;
         $user->save();
+
+        $subjects = $request->subject_id;
+        foreach ($subjects as $subject) {
+            $sub = Subject::where('id',$subject)->first();
+            $prosub = new ProgramSubject();
+            $prosub->user_id =    $user->id;
+            $prosub->program_id = $sub->programme_id;
+            $prosub->subject_id = $subject;
+            $prosub->save();
+        }
         return redirect()->route('tutorsList')->with('success','Tutor added Successfully');
     }
     public function changeTutorStatus(Request $request){
@@ -61,7 +92,28 @@ class TutorController extends Controller
             $tutor->save();
         }
     }
+    public function tutorsList(){
+        $tutors = User::where('role_id',2)->orderBy('id', 'DESC')->get();
+        return view('admin.tutor.tutorsList',compact('tutors'));
+    }
     public function tutorProfile(User $user){
-        return view('admin.tutor.tutorProfile',compact('user'));
+        $programs_subjects = ProgramSubject::where('user_id',$user->id)->with('program', 'subject')->get();
+        $programs = Program::where('status',1)->get();
+        return view('admin.tutor.tutorProfile',compact('user','programs_subjects','programs'));
+    }
+    public function tutorSubjectsUpdate(Request $request)
+    {
+       $user_id = $request->user_id;
+       ProgramSubject::where('user_id',$user_id)->delete();
+       $subjects = $request->subject_id;
+       foreach ($subjects as $subject){
+            $prosub = new ProgramSubject();
+            $sub = Subject::where('id',$subject)->first();
+            $prosub->program_id  = $sub->programme_id;
+            $prosub->subject_id  = $subject;
+            $prosub->user_id  = $user_id;
+            $prosub->save();
+       }
+        return redirect()->route('tutorProfile',$user_id)->with('success','Tutor subjects updated Successfully');
     }
 }

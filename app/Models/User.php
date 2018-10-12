@@ -35,4 +35,8 @@ class User extends Authenticatable
     {
         return $this->hasMany("App\Models\Rating")->orderBy('created_at', 'Desc');
     }
+    public function program_subject()
+    {
+        return $this->hasMany("App\Models\ProgramSubject");
+    }
 }

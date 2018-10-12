@@ -137,7 +137,15 @@ Route::group(['middleware' => 'admin'],function (){
 
     Route::get('admin/tutors/list',[
         'as' => 'tutorsList',
-        'uses' => 'AdminController@tutorsList'
+        'uses' => 'TutorController@tutorsList'
+    ]);
+    Route::get('admin/getSubjects/{id}',[
+        'as' => 'getSubjects',
+        'uses' => 'TutorController@getSubjects'
+    ]);
+    Route::post('admin/tutor/subjects',[
+        'as'   => 'tutorSubjectsUpdate',
+        'uses' => 'TutorController@tutorSubjectsUpdate'
     ]);
     Route::get('admin/changeTutorStatus',[
         'as' => 'changeTutorStatus',

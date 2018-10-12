@@ -26,7 +26,7 @@
                         <div class="user-btm-box">
                             <hr>
                             <div class="row text-center m-t-10">
-                                <div class="col-md-12"><strong>Name</strong>
+                                <div class="col-md-12"><strong>Full Name</strong>
                                     <p>@if ($user->firstName != '' || $user->lastName  != '')
                                             {{$user->firstName." ".$user->lastName}}
                                            @else
@@ -73,24 +73,6 @@
                             </div>
                             <hr>
                             <div class="row text-center m-t-10">
-                                <div class="col-md-6 b-r"><strong>Programme</strong>
-                                    <p>@if ($user->profile->programme->name != '')
-                                            {{$user->profile->programme->name}}
-                                        @else
-                                            {{'Not Available'}}
-                                        @endif</p>
-                                </div>
-                                <div class="col-md-6"><strong>Subjects</strong>
-                                    <p>@if ($user->profile->subject->name != '')
-                                            {{$user->profile->subject->name}}
-                                        @else
-                                            {{'Not Available'}}
-                                        @endif</p>
-                                </div>
-                            </div>
-                            <!-- .row -->
-                            <hr>
-                            <div class="row text-center m-t-10">
                                 <div class="col-md-12"><strong>Address</strong>
                                     <p>@if ($user->address != '')
                                             {{$user->address}}
@@ -109,14 +91,20 @@
                         <!-- .tabs -->
                         <ul class="nav nav-tabs tabs customtab">
                             <li class="active tab">
-                                <a href="professor-profile.html#home" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Reviews</span> </a>
+                                <a href="#home" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Reviews</span> </a>
+                            </li>
+                            <li class="tab">
+                                <a href="professor-profile.html#biography" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Biography</span> </a>
+                            </li>
+                            <li class="tab">
+                                <a href="#update" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Update</span> </a>
                             </li>
                         </ul>
                         <!-- /.tabs -->
                         <div class="tab-content">
                             <!-- .tabs 1 -->
-                            @if (count($user->rating)>0)
                             <div class="tab-pane active" id="home">
+                                @if (count($user->rating)>0)
                                 <div class="steamline">
                                     <hr>
                                     @foreach($user->rating as $review)
@@ -141,11 +129,14 @@
                                             <div class="sl-item">
                                                 <div class="sl-right">
                                                     <div class="m-l-40">{{--<a href="" class="text-info">Jane Doe</a>--}}
-                                                        <p class="m-t-10"> @if ($review->review != '')
+                                                        <p class="m-t-10">
+                                                            @if ($review->review != '')
                                                                 {{$review->review}}
-                                                                               @else
-                                                                               {{'Rewiew not found'}}
-                                                        @endif</p>
+
+                                                            @else
+                                                                {{'Rewiew not found'}}
+                                                        @endif
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,27 +144,123 @@
                                         @endif
                                     @endforeach
                                 </div>
+                                @else
+                                    <div class="sl-item">
+                                        <div class="sl-right">
+                                            <div class="m-l-40">{{--<a href="" class="text-info">Jane Doe</a>--}}
+                                                <p class="m-t-10"> No Reviews Found</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
-                                    @else
-                                        <div class="sl-item">
-                                            <div class="sl-right">
-                                                <div class="m-l-40">{{--<a href="" class="text-info">Jane Doe</a>--}}
-                                                    <p class="m-t-10"> No Reviews Found</p>
+                            <!-- /.tabs1 -->
+                            <!-- .tabs 2 -->
+                            <div class="tab-pane" id="biography">
+                                <div class="row">
+                                    <div class="col-md-4 col-xs-6 b-r"> <strong>Full Name</strong>
+                                        <br>
+                                        <p class="text-muted">
+                                            @if ($user->firstName != '' || $user->lastName  != '')
+                                                {{$user->firstName." ".$user->lastName}}
+                                            @else
+                                                {{'Not Available'}}
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4 col-xs-6 b-r"> <strong>Mobile</strong>
+                                        <br>
+                                        <p class="text-muted">
+                                            @if ($user->mobile  != '')
+                                                {{$user->mobile}}
+                                            @else
+                                                {{'Not Available'}}
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4 col-xs-6 b-r"> <strong>Email</strong>
+                                        <br>
+                                        <p class="text-muted">
+                                            @if ($user->email  != '')
+                                                {{$user->email}}
+                                            @else
+                                                {{'Not Available'}}
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row"><h4 class="col-md-7" style="color: #686868"><strong>Subjects</strong></h4><h4 class="col-md-5 pull-right" style="color: #686868"><strong>Class</strong></h4></div>
+                                <div class="table-responsive pro-rd p-t-10">
+                                    <table class="table">
+                                        <tbody class="text-dark">
+                                        @if (count($programs_subjects)>0)
+                                            @foreach($programs_subjects as $program_subject)
+                                        <tr>
+                                            <td>{{($program_subject->subject->name)}}</td>
+                                            <td><span class="label label-megna label-rounded">{{($program_subject->program->name)}}</span></td>
+                                        </tr>
+                                            @endforeach
+                                        @else
+                                            {{'Not Available'}}
+                                        @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.tabs2 -->
+                            {{--<!-- .tabs 3 -->--}}
+                            <div class="tab-pane" id="update">
+                                <div class="row">
+                                <form id="validation" class="form-horizontal" action="{{route('tutorSubjectsUpdate')}}" method="POST">
+                                    <input type="hidden" value="{{$user->id}}" name="user_id">
+                                {{ csrf_field() }}
+                                @if (count($programs) > 0)
+                                    @foreach($programs as $program)
+                                        <div class="panel panel-default block2" style="outline: auto;">
+                                            <div class="panel-heading">
+                                                {{$program->name}}
+                                                <div class="panel-action"><a href="panel-ui-block.html#" data-perform="panel-collapse"><i class="ti-minus"></i></a></div>
+                                            </div>
+                                            <div class="panel-wrapper collapse in">
+                                                <div class="panel-body">
+                                                    @php $subjects = \App\Models\Subject::where('programme_id',$program->id)->get(); @endphp
+                                                    @if(count($subjects) > 0)
+                                                        <div class="row">
+                                                            @foreach($subjects as $subject)
+                                                                <div class="row col-md-4">
+                                                                    <div class="checkbox checkbox-primary">
+                                                                            <input type="checkbox" name="subject_id[]" value="{{$subject->id}}" @if (in_array($subject->id,$user->program_subject->pluck('subject_id')->toArray())) checked @endif>
+                                                                            <label>{{$subject->name}} </label>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    @else
+                                                        <div class="row">
+                                                            No Subjects Found
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
+                                    @endforeach
                                 @endif
-                            <!-- /.tabs1 -->
+                                    <button type="submit" class="btn btn-info waves-effect waves-light m-r-10 pull-right">Update</button>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- /.tabs 3 -->
                         </div>
                     </div>
                 </div>
-            </div>
             <!-- /.row -->
         </div>
     </div>
 @endsection
 @section('javascripts')
     @parent
-    <script>
-    </script>
+    <!--BlockUI Script -->
+{{--    <script src="{{url('admin_assets/plugins/bower_components/blockUI/jquery.blockUI.js')}}"></script>--}}
 @stop
