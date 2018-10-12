@@ -56,6 +56,16 @@
                             </div>
                             <hr>
                             <div class="row text-center m-t-10">
+                            <div class="col-md-12"><strong>CNIC Number</strong>
+                                <p>@if ($user->cnic_no != '')
+                                        {{$user->cnic_no}}
+                                    @else
+                                        {{'Not Available'}}
+                                @endif</p>
+                            </div>
+                            </div>
+                            <hr>
+                            <div class="row text-center m-t-10">
                                 <div class="col-md-6 b-r"><strong>Qualification</strong>
                                     <p>@if ($user->qualification != '')
                                             {{$user->qualification}}
@@ -91,10 +101,10 @@
                         <!-- .tabs -->
                         <ul class="nav nav-tabs tabs customtab">
                             <li class="active tab">
-                                <a href="professor-profile.html#biography" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Biography</span> </a>
+                                <a href="#biography" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Biography</span> </a>
                             </li>
                             <li class="tab">
-                                <a href="#update" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Class/Subjects</span> </a>
+                                <a href="#update" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Classes/Subjects</span> </a>
                             </li>
                             <li class="tab">
                                 <a href="#home" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Reviews</span> </a>
@@ -140,22 +150,22 @@
                                 {{--<div class="row"><h4 class="col-md-7" style="color: #686868"><strong>Classes</strong></h4><h4 class="col-md-5 pull-right" style="color: #686868"><strong>Subjects</strong></h4></div>--}}
                                 <div class="table-responsive pro-rd p-t-10">
                                     <table class="table">
-                                        <tbody class="text-dark">
-                                        <tr>
-                                            <th style="font-size:23px">Classes</th>
-                                            <th style="font-size:23px">Subjects</th>
-                                        </tr>
                                         @if (count($programs_subjects)>0)
-                                            @foreach($programs_subjects as $program_subject)
+                                            <tbody class="text-dark">
                                                 <tr>
-                                                    <td class="col-md-6"><span class="label label-megna label-rounded">{{($program_subject->program->name)}}</span></td>
-                                                    <td class="col-md-6">{{($program_subject->subject->name)}}</td>
+                                                    <th style="font-size:23px">Classes</th>
+                                                    <th style="font-size:23px">Subjects</th>
                                                 </tr>
-                                            @endforeach
+                                                @foreach($programs_subjects as $program_subject)
+                                                    <tr>
+                                                        <td class="col-md-6"><span class="label label-megna label-rounded">{{($program_subject->program->name)}}</span></td>
+                                                        <td class="col-md-6">{{($program_subject->subject->name)}}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
                                         @else
-                                            {{'Not Available'}}
+                                            {{'Subjects Not Available'}}
                                         @endif
-                                        </tbody>
                                     </table>
                                 </div>
                             </div>
