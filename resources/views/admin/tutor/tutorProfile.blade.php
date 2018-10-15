@@ -191,9 +191,9 @@
                                                                     @foreach($subjects as $subject)
                                                                         <div class="row col-md-4">
                                                                             <div class="checkbox checkbox-primary">
-                                                                                <input type="checkbox" name="subject_id[]" value="{{$subject->id}}" @if (in_array($subject->id,$user->program_subject->pluck('subject_id')->toArray())) checked @endif>
-                                                                                <label>{{$subject->name}} </label>
-                                                                            </div>
+                                                                                <input id="{{$subject->id}}" type="checkbox" name="subject_id[]" value="{{$subject->id}}" @if (in_array($subject->id,$user->program_subject->pluck('subject_id')->toArray())) checked @endif>
+                                                                                <label for="{{$subject->id}}">{{$subject->name}} </label>
+                                                                        </div>
                                                                         </div>
                                                                     @endforeach
                                                                 </div>

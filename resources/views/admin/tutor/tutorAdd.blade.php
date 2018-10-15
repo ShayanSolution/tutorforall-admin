@@ -124,7 +124,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-md-12" for="bdate">Date of Birth</label>
                                         <div class="col-md-12">
-                                            <input type="text" id="dob" name="dob" class="form-control mydatepicker" placeholder="Enter your birth date" value="{{ old('dob') }}" required>
+                                            <input type="text" id="dob" name="dob" class="form-control mydatepicker" placeholder="Enter your birth date" value="{{ old('dob') }}" autocomplete="off" required>
                                             @if ($errors->has('dob'))
                                                 <span class="text-danger">{{ $errors->first('dob') }}</span>
                                             @endif
@@ -290,7 +290,7 @@
                                         message: 'The father name must be more than 6 and less than 30 characters long'
                                     },
                                     regexp: {
-                                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                                        regexp: /^\w+(\s\w+)*$/,
                                         message: 'The father name can only consist of alphabetical, number, dot and underscore'
                                     }
                                 }
