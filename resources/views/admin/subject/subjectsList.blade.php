@@ -26,7 +26,7 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Status</th>
+                            <th>Active</th>
                             <th>Program</th>
                             <th>Edit</th>
                             <th>Delete</th>

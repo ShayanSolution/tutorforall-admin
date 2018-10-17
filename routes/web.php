@@ -134,7 +134,14 @@ Route::group(['middleware' => 'admin'],function (){
         'as'   => 'tutorSave',
         'uses' => 'TutorController@tutorSave'
     ]);
-
+    Route::get('admin/tutor/edit/{user}',[
+        'as' => 'tutorEdit',
+        'uses' => 'TutorController@tutorsEdit'
+    ]);
+    Route::post('admin/tutor/update/{user}',[
+        'as' => 'tutorUpdate',
+        'uses' => 'TutorController@tutorUpdate'
+    ]);
     Route::get('admin/tutors/list',[
         'as' => 'tutorsList',
         'uses' => 'TutorController@tutorsList'

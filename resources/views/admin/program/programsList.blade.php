@@ -63,9 +63,13 @@
                                             <h4 class="modal-title" id="myModalLabel">Subjects</h4> </div>
                                         <div class="modal-body">
                                             <ul class="list-group">
+                                                @if (count($program->subjects)>0)
                                                 @foreach($program->subjects as $subject)
                                                     <li class="list-group-item">{{ $subject->name }}</li>
                                                 @endforeach
+                                                    @else
+                                                    {{'No Subjects Available'}}
+                                                @endif
                                             </ul>
                                         </div>
                                         <div class="modal-footer">

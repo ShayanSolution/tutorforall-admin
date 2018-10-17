@@ -45,7 +45,7 @@ class TutorController extends Controller
             'lastName.min' => 'Name must be at least 2 characters.',
             'fatherName.required' => 'Name is required',
             'fatherName.min' => 'Name must be at least 2 characters.',
-            'lastName.max' => 'Name should not be greater than 50 characters.',
+            'fatherName.max' => 'Name should not be greater than 50 characters.',
             'dob.required' => 'Date of birth is required.',
             'phone.required' => 'Phone number is required.',
             'gender_id.required' => 'Select gender',
@@ -115,5 +115,53 @@ class TutorController extends Controller
             $prosub->save();
        }
         return redirect()->route('tutorProfile',$user_id)->with('success','Tutor subjects updated Successfully');
+    }
+    public function tutorsEdit(User $user){
+        return view('admin.tutor.profileEdit',compact('user'));
+    }
+    public function tutorUpdate(Request $request,User $user){
+        $request->validate([
+            'firstName' => 'required|min:2|max:50',
+            'lastName' => 'required|min:2|max:50',
+            'fatherName' => 'required|min:2|max:50',
+            'phone' => 'required|min:10|numeric|unique:users,'.$user->id,
+            'email' => 'required|email|unique:users',
+            'password' => 'min:6|max:20',
+            'confirm_password' => 'min:6|max:20|same:password',
+            'dob' => 'required',
+            'gender_id' => 'required',
+            'experience' => 'required',
+            'qualification' => 'required',
+            'cnic_no' => 'required',
+        ], [
+            'firstName.required' => 'Name is required',
+            'firstName.min' => 'Name must be at least 2 characters.',
+            'firstName.max' => 'Name should not be greater than 50 characters.',
+            'lastName.required' => 'Name is required',
+            'lastName.min' => 'Name must be at least 2 characters.',
+            'fatherName.required' => 'Name is required',
+            'fatherName.min' => 'Name must be at least 2 characters.',
+            'fatherName.max' => 'Name should not be greater than 50 characters.',
+            'dob.required' => 'Date of birth is required.',
+            'phone.required' => 'Phone number is required.',
+            'gender_id.required' => 'Select gender',
+            'experience.required' => 'Select experience',
+            'qualification.required' => 'Qualification is required',
+            'cnic_no.required' => 'Enter CNIC number',
+        ]);
+        $user->firstName = $request->firstName;
+        $user->lastName = $request->lastName;
+        $user->fatherName = $request->fatherName;
+        $user->dob = $request->dob;
+        $user->phone = $request->phone;
+        $user->gender_id = $request->gender_id;
+        $user->experience = $request->experience;
+        $user->qualification = $request->qualification;
+        $user->cnic_no = $request->cnic_no;
+        $user->email = $request->email;
+        if ($request->password){
+            $user->password=bcrypt($request->password);
+        }
+        $user->save();
     }
 }
