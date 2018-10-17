@@ -70,7 +70,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-md-12" for="example-text">Email</label>
                                         <div class="col-md-12">
-                                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" value="@if ($user->email != '') {{$user->email}} @endif" required>
+                                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" readonly value="@if ($user->email != '') {{$user->email}} @endif" required>
                                             @if ($errors->has('email'))
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                                             @endif
@@ -80,7 +80,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-md-12" for="example-text">Phone Number</label>
                                         <div class="col-md-12">
-                                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter phone number" value="@if ($user->phone != '') {{$user->phone}} @endif" required>
+                                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter phone number" readonly value="@if ($user->phone != '') {{$user->phone}} @endif" required>
                                             @if ($errors->has('phone'))
                                                 <span class="text-danger">{{ $errors->first('phone') }}</span>
                                             @endif

@@ -7,6 +7,7 @@ use App\Models\ProgramSubject;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class TutorController extends Controller
 {
@@ -124,10 +125,18 @@ class TutorController extends Controller
             'firstName' => 'required|min:2|max:50',
             'lastName' => 'required|min:2|max:50',
             'fatherName' => 'required|min:2|max:50',
-            'phone' => 'required|min:10|numeric|unique:users,'.$user->id,
-            'email' => 'required|email|unique:users',
-            'password' => 'min:6|max:20',
-            'confirm_password' => 'min:6|max:20|same:password',
+//            'email' =>  [
+//                'required',
+//                'min:2',
+//                'regex:',
+//                Rule::unique('users')->ignore($user->id),
+//            ],
+//            'phone' =>  [
+//                'required',
+//                Rule::unique('users')->ignore($user->id),
+//            ],
+            'password' => 'min:6|max:20|nullable',
+            'confirm_password' => 'min:6|max:20|same:password|nullable',
             'dob' => 'required',
             'gender_id' => 'required',
             'experience' => 'required',
@@ -143,7 +152,7 @@ class TutorController extends Controller
             'fatherName.min' => 'Name must be at least 2 characters.',
             'fatherName.max' => 'Name should not be greater than 50 characters.',
             'dob.required' => 'Date of birth is required.',
-            'phone.required' => 'Phone number is required.',
+//            'phone.required' => 'Phone number is required.',
             'gender_id.required' => 'Select gender',
             'experience.required' => 'Select experience',
             'qualification.required' => 'Qualification is required',
@@ -159,9 +168,17 @@ class TutorController extends Controller
         $user->qualification = $request->qualification;
         $user->cnic_no = $request->cnic_no;
         $user->email = $request->email;
+
         if ($request->password){
-            $user->password=bcrypt($request->password);
+            $user->password = bcrypt($request->password);
+            $user->save();
         }
+//        else{
+//            $user->password = $user->password;
+//            $user->save();
+//        }
         $user->save();
+//        dd('saved');
+        return redirect()->route('tutorsList')->with('success','Tutor updated Successfully');
     }
 }
