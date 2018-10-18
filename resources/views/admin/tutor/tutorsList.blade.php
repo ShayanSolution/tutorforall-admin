@@ -30,6 +30,7 @@
                             <th>Rating</th>
                             <th>Active</th>
                             <th>Detail</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -41,7 +42,29 @@
                                     {{--<td>@if($tutor->is_active == 1) Yes @else No @endif</td>--}}
                                     <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($tutor->is_active == 1) checked @endif></td>
                                     <td><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="{{route('tutorProfile',$tutor->id)}}" alt="default">View</a></td>
+                                    <td><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModaltutor{{$tutor->id}}">Delete</a></td>
                                 </tr>
+
+                                <!-- delete modal content -->
+                                <div id="deleteModaltutor{{$tutor->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-confirm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Delete</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Do you really want to delete this tutor?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                <a type="button" class="fcbtn btn btn-danger btn-1d" href="{{route('tutorDelete',$tutor->id)}}" style="color: white">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
                             @endforeach
                         </tbody>
                     </table>

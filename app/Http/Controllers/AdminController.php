@@ -43,4 +43,9 @@ class AdminController extends Controller
     public function updatePasswordPage(){
         return view('admin.updatePasswordPage');
     }
+
+    public function studentDelete($student){
+        User::where('id', $student)->delete();
+        return redirect()->route('studentsList')->with('success','Student Deleted successfully');
+    }
 }

@@ -95,6 +95,7 @@ Route::group(['middleware' => 'admin'],function (){
         'uses' => 'SubjectController@subjectDelete'
     ]);
 
+
     //Categories
     Route::get('admin/category/add',[
         'as' => 'categoryAdd',
@@ -162,6 +163,10 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'tutorProfile',
         'uses' => 'TutorController@tutorProfile'
     ]);
+    Route::get('admin/tutor/delete/{tutor}',[
+        'as' => 'tutorDelete',
+        'uses' => 'TutorController@tutorDelete'
+    ]);
 
     //Students
     Route::get('admin/students/list',[
@@ -175,6 +180,10 @@ Route::group(['middleware' => 'admin'],function (){
     Route::post('admin/changeStudentStatus',[
         'as' => 'changeStudentStatus',
         'uses' => 'AdminController@changeStudentStatus'
+    ]);
+    Route::get('admin/student/delete/{student}',[
+        'as' => 'studentDelete',
+        'uses' => 'AdminController@studentDelete'
     ]);
 
     Route::get('admin/logout',[
