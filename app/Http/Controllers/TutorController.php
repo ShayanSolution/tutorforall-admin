@@ -185,6 +185,6 @@ class TutorController extends Controller
     public function tutorDelete($tutor){
         /*dd($tutor);*/
         User::where('id', $tutor)->delete();
-        return redirect()->route('tutorsList')->with('success','Student Deleted successfully');
+        return redirect()->route('tutorsList')->with('success','Tutor Deleted successfully');
     }
 }
