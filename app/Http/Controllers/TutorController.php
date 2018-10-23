@@ -107,14 +107,16 @@ class TutorController extends Controller
        $user_id = $request->user_id;
        ProgramSubject::where('user_id',$user_id)->delete();
        $subjects = $request->subject_id;
-       foreach ($subjects as $subject){
-            $prosub = new ProgramSubject();
-            $sub = Subject::where('id',$subject)->first();
-            $prosub->program_id  = $sub->programme_id;
-            $prosub->subject_id  = $subject;
-            $prosub->user_id  = $user_id;
-            $prosub->save();
-       }
+        if($subjects != null){
+           foreach ($subjects as $subject){
+                $prosub = new ProgramSubject();
+                $sub = Subject::where('id',$subject)->first();
+                $prosub->program_id  = $sub->programme_id;
+                $prosub->subject_id  = $subject;
+                $prosub->user_id  = $user_id;
+                $prosub->save();
+           }
+        }
         return redirect()->route('tutorProfile',$user_id)->with('success','Tutor subjects updated Successfully');
     }
     public function tutorsEdit(User $user){
