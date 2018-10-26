@@ -77,6 +77,7 @@ class TutorController extends Controller
                             'is_group' => 0,
                             'subject_id' => 0,
                             'programme_id' => 0,
+                            'meeting_type_id' => 0,
                             'user_id' => $user->id
                         ]);
 
