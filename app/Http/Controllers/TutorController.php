@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\Program;
 use App\Models\ProgramSubject;
 use App\Models\Subject;
@@ -64,6 +65,21 @@ class TutorController extends Controller
         $user->role_id = 2;
         $user->save();
 
+        //Create profile table entry
+        $profile = Profile::create(
+                        [
+                            'is_mentor'=>0,
+                            'is_deserving' => 0,
+                            'one_on_one' => 0,
+                            'call_tutor' => 0,
+                            'call_student' => 0,
+                            'is_home' => 0,
+                            'is_group' => 0,
+                            'subject_id' => 0,
+                            'programme_id' => 0,
+                            'user_id' => $user->id
+                        ]);
+
         $subjects = $request->subject_id;
         foreach ($subjects as $subject) {
             $sub = Subject::where('id',$subject)->first();
@@ -75,6 +91,7 @@ class TutorController extends Controller
         }
         return redirect()->route('tutorsList')->with('success','Tutor added Successfully');
     }
+    
     public function changeTutorStatus(Request $request){
         request()->validate([
             'tutor_id' => 'required',
