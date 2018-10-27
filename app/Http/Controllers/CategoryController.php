@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
+//Models
+use App\Models\Category;
+use App\Models\Package;
 
 class CategoryController extends Controller
 {
@@ -25,7 +27,9 @@ class CategoryController extends Controller
         $category->save();
         return redirect()->route('categoriesList')->with('success','Program added Successfully');
     }
-    public function categoriesEdit(Category $category){
+    public function categoriesEdit($id){
+        $category = Category::with('packages')->find($id);
+//        dd($category);
         return view('admin.category.categoryEdit',compact('category'));
     }
     public function categoryUpdate(Request $request, Category $category){
@@ -36,6 +40,16 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->status = $request->status;
         $category->save();
+
+        //Save category package
+        $package['hourly_rate'] = $request->hourly_rate;
+        $package['extra_percentage_for_group_of_two'] = $request->extra_percentage_for_group_of_two;
+        $package['extra_percentage_for_group_of_three'] = $request->extra_percentage_for_group_of_three;
+        $package['extra_percentage_for_group_of_four'] = $request->extra_percentage_for_group_of_four;
+        $package['is_active'] = 1;
+
+        $category->packages()->update($package);
+
         return redirect()->route('categoriesList')->with('success','Category Updated successfully');
     }
     public function changeCategoryStatus(Request $request){

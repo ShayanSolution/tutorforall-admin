@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Package extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'categories';
+    protected $table = 'packages';
     protected $fillable = [
-        'name',
-        'status',
+        'category_id',
+        'hourly_rate',
+        'extra_percentage_for_group_of_two',
+        'extra_percentage_for_group_of_three',
+        'extra_percentage_for_group_of_four',
+        'is_active',
     ];
 
     protected $softDelete = true;
