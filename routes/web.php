@@ -29,6 +29,26 @@ Route::group(['middleware' => 'guest'],function (){
         'as' => 'authenticate',
         'uses' => 'AuthController@authenticate'
     ]);
+
+    Route::post('admin/password/email',[
+        'as' => 'password.email',
+        'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail'
+    ]);
+
+    Route::get('admin/password/reset',[
+        'as' => 'password.request',
+        'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'
+    ]);
+
+    Route::post('admin/password/update',[
+        'as' => 'password.update',
+        'uses' => 'Auth\ResetPasswordController@reset'
+    ]);
+
+    Route::get('admin/password/reset/{token}',[
+        'as' => 'password.reset',
+        'uses' => 'Auth\ResetPasswordController@showResetForm'
+    ]);
 });
 //Guests Middleware ends
 //admin Middleware starts

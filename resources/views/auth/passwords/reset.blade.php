@@ -32,28 +32,29 @@
     <div class="login-box">
         @include('errors.common-errors')
         <div class="white-box">
-            <form class="form-horizontal form-material" action="{{route('authenticate')}}" method="post">
+            <form class="form-horizontal form-material" action="{{route('password.update')}}" method="post">
                 {{csrf_field()}}
-                <h3 class="box-title m-b-20">LogIn</h3>
+
+                <input type="hidden" name="token" value="{{ $token }}">
+                <h3 class="box-title m-b-20">Reset Password</h3>
                 <div class="form-group ">
                     <div class="col-xs-12">
-                        <input class="form-control" type="email" required="" placeholder="Email" name="email">
+                        <input class="form-control" type="email" required="required" placeholder="Email" name="email" value="{{$email}}">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group ">
                     <div class="col-xs-12">
-                        <input class="form-control" type="password" required="" placeholder="Password" name="password">
+                        <input class="form-control" type="password" required="required" placeholder="Password" name="password">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <input class="form-control" type="password" required="required" placeholder="Confirm Password" name="password_confirmation">
                     </div>
                 </div>
                 <div class="form-group text-center m-t-20">
                     <div class="col-xs-12">
-                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">LogIn</button>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="col-xs-12">
-                        <a href="/admin/password/reset">Forgot Password</a>
+                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Update Password</button>
                     </div>
                 </div>
             </form>

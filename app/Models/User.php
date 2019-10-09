@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use \Illuminate\Auth\Passwords\CanResetPassword as CanResetPassword;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPasswordInterface
 {
-    use SoftDeletes;
+    use SoftDeletes, CanResetPassword, Notifiable;
     
     protected $table = 'users';
     public $remember_token=false;
