@@ -53,10 +53,10 @@ Route::group(['middleware' => 'guest'],function (){
 //Guests Middleware ends
 //admin Middleware starts
 Route::group(['middleware' => 'admin'],function (){
-//    Route::get('admin/dashboard',[
-//        'as' => 'dashboard',
-//        'uses' => 'AdminController@dashboard'
-//    ]);
+    Route::get('admin/dashboard',[
+        'as' => 'dashboard',
+        'uses' => 'AdminController@dashboard'
+    ]);
 
     Route::get('admin/updatePasswordPage',[
         'as' => 'updatePasswordPage',
@@ -167,6 +167,14 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'tutorsList',
         'uses' => 'TutorController@tutorsList'
     ]);
+    Route::get('admin/tutors/mentors',[
+        'as' => 'mentorsList',
+        'uses' => 'TutorController@mentorsList'
+    ]);
+    Route::get('admin/documents-verification',[
+        'as' => 'documentVerification',
+        'uses' => 'AdminController@documentVerification'
+    ]);
     Route::get('admin/getSubjects/{id}',[
         'as' => 'getSubjects',
         'uses' => 'TutorController@getSubjects'
@@ -192,6 +200,10 @@ Route::group(['middleware' => 'admin'],function (){
     Route::get('admin/students/list',[
         'as' => 'studentsList',
         'uses' => 'AdminController@studentsList'
+    ]);
+    Route::get('admin/students/deserving',[
+        'as' => 'deservingStudentsList',
+        'uses' => 'AdminController@deservingStudentsList'
     ]);
     Route::post('admin/changeStudentDeserving',[
         'as' => 'changeStudentDeserving',

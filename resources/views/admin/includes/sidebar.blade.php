@@ -33,7 +33,9 @@
             <li> <a href="#" class="waves-effect"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Tutors <span class="fa arrow"></span></span></a>
                 <ul class="nav nav-second-level">
                     <li> <a href="{{route('tutorsList')}}">All Tutors</a> </li>
+                    <li> <a href="{{route('mentorsList')}}">All Mentors</a> </li>
                     <li> <a href="{{route('tutorAdd')}}">Add Tutor</a> </li>
+                    {{--<li> <a href="{{route('documentVerification')}}">Document Verification</a> </li>--}}
                     {{--<li> <a href="#">Edit Professor</a> </li>--}}
                     {{--<li> <a href="#">Professor Profile</a> </li>--}}
                 </ul>
@@ -41,6 +43,7 @@
             <li> <a href="#" class="waves-effect"><i class="fa fa-graduation-cap p-r-10"></i> <span class="hide-menu"> Students <span class="fa arrow"></span></span></a>
                 <ul class="nav nav-second-level">
                     <li> <a href="{{route('studentsList')}}">All Students</a> </li>
+                    <li> <a href="{{route('deservingStudentsList')}}">Deserving Students</a> </li>
                     {{--<li> <a href="#">Add Student</a> </li>--}}
                     {{--<li> <a href="#">Edit Student</a> </li>--}}
                     {{--<li> <a href="#">Student Profile</a> </li>--}}

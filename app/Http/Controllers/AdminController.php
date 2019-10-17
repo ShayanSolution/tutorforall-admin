@@ -16,6 +16,12 @@ class AdminController extends Controller
         $students = User::where('role_id',3)->with('profile')->orderby('id','DESC')->get();
         return view('admin.student.studentsList',compact('students'));
     }
+    public function deservingStudentsList(){
+        $students = User::whereHas('profile', function ($query) {
+            $query->where('is_deserving', 1);
+        })->where('role_id', 3)->orderby('id','DESC')->get();
+        return view('admin.student.studentsList',compact('students'));
+    }
     public function changeStudentDeserving(Request $request){
         $student_id = $request->student_id;
         $is_deserving = $request->is_deserving;
@@ -56,6 +62,10 @@ class AdminController extends Controller
             return redirect()->route('studentsList')->with('error','Oops! Something went wrong.');
 
         return redirect()->route('studentsList')->with('success','Student Deleted successfully');
+
+    }
+
+    public function documentVerification(){
 
     }
 }
