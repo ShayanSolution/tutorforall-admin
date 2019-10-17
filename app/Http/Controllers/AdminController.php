@@ -45,7 +45,17 @@ class AdminController extends Controller
     }
 
     public function studentDelete($student){
-        User::where('id', $student)->delete();
+        $student = User::find($student);
+
+        $deleted = false;
+
+        if($student)
+            $deleted = $student->forceDelete();
+
+        if(!$deleted)
+            return redirect()->route('studentsList')->with('error','Oops! Something went wrong.');
+
         return redirect()->route('studentsList')->with('success','Student Deleted successfully');
+
     }
 }
