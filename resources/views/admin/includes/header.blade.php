@@ -1,7 +1,37 @@
 <!-- Navigation -->
+<style>
+    @media only screen and (min-width: 1000px){
+        .logo{
+            display: block;
+        }
+        .logo-mini{
+            display: none;
+        }
+    }
+    @media only screen and (max-width: 999px){
+        .logo{
+            display: none;
+        }
+        .logo-mini{
+            display: block;
+        }
+    }
+</style>
 <nav class="navbar navbar-default navbar-static-top m-b-0">
     <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
-        <div class="top-left-part"><a class="logo" href="#"><b><img src="{{url('admin_assets/plugins/images/eliteadmin-logo.png')}}" alt="home" /></b><span class="hidden-xs"><strong>Tutor4All</strong></span></a></div>
+        <div class="top-left-part" style="background-color: white;  vertical-align: center">
+            <a href="/">
+                <img src="{{url('logo.png')}}" class="logo" alt="home" style="width: 91%; margin-top: 4% !important; margin-left: 3%;"/>
+                <img src="{{url('logo-mini.png')}}" class="logo-mini" alt="home" style="width: 91%; margin-top: 10% !important;"/>
+            </a>{{--<a class="logo" href="#">--}}
+                {{--<b>--}}
+                    {{--<img src="{{url('logo-mini.png')}}" alt="home" style="width:40px;" />--}}
+                {{--</b>--}}
+                {{--<span class="hidden-xs">--}}
+                    {{--<strong>Tutor4All</strong>--}}
+                {{--</span>--}}
+            {{--</a>--}}
+        </div>
         <ul class="nav navbar-top-links navbar-left hidden-xs">
             <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
         </ul>
