@@ -46,8 +46,12 @@ class Document extends Model
     }
 
     public function getVerifiedByAttribute($value){
+
         $verified_by = User::find($value);
-        return $verified_by->firstName.' '.$verified_by->lastName;
+        if($verified_by)
+            return $verified_by->firstName.' '.$verified_by->lastName;
+        else
+            return 'N-A';
     }
 
     public function getVerifiedAtAttribute($value){
