@@ -9,14 +9,14 @@
 <!--Wave Effects -->
 <script src="{{url('admin_assets/js/waves.js')}}"></script>
 <!--Morris JavaScript -->
-<script src="{{url('admin_assets/plugins/bower_components/raphael/raphael-min.js')}}"></script>
-<script src="{{url('admin_assets/plugins/bower_components/morrisjs/morris.js')}}"></script>
+{{--<script src="{{url('admin_assets/plugins/bower_components/raphael/raphael-min.js')}}"></script>--}}
+{{--<script src="{{url('admin_assets/plugins/bower_components/morrisjs/morris.js')}}"></script>--}}
 <!-- Sparkline chart JavaScript -->
 <script src="{{url('admin_assets/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
 <script src="{{url('admin_assets/plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js')}}"></script>
 <!-- Custom Theme JavaScript -->
 <script src="{{url('admin_assets/js/custom.min.js')}}"></script>
-<script src="{{url('admin_assets/js/dashboard1.js')}}"></script>
+{{--<script src="{{url('admin_assets/js/dashboard1.js')}}"></script>--}}
 
 <!--Style Switcher -->
 <script src="{{url('admin_assets/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>

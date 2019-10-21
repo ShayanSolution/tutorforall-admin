@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -65,7 +66,75 @@ class AdminController extends Controller
 
     }
 
-    public function documentVerification(){
+    public function candidates(){
+        $tutors = User::where('is_approved', 0)->where('role_id', Document::STATUS_PENDING)->get();
+        return view('admin.candidates', compact('tutors'));
+    }
 
+    public function candidateDocuments($id){
+        $tutor =  User::with(['documents', 'program_subject.subject:id,name', 'program_subject.program:id,name'])
+            ->select(['id', 'firstName', 'lastName'])
+            ->find($id);
+
+        foreach ($tutor->program_subject as $key=>$programSubject){
+            $program = $programSubject->program->name;
+            $subject = $programSubject->subject->name;
+            unset(
+                $programSubject["id"],
+                $programSubject["program_id"],
+                $programSubject["subject_id"],
+                $programSubject["user_id"],
+                $programSubject["created_at"],
+                $programSubject["updated_at"],
+                $programSubject["subject"],
+                $programSubject["program"]
+            );
+            $programSubject["program"] = $program;
+            $programSubject["subject"] = $subject;
+        }
+
+        return view('admin.documents', compact('tutor'));
+    }
+
+
+
+    public function acceptDocument($id){
+
+        $document = Document::find($id);
+
+        if(!$document)
+            return redirect()->back()->with('error', 'Document does not exists.');
+
+        $updated = $document->update([
+            'rejection_reason'  =>  '',
+            'status'            =>  Document::STATUS_ACCEPTED,
+            'verified_by'       =>  Auth::user()->id,
+            'verified_at'       =>  now()
+        ]);
+
+        if(!$updated)
+            return redirect()->back()->with('error','Oops! Something went wrong.');
+
+        return redirect()->back()->with('success','Document accepted successfully.');
+    }
+
+    public function rejectDocument(Request $request){
+
+        $document = Document::find($request->document_id);
+
+        if(!$document)
+            return redirect()->back()->with('error', 'Document does not exists.');
+
+        $updated = $document->update([
+            'rejection_reason'  =>  $request->rejection_reason,
+            'status'            =>  Document::STATUS_REJECTED,
+            'verified_by'       =>  Auth::user()->id,
+            'verified_at'       =>  now()
+        ]);
+
+        if(!$updated)
+            return redirect()->back()->with('error','Oops! Something went wrong.');
+
+        return redirect()->back()->with('success','Document rejected successfully.');
     }
 }

@@ -171,9 +171,21 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'mentorsList',
         'uses' => 'TutorController@mentorsList'
     ]);
-    Route::get('admin/documents-verification',[
-        'as' => 'documentVerification',
-        'uses' => 'AdminController@documentVerification'
+    Route::get('admin/candidate/{id}/documents',[
+        'as' => 'candidateDocuments',
+        'uses' => 'AdminController@candidateDocuments'
+    ]);
+    Route::get('admin/documents/{id}/accept',[
+        'as' => 'acceptDocument',
+        'uses' => 'AdminController@acceptDocument'
+    ]);
+    Route::post('admin/documents/reject',[
+        'as' => 'rejectDocument',
+        'uses' => 'AdminController@rejectDocument'
+    ]);
+    Route::get('admin/candidates',[
+        'as' => 'candidates',
+        'uses' => 'AdminController@candidates'
     ]);
     Route::get('admin/getSubjects/{id}',[
         'as' => 'getSubjects',

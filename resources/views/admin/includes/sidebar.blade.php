@@ -35,7 +35,7 @@
                     <li> <a href="{{route('tutorsList')}}">All Tutors</a> </li>
                     <li> <a href="{{route('mentorsList')}}">All Mentors</a> </li>
                     <li> <a href="{{route('tutorAdd')}}">Add Tutor</a> </li>
-                    {{--<li> <a href="{{route('documentVerification')}}">Document Verification</a> </li>--}}
+                    <li> <a href="{{route('candidates')}}">Candidates List</a> </li>
                     {{--<li> <a href="#">Edit Professor</a> </li>--}}
                     {{--<li> <a href="#">Professor Profile</a> </li>--}}
                 </ul>

@@ -15,6 +15,7 @@ class User extends Authenticatable implements CanResetPasswordInterface
     
     protected $table = 'users';
     public $remember_token=false;
+    public $appends = ['fullName'];
     protected $fillable = [
         'uid',
         'firstName',
@@ -32,6 +33,10 @@ class User extends Authenticatable implements CanResetPasswordInterface
         'qualification'
     ];
 
+    public function getFullNameAttribute(){
+        return $this->firstName.' '.$this->lastName;
+    }
+
     public function profile()
     {
         return $this->hasOne('App\Models\Profile');
@@ -44,5 +49,9 @@ class User extends Authenticatable implements CanResetPasswordInterface
     public function program_subject()
     {
         return $this->hasMany("App\Models\ProgramSubject");
+    }
+
+    public function documents(){
+        return $this->hasMany(Document::class, 'tutor_id', 'id');
     }
 }

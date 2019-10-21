@@ -1,1 +1,1 @@
-<footer class="footer text-center"> 2018 &copy; Tutor4All Admin Panel</footer>
+<footer class="footer text-center"> {{date('Y')}} &copy; Tutor4All Admin Panel - Powered by Shayan Solutions</footer>
