@@ -76,7 +76,8 @@
                                     {{ $document->verified_at }}
                                 </td>
                                 <td>
-                                    <a  class="fcbtn btn btn-default btn-outline btn-1d"
+                                    <a  href="{{$document->path}}"
+                                        class="fcbtn btn btn-default btn-outline btn-1d"
                                         download="{{ $document->id }}-{{ $document->title }}.png"
                                     >
                                         Download
