@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
 use Illuminate\Http\Request;
 
 class DocumentsController extends Controller
 {
-    public function downloadDoc($filepath){
+    public function downloadDoc($id){
+        $doc = Document::find($id);
+
+        if(!$doc)
+            return redirect()->back()->with('error', 'No document found!');
+
+        $filepath = $doc->path;
+
         if(file_exists($filepath)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');

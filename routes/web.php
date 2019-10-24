@@ -54,7 +54,7 @@ Route::group(['middleware' => 'guest'],function (){
 //admin Middleware starts
 Route::group(['middleware' => 'admin'],function (){
 
-    Route::get('admin/documents/{path}',[
+    Route::get('admin/documents/{id}',[
         'as' => 'download',
         'uses' => 'DocumentsController@downloadDoc'
     ]);
