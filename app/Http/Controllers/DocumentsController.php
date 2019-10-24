@@ -14,7 +14,13 @@ class DocumentsController extends Controller
         if(!$doc)
             return redirect()->back()->with('error', 'No document found!');
 
-        Storage::download($doc->path, 'file.jpg');
+        $fileContents = file_get_contents($doc->path);
+
+        $newPath = public_path('temp/new.png');
+
+        Storage::disk('public')->put($newPath, $fileContents);
+
+        Storage::download($newPath, 'file.jpg');
 
         return redirect()->back();
     }
