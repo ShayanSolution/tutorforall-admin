@@ -16,7 +16,7 @@ class DocumentsController extends Controller
 
         $fileContents = file_get_contents($doc->path);
 
-        $newPath = public_path('temp/new.png');
+        $newPath = public_path('/temp/new.png');
 
         Storage::disk('public')->move($fileContents, $newPath);
 
