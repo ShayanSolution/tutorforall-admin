@@ -18,7 +18,7 @@ class DocumentsController extends Controller
 
         $newPath = public_path('temp/new.png');
 
-        Storage::disk('public')->put($newPath, $fileContents);
+        Storage::disk('public')->move($fileContents, $newPath);
 
         Storage::download($newPath, 'file.jpg');
 
