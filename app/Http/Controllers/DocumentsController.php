@@ -16,11 +16,32 @@ class DocumentsController extends Controller
 
         $fileContents = file_get_contents($doc->path);
 
-        $newPath = public_path('/temp/new.png');
 
-        Storage::disk('public')->move($fileContents, $newPath);
+        /* Source File URL */
+        $remote_file_url = $doc->path;
 
-        Storage::download($newPath, 'file.jpg');
+        /* New file name and path for this file */
+        $local_file = '/new.png';
+
+        /* Copy the file from source url to server */
+        $copy = copy( $remote_file_url, $local_file );
+
+        /* Add notice for success/failure */
+        if( !$copy ) {
+            return "Doh! failed to copy $remote_file_url...\n";
+        }
+        else{
+            return "WOOT! success to copy $remote_file_url...\n";
+        }
+
+
+
+
+//        $newPath = public_path('/temp/new.png');
+//
+//        Storage::disk('public')->move($fileContents, $newPath);
+//
+//        Storage::download($newPath, 'file.jpg');
 
         return redirect()->back();
     }
