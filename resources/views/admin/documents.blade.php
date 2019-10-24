@@ -78,7 +78,7 @@
                                 <td>
                                     <a  href="{{$document->path}}"
                                         class="fcbtn btn btn-default btn-outline btn-1d"
-                                        download="{{ $document->id }}-{{ $document->title }}.png"
+                                        download
                                     >
                                         Download
                                     </a>
