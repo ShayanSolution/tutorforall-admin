@@ -76,8 +76,10 @@
                                     {{ $document->verified_at }}
                                 </td>
                                 <td>
-                                    <a  href="/admin/documents/{{$document->id}}"
+                                    <a  href="{{$document->path}}"
+                                        {{--href="/admin/documents/{{$document->id}}"--}}
                                         class="fcbtn btn btn-default btn-outline btn-1d"
+                                        download
                                     >
                                         Download
                                     </a>
