@@ -30,6 +30,7 @@ class SubjectController extends Controller
         $subject->programme_id     =   $request->program;
         $subject->name             =   $request->name;
         $subject->status           =   $request->status;
+        $subject->price            =   $request->price;
         $subject->save();
         return redirect()->route('subjectsList')->with('success','Subject added Successfully');
     }
@@ -46,6 +47,7 @@ class SubjectController extends Controller
         $subject->name = $request->name;
         $subject->status = $request->status;
         $subject->programme_id = $request->program;
+        $subject->price = $request->price;
         $subject->save();
         return redirect()->route('subjectsList')->with('success','Program Updated successfully');
     }

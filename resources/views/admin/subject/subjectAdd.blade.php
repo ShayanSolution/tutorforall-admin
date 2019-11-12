@@ -45,6 +45,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="example-text">Price</label>
+                        <div class="col-md-12">
+                            <input type="text" name="price" class="form-control" placeholder="Enter price for subject" required>
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
                     <a href="{{route('subjectsList')}}" class="btn btn-inverse waves-effect waves-light">Cancel</a>
                 </form>
