@@ -15,7 +15,6 @@
 //    return view('welcome');
 //});
 
-//Route::get('admin/login','AuthController@login')->name('login');
 //Route::post('admin/authenticate','AdminController@authenticate');
 
 //Guest Middleware starts

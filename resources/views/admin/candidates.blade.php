@@ -22,6 +22,9 @@
                     <table id="myTable" class="table table-striped">
                         <thead>
                         <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Type</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Action</th>
@@ -30,6 +33,9 @@
                         <tbody>
                         @foreach($tutors as $tutor)
                             <tr>
+                                <td>{{$tutor->firstName}}</td>
+                                <td>{{$tutor->lastName}}</td>
+                                <td>{{$tutor->profile ? ($tutor->profile->is_mentor ? 'Mentor' : 'Commercial' ) : 'N-A'}}</td>
                                 <td>{{$tutor->email}}</td>
                                 <td>{{$tutor->phone}}</td>
                                 <td>

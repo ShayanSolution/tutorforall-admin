@@ -32,7 +32,7 @@
             </li>
             <li> <a href="#" class="waves-effect"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Tutors <span class="fa arrow"></span></span></a>
                 <ul class="nav nav-second-level">
-                    <li> <a href="{{route('tutorsList')}}">All Tutors</a> </li>
+                    <li> <a href="{{route('tutorsList')}}">All Commercial Tutors</a> </li>
                     <li> <a href="{{route('mentorsList')}}">All Mentors</a> </li>
                     <li> <a href="{{route('tutorAdd')}}">Add Tutor</a> </li>
                     <li> <a href="{{route('candidates')}}">Document Verification List</a> </li>

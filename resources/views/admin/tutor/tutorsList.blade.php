@@ -5,11 +5,11 @@
         <div class="row bg-title">
             @include('errors.common-errors')
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Tutors List</h4> </div>
+                <h4 class="page-title">Tutors List ({{$mentorOrCommercial}})</h4> </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                 <ol class="breadcrumb">
                     <li><a href="#">Admin</a></li>
-                    <li class="active">TutorsList</li>
+                    <li class="active">Tutors List</li>
                 </ol>
             </div>
             <!-- /.col-lg-12 -->
@@ -25,6 +25,8 @@
                     <table id="myTable" class="table table-striped">
                         <thead>
                         <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Rating</th>
@@ -36,6 +38,8 @@
                         <tbody>
                             @foreach($tutors as $tutor)
                                 <tr>
+                                    <td>{{$tutor->firstName ? $tutor->firstName : 'N-A'}}</td>
+                                    <td>{{$tutor->lastName ? $tutor->lastName : 'N-A'}}</td>
                                     <td>{{$tutor->email}}</td>
                                     <td>{{$tutor->phone}}</td>
                                     <td>{{round($tutor->rating->avg('rating'),1)}}</td>

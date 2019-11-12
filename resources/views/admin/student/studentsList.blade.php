@@ -22,6 +22,8 @@
                     <table id="myTable" class="table table-striped">
                         <thead>
                         <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Active</th>
@@ -33,6 +35,8 @@
                         @foreach($students as $student)
 
                             <tr>
+                                <td>{{$student->firstName ? $student->firstName : 'N-A'}}</td>
+                                <td>{{$student->lastName ? $student->lastName : 'N-A'}}</td>
                                 <td>{{$student->email}}</td>
                                 <td>{{$student->phone}}</td>
                                 <td><input type="checkbox" data-student-id = "{{$student->id}}" class="js-switch-is_active" data-color="#99d683" @if($student->is_active == 1) checked @endif ></td>

@@ -112,14 +112,18 @@ class TutorController extends Controller
         }
     }
     public function tutorsList(){
-        $tutors = User::where('role_id',2)->orderBy('id', 'DESC')->get();
-        return view('admin.tutor.tutorsList',compact('tutors'));
+        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone')->whereHas('profile', function ($q){
+            $q->where('is_mentor', 0);
+        })->with('rating')->where('role_id',2)->orderBy('id', 'DESC')->get();
+        $mentorOrCommercial = 'Commercial';
+        return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
     }
     public function mentorsList(){
         $tutors = User::whereHas('profile', function ($q){
             $q->where('is_mentor', 1);
         })->where('role_id',2)->orderBy('id', 'DESC')->get();
-        return view('admin.tutor.tutorsList',compact('tutors'));
+        $mentorOrCommercial = 'Mentor';
+        return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
     }
     public function tutorProfile(User $user){
         $programs_subjects = ProgramSubject::where('user_id',$user->id)->with('program', 'subject')->get();
