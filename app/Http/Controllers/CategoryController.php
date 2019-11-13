@@ -18,18 +18,19 @@ class CategoryController extends Controller
     }
     public function categorySave(Request $request){
         $request->validate([
-            'name'    => 'required',
-            'status'     => 'required'
+            'name'          => 'required',
+            'status'        => 'required',
+            'percentage'    => 'required'
         ]);
         $category = new Category();
         $category->name     =   $request->name;
         $category->status   =   $request->status;
+        $category->percentage   =   $request->percentage;
         $category->save();
         return redirect()->route('categoriesList')->with('success','Program added Successfully');
     }
     public function categoriesEdit($id){
-        $category = Category::with('packages')->find($id);
-//        dd($category);
+        $category = Category::find($id);
         return view('admin.category.categoryEdit',compact('category'));
     }
     public function categoryUpdate(Request $request, Category $category){
@@ -39,16 +40,8 @@ class CategoryController extends Controller
         ]);
         $category->name = $request->name;
         $category->status = $request->status;
+        $category->percentage   =   $request->percentage;
         $category->save();
-
-        //Save category package
-        $package['hourly_rate'] = $request->hourly_rate;
-        $package['extra_percentage_for_group_of_two'] = $request->extra_percentage_for_group_of_two;
-        $package['extra_percentage_for_group_of_three'] = $request->extra_percentage_for_group_of_three;
-        $package['extra_percentage_for_group_of_four'] = $request->extra_percentage_for_group_of_four;
-        $package['is_active'] = 1;
-
-        $category->packages()->update($package);
 
         return redirect()->route('categoriesList')->with('success','Category Updated successfully');
     }

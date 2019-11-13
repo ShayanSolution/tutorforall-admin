@@ -25,6 +25,13 @@
                             <input type="text" name="name" class="form-control" placeholder="Enter category name" required value="{{$category->name}}">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="example-text">Percentage</label>
+                        <div class="col-md-12">
+                            <input type="text" name="percentage" class="form-control" value="{{$category->percentage}}" placeholder="Enter percentage value for this category" required>
+                        </div>
+                    </div>
+
                     <!-- /Name -->
                     <!-- Active Status -->
                     <div class="form-group">
@@ -37,38 +44,39 @@
                             </select>
                         </div>
                     </div>
+
                     <!-- /Active Status -->
                     <!-- Hourly Rate -->
-                    <div class="form-group">
-                        <label class="col-md-12" for="example-text">Hourly Rate</label>
-                        <div class="col-md-12">
-                            <input type="number" name="hourly_rate" class="form-control" placeholder="Enter hourly rate" required value="{{$category->packages->hourly_rate}}">
-                        </div>
-                    </div>
-                    <!-- /Hourly Rate -->
-                    <!-- Extra % for group of two -->
-                    <div class="form-group">
-                        <label class="col-md-12" for="example-text">Extra % for group of two</label>
-                        <div class="col-md-12">
-                            <input type="number" name="extra_percentage_for_group_of_two" class="form-control" placeholder="Enter extra % for group of two" required value="{{$category->packages->extra_percentage_for_group_of_two}}">
-                        </div>
-                    </div>
-                    <!-- /Extra % for group of two -->
-                    <!-- Extra % for group of three -->
-                    <div class="form-group">
-                        <label class="col-md-12" for="example-text">Extra % for group of three</label>
-                        <div class="col-md-12">
-                            <input type="number" name="extra_percentage_for_group_of_three" class="form-control" placeholder="Enter extra % for group of three" required value="{{$category->packages->extra_percentage_for_group_of_three}}">
-                        </div>
-                    </div>
-                    <!-- /Extra % for group of three -->
-                    <!-- Extra % for group of three -->
-                    <div class="form-group">
-                        <label class="col-md-12" for="example-text">Extra % for group of four</label>
-                        <div class="col-md-12">
-                            <input type="number" name="extra_percentage_for_group_of_four" class="form-control" placeholder="Enter extra % for group of four" required value="{{$category->packages->extra_percentage_for_group_of_four}}">
-                        </div>
-                    </div>
+                    {{--<div class="form-group">--}}
+                        {{--<label class="col-md-12" for="example-text">Hourly Rate</label>--}}
+                        {{--<div class="col-md-12">--}}
+                            {{--<input type="number" name="hourly_rate" class="form-control" placeholder="Enter hourly rate" required value="{{$category->packages ? $category->packages->hourly_rate : ''}}">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<!-- /Hourly Rate -->--}}
+                    {{--<!-- Extra % for group of two -->--}}
+                    {{--<div class="form-group">--}}
+                        {{--<label class="col-md-12" for="example-text">Extra % for group of two</label>--}}
+                        {{--<div class="col-md-12">--}}
+                            {{--<input type="number" name="extra_percentage_for_group_of_two" class="form-control" placeholder="Enter extra % for group of two" required value="{{$category->packages ? $category->packages->extra_percentage_for_group_of_two :  ''}}">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<!-- /Extra % for group of two -->--}}
+                    {{--<!-- Extra % for group of three -->--}}
+                    {{--<div class="form-group">--}}
+                        {{--<label class="col-md-12" for="example-text">Extra % for group of three</label>--}}
+                        {{--<div class="col-md-12">--}}
+                            {{--<input type="number" name="extra_percentage_for_group_of_three" class="form-control" placeholder="Enter extra % for group of three" required value="{{$category->packages ? $category->packages->extra_percentage_for_group_of_three : ''}}">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<!-- /Extra % for group of three -->--}}
+                    {{--<!-- Extra % for group of three -->--}}
+                    {{--<div class="form-group">--}}
+                        {{--<label class="col-md-12" for="example-text">Extra % for group of four</label>--}}
+                        {{--<div class="col-md-12">--}}
+                            {{--<input type="number" name="extra_percentage_for_group_of_four" class="form-control" placeholder="Enter extra % for group of four" required value="{{$category->packages ? $category->packages->extra_percentage_for_group_of_four : ''}}">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <!-- /Extra % for group of three -->
                     <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
                 </form>

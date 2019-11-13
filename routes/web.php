@@ -239,5 +239,11 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'logout',
         'uses' => 'AuthController@logout'
     ]);
+
+
+    Route::prefix('admin')->group(function () {
+        Route::resource('percentage-costs', 'PercentageCostForMultiStudentGroupsController');
+    });
+
 });
 //admin Middleware ends

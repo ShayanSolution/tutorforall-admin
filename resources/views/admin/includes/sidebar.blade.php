@@ -49,6 +49,18 @@
                     {{--<li> <a href="#">Student Profile</a> </li>--}}
                 </ul>
             </li>
+            <li>
+                <a href="#" class="waves-effect">
+                    <i class="fa fa-percent"></i>
+                    <span class="hide-menu">
+                        Multi-Student Groups<span class="fa arrow"></span>
+                    </span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li> <a href="{{route('percentage-costs.index')}}">All Percentage Costs</a> </li>
+                    <li> <a href="{{route('percentage-costs.create')}}">Create Percentage Cost</a> </li>
+                </ul>
+            </li>
             {{--<li> <a href="#" class="waves-effect"><i class="fa fa-bars p-r-10"></i> <span class="hide-menu"> Courses <span class="fa arrow"></span></span></a>--}}
                 {{--<ul class="nav nav-second-level">--}}
                     {{--<li> <a href="#">All Courses</a> </li>--}}
