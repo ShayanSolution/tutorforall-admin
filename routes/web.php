@@ -243,6 +243,8 @@ Route::group(['middleware' => 'admin'],function (){
 
     Route::prefix('admin')->group(function () {
         Route::resource('percentage-costs', 'PercentageCostForMultiStudentGroupsController');
+        Route::get('settings', 'SettingsController@getSettings')->name('getSettings');
+        Route::post('settings/save', 'SettingsController@saveSettings')->name('saveSettings');
     });
 
 });

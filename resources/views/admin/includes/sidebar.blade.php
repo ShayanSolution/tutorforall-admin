@@ -61,6 +61,14 @@
                     <li> <a href="{{route('percentage-costs.create')}}">Create Percentage Cost</a> </li>
                 </ul>
             </li>
+            <li>
+                <a href="{{route('getSettings')}}" class="waves-effect">
+                    <i class="fa fa-gears"></i>
+                    <span class="hide-menu">
+                        Application Settings<span class="fa arrow"></span>
+                    </span>
+                </a>
+            </li>
             {{--<li> <a href="#" class="waves-effect"><i class="fa fa-bars p-r-10"></i> <span class="hide-menu"> Courses <span class="fa arrow"></span></span></a>--}}
                 {{--<ul class="nav nav-second-level">--}}
                     {{--<li> <a href="#">All Courses</a> </li>--}}
