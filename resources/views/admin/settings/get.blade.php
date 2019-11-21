@@ -24,7 +24,14 @@
                         <div class="form-group">
                             <label class="col-md-12" for="example-text">{{$setting->label}}</label>
                             <div class="col-md-12">
-                                <input type="text" name="{{$setting->slug}}" class="form-control" placeholder="Enter Number Of Students" value="{{old($setting->slug) ? old($setting->slug) : $setting->value }}">
+                                @if($setting->slug !== 'peak-factor-on-off')
+                                    <input type="text" name="{{$setting->slug}}" class="form-control" placeholder="Enter Number Of Students" value="{{old($setting->slug) ? old($setting->slug) : $setting->value }}">
+                                @else
+                                    <select name="{{$setting->slug}}" class="form-control">
+                                        <option value="1" {{$setting->value == 1 ? '' : 'selected' }}>Active</option>
+                                        <option value="0" {{$setting->value == 0 ? '' : 'selected' }}>Inactive</option>
+                                    </select>
+                                @endif
                             </div>
                         </div>
                     @endforeach
