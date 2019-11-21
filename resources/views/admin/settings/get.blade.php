@@ -15,9 +15,11 @@
             <!-- /.col-lg-12 -->
         </div>
         <div class="row">
-            <div class="white-box">
-                <form method="post" class="form-material form-horizontal" action="{{route('saveSettings')}}" autocomplete="off">
-                    {{csrf_field()}}
+            <form method="post" class="form-material form-horizontal" action="{{route('saveSettings')}}" autocomplete="off">
+                {{csrf_field()}}
+                @foreach($newSettingsArray as $key=>$settings)
+                    <div class="white-box">
+                    <h2>{{$key}}</h2>
                     @foreach($settings as $setting)
                         <div class="form-group">
                             <label class="col-md-12" for="example-text">{{$setting->label}}</label>
@@ -26,10 +28,11 @@
                             </div>
                         </div>
                     @endforeach
-                    <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
-                    <a href="{{route('programsList')}}" class="btn btn-inverse waves-effect waves-light">Cancel</a>
-                </form>
-            </div>
+                </div>
+                @endforeach
+                <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
+                <a href="{{route('programsList')}}" class="btn btn-inverse waves-effect waves-light">Cancel</a>
+            </form>
         </div>
     </div>
 @endsection
