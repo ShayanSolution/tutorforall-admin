@@ -22,7 +22,7 @@
         <div class="top-left-part" style="background-color: white;  vertical-align: center">
             <a href="/">
                 <img src="{{url('logo.png')}}" class="logo" alt="home" style="width: 91%; margin-top: 4% !important; margin-left: 3%;"/>
-                <img src="{{url('logo-mini.png')}}" class="logo-mini" alt="home" style="width: 91%; margin-top: 10% !important;"/>
+                <img src="{{url('logo-mini.png')}}" class="logo-mini" alt="home" style="width: 101%;"/>
             </a>{{--<a class="logo" href="#">--}}
                 {{--<b>--}}
                     {{--<img src="{{url('logo-mini.png')}}" alt="home" style="width:40px;" />--}}
