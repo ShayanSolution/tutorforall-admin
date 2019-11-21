@@ -20,9 +20,11 @@
 <nav class="navbar navbar-default navbar-static-top m-b-0">
     <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
         <div class="top-left-part" style="background-color: white;  vertical-align: center">
-            <a href="/">
-                <img src="{{url('logo.png')}}" class="logo" alt="home" style="width: 91%; margin-top: 4% !important; margin-left: 3%;"/>
-                <img src="{{url('logo-mini.png')}}" class="logo-mini" alt="home" style="width: 101%;"/>
+            <a href="/" class="logo-placeholder">
+                <img src="{{url('logo-mini.png')}}" class="logo-small" alt="home" hidden style="width: 100%;">
+                <img src="{{url('logo.png')}}" class="logo-full" alt="home" hidden style="width: 72%; margin-top: 4% !important; margin-left: 17%;">
+                {{--<img src="{{url('logo.png')}}" class="logo-full" alt="home" hidden style="width: 91%; margin-top: 4% !important; margin-left: 3%;">--}}
+                {{--<img src="{{url('logo-mini.png')}}" class="logo-small" alt="home" hidden style="width: 100%;">--}}
             </a>{{--<a class="logo" href="#">--}}
                 {{--<b>--}}
                     {{--<img src="{{url('logo-mini.png')}}" alt="home" style="width:40px;" />--}}
