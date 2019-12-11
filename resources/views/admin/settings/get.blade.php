@@ -28,8 +28,8 @@
                                     <input type="text" name="{{$setting->slug}}" class="form-control" placeholder="Enter Number Of Students" value="{{old($setting->slug) ? old($setting->slug) : $setting->value }}">
                                 @else
                                     <select name="{{$setting->slug}}" class="form-control">
-                                        <option value="1" {{$setting->value == 1 ? '' : 'selected' }}>Active</option>
-                                        <option value="0" {{$setting->value == 0 ? '' : 'selected' }}>Inactive</option>
+                                        <option value="1" {{$setting->value == 1 ? 'selected' : '' }}>Active</option>
+                                        <option value="0" {{$setting->value == 0 ? 'selected' : '' }}>Inactive</option>
                                     </select>
                                 @endif
                             </div>
