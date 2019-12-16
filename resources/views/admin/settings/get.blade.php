@@ -24,7 +24,7 @@
                         <div class="form-group">
                             <label class="col-md-12" for="example-text">{{$setting->label}}</label>
                             <div class="col-md-12">
-                                @if($setting->slug !== 'peak-factor-on-off')
+                                @if($setting->slug !== 'peak-factor-on-off' && $setting->slug !== 'percent-discount-on-go-to-tutor-status')
                                     <input type="text" name="{{$setting->slug}}" class="form-control" placeholder="Enter Number Of Students" value="{{old($setting->slug) ? old($setting->slug) : $setting->value }}">
                                 @else
                                     <select name="{{$setting->slug}}" class="form-control">
