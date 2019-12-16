@@ -111,8 +111,28 @@ class TutorController extends Controller
             $tutor->save();
         }
     }
+
+    public function changeTutorApprovedStatus(Request $request){
+        request()->validate([
+            'tutor_id' => 'required',
+            'is_approved' => 'required'
+        ]);
+        $tutor_id = $request->tutor_id;
+        $is_approved = $request->is_approved;
+
+        $tutor = User::where('id',$tutor_id)->first();
+        if ($is_approved == 'true'){
+            $tutor->is_approved = 1;
+            $tutor->save();
+        }else
+        {
+            $tutor->is_approved = 0;
+            $tutor->save();
+        }
+    }
+
     public function tutorsList(){
-        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone')->whereHas('profile', function ($q){
+        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved')->whereHas('profile', function ($q){
             $q->where('is_mentor', 0);
         })->with('rating')->where('role_id',2)->orderBy('id', 'DESC')->get();
         $mentorOrCommercial = 'Commercial';

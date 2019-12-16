@@ -30,7 +30,8 @@ class User extends Authenticatable implements CanResetPasswordInterface
         'is_active',
         'role_id',
         'experience',
-        'qualification'
+        'qualification',
+        'is_approved'
     ];
 
     public function getFullNameAttribute(){
