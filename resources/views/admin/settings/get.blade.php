@@ -19,7 +19,11 @@
                 {{csrf_field()}}
                 @foreach($newSettingsArray as $key=>$settings)
                     <div class="white-box">
+                    @if($key !== "Discount")
                     <h2>{{$key}}</h2>
+                    @else
+                    <h2>{{"Discount only will applied on go to tutor"}}</h2>
+                    @endif
                     @foreach($settings as $setting)
                         <div class="form-group">
                             <label class="col-md-12" for="example-text">{{$setting->label}}</label>
