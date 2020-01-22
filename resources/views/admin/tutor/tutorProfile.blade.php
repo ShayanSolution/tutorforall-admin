@@ -164,7 +164,7 @@
                                                 @foreach($programs_subjects as $program_subject)
                                                     <tr>
                                                         <td class="col-md-6"><span class="label label-megna label-rounded">{{($program_subject->program->name)}}</span></td>
-                                                        <td class="col-md-6">{{($program_subject->subject->name)}}</td>
+                                                        <td class="col-md-6">{{($program_subject->subject ? $program_subject->subject->name : '')}}</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
