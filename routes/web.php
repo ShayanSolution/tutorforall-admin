@@ -200,6 +200,10 @@ Route::group(['middleware' => 'admin'],function (){
         'as'   => 'tutorSubjectsUpdate',
         'uses' => 'TutorController@tutorSubjectsUpdate'
     ]);
+    Route::post('admin/tutor/profile',[
+        'as'   => 'tutorProfileUpdate',
+        'uses' => 'TutorController@profileUpdate'
+    ]);
     Route::get('admin/changeTutorStatus',[
         'as' => 'changeTutorStatus',
         'uses' => 'TutorController@changeTutorStatus'

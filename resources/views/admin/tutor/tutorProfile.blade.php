@@ -8,8 +8,9 @@
                 <h4 class="page-title">Tutor Profile</h4> </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                 <ol class="breadcrumb">
-                    <li><a href="#">Admin</a></li>
-                    <li class="active">TutorProfile</li>
+                    {{--<li><a href="#">Admin</a></li>--}}
+                    {{--<li class="active">TutorProfile</li>--}}
+                    <li><a class="btn btn-inverse waves-effect waves-light" style="color: white;" href="/admin/tutors/list">Back</a></li>
                 </ol>
             </div>
             <!-- /.col-lg-12 -->
@@ -109,6 +110,9 @@
                             </li>
                             <li class="tab">
                                 <a href="#home" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Reviews</span> </a>
+                            </li>
+                            <li class="tab">
+                                <a href="#settings" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Settings</span> </a>
                             </li>
                         </ul>
                         <!-- /.tabs -->
@@ -265,6 +269,129 @@
                                         </div>
                                     </div>
                                 @endif
+                            </div>
+                            <!-- /.tabs3 -->
+                            {{--<!-- .tabs 4 -->--}}
+                            <div class="tab-pane" id="settings">
+                                <div class="row">
+                                    <form id="validation" class="form-horizontal" action="{{route('tutorProfileUpdate')}}" method="POST">
+                                        <input type="hidden" value="{{$user->id}}" name="user_id">
+                                        @php
+                                            $userProfile = \App\Models\Profile::where('user_id', $user->id)->first();
+                                        @endphp
+                                        {{ csrf_field() }}
+                                        <div class="panel panel-default block2" style="outline: auto;">
+                                            <div class="panel-heading">
+                                                How would you like to take Sessions?
+                                                <div class="panel-action"><a href="panel-ui-block.html#" data-perform="panel-collapse"><i class="ti-minus"></i></a></div>
+                                            </div>
+                                            <div class="panel-wrapper collapse in">
+                                                <div class="panel-body">
+                                                    <div class="row col-md-12">
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="group_tutor" type="radio" name="group_tutor_or_one_on_one" value="group_tutor" @if($userProfile->is_group && !($userProfile->is_group && $userProfile->one_on_one))   checked="checked" @endif>
+                                                                <label for="group_tutor">Group Tutor</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="one_on_one" type="radio" name="group_tutor_or_one_on_one" value="one_on_one"  @if($userProfile->one_on_one && !($userProfile->is_group && $userProfile->one_on_one))   checked="checked"  @endif>
+                                                                <label for="one_on_one">One On One</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="no_pref" type="radio" name="group_tutor_or_one_on_one" value="no_pref"  @if(($userProfile->is_group && $userProfile->one_on_one))   checked="checked"  @endif>
+                                                                <label for="no_pref">No Preference</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default block2" style="outline: auto;">
+                                            <div class="panel-heading">
+                                                Where do you want to teach?
+                                                <div class="panel-action"><a href="panel-ui-block.html#" data-perform="panel-collapse"><i class="ti-minus"></i></a></div>
+                                            </div>
+                                            <div class="panel-wrapper collapse in">
+                                                <div class="panel-body">
+                                                    <div class="row col-md-12">
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="call_student" type="radio" name="where_to_teach" value="call_student" @if($userProfile->call_student) checked="checked" @endif>
+                                                                <label for="call_student">Call Student</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="go_home" type="radio" name="where_to_teach" value="go_home" @if($userProfile->is_home) checked="checked" @endif>
+                                                                <label for="go_home">Go Home</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default block2" style="outline: auto;">
+                                            <div class="panel-heading">
+                                                Who would you like to teach?
+                                                <div class="panel-action"><a href="panel-ui-block.html#" data-perform="panel-collapse"><i class="ti-minus"></i></a></div>
+                                            </div>
+                                            <div class="panel-wrapper collapse in">
+                                                <div class="panel-body">
+                                                    <div class="row col-md-12">
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="male" type="radio" name="who_would_you_like_to_teach" value="male" @if($userProfile->teach_to == 1) checked="checked"  @endif>
+                                                                <label for="male">Male</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="female" type="radio" name="who_would_you_like_to_teach" value="female" @if($userProfile->teach_to == 2) checked="checked"  @endif>
+                                                                <label for="female">Female</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="no_preference" type="radio" name="who_would_you_like_to_teach" value="no_preference" @if($userProfile->teach_to == 0) checked="checked"  @endif>
+                                                                <label for="no_preference">No Preference</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default block2" style="outline: auto;">
+                                            <div class="panel-heading">
+                                                Commercial/Mentor
+                                                <div class="panel-action"><a href="panel-ui-block.html#" data-perform="panel-collapse"><i class="ti-minus"></i></a></div>
+                                            </div>
+                                            <div class="panel-wrapper collapse in">
+                                                <div class="panel-body">
+                                                    <div class="row col-md-12">
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="male" type="radio" name="commercial_or_mentor" value="commercial" @if(!$userProfile->is_mentor) checked="checked" @endif>
+                                                                <label for="male">Commercial</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="female" type="radio" name="commercial_or_mentor" value="mentor" @if($userProfile->is_mentor) checked="checked" @endif>
+                                                                <label for="female">Mentor</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-info waves-effect waves-light m-r-10 pull-right">Update</button>
+                                    </form>
+                                </div>
                             </div>
                             <!-- /.tabs3 -->
                         </div>

@@ -237,4 +237,60 @@ class TutorController extends Controller
         User::where('id', $tutor)->delete();
         return redirect()->route('tutorsList')->with('success','Tutor Deleted successfully');
     }
+
+    public function profileUpdate(Request $request){
+
+        $userProfile = Profile::where('user_id', $request->user_id)->first();
+
+        if($request->group_tutor_or_one_on_one == 'group_tutor'){
+            $userProfile->is_group = 1;
+            $userProfile->one_on_one = 0;
+        }
+
+        if($request->group_tutor_or_one_on_one == 'one_on_one'){
+            $userProfile->is_group = 0;
+            $userProfile->one_on_one = 1;
+        }
+
+        if($request->group_tutor_or_one_on_one == 'no_pref'){
+            $userProfile->is_group = 1;
+            $userProfile->one_on_one = 1;
+        }
+
+
+        if($request->where_to_teach == 'call_student'){
+            $userProfile->call_student = 1;
+            $userProfile->is_home = 0;
+        }
+
+        if($request->where_to_teach == 'go_home'){
+            $userProfile->call_student = 0;
+            $userProfile->is_home = 1;
+        }
+
+
+
+        if($request->who_would_you_like_to_teach == 'male'){
+            $userProfile->teach_to = 1;
+        }
+        if($request->who_would_you_like_to_teach == 'female'){
+            $userProfile->teach_to = 2;
+        }
+        if($request->who_would_you_like_to_teach == 'no_preference'){
+            $userProfile->teach_to = 0;
+        }
+
+
+        if($request->commercial_or_mentor == 'commercial'){
+            $userProfile->is_mentor = 0;
+        }
+        if($request->commercial_or_mentor == 'mentor'){
+            $userProfile->is_mentor = 1;
+        }
+
+        $userProfile->save();
+
+
+        return redirect()->back()->with('success', 'Updated Successfully!');
+    }
 }
