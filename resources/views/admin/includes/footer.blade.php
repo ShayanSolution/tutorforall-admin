@@ -1,1 +1,1 @@
-<footer class="footer text-center"> {{date('Y')}} &copy; Tutor4All Admin Panel - Powered by Shayan Solutions</footer>
+<footer class="footer text-center"> {{date('Y')}} &copy; Tootar Admin Panel - Powered by Shayan Solutions</footer>

@@ -44,22 +44,22 @@
                             <a href="index.html#">
                                 <div class="user-img"> <img src="{{url('admin_assets/plugins/images/users/pawandeep.jpg')}}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
                                 <div class="mail-contnet">
-                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>
+                                    <h5>Shayan Solutions</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>
                             </a>
                             <a href="index.html#">
                                 <div class="user-img"> <img src="{{url('admin_assets/plugins/images/users/sonu.jpg')}}" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
                                 <div class="mail-contnet">
-                                    <h5>Sonu Nigam</h5> <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span> </div>
+                                    <h5>Shayan Solutions</h5> <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span> </div>
                             </a>
                             <a href="index.html#">
                                 <div class="user-img"> <img src="{{url('admin_assets/plugins/images/users/arijit.jpg')}}" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
                                 <div class="mail-contnet">
-                                    <h5>Arijit Sinh</h5> <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span> </div>
+                                    <h5>Shayan Solutions</h5> <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span> </div>
                             </a>
                             <a href="index.html#">
                                 <div class="user-img"> <img src="{{url('admin_assets/plugins/images/users/pawandeep.jpg')}}" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
                                 <div class="mail-contnet">
-                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
+                                    <h5>Shayan Solutions</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
                             </a>
                         </div>
                     </li>
