@@ -6,18 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
-    public function student()
-    {
-        return $this->belongsTo('App\Models\User', 'student_id');
+    public function tutor(){
+        return $this->belongsTo(User::class, 'tutor_id');
     }
 
-    public function subject()
-    {
-        return $this->belongsTo('App\Models\Subject', 'subject_id');
+    public function student(){
+        return $this->belongsTo(User::class, 'student_id');
     }
 
-    public function program()
-    {
-        return $this->belongsTo('App\Models\Program', 'programme_id');
+    public function class(){
+        return $this->belongsTo(Program::class, 'programme_id');
+    }
+
+    public function subject(){
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
 }
