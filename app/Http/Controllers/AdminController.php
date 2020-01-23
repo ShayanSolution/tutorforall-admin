@@ -11,7 +11,17 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     public function dashboard(){
-        return view('admin.dashboard');
+
+        $data['activeTutors'] = User::where('role_id', 2)->where('is_active', 1)->count();
+        $data['inactiveTutors'] = User::where('role_id', 2)->where('is_active', 0)->count();
+
+        $data['activeStudents'] = User::where('role_id', 3)->where('is_active', 1)->count();
+        $data['inactiveStudents'] = User::where('role_id', 3)->where('is_active', 0)->count();
+
+        $data['tutors'] = User::where('role_id', 2)->count();
+        $data['students'] = User::where('role_id', 3)->count();
+
+        return view('admin.dashboard', compact('data'));
     }
     public function studentsList(){
         $students = User::where('role_id',3)->with('profile')->orderby('id','DESC')->get();
