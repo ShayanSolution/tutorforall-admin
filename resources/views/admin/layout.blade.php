@@ -4,6 +4,7 @@
 <head>
     <title>Admin @yield('title')</title>
     @include('admin.includes.stylesheets')
+    @yield('styles')
 </head>
 <body>
 <!-- Preloader -->

@@ -18,7 +18,7 @@ class AuthController extends Controller
         ]);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             if (Auth::user()->role_id == 1){
-                return redirect()->route('subjectsList')->with('success','You are successfully logged in');
+                return redirect()->route('dashboard')->with('success','You are successfully logged in');
             }else{
                 Auth::logout();
                 return redirect()->route('login')->with('error','You are not admin');
