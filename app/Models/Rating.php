@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Rating extends Model
 {
     protected $table = 'ratings';
+
+    public function session()
+    {
+        return $this->belongsTo('App\Models\Session');
+    }
 }

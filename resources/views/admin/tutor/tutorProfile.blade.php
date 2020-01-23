@@ -1,5 +1,34 @@
 @extends('admin.layout')
 @section('title','tutorProfile')
+
+@section('styles')
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row bg-title">
@@ -223,34 +252,49 @@
                                 @if (count($user->rating)>0)
                                     <div class="steamline">
                                         <hr>
-                                        @foreach($user->rating as $review)
+                                        @foreach($user->rating()->with(['session.student'])->get() as $review)
                                             <div class="row">
-                                            <span class="m-l-5 pull-right" style="color: orange;">
-                                                     @if ($review->rating != null)
-                                                    @php $rating = $review->rating; @endphp
-                                                    @foreach(range(1,5) as $i)
-                                                        @if($rating >0)
-                                                            @if($rating >0.5)
-                                                                <i class="fa fa-star"></i>
+                                                <span class="m-l-5 pull-right" style="color: orange;">
+                                                        @if ($review->rating != null)
+                                                        @php $rating = $review->rating; @endphp
+                                                        @foreach(range(1,5) as $i)
+                                                            @if($rating >0)
+                                                                @if($rating >0.5)
+                                                                    <i class="fa fa-star"></i>
+                                                                @else
+                                                                    <i class="fa fa-star-half-o"></i>
+                                                                @endif
                                                             @else
-                                                                <i class="fa fa-star-half-o"></i>
+                                                                <i class="fa fa-star-o"></i>
                                                             @endif
-                                                        @else
-                                                            <i class="fa fa-star-o"></i>
-                                                        @endif
-                                                        <?php $rating--; ?>
-                                                    @endforeach
-                                        </span>
-                                            </div>
-                                            <div class="sl-item">
+                                                            <?php $rating--; ?>
+                                                        @endforeach
+                                                </span>
                                                 <div class="sl-right">
                                                     <div class="m-l-40">{{--<a href="" class="text-info">Jane Doe</a>--}}
                                                         <p class="m-t-10">
                                                             @if ($review->review != '')
-                                                                {{$review->review}}
-
+                                                                @if($review->session->session_location)
+                                                                    <?php $location = $review->session->session_location; ?>
+                                                                    {!! '<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;'.( strlen($location) >= 40 ? substr($location, 0, 40).'...' : $location).'<br>' !!}
+                                                                @endif
+                                                                @if($review->session)
+                                                                    <?php
+                                                                        $student = $review->session->student;
+                                                                        $subject = $review->session->subject;
+                                                                        $program = $review->session->program;
+                                                                    ?>
+                                                                    @if(!empty($student->firstName) || !empty($student->lastName))
+                                                                        {!! '<b>"'.$student->firstName.' '.$student->lastName.'"</b>' !!}
+                                                                    @else
+                                                                        {!! '<b>"Anonymous"</b>' !!}
+                                                                    @endif
+                                                                    {!! '<br><i>('.$program->name.' - '.$subject->name.')</i>' !!}
+                                                                    {!! '<div class="col-md-12" style="padding: 0"><hr style="width: 100px; float: left;"></div>' !!}
+                                                                @endif
+                                                                {!!  ($review->review) !!}
                                                             @else
-                                                                {{'Rewiew not found'}}
+                                                                {!! '<i>Review not found</i>' !!}
                                                             @endif
                                                         </p>
                                                     </div>
@@ -411,6 +455,11 @@
 @endsection
 @section('javascripts')
     @parent
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
     <!--BlockUI Script -->
 {{--    <script src="{{url('admin_assets/plugins/bower_components/blockUI/jquery.blockUI.js')}}"></script>--}}
 @stop

@@ -22,6 +22,24 @@
                 <h3 class="box-title m-b-0">Tutors List Details</h3>
                 <hr>
                 <div class="table-responsive">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2" style="padding: 0">
+                        <div class="col-md-6">
+                            <label>Ratings</label>
+                        </div>
+                        <div class="col-md-6" style="padding: 0">
+                            <select id="ratings" name="ratings" class="form-control" style="margin-left: 10px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
                     <table id="myTable" class="table table-striped">
                         <thead>
                         <tr>
@@ -85,9 +103,32 @@
     <script src="{{url('admin_assets/plugins/bower_components/switchery/dist/switchery.min.js')}}"></script>
     <script src="{{url('admin_assets/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
     <script>
+
+        $.fn.dataTable.ext.search.push(
+            function( settings, data, dataIndex ) {
+
+                let ratingSel = $('#ratings').val();
+
+                if(
+                    !isNaN(data[4]) &&
+                    !isNaN(ratingSel) &&
+                    (parseInt(data[4]) >= parseInt(ratingSel)) &&
+                    (parseInt(data[4]) < parseInt(ratingSel)+1)
+                )
+                    return true;
+
+                return false;
+            }
+        );
+
         $(document).ready(function () {
-            $('#myTable').DataTable({
+            let table = $('#myTable').DataTable({
                 "bSort": false
+            });
+
+            // Event listener to the two range filtering inputs to redraw on input
+            $('#ratings').change(function() {
+                table.draw();
             });
         });
         $('.js-switch').on('change.bootstrapSwitch', function(e) {
