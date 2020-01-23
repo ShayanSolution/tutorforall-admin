@@ -320,14 +320,20 @@
                                                     <div class="row col-md-12">
                                                         <div class="row col-md-12">
                                                             <div class="radio radio-success">
-                                                                <input id="call_student" type="radio" name="where_to_teach" value="call_student" @if($userProfile->call_student) checked="checked" @endif>
+                                                                <input id="call_student" type="radio" name="call_student_or_go_home" value="call_student" @if($userProfile->call_student) checked="checked" @endif>
                                                                 <label for="call_student">Call Student</label>
                                                             </div>
                                                         </div>
                                                         <div class="row col-md-12">
                                                             <div class="radio radio-success">
-                                                                <input id="go_home" type="radio" name="where_to_teach" value="go_home" @if($userProfile->is_home) checked="checked" @endif>
+                                                                <input id="go_home" type="radio" name="call_student_or_go_home" value="go_home" @if($userProfile->is_home) checked="checked" @endif>
                                                                 <label for="go_home">Go Home</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row col-md-12">
+                                                            <div class="radio radio-success">
+                                                                <input id="no_pref" type="radio" name="call_student_or_go_home" value="no_pref"  @if(($userProfile->call_student && $userProfile->is_home))   checked="checked"  @endif>
+                                                                <label for="no_pref">No Preference</label>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -92,7 +92,7 @@ class TutorController extends Controller
         }
         return redirect()->route('tutorsList')->with('success','Tutor added Successfully');
     }
-    
+
     public function changeTutorStatus(Request $request){
         request()->validate([
             'tutor_id' => 'required',
@@ -258,17 +258,20 @@ class TutorController extends Controller
         }
 
 
-        if($request->where_to_teach == 'call_student'){
+        if($request->call_student_or_go_home == 'call_student'){
             $userProfile->call_student = 1;
             $userProfile->is_home = 0;
         }
 
-        if($request->where_to_teach == 'go_home'){
+        if($request->call_student_or_go_home == 'go_home'){
             $userProfile->call_student = 0;
             $userProfile->is_home = 1;
         }
 
-
+        if($request->call_student_or_go_home == 'no_pref'){
+            $userProfile->call_student = 1;
+            $userProfile->is_home = 1;
+        }
 
         if($request->who_would_you_like_to_teach == 'male'){
             $userProfile->teach_to = 1;
