@@ -25,10 +25,10 @@
                     <div class="col-md-10"></div>
                     <div class="col-md-2" style="padding: 0">
                         <div class="col-md-6">
-                            <label>Ratings</label>
+                            <label class="black-333">Rating filter:</label>
                         </div>
-                        <div class="col-md-6" style="padding: 0">
-                            <select id="ratings" name="ratings" class="form-control" style="margin-left: 10px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                        <div class="col-md-6 placeholder" style="padding: 0">
+                            <select id="ratings" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
                                 <option value="0">0</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -170,3 +170,8 @@
         });
     </script>
 @stop
+<style>
+    .black-333{
+        color: #333333;
+    }
+</style>
