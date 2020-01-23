@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\Profile;
+use App\Models\Session;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,10 @@ class AdminController extends Controller
 
         $data['tutors'] = User::where('role_id', 2)->count();
         $data['students'] = User::where('role_id', 3)->count();
+
+        foreach (['booked','started','ended','reject','pending','expired'] as $status)
+            $data['sessions'.ucwords($status)] = Session::where('status', $status)->count();
+
 
         return view('admin.dashboard', compact('data'));
     }

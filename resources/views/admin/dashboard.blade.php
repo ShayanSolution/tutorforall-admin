@@ -35,9 +35,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="white-box new-bordered">
+            <div class="white-box col-md-6 new-bordered">
                 <h2>Tutors / Students</h2>
-                <canvas id="tutorsStudents" width="20" height="5"></canvas>
+                <canvas id="tutorsStudents" width="20" height="12"></canvas>
+            </div>
+            <div class="white-box col-md-6 new-bordered">
+                <h2>Sessions</h2>
+                <canvas id="sessions" width="20" height="12"></canvas>
             </div>
         </div>
     </div>
@@ -48,6 +52,7 @@
         let activeInactiveTutors = document.getElementById('activeInactiveTutors').getContext('2d');
         let activeInactiveStudents = document.getElementById('activeInactiveStudents').getContext('2d');
         let tutorsStudents = document.getElementById('tutorsStudents').getContext('2d');
+        let sessions = document.getElementById('sessions').getContext('2d');
         new Chart(
             activeInactiveTutors,
             {
@@ -139,6 +144,38 @@
                     }
                 }
 
+            }
+        );
+        new Chart(
+            sessions,
+            {
+                "type":"pie",
+                "data":{
+                    "labels":[
+                        'Booked','Started','Ended','Reject','Pending','Expired'
+                    ],
+                    "datasets":[
+                        {
+                            "label": "Sessions",
+                            "data": [
+                                {{$data['sessionsBooked']}},
+                                {{$data['sessionsStarted']}},
+                                {{$data['sessionsEnded']}},
+                                {{$data['sessionsReject']}},
+                                {{$data['sessionsPending']}},
+                                {{$data['sessionsExpired']}}
+                            ],
+                            "backgroundColor":[
+                                'rgb(0,255,0,0.2)',
+                                'rgb(255,165,0, 0.5)',
+                                'rgb(0,255,0,0.5)',
+                                'rgb(255,0,0,0.5)',
+                                'rgb(0,0,255,0.2)',
+                                'rgb(255,0,0,0.2)'
+                            ]
+                        }
+                    ]
+                }
             }
         );
     </script>
