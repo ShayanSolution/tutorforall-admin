@@ -282,7 +282,7 @@
                                                                     <?php
                                                                         $student = $review->session->student;
                                                                         $subject = $review->session->subject;
-                                                                        $program = $review->session->program;
+                                                                        $program = $review->session->class;
                                                                     ?>
                                                                     @if(!empty($student->firstName) || !empty($student->lastName))
                                                                         {!! '<b>"'.$student->firstName.' '.$student->lastName.'"</b>' !!}
