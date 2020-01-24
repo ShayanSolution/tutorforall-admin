@@ -243,6 +243,11 @@ Route::group(['middleware' => 'admin'],function (){
         'uses' => 'AdminController@studentDelete'
     ]);
 
+    Route::get('admin/tutors/coordinates',[
+        'as' => 'coordinatesOfTutors',
+        'uses' => 'TutorController@getCoordinatesOfTutors'
+    ]);
+
     Route::get('admin/logout',[
         'as' => 'logout',
         'uses' => 'AuthController@logout'

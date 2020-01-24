@@ -34,6 +34,16 @@ class User extends Authenticatable implements CanResetPasswordInterface
         'is_approved'
     ];
 
+    public function getLatAttribute($value){
+        if(\Illuminate\Support\Facades\Route::currentRouteName() == 'coordinatesOfTutors')
+            return (float)$value;
+    }
+
+    public function getLngAttribute($value){
+        if(\Illuminate\Support\Facades\Route::currentRouteName() == 'coordinatesOfTutors')
+            return (float)$value;
+    }
+
     public function getFullNameAttribute(){
         return $this->firstName.' '.$this->lastName;
     }

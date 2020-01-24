@@ -296,4 +296,16 @@ class TutorController extends Controller
 
         return redirect()->back()->with('success', 'Updated Successfully!');
     }
+
+
+    public function getCoordinatesOfTutors(){
+        $tutors = User::select('latitude as lat', 'longitude as lng', 'firstName', 'lastName', 'phone')
+            ->where('role_id', 2)
+            ->where('is_online', 1)
+            ->where('latitude', '!=', null)
+            ->where('longitude', '!=', null)
+            ->get();
+        return view('admin.tutor.map', compact('tutors'));
+    }
+
 }
