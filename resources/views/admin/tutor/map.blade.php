@@ -37,8 +37,8 @@
         function initMap() {
 
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 6,
-                center: {lat: 30.3753, lng: 69.3451}
+                zoom: 12,
+                center: {lat: 31.511464, lng: 74.345397}
             });
 
             var iconPath = '/admin_assets/images/marker_image.png';
