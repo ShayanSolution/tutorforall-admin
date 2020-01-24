@@ -45,6 +45,7 @@
                         </div>
                         <div class="col-md-6 placeholder" style="padding: 0">
                             <select id="ratings" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                <option value="all">All</option>
                                 <option value="0">0</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -143,6 +144,7 @@
                     !isNaN(ratingSel) &&
                     (parseInt(data[4]) >= parseInt(ratingSel)) &&
                     (parseInt(data[4]) < parseInt(ratingSel)+1)
+                    || ratingSel === 'all'
                 )
                     return true;
 
