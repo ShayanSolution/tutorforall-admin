@@ -6,6 +6,11 @@
                 </a>
             </li>
             {{--<li> <a href="{{url('admin/dashboard')}}" class="waves-effect"><i class="ti-dashboard p-r-10"></i> <span class="hide-menu">Dashboard</span></a> </li>--}}
+            <li> <a href="#" class="waves-effect"><i class="fa fa-map-marker p-r-10"></i> <span class="hide-menu"> Maps <span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li> <a href="{{route('coordinatesOfTutors')}}">Tutors Coordinates</a> </li>
+                </ul>
+            </li>
             <li> <a href="#" class="waves-effect"><i class="fa fa-bars p-r-10"></i> <span class="hide-menu"> Classes <span class="fa arrow"></span></span></a>
                 <ul class="nav nav-second-level">
                     <li> <a href="{{route('programsList')}}">All Classes</a> </li>
