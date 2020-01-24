@@ -118,10 +118,8 @@
     <script src="{{url('/admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('/admin_assets/plugins/bower_components/switchery/dist/switchery.min.js')}}"></script>
     <script src="{{url('/admin_assets/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/js/buttons.print.min.js')}}"></script>
 
     <script src="{{url('/admin_assets/datatables/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{url('/admin_assets/datatables/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{url('/admin_assets/datatables/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
@@ -154,7 +152,7 @@
 
         $(document).ready(function () {
             let table = $('#myTable').DataTable({
-                dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-1"><"col-sm-11"l>>',
+                dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-2"l><"col-sm-10"p>>',
                 buttons: [
                     { extend: 'csv', className: 'btn-md' },
                     { extend: 'excel', className: 'btn-md' },
