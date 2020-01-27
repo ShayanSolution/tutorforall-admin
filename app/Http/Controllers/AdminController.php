@@ -94,8 +94,8 @@ class AdminController extends Controller
             ->find($id);
 
         foreach ($tutor->program_subject as $key=>$programSubject){
-            $program = $programSubject->program->name;
-            $subject = $programSubject->subject->name;
+            $program = $programSubject->program ? $programSubject->program->name : 'N-A';
+            $subject = $programSubject->subject ? $programSubject->subject->name : 'N-A';
             unset(
                 $programSubject["id"],
                 $programSubject["program_id"],
