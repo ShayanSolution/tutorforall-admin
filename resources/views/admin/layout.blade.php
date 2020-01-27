@@ -20,6 +20,22 @@
     </div>
     @section('javascripts')
         @include('admin.includes.javascripts')
+        <script src="{{url('admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{url('/admin_assets/plugins/bower_components/switchery/dist/switchery.min.js')}}"></script>
+        <script src="{{url('/admin_assets/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
+
+        <script src="{{url('/admin_assets/datatables/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/buttons.colVis.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/pdfmake/build/pdfmake.min.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/pdfmake/build/vfs_fonts.js')}}"></script>
+        <script src="{{url('/admin_assets/datatables/jszip/dist/jszip.min.js')}}"></script>
         <script>
             function hideAndShowFullOrSmallLogo() {
                 $('.logo-full').hide();

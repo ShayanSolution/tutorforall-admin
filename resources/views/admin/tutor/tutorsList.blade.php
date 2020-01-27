@@ -116,22 +116,6 @@
 @endsection
 @section('javascripts')
     @parent
-    <script src="{{url('/admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url('/admin_assets/plugins/bower_components/switchery/dist/switchery.min.js')}}"></script>
-    <script src="{{url('/admin_assets/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
-
-    <script src="{{url('/admin_assets/datatables/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/buttons.colVis.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/pdfmake/build/pdfmake.min.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/pdfmake/build/vfs_fonts.js')}}"></script>
-    <script src="{{url('/admin_assets/datatables/jszip/dist/jszip.min.js')}}"></script>
     <script>
 
         $.fn.dataTable.ext.search.push(
@@ -156,9 +140,15 @@
             let table = $('#myTable').DataTable({
                 dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-2"l><"col-sm-10"p>>',
                 buttons: [
-                    { extend: 'csv', className: 'btn-md' },
-                    { extend: 'excel', className: 'btn-md' },
-                    { extend: 'print', className: 'btn-md' }
+                    { extend: 'csv', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4'],
+                        } },
+                    { extend: 'excel', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4'],
+                        }  },
+                    { extend: 'print', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4'],
+                        } }
                 ],
                 "bSort": false
             });

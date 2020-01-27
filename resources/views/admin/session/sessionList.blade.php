@@ -61,12 +61,21 @@
 @endsection
 @section('javascripts')
     @parent
-    <script src="{{url('admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url('admin_assets/plugins/bower_components/switchery/dist/switchery.min.js')}}"></script>
-    <script src="{{url('admin_assets/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable({
+                dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-2"l><"col-sm-10"p>>',
+                buttons: [
+                    { extend: 'csv', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                        } },
+                    { extend: 'excel', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                        } },
+                    { extend: 'print', className: 'btn-md', exportOptions: {
+                            columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                        } }
+                ],
                 "bSort": false
             });
         });
