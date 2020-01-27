@@ -13,18 +13,33 @@ class AdminController extends Controller
 {
     public function dashboard(){
 
-        $data['activeTutors'] = User::where('role_id', 2)->where('is_active', 1)->count();
-        $data['inactiveTutors'] = User::where('role_id', 2)->where('is_active', 0)->count();
+        $data['activeTutors'] = User::has('profile')->where('role_id', 2)->where('is_active', 1)->count();
+        $data['inactiveTutors'] = User::has('profile')->where('role_id', 2)->where('is_active', 0)->count();
 
-        $data['activeStudents'] = User::where('role_id', 3)->where('is_active', 1)->count();
-        $data['inactiveStudents'] = User::where('role_id', 3)->where('is_active', 0)->count();
+        $data['activeStudents'] = User::has('profile')->where('role_id', 3)->where('is_active', 1)->count();
+        $data['inactiveStudents'] = User::has('profile')->where('role_id', 3)->where('is_active', 0)->count();
 
-        $data['tutors'] = User::where('role_id', 2)->count();
-        $data['students'] = User::where('role_id', 3)->count();
+        $data['tutors'] = User::has('profile')->where('role_id', 2)->count();
+        $data['students'] = User::has('profile')->where('role_id', 3)->count();
+
+        $data['commercial_tutors'] = User::whereHas('profile', function ($q){
+            return $q->where('is_mentor', 0);
+        })->where('role_id', 2)->count();
+
+        $data['mentor_tutors'] = User::whereHas('profile', function ($q){
+            return $q->where('is_mentor', 1);
+        })->where('role_id', 2)->count();
+
+        $data['deserving_students'] = User::whereHas('profile', function ($q){
+            return $q->where('is_deserving', 1);
+        })->where('role_id', 3)->count();
+
+        $data['non_deserving_students'] = User::whereHas('profile', function ($q){
+            return $q->where('is_deserving', 0);
+        })->where('role_id', 3)->count();
 
         foreach (['booked','started','ended','reject','pending','expired'] as $status)
             $data['sessions'.ucwords($status)] = Session::where('status', $status)->count();
-
 
         return view('admin.dashboard', compact('data'));
     }
@@ -94,8 +109,8 @@ class AdminController extends Controller
             ->find($id);
 
         foreach ($tutor->program_subject as $key=>$programSubject){
-            $program = $programSubject->program->name;
-            $subject = $programSubject->subject->name;
+            $program = $programSubject->program ? $programSubject->program->name : 'N-A';
+            $subject = $programSubject->subject ? $programSubject->subject->name : 'N-A';
             unset(
                 $programSubject["id"],
                 $programSubject["program_id"],
