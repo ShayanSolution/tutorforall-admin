@@ -44,6 +44,16 @@
                 <canvas id="sessions" width="20" height="12"></canvas>
             </div>
         </div>
+        <div class="row">
+            <div class="white-box col-md-6 new-bordered">
+                <h2>Tutors / Mentors</h2>
+                <canvas id="tutorsAndMentors" width="20" height="12"></canvas>
+            </div>
+            <div class="white-box col-md-6 new-bordered">
+                <h2>Deserving / Non Deserving Students</h2>
+                <canvas id="deservingAndNonDeservingStudents" width="20" height="12"></canvas>
+            </div>
+        </div>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -53,6 +63,8 @@
         let activeInactiveStudents = document.getElementById('activeInactiveStudents').getContext('2d');
         let tutorsStudents = document.getElementById('tutorsStudents').getContext('2d');
         let sessions = document.getElementById('sessions').getContext('2d');
+        let tutorsAndMentors = document.getElementById('tutorsAndMentors').getContext('2d');
+        let deservingAndNonDeservingStudents = document.getElementById('deservingAndNonDeservingStudents').getContext('2d');
         new Chart(
             activeInactiveTutors,
             {
@@ -172,6 +184,56 @@
                                 'rgb(255,0,0,0.5)',
                                 'rgb(0,0,255,0.2)',
                                 'rgb(255,0,0,0.2)'
+                            ]
+                        }
+                    ]
+                }
+            }
+        );
+
+        new Chart(
+            tutorsAndMentors,
+            {
+                "type":"pie",
+                "data":{
+                    "labels":[
+                        'Tutors','Mentors'
+                    ],
+                    "datasets":[
+                        {
+                            "label": "Sessions",
+                            "data": [
+                                {{$data['commercial_tutors']}},
+                                {{$data['mentor_tutors']}}
+                            ],
+                            "backgroundColor":[
+                                'rgb(0,255,0,0.2)',
+                                'rgb(255,165,0, 0.5)'
+                            ]
+                        }
+                    ]
+                }
+            }
+        );
+
+        new Chart(
+            deservingAndNonDeservingStudents,
+            {
+                "type":"pie",
+                "data":{
+                    "labels":[
+                        'Non Deserving Students', 'Deserving Students'
+                    ],
+                    "datasets":[
+                        {
+                            "label": "Sessions",
+                            "data": [
+                                {{$data['non_deserving_students']}},
+                                {{$data['deserving_students']}}
+                            ],
+                            "backgroundColor":[
+                                'rgb(0,255,0,0.2)',
+                                'rgb(255,165,0, 0.5)'
                             ]
                         }
                     ]
