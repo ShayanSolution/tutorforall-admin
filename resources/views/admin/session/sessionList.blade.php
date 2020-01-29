@@ -46,7 +46,7 @@
                                     <td>{{$session->is_group == 0 ? 'No' : ' Yes'}}</td>
                                     <td>{{$session->group_members}}</td>
                                     <td>{{$session->status}}</td>
-                                    <td>{{$session->duration}}</td>
+                                    <td>{{\Carbon\Carbon::parse($session->duration)->format('H:i:s')}}</td>
                                     <td style="width: 20%">{{$session->session_location}}</td>
                                     <td>{{$session->hourly_rate}}</td>
 
