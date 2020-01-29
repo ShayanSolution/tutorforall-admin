@@ -22,11 +22,11 @@ class Session extends Model
         return $this->belongsTo(Subject::class, 'subject_id');
     }
 
-    public function setDurationAttribute($value){
-        $this->attributes['duration'] = \Carbon\Carbon::parse($value)->format('H:i:s');
-    }
-
-    public function getDurationAttribute($value){
-        return \Carbon\Carbon::parse($value)->format('H:i:s');
-    }
+//    public function setDurationAttribute($value){
+//        $this->attributes['duration'] = \Carbon\Carbon::parse($value)->format('H:i:s');
+//    }
+//
+//    public function getDurationAttribute($value){
+//        return \Carbon\Carbon::parse($value)->format('H:i:s');
+//    }
 }
