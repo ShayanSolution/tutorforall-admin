@@ -1,22 +1,22 @@
 @extends('admin.layout')
-@section('title','tutorsList')
+@section('title','Started Sessions')
 @section('content')
     <div class="container-fluid">
         <div class="row bg-title">
             @include('errors.common-errors')
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Session List</h4> </div>
+                <h4 class="page-title">Started Session List</h4> </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                 <ol class="breadcrumb">
                     <li><a href="#">Admin</a></li>
-                    <li class="active">Session List</li>
+                    <li class="active">Started Session List</li>
                 </ol>
             </div>
             <!-- /.col-lg-12 -->
         </div>
         <div class="row">
             <div class="white-box">
-                <h3 class="box-title m-b-0">Session List Details</h3>
+                <h3 class="box-title m-b-0">Started Session List Details</h3>
                 <hr>
                 <div class="table-responsive">
                     <table id="myTable" class="table table-striped">
@@ -46,7 +46,7 @@
                                     <td>{{$session->is_group == 0 ? 'No' : ' Yes'}}</td>
                                     <td>{{$session->group_members}}</td>
                                     <td>{{$session->status}}</td>
-                                    <td>{{\Carbon\Carbon::parse($session->duration)->format('H:i:s')}}</td>
+                                    <td>{{ ($session->duration == "") ? "" : \Carbon\Carbon::parse($session->duration)->format('H:i:s')}}</td>
                                     <td style="width: 20%">{{$session->session_location}}</td>
                                     <td>{{$session->hourly_rate}}</td>
 

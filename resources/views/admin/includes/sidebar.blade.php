@@ -75,12 +75,20 @@
                 </a>
             </li>
             <li>
-                <a href="{{route('sessionList')}}" class="waves-effect">
+                <a href="#" class="waves-effect">
                     <i class="fa fa-ticket"></i>
                     <span class="hide-menu">
                         Sessions<span class="fa arrow"></span>
                     </span>
                 </a>
+                <ul class="nav nav-second-level">
+                    <li> <a href="{{route('sessionBooked')}}">Booked</a> </li>
+                    <li> <a href="{{route('sessionStarted')}}">Started</a> </li>
+                    <li> <a href="{{route('sessionCompleted')}}">Completed</a> </li>
+                    <li> <a href="{{route('sessionMissed')}}">Missed</a> </li>
+                    <li> <a href="{{route('sessionPending')}}">Pending</a> </li>
+                    <li> <a href="{{route('sessionRejected')}}">Rejected</a> </li>
+                </ul>
             </li>
             {{--<li> <a href="#" class="waves-effect"><i class="fa fa-bars p-r-10"></i> <span class="hide-menu"> Courses <span class="fa arrow"></span></span></a>--}}
                 {{--<ul class="nav nav-second-level">--}}

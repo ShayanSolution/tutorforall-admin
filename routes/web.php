@@ -258,7 +258,12 @@ Route::group(['middleware' => 'admin'],function (){
         Route::resource('percentage-costs', 'PercentageCostForMultiStudentGroupsController');
         Route::get('settings', 'SettingsController@getSettings')->name('getSettings');
         Route::post('settings/save', 'SettingsController@saveSettings')->name('saveSettings');
-        Route::get('session/list', 'SessionController@sessionList')->name('sessionList');
+        Route::get('session/booked', 'SessionController@sessionBooked')->name('sessionBooked');
+        Route::get('session/started', 'SessionController@sessionStarted')->name('sessionStarted');
+        Route::get('session/completed', 'SessionController@sessionCompleted')->name('sessionCompleted');
+        Route::get('session/missed', 'SessionController@sessionMissed')->name('sessionMissed');
+        Route::get('session/pending', 'SessionController@sessionPending')->name('sessionPending');
+        Route::get('session/rejected', 'SessionController@sessionRejected')->name('sessionRejected');
     });
 
 });
