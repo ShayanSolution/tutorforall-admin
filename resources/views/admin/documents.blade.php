@@ -8,8 +8,9 @@
                 <h4 class="page-title">Documents and Subjects List of {{$tutor->fullName}}</h4> </div>
             <div class="col-lg-6 col-sm-8 col-md-8 col-xs-12">
                 <ol class="breadcrumb">
-                    <li><a href="#">Admin</a></li>
-                    <li class="active">Documents and Subjects List</li>
+{{--                    <li><a href="#">Admin</a></li>--}}
+{{--                    <li class="active">Documents and Subjects List</li>--}}
+                    <li><a class="btn btn-inverse waves-effect waves-light" style="color: white;" href="/admin/candidates">Back</a></li>
                 </ol>
             </div>
             <!-- /.col-lg-12 -->
