@@ -89,7 +89,7 @@
                             columns: ['0','1', '2', '3'],
                         } }
                 ],
-                "bSort": false
+                "bSort": true
             } );
             var base_url = '{{url('/')}}';
             var _token = "{{csrf_token()}}";

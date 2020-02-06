@@ -95,7 +95,7 @@
                             columns: ['0','1', '2'],
                         } }
                 ],
-                "bSort": false
+                "bSort": true
             } );
         });
         $('.js-switch').on('change.bootstrapSwitch', function(e) {

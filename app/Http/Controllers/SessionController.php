@@ -16,7 +16,7 @@ class SessionController extends Controller
             'subject'
         ])->where('status','booked')->get();
 //        dd($sessions->toArray());
-        return view('admin.session.sessionBooked', compact('sessions'));
+        return view('admin.session.sessionList', compact('sessions'));
     }
 
     public function sessionStarted(){
@@ -28,7 +28,7 @@ class SessionController extends Controller
             'subject'
         ])->where('status','started')->get();
 //        dd($sessions->toArray());
-        return view('admin.session.sessionStarted', compact('sessions'));
+        return view('admin.session.sessionList', compact('sessions'));
     }
 
     public function sessionCompleted(){
@@ -40,7 +40,7 @@ class SessionController extends Controller
             'subject'
         ])->where('status','ended')->get();
 //        dd($sessions->toArray());
-        return view('admin.session.sessionCompleted', compact('sessions'));
+        return view('admin.session.sessionList', compact('sessions'));
     }
 
     public function sessionMissed(){
@@ -52,7 +52,7 @@ class SessionController extends Controller
             'subject'
         ])->where('status','expired')->get();
 //        dd($sessions->toArray());
-        return view('admin.session.sessionMissed', compact('sessions'));
+        return view('admin.session.sessionList', compact('sessions'));
     }
 
     public function sessionpending(){
@@ -64,7 +64,7 @@ class SessionController extends Controller
             'subject'
         ])->where('status','pending')->get();
 //        dd($sessions->toArray());
-        return view('admin.session.sessionPending', compact('sessions'));
+        return view('admin.session.sessionList', compact('sessions'));
     }
 
     public function sessionRejected(){
@@ -76,6 +76,6 @@ class SessionController extends Controller
             'subject'
         ])->where('status','reject')->get();
 //        dd($sessions->toArray());
-        return view('admin.session.sessionRejected', compact('sessions'));
+        return view('admin.session.sessionList', compact('sessions'));
     }
 }

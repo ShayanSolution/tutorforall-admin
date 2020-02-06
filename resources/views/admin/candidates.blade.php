@@ -63,7 +63,7 @@
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable({
-                "bSort": false
+                "bSort": true
             });
         });
     </script>
