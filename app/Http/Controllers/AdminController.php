@@ -13,8 +13,8 @@ class AdminController extends Controller
 {
     public function dashboard(){
 
-        $data['activeTutors'] = User::has('profile')->where('role_id', 2)->where('is_active', 1)->count();
-        $data['inactiveTutors'] = User::has('profile')->where('role_id', 2)->where('is_active', 0)->count();
+        $data['onlineTutors'] = User::has('profile')->where('role_id', 2)->where('is_online', 1)->count();
+        $data['offlineTutors'] = User::has('profile')->where('role_id', 2)->where('is_online', 0)->count();
 
         $data['activeStudents'] = User::has('profile')->where('role_id', 3)->where('is_active', 1)->count();
         $data['inactiveStudents'] = User::has('profile')->where('role_id', 3)->where('is_active', 0)->count();

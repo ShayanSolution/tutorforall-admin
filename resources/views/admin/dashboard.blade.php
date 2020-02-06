@@ -71,15 +71,15 @@
                 "type":"doughnut",
                 "data":{
                     "labels":[
-                        "Active",
-                        "Inactive"
+                        "Online",
+                        "Offline"
                     ],
                     "datasets":[
                         {
-                            "label": "Active / Inactive Tutors",
+                            "label": "Online / Offline Tutors",
                             "data": [
-                                {{$data['activeTutors']}},
-                                {{$data['inactiveTutors']}}
+                                {{$data['onlineTutors']}},
+                                {{$data['offlineTutors']}}
                             ],
                             "backgroundColor":[
                                 "rgb(54, 162, 235)",
