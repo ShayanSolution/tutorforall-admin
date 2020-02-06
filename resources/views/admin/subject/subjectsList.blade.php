@@ -28,6 +28,7 @@
                             <th>Name</th>
                             <th>Active</th>
                             <th>Program</th>
+                            <th>Created</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -39,6 +40,7 @@
                                 <td>{{$subject->name}}</td>
                                 <td>@if($subject->status == 1) Yes @else No @endif</td>
                                 <td>@if($subject->programme){{$subject->programme->name}}@else {{ 'No Programme available.' }} @endif</td>
+                                <td>{{dateTimeConverter($subject->created_at)}}</td>
                                 <td>
                                     <div class="col-lg-4 col-sm-4 col-xs-4">
                                         <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('subjectEdit',$subject->id)}}">Edit</a>

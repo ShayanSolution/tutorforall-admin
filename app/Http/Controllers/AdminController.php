@@ -97,7 +97,7 @@ class AdminController extends Controller
     }
 
     public function candidates(){
-        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone')->with(['profile'=>function($q){
+        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'created_at')->with(['profile'=>function($q){
             $q->select("is_mentor", "user_id");
         }])->where('role_id', Document::STATUS_PENDING)->get();
         return view('admin.candidates', compact('tutors'));

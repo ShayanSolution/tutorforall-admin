@@ -26,6 +26,7 @@
                         <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Created</th>
                             <th>Active</th>
                             <th>Edit</th>
                             <th>Delete</th>
@@ -35,6 +36,7 @@
                         @foreach($categories as $category)
                             <tr>
                                 <td>{{$category->name}}</td>
+                                <td>{{dateTimeConverter($category->created_at)}}</td>
                                 <td><input type="checkbox" data-category-id="{{ $category->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($category->status == 1) checked @endif></td>
                                 <td>
                                     <div class="col-lg-4 col-sm-4 col-xs-4">

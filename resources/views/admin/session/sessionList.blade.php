@@ -33,6 +33,7 @@
                             <th>Duration</th>
                             <th>Session Location</th>
                             <th>Hourly Rate/RS</th>
+                            <th>Created</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -49,6 +50,7 @@
                                     <td>{{ ($session->duration == "") ? "" : \Carbon\Carbon::parse($session->duration)->format('H:i:s')}}</td>
                                     <td style="width: 20%">{{$session->session_location}}</td>
                                     <td>{{$session->hourly_rate}}</td>
+                                    <td>{{dateTimeConverter($session->created_at)}}</td>
 
                                 </tr>
                             @endforeach

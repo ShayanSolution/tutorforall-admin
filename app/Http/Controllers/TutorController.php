@@ -132,7 +132,7 @@ class TutorController extends Controller
     }
 
     public function tutorsList(){
-        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved')->whereHas('profile', function ($q){
+        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at')->whereHas('profile', function ($q){
             $q->where('is_mentor', 0);
         })->with('rating')->where('role_id',2)->orderBy('id', 'DESC')->get();
         $mentorOrCommercial = 'Commercial';

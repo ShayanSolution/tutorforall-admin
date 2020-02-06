@@ -27,6 +27,7 @@
                             <th>Type</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>Created</th>
                             <th>Action</th>
                          </tr>
                         </thead>
@@ -38,6 +39,7 @@
                                 <td>{{$tutor->profile ? ($tutor->profile->is_mentor ? 'Mentor' : 'Commercial' ) : 'N-A'}}</td>
                                 <td>{{$tutor->email}}</td>
                                 <td>{{$tutor->phone}}</td>
+                                <td>{{dateTimeConverter($tutor->created_at)}}</td>
                                 <td>
                                     <a type="button"
                                        class="fcbtn btn btn-warning btn-outline btn-1d"
