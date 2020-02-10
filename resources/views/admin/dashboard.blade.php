@@ -71,8 +71,8 @@
                 "type":"doughnut",
                 "data":{
                     "labels":[
-                        "Online",
-                        "Offline"
+                        "{{$data['onlineTutors']}} Online",
+                        "{{$data['offlineTutors']}} Offline"
                     ],
                     "datasets":[
                         {
@@ -96,8 +96,8 @@
                 "type":"doughnut",
                 "data":{
                     "labels":[
-                        "Active",
-                        "Inactive"
+                        "{{$data['activeStudents']}} Active",
+                        "{{$data['inactiveStudents']}} Inactive"
                     ],
                     "datasets":[
                         {
@@ -121,8 +121,8 @@
                 "type":"bar",
                 "data":{
                     "labels":[
-                        "Tutors",
-                        "Students"
+                        "{{$data['tutors']}} Tutors",
+                        "{{$data['students']}} Students"
                     ],
                     "datasets":[
                         {
@@ -164,7 +164,7 @@
                 "type":"pie",
                 "data":{
                     "labels":[
-                        'Booked','Started','Ended','Reject','Pending','Expired'
+                        "{{$data['sessionsBooked']}} Booked", "{{$data['sessionsStarted']}} Started", "{{$data['sessionsEnded']}} Ended","{{$data['sessionsReject']}} Reject","{{$data['sessionsPending']}} Pending","{{$data['sessionsExpired']}} Expired",
                     ],
                     "datasets":[
                         {
@@ -197,7 +197,7 @@
                 "type":"pie",
                 "data":{
                     "labels":[
-                        'Tutors','Mentors'
+                        "{{$data['commercial_tutors']}} Tutors","{{$data['mentor_tutors']}} Mentors"
                     ],
                     "datasets":[
                         {
@@ -222,7 +222,7 @@
                 "type":"pie",
                 "data":{
                     "labels":[
-                        'Non Deserving Students', 'Deserving Students'
+                        "{{$data['non_deserving_students']}} Non Deserving Students", "{{$data['deserving_students']}} Deserving Students"
                     ],
                     "datasets":[
                         {
