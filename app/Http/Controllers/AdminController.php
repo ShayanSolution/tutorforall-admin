@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\Profile;
+use App\Models\ProgramSubject;
 use App\Models\Session;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -99,47 +100,29 @@ class AdminController extends Controller
     public function candidates(){
         $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'created_at')->with(['profile'=>function($q){
             $q->select("is_mentor", "user_id");
-        }])->where('role_id', Document::STATUS_PENDING)->get();
+        }])->where('role_id', 2)->get();
         return view('admin.candidates', compact('tutors'));
     }
 
     public function candidateDocuments($id){
-        $tutor =  User::with(['documents', 'program_subject.subject:id,name', 'program_subject.program:id,name'])
-            ->select(['id', 'firstName', 'lastName'])
-            ->find($id);
 
-        foreach ($tutor->program_subject as $key=>$programSubject){
-            $program = $programSubject->program ? $programSubject->program->name : 'N-A';
-            $subject = $programSubject->subject ? $programSubject->subject->name : 'N-A';
-            unset(
-                $programSubject["id"],
-                $programSubject["program_id"],
-                $programSubject["subject_id"],
-                $programSubject["user_id"],
-                $programSubject["created_at"],
-                $programSubject["updated_at"],
-                $programSubject["subject"],
-                $programSubject["program"]
-            );
-            $programSubject["program"] = $program;
-            $programSubject["subject"] = $subject;
-        }
-
-        return view('admin.documents', compact('tutor'));
+        $tutorDocuments = ProgramSubject::where('user_id', $id)->with('user', 'program', 'subject', 'document')->get();
+//dd($tutorDocuments->toArray());
+        return view('admin.documents', compact('tutorDocuments'));
     }
 
 
 
     public function acceptDocument($id){
 
-        $document = Document::find($id);
+        $document = ProgramSubject::find($id);
 
         if(!$document)
             return redirect()->back()->with('error', 'Document does not exists.');
 
         $updated = $document->update([
             'rejection_reason'  =>  '',
-            'status'            =>  Document::STATUS_ACCEPTED,
+            'status'            =>  ProgramSubject::STATUS_ACCEPTED,
             'verified_by'       =>  Auth::user()->id,
             'verified_at'       =>  now()
         ]);
@@ -151,15 +134,14 @@ class AdminController extends Controller
     }
 
     public function rejectDocument(Request $request){
-
-        $document = Document::find($request->document_id);
+        $document = ProgramSubject::find($request->prog_sub_id);
 
         if(!$document)
             return redirect()->back()->with('error', 'Document does not exists.');
 
         $updated = $document->update([
             'rejection_reason'  =>  $request->rejection_reason,
-            'status'            =>  Document::STATUS_REJECTED,
+            'status'            =>  ProgramSubject::STATUS_REJECTED,
             'verified_by'       =>  Auth::user()->id,
             'verified_at'       =>  now()
         ]);
