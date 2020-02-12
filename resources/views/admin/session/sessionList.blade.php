@@ -1,5 +1,5 @@
 @extends('admin.layout')
-@section('title','tutorsList')
+@section('title','Sessions')
 @section('content')
     <div class="container-fluid">
         <div class="row bg-title">
@@ -33,6 +33,7 @@
                             <th>Duration</th>
                             <th>Session Location</th>
                             <th>Hourly Rate/RS</th>
+                            <th>Created</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -46,9 +47,10 @@
                                     <td>{{$session->is_group == 0 ? 'No' : ' Yes'}}</td>
                                     <td>{{$session->group_members}}</td>
                                     <td>{{$session->status}}</td>
-                                    <td>{{\Carbon\Carbon::parse($session->duration)->format('H:i:s')}}</td>
+                                    <td>{{ ($session->duration == "") ? "" : \Carbon\Carbon::parse($session->duration)->format('H:i:s')}}</td>
                                     <td style="width: 20%">{{$session->session_location}}</td>
                                     <td>{{$session->hourly_rate}}</td>
+                                    <td>{{dateTimeConverter($session->created_at)}}</td>
 
                                 </tr>
                             @endforeach
@@ -76,7 +78,7 @@
                             columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                         } }
                 ],
-                "bSort": false
+                "bSort": true
             });
         });
     </script>

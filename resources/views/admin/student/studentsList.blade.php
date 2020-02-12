@@ -26,6 +26,7 @@
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>Created</th>
                             <th>Active</th>
                             <th>Deserving</th>
                             <th>Action</th>
@@ -39,6 +40,7 @@
                                 <td>{{$student->lastName ? $student->lastName : 'N-A'}}</td>
                                 <td>{{$student->email}}</td>
                                 <td>{{$student->phone}}</td>
+                                <td>{{dateTimeConverter($student->created_at)}}</td>
                                 <td><input type="checkbox" data-student-id = "{{$student->id}}" class="js-switch-is_active" data-color="#99d683" @if($student->is_active == 1) checked @endif ></td>
                                 <td><input type="checkbox" data-student-id = "{{$student->id}}"  class="js-switch" data-color="#99d683" @if($student->profile->is_deserving == 1) checked @endif></td>
                                 <td><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModalStudent{{$student->id}}">Delete</a></td>
@@ -89,7 +91,7 @@
                             columns: ['0','1', '2', '3'],
                         } }
                 ],
-                "bSort": false
+                "bSort": true
             } );
             var base_url = '{{url('/')}}';
             var _token = "{{csrf_token()}}";

@@ -65,6 +65,7 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Rating</th>
+                            <th>Created</th>
                             <th>Active</th>
                             <th>Approved</th>
                             <th>Detail</th>
@@ -79,6 +80,7 @@
                                     <td>{{$tutor->email}}</td>
                                     <td>{{$tutor->phone}}</td>
                                     <td>{{round($tutor->rating->avg('rating'),1)}}</td>
+                                    <td>{{dateTimeConverter($tutor->created_at)}}</td>
                                     {{--<td>@if($tutor->is_active == 1) Yes @else No @endif</td>--}}
                                     <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($tutor->is_active == 1) checked @endif></td>
                                     <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="is_approved_by_admin" data-color="#99d683" @if($tutor->is_approved == 1) checked @endif></td>
@@ -150,7 +152,7 @@
                             columns: ['0', '1', '2', '3', '4'],
                         } }
                 ],
-                "bSort": false
+                "bSort": true
             });
 
             // Event listener to the two range filtering inputs to redraw on input

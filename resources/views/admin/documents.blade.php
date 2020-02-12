@@ -5,11 +5,12 @@
         <div class="row bg-title">
             @include('errors.common-errors')
             <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Documents and Subjects List of {{$tutor->fullName}}</h4> </div>
+                <h4 class="page-title">Documents and Subjects List of {!!  $tutorDocuments[0]->user['firstName']." ".$tutorDocuments[0]->user['lastName']!!}</h4> </div>
             <div class="col-lg-6 col-sm-8 col-md-8 col-xs-12">
                 <ol class="breadcrumb">
-                    <li><a href="#">Admin</a></li>
-                    <li class="active">Documents and Subjects List</li>
+{{--                    <li><a href="#">Admin</a></li>--}}
+{{--                    <li class="active">Documents and Subjects List</li>--}}
+                    <li><a class="btn btn-inverse waves-effect waves-light" style="color: white;" href="/admin/candidates">Back</a></li>
                 </ol>
             </div>
             <!-- /.col-lg-12 -->
@@ -27,13 +28,15 @@
                          </tr>
                         </thead>
                         <tbody>
-                        @foreach($tutor->program_subject as $program_subject)
+                        @foreach($tutorDocuments as $progSubDoc)
+                            @if($progSubDoc->program->status != 2)
                             <tr>
-                                <td>{{ $program_subject->program }}</td>
+                                <td>{!! $progSubDoc->program->name !!}</td>
                                 <td>
-                                    {!! $program_subject->subject !!}
+                                    {!! $progSubDoc->subject->name !!}
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                         </tbody>
                     </table>
@@ -56,59 +59,63 @@
                          </tr>
                         </thead>
                         <tbody>
-                        @foreach($tutor->documents as $document)
+                        @foreach($tutorDocuments as $progSubDoc)
                             <tr>
-                                <td>{{ $document->title }}</td>
+                                <td>{{ $progSubDoc->program->name."(".$progSubDoc->subject->name.")" }}</td>
                                 <td>
-                                    {!! $document->status !!}
+                                    {!! $progSubDoc->status !!}
                                 </td>
                                 <td>
-                                    {!! $document->showRejectionReason() !!}
+                                    {!! $progSubDoc->showRejectionReason() !!}
+                                    {{--
                                     {{--
                                         Showing show more option by calling showRejectionReason()
                                         if rejection reason increases from 20 characters
                                      --}}
                                 </td>
                                 <td>
-                                    {{ $document->verified_by }}
+                                    {{ $progSubDoc->verified_by }}
                                 </td>
                                 <td>
-                                    {{ $document->verified_at }}
+                                    {{ $progSubDoc->verified_at }}
                                 </td>
                                 <td>
-                                    <a  href="{{$document->path}}"
+                                    <a  href="{{'http://tutor4all-api.shayansolutions.com'.$progSubDoc->document->path}}"
                                         {{--href="/admin/documents/{{$document->id}}"--}}
-                                        class="fcbtn btn btn-default btn-outline btn-1d"
-                                        download
+{{--                                        name="{{$progSubDoc->document != null ? $progSubDoc->document->path: ''}}"--}}
+                                        class="fcbtn btn btn-default btn-outline btn-1d downloadImage"
+                                        target="_blank"
                                     >
                                         Download
                                     </a>
                                     <a type="button"
                                        class="fcbtn btn btn-info btn-outline btn-1d"
-                                       data-target="#preview{{$document->id}}"
+                                       data-target="#preview{{$progSubDoc->document != null ? $progSubDoc->document->id : ''}}"
                                        data-toggle="modal"
                                     >
                                         Preview
                                     </a>
-                                    @if($document->status == 'Pending')
+                                    @if($progSubDoc->document != null)
+                                    @if($progSubDoc->status == 'Pending')
                                         <a type="button"
                                            class="fcbtn btn btn-warning btn-outline btn-1d"
-                                           data-target="#enterRejectionReason{{$document->id}}"
+                                           data-target="#enterRejectionReason{{$progSubDoc->document->id}}"
                                            data-toggle="modal"
                                         >
                                             Reject
                                         </a>
                                         <a type="button"
                                            class="fcbtn btn btn-success btn-outline btn-1d"
-                                           href="{{route('acceptDocument', $document->id)}}"
+                                           href="{{route('acceptDocument', $progSubDoc->id)}}"
                                         >
                                             Accept
                                         </a>
                                     @endif
+                                    @endif
                                 </td>
                             </tr>
 
-                            <div id="preview{{$document->id}}" class="modal fade" role="dialog">
+                            <div id="preview{{$progSubDoc->document != null ? $progSubDoc->document->id : ''}}" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
 
                                     <div class="modal-content">
@@ -118,7 +125,7 @@
                                                 <h4 class="modal-title">Document Preview</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <img src="{{$document->path}}" width="500">
+                                                <img src="{{$progSubDoc->document != null ? 'http://tutor4all-api.shayansolutions.com'.$progSubDoc->document->path : ''}}" width="500">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -127,13 +134,14 @@
                                 </div>
                             </div>
 
-                            <div id="enterRejectionReason{{$document->id}}" class="modal fade" role="dialog">
+                            <div id="enterRejectionReason{{$progSubDoc->document != null ? $progSubDoc->document->id : ''}}" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
 
                                     <div class="modal-content">
                                         <form action="{{route('rejectDocument')}}" method="post">
                                             @csrf
-                                            <input name="document_id" hidden value="{{$document->id}}">
+                                            <input name="document_id" hidden value="{{$progSubDoc->document != null ? $progSubDoc->document->id : ''}}">
+                                            <input name="prog_sub_id" hidden value="{{$progSubDoc != null ? $progSubDoc->id : ''}}">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 <h4 class="modal-title">Rejection Reason</h4>
@@ -151,7 +159,7 @@
                                 </div>
                             </div>
 
-                            <div id="showMore{{$document->id}}" class="modal fade" role="dialog">
+                            <div id="showMore{{$progSubDoc != null ? $progSubDoc->id : ''}}" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
 
                                     <div class="modal-content">
@@ -160,7 +168,7 @@
                                             <h4 class="modal-title">Rejection Reason</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <p>{{$document->rejection_reason}}</p>
+                                            <p>{{$progSubDoc->rejection_reason}}</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -184,6 +192,12 @@
         $(document).ready(function () {
             $('#myTable').DataTable({
                 "bSort": false
+            });
+
+            $(".downloadImage").click(function () {
+                var url = $(this).attr("name");
+
+                alert("Image will open in new window. Right click and save as for download image. Will direct download in future");
             });
         });
     </script>

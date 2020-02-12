@@ -28,6 +28,7 @@
                             {{--<th>Title</th>--}}
                             <th>Number of Students</th>
                             <th>Percentage</th>
+                            <th>Created</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -38,6 +39,7 @@
 {{--                                <td>{{$percentageCost->title}}</td>--}}
                                 <td>{{$percentageCost->number_of_students}}</td>
                                 <td>{{$percentageCost->percentage}} %</td>
+                                <td>{{dateTimeConverter($percentageCost->created_at)}}</td>
                                 <td>
                                     <div class="col-lg-4 col-sm-4 col-xs-4">
                                         <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('percentage-costs.edit',$percentageCost->id)}}">Edit</a>
@@ -98,7 +100,7 @@
                             columns: ['0','1'],
                         } }
                 ],
-                "bSort": false
+                "bSort": true
             });
         });
         // $('.js-switch').on('change.bootstrapSwitch', function(e) {

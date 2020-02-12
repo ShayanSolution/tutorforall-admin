@@ -19,31 +19,31 @@ class Document extends Model
         'verified_at'
     ];
 
-    public function getStatusAttribute($value){
+//    public function getStatusAttribute($value){
+//
+//        if($value == 0)
+//            $status = 'Rejected';
+//        else if($value == 1)
+//            $status = 'Accepted';
+//        else
+//            $status = 'Pending';
+//
+//        return $status;
+//    }
 
-        if($value == 0)
-            $status = 'Rejected';
-        else if($value == 1)
-            $status = 'Accepted';
-        else
-            $status = 'Pending';
-
-        return $status;
-    }
-
-    public function showRejectionReason(){
-
-        $value = $this->rejection_reason;
-
-        $strLength = 10;
-
-        return
-            strlen($value) > $strLength
-                ?
-            substr($value, 0, $strLength).'....  <a data-toggle="modal" style="cursor:pointer" data-target="#showMore'.$this->id.'">Show More</a>'
-                :
-            $value;
-    }
+//    public function showRejectionReason(){
+//
+//        $value = $this->rejection_reason;
+//
+//        $strLength = 10;
+//
+//        return
+//            strlen($value) > $strLength
+//                ?
+//            substr($value, 0, $strLength).'....  <a data-toggle="modal" style="cursor:pointer" data-target="#showMore'.$this->id.'">Show More</a>'
+//                :
+//            $value;
+//    }
 
     public function getVerifiedByAttribute($value){
 
@@ -67,4 +67,7 @@ class Document extends Model
         return $this->belongsTo(User::class, 'tutor_id', 'id');
     }
 
+    public function programSubjectDocument(){
+        return $this->hasMany(ProgramSubject::class);
+    }
 }
