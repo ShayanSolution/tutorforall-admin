@@ -80,10 +80,11 @@
                                     {{ $progSubDoc->verified_at }}
                                 </td>
                                 <td>
-                                    <a  href="{{$progSubDoc->document->path}}"
+                                    <a  href="{{'http://tutor4all-api.shayansolutions.com'.$progSubDoc->document->path}}"
                                         {{--href="/admin/documents/{{$document->id}}"--}}
 {{--                                        name="{{$progSubDoc->document != null ? $progSubDoc->document->path: ''}}"--}}
                                         class="fcbtn btn btn-default btn-outline btn-1d downloadImage"
+                                        target="_blank"
                                     >
                                         Download
                                     </a>
@@ -124,7 +125,7 @@
                                                 <h4 class="modal-title">Document Preview</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <img src="{{$progSubDoc->document != null ? $progSubDoc->document->path : ''}}" width="500">
+                                                <img src="{{$progSubDoc->document != null ? 'http://tutor4all-api.shayansolutions.com'.$progSubDoc->document->path : ''}}" width="500">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -196,7 +197,7 @@
             $(".downloadImage").click(function () {
                 var url = $(this).attr("name");
 
-                alert(imageUrl);
+                alert("Image will open in new window. Right click and save as for download image. Will direct download in future");
             });
         });
     </script>
