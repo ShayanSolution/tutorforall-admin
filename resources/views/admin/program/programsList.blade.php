@@ -129,7 +129,7 @@
                             columns: ['0','1'],
                         } }
                 ],
-                "bSort": false
+                "bSort": true
             });
         });
     </script>
