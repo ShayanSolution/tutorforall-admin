@@ -60,6 +60,7 @@
                         </thead>
                         <tbody>
                         @foreach($tutorDocuments as $progSubDoc)
+                            @if(!$progSubDoc->document == null)
                             <tr>
                                 <td>{{ $progSubDoc->program->name."(".$progSubDoc->subject->name.")" }}</td>
                                 <td>
@@ -177,6 +178,7 @@
 
                                 </div>
                             </div>
+                            @endif
                         @endforeach
                         </tbody>
                     </table>
