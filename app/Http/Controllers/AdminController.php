@@ -126,6 +126,10 @@ class AdminController extends Controller
             'verified_by'       =>  Auth::user()->id,
             'verified_at'       =>  now()
         ]);
+        //When doc accepted than approved Tutor
+        $approvedUser = User::where('id', $document->user_id)->update([
+            'is_approved' => 1
+        ]);
 
         if(!$updated)
             return redirect()->back()->with('error','Oops! Something went wrong.');
