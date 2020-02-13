@@ -31,9 +31,9 @@
                         @foreach($tutorDocuments as $progSubDoc)
                             @if($progSubDoc->program->status != 2)
                             <tr>
-                                <td>{!! $progSubDoc->program->name !!}</td>
+                                <td>{!! $progSubDoc->program?$progSubDoc->program->name:'N-A' !!}</td>
                                 <td>
-                                    {!! $progSubDoc->subject->name !!}
+                                    {!! $progSubDoc->subject?$progSubDoc->subject->name:'N-A' !!}
                                 </td>
                             </tr>
                             @endif
@@ -62,7 +62,7 @@
                         @foreach($tutorDocuments as $progSubDoc)
                             @if(!$progSubDoc->document == null)
                             <tr>
-                                <td>{{ $progSubDoc->program->name."(".$progSubDoc->subject->name.")" }}</td>
+                                <td>{{ $progSubDoc->program?$progSubDoc->program->name."(".$progSubDoc->subject->name.")":'N-A' }}</td>
                                 <td>
                                     {!! $progSubDoc->status !!}
                                 </td>
