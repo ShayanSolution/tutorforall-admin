@@ -1,12 +1,11 @@
 @extends('admin.layout')
 @section('title','tutorsList')
 @section('content')
-    @if(!$tutorDocuments->isEmpty())
     <div class="container-fluid">
         <div class="row bg-title">
             @include('errors.common-errors')
             <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Documents and Subjects List of {!!  $tutorDocuments[0]->user['firstName']." ".$tutorDocuments[0]->user['lastName']!!}</h4> </div>
+                <h4 class="page-title">Documents and Subjects List of @if(!$tutorDocuments->isEmpty()){!!  $tutorDocuments[0]->user['firstName']." ".$tutorDocuments[0]->user['lastName']!!}@endif</h4> </div>
             <div class="col-lg-6 col-sm-8 col-md-8 col-xs-12">
                 <ol class="breadcrumb">
 {{--                    <li><a href="#">Admin</a></li>--}}
@@ -185,64 +184,6 @@
             </div>
         </div>
     </div>
-    @else
-        <div class="container-fluid">
-            <div class="row bg-title">
-                @include('errors.common-errors')
-                <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Documents and Subjects List </h4> </div>
-                <div class="col-lg-6 col-sm-8 col-md-8 col-xs-12">
-                    <ol class="breadcrumb">
-                        {{--                    <li><a href="#">Admin</a></li>--}}
-                        {{--                    <li class="active">Documents and Subjects List</li>--}}
-                        <li><a class="btn btn-inverse waves-effect waves-light" style="color: white;" href="/admin/candidates">Back</a></li>
-                    </ol>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <div class="row">
-                <div class="white-box">
-                    <h3 class="box-title m-b-0">Subjects List</h3>
-                    <hr>
-                    <div class="table-responsive">
-                        <table id="myTable" class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Class</th>
-                                <th>Subject</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="white-box">
-                    <h3 class="box-title m-b-0">Documents List</h3>
-                    <hr>
-                    <div class="table-responsive">
-                        <table id="myTable" class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Status</th>
-                                <th>Rejection Reason</th>
-                                <th>Verified By</th>
-                                <th>Verified At</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
 @endsection
 @section('javascripts')
     @parent
