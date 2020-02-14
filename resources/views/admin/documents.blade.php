@@ -100,7 +100,7 @@
                                     @if($progSubDoc->status == 'Pending')
                                         <a type="button"
                                            class="fcbtn btn btn-warning btn-outline btn-1d"
-                                           data-target="#enterRejectionReason{{$progSubDoc->document->id}}"
+                                           data-target="#enterRejectionReason{{$progSubDoc->id}}"
                                            data-toggle="modal"
                                         >
                                             Reject
@@ -135,7 +135,7 @@
                                 </div>
                             </div>
 
-                            <div id="enterRejectionReason{{$progSubDoc->document != null ? $progSubDoc->document->id : ''}}" class="modal fade" role="dialog">
+                            <div id="enterRejectionReason{{$progSubDoc->document!= null ? $progSubDoc->id : ''}}" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
 
                                     <div class="modal-content">
