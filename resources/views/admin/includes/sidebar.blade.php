@@ -90,6 +90,15 @@
                     <li> <a href="{{route('sessionRejected')}}">Rejected</a> </li>
                 </ul>
             </li>
+
+            <li>
+                <a href="{{route('notifications.index')}}" class="waves-effect">
+                    <i class="fa fa-bell"></i>
+                    <span class="hide-menu">
+                        Notifications<span class="fa arrow"></span>
+                    </span>
+                </a>
+            </li>
             {{--<li> <a href="#" class="waves-effect"><i class="fa fa-bars p-r-10"></i> <span class="hide-menu"> Courses <span class="fa arrow"></span></span></a>--}}
                 {{--<ul class="nav nav-second-level">--}}
                     {{--<li> <a href="#">All Courses</a> </li>--}}

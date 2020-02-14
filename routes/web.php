@@ -264,6 +264,8 @@ Route::group(['middleware' => 'admin'],function (){
         Route::get('session/missed', 'SessionController@sessionMissed')->name('sessionMissed');
         Route::get('session/pending', 'SessionController@sessionPending')->name('sessionPending');
         Route::get('session/rejected', 'SessionController@sessionRejected')->name('sessionRejected');
+        Route::get('session/list', 'SessionController@sessionList')->name('sessionList');
+        Route::resource('notifications', 'NotificationController');
     });
 
 });
