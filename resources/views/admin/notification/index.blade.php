@@ -29,19 +29,37 @@
                             <th>Message</th>
                             <th>Descriptions</th>
                             <th>Created By</th>
-                            <th>Send To</th>
                         </tr>
                         </thead>
                         <tbody>
-{{--                        @foreach($programs as $program)--}}
+                        @foreach($notifications as $notification)
                             <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
+                                <td>{{$notification->title}}</td>
+                                <td>{{$notification->message}}</td>
+{{--                                <td>{!! $notification->showDescription() !!}</td>--}}
+                                <td style="width: 25%">{!! $notification->description !!}</td>
+                                <td>{{$notification->created_by}}</td>
                             </tr>
-{{--                        @endforeach--}}
+
+{{--                            <div id="showMore{{$notification->id}}" class="modal fade" role="dialog">--}}
+{{--                                <div class="modal-dialog">--}}
+
+{{--                                    <div class="modal-content">--}}
+{{--                                        <div class="modal-header">--}}
+{{--                                            <button type="button" class="close" data-dismiss="modal">&times;</button>--}}
+{{--                                            <h4 class="modal-title">Description</h4>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="modal-body">--}}
+{{--                                            <p>{{$notification->description}}</p>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="modal-footer">--}}
+{{--                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+
+{{--                                </div>--}}
+{{--                            </div>--}}
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

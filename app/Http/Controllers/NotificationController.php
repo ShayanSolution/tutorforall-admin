@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Storage;
 use File;
@@ -15,7 +16,8 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        return view('admin.notification.index');
+        $notifications = Notification::all();
+        return view('admin.notification.index', compact('notifications'));
     }
 
     /**
