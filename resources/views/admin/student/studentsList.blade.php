@@ -22,6 +22,7 @@
                     <table id="myTable" class="table table-striped">
                         <thead>
                         <tr>
+                            <th hidden>Id</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
@@ -36,6 +37,7 @@
                         @foreach($students as $student)
 
                             <tr>
+                                <td hidden>{{$student->id}}</td>
                                 <td>{{$student->firstName ? $student->firstName : 'N-A'}}</td>
                                 <td>{{$student->lastName ? $student->lastName : 'N-A'}}</td>
                                 <td>{{$student->email}}</td>

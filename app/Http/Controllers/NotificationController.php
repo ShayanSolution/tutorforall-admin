@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Storage;
 use File;
 
@@ -43,24 +44,54 @@ class NotificationController extends Controller
             'message' => 'required',
             'description' => 'required',
             'image' => 'required|mimes:jpeg,bmp,png',
-            'csv' => 'required|mimes:csv,xlsx',
+            'csv' => 'required',
         ]);
 
         if ($request->hasFile('image')) {
-            $notiImage = $request->file('image');
-            $extension = $notiImage->getClientOriginalExtension();
-            $store = Storage::disk('public')->put('notificationImage/'.$notiImage->getFilename().'.'.$extension,  File::get($notiImage));
-            $notiImagePath = Storage::url($notiImage).".".$extension;
+            //get filename with extension
+            $fileNameWithExtension = $request->file('image');
+            //get filename without extension
+            $filename = pathinfo($fileNameWithExtension, PATHINFO_FILENAME);
+            //get file extension
+            $extension = $request->file('image')->getClientOriginalExtension();
+            //filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            // save in storage
+            $saveImage = Storage::disk('public')->put('notificationImage/'.$fileNameToStore,  File::get($fileNameWithExtension));
+            //get path
+            $urlImage = Storage::disk('public')->url($fileNameToStore);
         }
         if ($request->hasFile('csv')) {
-            $notiPhones = $request->file('csv');
-            $extension = $notiPhones->getClientOriginalExtension();
-            $store = Storage::disk('public')->put('notificationCsv/'.$notiPhones->getFilename().'.'.$extension,  File::get($notiPhones));
-            $notiCsvPath = Storage::url($notiPhones).".".$extension;
+            //get filename with extension
+            $fileNameWithExtension = $request->file('csv');
+            //get filename without extension
+            $filename = pathinfo($fileNameWithExtension, PATHINFO_FILENAME);
+            //get file extension
+            $extension = $request->file('csv')->getClientOriginalExtension();
+            //filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            // save in storage
+            $saveFile = Storage::disk('public')->put('notificationCsv/'.$fileNameToStore,  File::get($fileNameWithExtension));
+            //get path
+            $urlFile = Storage::disk('public')->url($fileNameToStore);
+//            dd($saveImage,$urlImage, $saveFile, $urlFile);
         }
 
+        if ($urlImage && $urlFile){
+            Notification::create([
+                'title' => $request->title,
+                'message' => $request->message,
+                'description' => $request->description,
+                'image' => $urlImage,
+                'send_to' => $urlFile,
+                'created_by' => Auth::user()->id,
+            ]);
 
-        dd($notiImagePath, $notiCsvPath);
+
+
+            return "saved";
+        }
+
     }
 
     /**

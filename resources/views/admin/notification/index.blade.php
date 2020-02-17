@@ -28,7 +28,6 @@
                             <th>Title</th>
                             <th>Message</th>
                             <th>Descriptions</th>
-                            <th>Created By</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -36,29 +35,27 @@
                             <tr>
                                 <td>{{$notification->title}}</td>
                                 <td>{{$notification->message}}</td>
-{{--                                <td>{!! $notification->showDescription() !!}</td>--}}
-                                <td style="width: 25%">{!! $notification->description !!}</td>
-                                <td>{{$notification->created_by}}</td>
+                                <td>{!! $notification->showDescription() !!}</td>
                             </tr>
 
-{{--                            <div id="showMore{{$notification->id}}" class="modal fade" role="dialog">--}}
-{{--                                <div class="modal-dialog">--}}
+                            <div id="showMore{{$notification->id}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
 
-{{--                                    <div class="modal-content">--}}
-{{--                                        <div class="modal-header">--}}
-{{--                                            <button type="button" class="close" data-dismiss="modal">&times;</button>--}}
-{{--                                            <h4 class="modal-title">Description</h4>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="modal-body">--}}
-{{--                                            <p>{{$notification->description}}</p>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="modal-footer">--}}
-{{--                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Notification Description</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>{{$notification->description}}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
 
-{{--                                </div>--}}
-{{--                            </div>--}}
+                                </div>
+                            </div>
                         @endforeach
                         </tbody>
                     </table>

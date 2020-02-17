@@ -60,6 +60,7 @@
                     <table id="myTable" class="table table-striped">
                         <thead>
                         <tr>
+                            <th hidden>Id</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
@@ -75,6 +76,7 @@
                         <tbody>
                             @foreach($tutors as $tutor)
                                 <tr>
+                                    <td hidden>{{$tutor->id}}</td>
                                     <td>{{$tutor->firstName ? $tutor->firstName : 'N-A'}}</td>
                                     <td>{{$tutor->lastName ? $tutor->lastName : 'N-A'}}</td>
                                     <td>{{$tutor->email}}</td>
