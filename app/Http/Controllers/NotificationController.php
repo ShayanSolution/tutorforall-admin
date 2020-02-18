@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Push;
 use App\Models\Notification;
+use App\Models\NotificationStatus;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Storage;
 use File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class NotificationController extends Controller
 {
@@ -48,50 +53,29 @@ class NotificationController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            //get filename with extension
-            $fileNameWithExtension = $request->file('image');
-            //get filename without extension
-            $filename = pathinfo($fileNameWithExtension, PATHINFO_FILENAME);
-            //get file extension
-            $extension = $request->file('image')->getClientOriginalExtension();
-            //filename to store
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
-            // save in storage
-            $saveImage = Storage::disk('public')->put('notificationImage/'.$fileNameToStore,  File::get($fileNameWithExtension));
-            //get path
-            $urlImage = Storage::disk('public')->url($fileNameToStore);
+            $urlImage = $this->saveImage($request);
         }
         if ($request->hasFile('csv')) {
-            //get filename with extension
-            $fileNameWithExtension = $request->file('csv');
-            //get filename without extension
-            $filename = pathinfo($fileNameWithExtension, PATHINFO_FILENAME);
-            //get file extension
-            $extension = $request->file('csv')->getClientOriginalExtension();
-            //filename to store
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
-            // save in storage
-            $saveFile = Storage::disk('public')->put('notificationCsv/'.$fileNameToStore,  File::get($fileNameWithExtension));
-            //get path
-            $urlFile = Storage::disk('public')->url($fileNameToStore);
-//            dd($saveImage,$urlImage, $saveFile, $urlFile);
+            list($urlFile, $extension, $path) = $this->saveCsv($request);
         }
-
+        //save notification
         if ($urlImage && $urlFile){
-            Notification::create([
+            $notificationId = Notification::create([
                 'title' => $request->title,
                 'message' => $request->message,
                 'description' => $request->description,
                 'image' => $urlImage,
                 'send_to' => $urlFile,
                 'created_by' => Auth::user()->id,
-            ]);
-
-
-
-            return "saved";
+            ])->id;
         }
 
+        if ($extension == 'csv'){
+            $this->sendNotiFromCsv($request,$path, $notificationId);
+        } else {
+            $this->sendNotiFromXlsx($request, $path, $notificationId);
+        }
+        return redirect()->route('notifications.index')->with('success','Notification sent');
     }
 
     /**
@@ -137,5 +121,93 @@ class NotificationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function saveImage($request){
+        //get filename with extension
+        $fileNameWithExtension = $request->file('image');
+        //get filename without extension
+        $filename = pathinfo($fileNameWithExtension, PATHINFO_FILENAME);
+        //get file extension
+        $extension = $request->file('image')->getClientOriginalExtension();
+        //filename to store
+        $fileNameToStore = $filename.'_'.time().'.'.$extension;
+        // save in storage
+        $saveImage = Storage::disk('public')->put('notificationImage/'.$fileNameToStore,  File::get($fileNameWithExtension));
+        //get path
+        $urlImage = Storage::disk('public')->url($fileNameToStore);
+
+        return $urlImage;
+    }
+
+    public function saveCsv($request){
+        //get filename path
+        $path = $request->file('csv')->getRealPath();
+        //get filename with extension
+        $fileNameWithExtension = $request->file('csv');
+        //get filename without extension
+        $filename = pathinfo($fileNameWithExtension, PATHINFO_FILENAME);
+        //get file extension
+        $extension = $request->file('csv')->getClientOriginalExtension();
+        //filename to store
+        $fileNameToStore = $filename.'_'.time().'.'.$extension;
+        // save in storage
+        $saveFile = Storage::disk('public')->put('notificationCsv/'.$fileNameToStore,  File::get($fileNameWithExtension));
+        //get path
+        $urlFile = Storage::disk('public')->url($fileNameToStore);
+
+        return [$urlFile, $extension, $path];
+    }
+
+    public function sendNotiFromCsv($request, $path, $notificationId){
+        $data = array_map('str_getcsv', file($path));
+        if (count($data) > 0) {
+            unset($data[0]);
+            foreach ($data as $item){
+                NotificationStatus::create([
+                    'notification_id' => $notificationId,
+                    'receiver_id' => $item[0],
+                    'notification_type' => "Default",
+                    'read_status' => 0
+                ]);
+                // get User
+                $user = User::where('id', $item[0])->first();
+                if ($user){
+                    // Send Notification
+                    $customData = array(
+                        'notification_type' => 'admin_notification',
+                    );
+                    $title = $request->title;
+                    $body = $request->message;
+                    Push::handle($title, $body, $customData, $user);
+                }
+            }
+        }
+    }
+
+    public function sendNotiFromXlsx($request, $path, $notificationId){
+        Excel::load($path, function ($reader) use ($request, $notificationId) {
+            $reader->each(function ($data) use ($request, $notificationId) {
+                foreach ($data as $item){
+                    NotificationStatus::create([
+                        'notification_id' => $notificationId,
+                        'receiver_id' => intval($item->id),
+                        'notification_type' => "Default",
+                        'read_status' => 0
+                    ]);
+                    // get User
+                    $user = User::where('id', $item->id)->first();
+                    if ($user){
+                        // Send Notification
+                        $customData = array(
+                            'notification_type' => 'admin_notification',
+                        );
+                        $title = $request->title;
+                        $body = $request->message;
+                        Push::handle($title, $body, $customData, $user);
+                    }
+                }
+            });
+        });
     }
 }
