@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\AcceptDocumentNotification;
 use App\Models\Document;
 use App\Models\Profile;
 use App\Models\ProgramSubject;
@@ -115,7 +116,7 @@ class AdminController extends Controller
 
     public function acceptDocument($id){
 
-        $document = ProgramSubject::find($id);
+        $document = ProgramSubject::where('id', $id)->with('program', 'subject')->first();
 
         if(!$document)
             return redirect()->back()->with('error', 'Document does not exists.');
@@ -127,9 +128,19 @@ class AdminController extends Controller
             'verified_at'       =>  now()
         ]);
         //When doc accepted than approved Tutor
-        $approvedUser = User::where('id', $document->user_id)->update([
+        User::where('id', $document->user_id)->update([
             'is_approved' => 1
         ]);
+
+        if ($document->program->name && $document->subject->name) {
+            $user = $document->user_id;
+            $program = $document->program->name;
+            $subject = $document->subject->name;
+            $type = 'accepted';
+            // send push notification of approval document
+            $job = new AcceptDocumentNotification($user, $program, $subject, $type);
+            $this->dispatch($job);
+        }
 
         if(!$updated)
             return redirect()->back()->with('error','Oops! Something went wrong.');
@@ -138,7 +149,7 @@ class AdminController extends Controller
     }
 
     public function rejectDocument(Request $request){
-        $document = ProgramSubject::find($request->prog_sub_id);
+        $document = ProgramSubject::where('id', $request->prog_sub_id)->with('program', 'subject')->first();
 
         if(!$document)
             return redirect()->back()->with('error', 'Document does not exists.');
@@ -149,6 +160,16 @@ class AdminController extends Controller
             'verified_by'       =>  Auth::user()->id,
             'verified_at'       =>  now()
         ]);
+
+        if ($document->program->name && $document->subject->name) {
+            $user = $document->user_id;
+            $program = $document->program->name;
+            $subject = $document->subject->name;
+            $type = 'rejected';
+            // send push notification of reject document
+            $job = new AcceptDocumentNotification($user, $program, $subject, $type);
+            $this->dispatch($job);
+        }
 
         if(!$updated)
             return redirect()->back()->with('error','Oops! Something went wrong.');

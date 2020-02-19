@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Push;
+use App\Jobs\SendNotificationFromAdminPanel;
 use App\Models\Notification;
 use App\Models\NotificationStatus;
 use App\Models\User;
@@ -174,6 +175,11 @@ class NotificationController extends Controller
                 $user = User::where('id', $item[0])->first();
                 if ($user){
                     // Send Notification
+//                    $title = $request->title;
+//                    $message = $request->message;
+//                    $job = new SendNotificationFromAdminPanel($item[0], $title, $message);
+//                    $this->dispatch($job);
+                    // Send direct push as IOS developer suggestion
                     $customData = array(
                         'notification_type' => 'admin_notification',
                     );
