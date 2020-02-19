@@ -51,7 +51,7 @@ class DocumentsController extends Controller
         $contents = file_get_contents($url);
         $name = substr($url, strrpos($url, '/') + 1);
         $save = Storage::disk('public')->put('documents/'.$name, $contents);
-        $localUrl = Storage::disk('public')->url($name);
+        $localUrl = Storage::disk('public')->url('documents/'.$name);
         return response()->json(
             [
                 'status' => 'success',
