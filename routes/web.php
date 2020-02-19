@@ -266,6 +266,7 @@ Route::group(['middleware' => 'admin'],function (){
         Route::get('session/rejected', 'SessionController@sessionRejected')->name('sessionRejected');
         Route::get('session/list', 'SessionController@sessionList')->name('sessionList');
         Route::resource('notifications', 'NotificationController');
+        Route::post('download/document', 'DocumentsController@downloadDocument')->name('downloadDocument');
     });
 
 });

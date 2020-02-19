@@ -45,4 +45,19 @@ class DocumentsController extends Controller
 
         return redirect()->back();
     }
+
+    public function downloadDocument(Request $request){
+        $url = $request->url_doc;
+        $contents = file_get_contents($url);
+        $name = substr($url, strrpos($url, '/') + 1);
+        $save = Storage::disk('public')->put('documents/'.$name, $contents);
+        $localUrl = Storage::disk('public')->url($name);
+        return response()->json(
+            [
+                'status' => 'success',
+                'url' => $localUrl
+            ]
+        );
+
+    }
 }

@@ -81,11 +81,11 @@
                                     {{ $progSubDoc->verified_at }}
                                 </td>
                                 <td>
-                                    <a  href="{{'http://tutor4all-api.shayansolutions.com'.$progSubDoc->document->path}}"
+                                    <a
+{{--                                        href="{{'http://tutor4all-api.shayansolutions.com'.$progSubDoc->document->path}}"--}}
                                         {{--href="/admin/documents/{{$document->id}}"--}}
-{{--                                        name="{{$progSubDoc->document != null ? $progSubDoc->document->path: ''}}"--}}
+                                        name="{{$progSubDoc->document != null ? 'http://tutor4all-api.shayansolutions.com'.$progSubDoc->document->path: ''}}"
                                         class="fcbtn btn btn-default btn-outline btn-1d downloadImage"
-                                        target="_blank"
                                     >
                                         Download
                                     </a>
@@ -195,11 +195,28 @@
             $('#myTable').DataTable({
                 "bSort": false
             });
-
+            var base_url = '{{url('/')}}';
+            var _token = "{{csrf_token()}}";
             $(".downloadImage").click(function () {
                 var url = $(this).attr("name");
+                $.ajax({
+                    url:base_url+'/admin/download/document',
+                    type: "POST",
+                    data: { url_doc:url, _token:_token },
+                    success: function( response ) {
+                        var imageUrl = response.url;
+                        var a = $("<a>")
+                            .attr("href", imageUrl)
+                            .attr("download", "img.png")
+                            .appendTo("body");
 
-                alert("Image will open in new window. Right click and save as for download image. Will direct download in future");
+                        a[0].click();
+
+                        a.remove();
+
+                    }
+                });
+                // alert("Image will open in new window. Right click and save as for download image. Will direct download in future");
             });
         });
     </script>
