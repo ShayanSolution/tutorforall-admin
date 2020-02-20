@@ -13,7 +13,7 @@ class SubjectController extends Controller
 {
 
     public function subjectsList(){
-        $subjects = Subject::all()->sortByDesc("id");
+        $subjects = Subject::where('status', '!=', '2')->get();
         return view('admin.subject.subjectsList',compact('subjects'));
     }
     public function subjectAdd(){

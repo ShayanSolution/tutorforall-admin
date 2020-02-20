@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class ProgramController extends Controller
 {
     public function programsList(){
-        $programs = Program::with('subjects')->orderBy("id", 'Desc')->get();
+        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
         return view('admin.program.programsList',compact('programs'));
     }
     public function programAdd(){
