@@ -30,7 +30,7 @@
                             <th>Program</th>
                             <th>Created</th>
                             <th>Edit</th>
-                            <th>Delete</th>
+{{--                            <th>Delete</th>--}}
                         </tr>
                         </thead>
                         <tbody>
@@ -46,31 +46,31 @@
                                         <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('subjectEdit',$subject->id)}}">Edit</a>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="col-lg-4 col-sm-4 col-xs-4">
-                                        <a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModalSubject{{$subject->id}}">Delete</a>
-                                    </div>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <div class="col-lg-4 col-sm-4 col-xs-4">--}}
+{{--                                        <a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModalSubject{{$subject->id}}">Delete</a>--}}
+{{--                                    </div>--}}
+{{--                                </td>--}}
                             </tr>
                             <!-- delete modal content -->
-                            <div id="deleteModalSubject{{$subject->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-confirm">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Delete</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Do you really want to delete this subject?</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                                            <a type="button" class="fcbtn btn btn-danger btn-1d" href="{{route('subjectDelete',$subject->id)}}" style="color: white">Delete</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
+{{--                            <div id="deleteModalSubject{{$subject->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">--}}
+{{--                                <div class="modal-dialog modal-confirm">--}}
+{{--                                    <div class="modal-content">--}}
+{{--                                        <div class="modal-header">--}}
+{{--                                            <h4 class="modal-title">Delete</h4>--}}
+{{--                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="modal-body">--}}
+{{--                                            <p>Do you really want to delete this subject?</p>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="modal-footer">--}}
+{{--                                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>--}}
+{{--                                            <a type="button" class="fcbtn btn btn-danger btn-1d" href="{{route('subjectDelete',$subject->id)}}" style="color: white">Delete</a>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <!-- /.modal-dialog -->--}}
+{{--                            </div>--}}
                             <!-- /.modal -->
                         @endforeach
                         </tbody>

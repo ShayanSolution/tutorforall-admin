@@ -348,7 +348,7 @@
                                                 </div>
                                             @endforeach
                                         @endif
-                                        <button type="submit" class="btn btn-info waves-effect waves-light m-r-10 pull-right">Update</button>
+{{--                                        <button type="submit" class="btn btn-info waves-effect waves-light m-r-10 pull-right">Update</button>--}}
                                     </form>
                                 </div>
 
