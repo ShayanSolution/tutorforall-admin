@@ -210,8 +210,10 @@
                                 </div>
                                 <hr>
                                 {{--<div class="row"><h4 class="col-md-7" style="color: #686868"><strong>Classes</strong></h4><h4 class="col-md-5 pull-right" style="color: #686868"><strong>Subjects</strong></h4></div>--}}
-                                <div class="table-responsive pro-rd p-t-10">
-                                    <span class="fontHeading">Approved:</span>
+                                <div id="accordion">
+
+                                <h3 class="fontHeading">Approved</h3>
+                                <div class="table-responsive pro-rd p-t-10" >
                                     <table class="table">
                                         @if (count($programs_subjects)>0)
                                             <tbody class="text-dark">
@@ -234,12 +236,8 @@
                                     </table>
                                 </div>
 
-                                <br>
-                                <br>
-                                <br>
-
+                                <h3 class="fontHeading">Rejected</h3>
                                 <div class="table-responsive pro-rd p-t-10">
-                                    <span class="fontHeading">Rejected:</span>
                                     <table class="table">
                                         @if (count($programs_subjects)>0)
                                             <tbody class="text-dark">
@@ -262,12 +260,8 @@
                                     </table>
                                 </div>
 
-                                <br>
-                                <br>
-                                <br>
-
+                                <h3 class="fontHeading">Pending</h3>
                                 <div class="table-responsive pro-rd p-t-10">
-                                    <span class="fontHeading">Pending:</span>
                                     <table class="table">
                                         @if (count($programs_subjects)>0)
                                             <tbody class="text-dark">
@@ -290,12 +284,8 @@
                                     </table>
                                 </div>
 
-                                <br>
-                                <br>
-                                <br>
-
+                                <h3 class="fontHeading">Document not uploaded</h3>
                                 <div class="table-responsive pro-rd p-t-10">
-                                    <span class="fontHeading">Document not uploaded:</span>
                                     <table class="table">
                                         @if (count($programs_subjects)>0)
                                             <tbody class="text-dark">
@@ -316,6 +306,8 @@
                                             {{'Subjects Not Available'}}
                                         @endif
                                     </table>
+                                </div>
+
                                 </div>
                             </div>
                             <!-- /.tabs1 -->
@@ -570,9 +562,12 @@
 @endsection
 @section('javascripts')
     @parent
+
+    <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
     <script>
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
+            $( "#accordion" ).accordion();
         })
     </script>
     <!--BlockUI Script -->
