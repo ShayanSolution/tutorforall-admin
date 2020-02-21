@@ -8,6 +8,34 @@
             display: inline-block;
             border-bottom: 1px dotted black;
         }
+        .fontHeading {
+            font-size: 25px;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .acceptColor{
+            color: #01c0c8;
+        }
+        .rejectColor{
+            color: red;
+        }
+        .pendingColor{
+            color: lightslategray;
+        }
+
+        .acceptColorBg{
+            background-color: #01c0c8;
+        }
+        .rejectColorBg{
+            background-color: red;
+        }
+        .pendingColorBg{
+            background-color: lightslategray;
+        }
+        .notUploadedColorBg{
+            background-color: black;
+        }
 
         .tooltip .tooltiptext {
             visibility: hidden;
@@ -183,6 +211,7 @@
                                 <hr>
                                 {{--<div class="row"><h4 class="col-md-7" style="color: #686868"><strong>Classes</strong></h4><h4 class="col-md-5 pull-right" style="color: #686868"><strong>Subjects</strong></h4></div>--}}
                                 <div class="table-responsive pro-rd p-t-10">
+                                    <span class="fontHeading">Approved:</span>
                                     <table class="table">
                                         @if (count($programs_subjects)>0)
                                             <tbody class="text-dark">
@@ -191,11 +220,97 @@
                                                     <th style="font-size:23px">Subjects</th>
                                                 </tr>
                                                 @foreach($programs_subjects as $program_subject)
+                                                    @if($program_subject->status == "Accepted" && $program_subject->document_id != 0)
                                                     <tr>
-                                                        <td class="col-md-6"><span class="label label-megna label-rounded">{{($program_subject->program->name)}}</span></td>
+                                                        <td class="col-md-6"><span class="label label-megna label-rounded acceptColorBg">{{($program_subject->program->name)}}</span></td>
                                                         <td class="col-md-6">{{($program_subject->subject ? $program_subject->subject->name : '')}}</td>
                                                     </tr>
+                                                    @endif
                                                 @endforeach
+                                            </tbody>
+                                        @else
+                                            {{'Subjects Not Available'}}
+                                        @endif
+                                    </table>
+                                </div>
+
+                                <br>
+                                <br>
+                                <br>
+
+                                <div class="table-responsive pro-rd p-t-10">
+                                    <span class="fontHeading">Rejected:</span>
+                                    <table class="table">
+                                        @if (count($programs_subjects)>0)
+                                            <tbody class="text-dark">
+                                            <tr>
+                                                <th style="font-size:23px">Classes</th>
+                                                <th style="font-size:23px">Subjects</th>
+                                            </tr>
+                                            @foreach($programs_subjects as $program_subject)
+                                                @if( $program_subject->status == "Rejected" && $program_subject->document_id != 0)
+                                                <tr>
+                                                    <td class="col-md-6"><span class="label label-megna label-rounded rejectColorBg">{{($program_subject->program->name)}}</span></td>
+                                                    <td class="col-md-6">{{($program_subject->subject ? $program_subject->subject->name : '')}}</td>
+                                                </tr>
+                                                @endif
+                                            @endforeach
+                                            </tbody>
+                                        @else
+                                            {{'Subjects Not Available'}}
+                                        @endif
+                                    </table>
+                                </div>
+
+                                <br>
+                                <br>
+                                <br>
+
+                                <div class="table-responsive pro-rd p-t-10">
+                                    <span class="fontHeading">Pending:</span>
+                                    <table class="table">
+                                        @if (count($programs_subjects)>0)
+                                            <tbody class="text-dark">
+                                            <tr>
+                                                <th style="font-size:23px">Classes</th>
+                                                <th style="font-size:23px">Subjects</th>
+                                            </tr>
+                                            @foreach($programs_subjects as $program_subject)
+                                                @if($program_subject->status == "Pending" && $program_subject->document_id != 0)
+                                                <tr>
+                                                    <td class="col-md-6"><span class="label label-megna label-rounded pendingColorBg">{{($program_subject->program->name)}}</span></td>
+                                                    <td class="col-md-6">{{($program_subject->subject ? $program_subject->subject->name : '')}}</td>
+                                                </tr>
+                                                @endif
+                                            @endforeach
+                                            </tbody>
+                                        @else
+                                            {{'Subjects Not Available'}}
+                                        @endif
+                                    </table>
+                                </div>
+
+                                <br>
+                                <br>
+                                <br>
+
+                                <div class="table-responsive pro-rd p-t-10">
+                                    <span class="fontHeading">Document not uploaded:</span>
+                                    <table class="table">
+                                        @if (count($programs_subjects)>0)
+                                            <tbody class="text-dark">
+                                            <tr>
+                                                <th style="font-size:23px">Classes</th>
+                                                <th style="font-size:23px">Subjects</th>
+                                            </tr>
+                                            @foreach($programs_subjects as $program_subject)
+                                                @if($program_subject->status == "Pending" && $program_subject->document_id == 0)
+                                                    <tr>
+                                                        <td class="col-md-6"><span class="label label-megna label-rounded notUploadedColorBg">{{($program_subject->program->name)}}</span></td>
+                                                        <td class="col-md-6">{{($program_subject->subject ? $program_subject->subject->name : '')}}</td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
                                             </tbody>
                                         @else
                                             {{'Subjects Not Available'}}
