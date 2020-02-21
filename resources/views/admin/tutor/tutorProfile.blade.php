@@ -77,7 +77,7 @@
                 <div class="col-md-4 col-xs-12">
                     <div class="white-box">
                         @if($user->profileImage != '' || $user->profileImage != null)
-                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ env('TUTOR_IMAGE_URL').$user->profileImage}}" style="max-width: 200px; height: auto"></div>
+                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://tutor4all-api.shayansolutions.com/images/'.$user->profileImage}}" style="max-width: 200px; height: auto"></div>
                         @else
                             <div class="profile-style" style="text-align: center"><img alt="user" src="{{url('admin_assets/images/user.png')}}"></div>
                         @endif
