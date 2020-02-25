@@ -136,7 +136,7 @@ class NotificationController extends Controller
         // save in storage
         $saveImage = Storage::disk('public')->put('notificationImage/'.$fileNameToStore,  File::get($fileNameWithExtension));
         //get path
-        $urlImage = Storage::disk('public')->url($fileNameToStore);
+        $urlImage = Storage::disk('public')->url('notificationImage/'.$fileNameToStore);
 
         return $urlImage;
     }
