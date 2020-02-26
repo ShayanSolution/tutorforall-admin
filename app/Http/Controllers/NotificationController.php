@@ -61,7 +61,7 @@ class NotificationController extends Controller
         }
         //save notification
         if ($urlImage && $urlFile){
-            $notificationId = Notification::create([
+            $notification = Notification::create([
                 'title' => $request->title,
                 'message' => $request->message,
                 'description' => $request->description,
@@ -72,9 +72,9 @@ class NotificationController extends Controller
         }
 
         if ($extension == 'csv'){
-            $this->sendNotiFromCsv($request,$path, $notificationId);
+            $this->sendNotiFromCsv($request,$path, $notification);
         } else {
-            $this->sendNotiFromXlsx($request, $path, $notificationId);
+            $this->sendNotiFromXlsx($request, $path, $notification);
         }
         return redirect()->route('notifications.index')->with('success','Notification sent');
     }
@@ -160,17 +160,19 @@ class NotificationController extends Controller
         return [$urlFile, $extension, $path];
     }
 
-    public function sendNotiFromCsv($request, $path, $notificationId){
+    public function sendNotiFromCsv($request, $path, $notification){
         $data = array_map('str_getcsv', file($path));
         if (count($data) > 0) {
             unset($data[0]);
             foreach ($data as $item){
                 NotificationStatus::create([
-                    'notification_id' => $notificationId,
+                    'notification_id' => $notification->id,
                     'receiver_id' => $item[0],
                     'notification_type' => "Default",
                     'read_status' => 0
                 ]);
+                //use relations to add notification object
+                // $notStatus->add($notification)
                 // get User
                 $user = User::where('id', $item[0])->first();
                 if ($user){
@@ -182,6 +184,7 @@ class NotificationController extends Controller
                     // Send direct push as IOS developer suggestion
                     $customData = array(
                         'notification_type' => 'admin_notification',
+                        'notification' => $notification
                     );
                     $title = $request->title;
                     $body = $request->message;
@@ -191,12 +194,13 @@ class NotificationController extends Controller
         }
     }
 
-    public function sendNotiFromXlsx($request, $path, $notificationId){
-        Excel::load($path, function ($reader) use ($request, $notificationId) {
-            $reader->each(function ($data) use ($request, $notificationId) {
+    public function sendNotiFromXlsx($request, $path, $notification){
+        //$notificationId = $notification->id;
+        Excel::load($path, function ($reader) use ($request, $notification) {
+            $reader->each(function ($data) use ($request, $notification) {
                 foreach ($data as $item){
                     NotificationStatus::create([
-                        'notification_id' => $notificationId,
+                        'notification_id' => $notification->id,
                         'receiver_id' => intval($item->id),
                         'notification_type' => "Default",
                         'read_status' => 0
@@ -207,6 +211,7 @@ class NotificationController extends Controller
                         // Send Notification
                         $customData = array(
                             'notification_type' => 'admin_notification',
+                            'notification' => $notification
                         );
                         $title = $request->title;
                         $body = $request->message;
