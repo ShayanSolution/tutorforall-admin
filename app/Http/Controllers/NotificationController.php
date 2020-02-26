@@ -68,7 +68,7 @@ class NotificationController extends Controller
                 'image' => $urlImage,
                 'send_to' => $urlFile,
                 'created_by' => Auth::user()->id,
-            ])->id;
+            ]);
         }
 
         if ($extension == 'csv'){
