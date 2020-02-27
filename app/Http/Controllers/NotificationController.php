@@ -165,12 +165,12 @@ class NotificationController extends Controller
         if (count($data) > 0) {
             unset($data[0]);
             foreach ($data as $item){
-                NotificationStatus::create([
+                $notificationStatusId = NotificationStatus::create([
                     'notification_id' => $notification->id,
                     'receiver_id' => $item[0],
                     'notification_type' => "Default",
                     'read_status' => 0
-                ]);
+                ])->id;
                 //use relations to add notification object
                 // $notStatus->add($notification)
                 // get User
@@ -184,7 +184,8 @@ class NotificationController extends Controller
                     // Send direct push as IOS developer suggestion
                     $customData = array(
                         'notification_type' => 'admin_notification',
-                        'notification' => $notification
+                        'notification' => $notification,
+                        'notification_status_id' => $notificationStatusId,
                     );
                     $title = $request->title;
                     $body = $request->message;
@@ -199,19 +200,20 @@ class NotificationController extends Controller
         Excel::load($path, function ($reader) use ($request, $notification) {
             $reader->each(function ($data) use ($request, $notification) {
                 foreach ($data as $item){
-                    NotificationStatus::create([
+                    $notificationStatusId = NotificationStatus::create([
                         'notification_id' => $notification->id,
                         'receiver_id' => intval($item->id),
                         'notification_type' => "Default",
                         'read_status' => 0
-                    ]);
+                    ])->id;
                     // get User
                     $user = User::where('id', $item->id)->first();
                     if ($user){
                         // Send Notification
                         $customData = array(
                             'notification_type' => 'admin_notification',
-                            'notification' => $notification
+                            'notification' => $notification,
+                            'notification_status_id' => $notificationStatusId,
                         );
                         $title = $request->title;
                         $body = $request->message;
