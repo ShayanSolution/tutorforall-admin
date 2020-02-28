@@ -171,32 +171,13 @@ class NotificationController extends Controller
                     'notification_type' => "Default",
                     'read_status' => 0
                 ])->id;
-                //use relations to add notification object
-                // $notStatus->add($notification)
-                // get User
-                $user = User::where('id', $item[0])->first();
-                if ($user){
-                    // Send Notification
-//                    $title = $request->title;
-//                    $message = $request->message;
-//                    $job = new SendNotificationFromAdminPanel($item[0], $title, $message);
-//                    $this->dispatch($job);
-                    // Send direct push as IOS developer suggestion
-                    $customData = array(
-                        'notification_type' => 'admin_notification',
-                        'notification' => $notification,
-                        'notification_status_id' => $notificationStatusId,
-                    );
-                    $title = $request->title;
-                    $body = $request->message;
-                    Push::handle($title, $body, $customData, $user);
-                }
+                $userId = $item[0];
+                $this->sendInstantNotifications($userId, $notification, $notificationStatusId, $request);
             }
         }
     }
 
     public function sendNotiFromXlsx($request, $path, $notification){
-        //$notificationId = $notification->id;
         Excel::load($path, function ($reader) use ($request, $notification) {
             $reader->each(function ($data) use ($request, $notification) {
                 foreach ($data as $item){
@@ -206,21 +187,32 @@ class NotificationController extends Controller
                         'notification_type' => "Default",
                         'read_status' => 0
                     ])->id;
-                    // get User
-                    $user = User::where('id', $item->id)->first();
-                    if ($user){
-                        // Send Notification
-                        $customData = array(
-                            'notification_type' => 'admin_notification',
-                            'notification' => $notification,
-                            'notification_status_id' => $notificationStatusId,
-                        );
-                        $title = $request->title;
-                        $body = $request->message;
-                        Push::handle($title, $body, $customData, $user);
-                    }
+                    $userId = $item->id;
+                    $this->sendInstantNotifications($userId, $notification, $notificationStatusId, $request);
                 }
             });
         });
+    }
+
+    public function sendInstantNotifications($userId, $notification, $notificationStatusId, $request){
+        $user = User::where('id', $userId)->first();
+        if ($user){
+            if ($user->is_online == "1"|| $user->offline_notification == "1"){
+            // Send Notification
+    //                    $title = $request->title;
+    //                    $message = $request->message;
+    //                    $job = new SendNotificationFromAdminPanel($item[0], $title, $message);
+    //                    $this->dispatch($job);
+            // Send direct push as IOS developer suggestion
+            $customData = array(
+                'notification_type' => 'admin_notification',
+                'notification' => $notification,
+                'notification_status_id' => $notificationStatusId,
+            );
+            $title = $request->title;
+            $body = $request->message;
+            Push::handle($title, $body, $customData, $user);
+            }
+        }
     }
 }
