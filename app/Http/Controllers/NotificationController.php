@@ -197,21 +197,29 @@ class NotificationController extends Controller
     public function sendInstantNotifications($userId, $notification, $notificationStatusId, $request){
         $user = User::where('id', $userId)->first();
         if ($user){
-            if ($user->is_online == "1"|| $user->offline_notification == "1"){
-            // Send Notification
-    //                    $title = $request->title;
-    //                    $message = $request->message;
-    //                    $job = new SendNotificationFromAdminPanel($item[0], $title, $message);
-    //                    $this->dispatch($job);
-            // Send direct push as IOS developer suggestion
-            $customData = array(
-                'notification_type' => 'admin_notification',
-                'notification' => $notification,
-                'notification_status_id' => $notificationStatusId,
-            );
-            $title = $request->title;
-            $body = $request->message;
-            Push::handle($title, $body, $customData, $user);
+            if (
+                $user->role_id == 3
+                ||
+                (
+                    $user->role_id == 2
+                    &&
+                    (
+                        $user->is_online == "1"
+                        ||
+                        $user->offline_notification == "1"
+                    )
+                )
+            ){
+                $customData = array(
+                    'notification_type' => 'admin_notification',
+                    'notification' => $notification,
+                    'notification_status_id' => $notificationStatusId,
+                );
+                $title = $request->title;
+                $body = $request->message;
+                if($user->device_token != null && $user->device_token != ''){
+                    Push::handle($title, $body, $customData, $user);
+                }
             }
         }
     }
