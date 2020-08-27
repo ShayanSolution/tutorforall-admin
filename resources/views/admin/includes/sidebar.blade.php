@@ -78,7 +78,7 @@
                 <a href="#" class="waves-effect">
                     <i class="fa fa-ticket"></i>
                     <span class="hide-menu">
-                        Sessions<span class="fa arrow"></span>
+                        Session Logs<span class="fa arrow"></span>
                     </span>
                 </a>
                 <ul class="nav nav-second-level">
