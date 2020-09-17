@@ -23,6 +23,15 @@
                 <hr>
                 <div class="table-responsive">
                     <table id="myTable" class="table table-striped">
+                        <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>Active</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </tfoot>
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -116,7 +125,7 @@
     @parent
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable({
+            var table = $('#myTable').DataTable({
                 dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-2"l><"col-sm-10"p>>',
                 buttons: [
                     { extend: 'csv', className: 'btn-md', exportOptions: {
@@ -131,6 +140,50 @@
                 ],
                 "bSort": true
             });
+            $("#myTable tfoot th").each( function ( i ) {
+
+                if ($(this).text() !== '' ) {
+                    var isActiveColumn = (($(this).text() == 'Status') ? true : false);
+                    var name = 'Program';
+                    if($(this).text() == 'Active')
+                        var name = 'All';
+                    var select = $('<select class="filter_search"><option value="">'+name+'</option></select>')
+                        .appendTo( $(this).empty() )
+                        .on( 'change', function () {
+                            var val = $(this).val();
+
+                            table.column( i )
+                                .search( val ? '^'+$(this).val()+'$' : val, true, false )
+                                .draw();
+                        } );
+
+                    // Get the Status values a specific way since the status is a anchor/image
+                    if (isActiveColumn) {
+                        var activeItems = [];
+
+                        /* ### IS THERE A BETTER/SIMPLER WAY TO GET A UNIQUE ARRAY OF <TD> data-filter ATTRIBUTES? ### */
+                        table.column( i ).nodes().to$().each( function(d, j){
+                            var thisStatus = $(j).attr("data-filter");
+                            if($.inArray(thisStatus, activeItems) === -1) activeItems.push(thisStatus);
+                        } );
+
+                        activeItems.sort();
+
+                        $.each( activeItems, function(i, item){
+                            select.append( '<option value="'+item+'">'+item+'</option>' );
+                        });
+
+                    }
+                    // All other non-Status columns (like the example)
+                    else {
+                        // alert("here");
+                        table.column( i ).data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' );
+                        } );
+                    }
+
+                }
+            } );
         });
     </script>
 @stop

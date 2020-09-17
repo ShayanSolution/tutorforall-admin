@@ -23,21 +23,30 @@
                 <hr>
                 <div class="table-responsive">
                     <table id="myTable" class="table table-striped">
-                        <thead>
+                        <tfoot>
                         <tr>
-                            <th>Name</th>
-                            <th>Created</th>
+                            <th></th>
+                            <th></th>
                             <th>Active</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th></th>
+                            <th></th>
                         </tr>
+                        </tfoot>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Created</th>
+                                <th>Active</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach($categories as $category)
                             <tr>
                                 <td>{{$category->name}}</td>
                                 <td>{{dateTimeConverter($category->created_at)}}</td>
-                                <td><input type="checkbox" data-category-id="{{ $category->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($category->status == 1) checked @endif></td>
+                                <td data-filter="@if($category->status != 1) No @else Yes @endif"><input type="checkbox" data-category-id="{{ $category->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($category->status == 1) checked @endif></td>
                                 <td>
                                     <div class="col-lg-4 col-sm-4 col-xs-4">
                                         <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('categoryEdit',$category->id)}}">Edit</a>
@@ -83,7 +92,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable({
+            var table = $('#myTable').DataTable({
                 dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-2"l><"col-sm-10"p>>',
                 buttons: [
                     { extend: 'csv', className: 'btn-md', exportOptions: {
@@ -98,7 +107,49 @@
                 ],
                 "bSort": true
             });
+
+            $("#myTable tfoot th").each( function ( i ) {
+
+                if ($(this).text() !== '' && $(this).text() === 'Active' ) {
+                    var isActiveColumn = (($(this).text() == 'Active') ? true : false);
+                    var select = $('<select class="filter_search"><option value="">All</option></select>')
+                        .appendTo( $(this).empty() )
+                        .on( 'change', function () {
+                            var val = $(this).val();
+
+                            table.column( i )
+                                .search( val ? '^'+$(this).val()+'$' : val, true, false )
+                                .draw();
+                        } );
+
+                    // Get the Status values a specific way since the status is a anchor/image
+                    if (isActiveColumn) {
+                        var activeItems = [];
+
+                        /* ### IS THERE A BETTER/SIMPLER WAY TO GET A UNIQUE ARRAY OF <TD> data-filter ATTRIBUTES? ### */
+                        table.column( i ).nodes().to$().each( function(d, j){
+                            var thisStatus = $(j).attr("data-filter");
+                            if($.inArray(thisStatus, activeItems) === -1) activeItems.push(thisStatus);
+                        } );
+
+                        activeItems.sort();
+
+                        $.each( activeItems, function(i, item){
+                            select.append( '<option value="'+item+'">'+item+'</option>' );
+                        });
+
+                    }
+                    // All other non-Status columns (like the example)
+                    else {
+                        table.column( i ).data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' );
+                        } );
+                    }
+
+                }
+            } );
         });
+
         $('.js-switch').on('change.bootstrapSwitch', function(e) {
             var base_url = $(this).data('url');
             var category_id = $(this).attr("data-category-id");

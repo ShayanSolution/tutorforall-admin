@@ -1,0 +1,14 @@
+.filter_search{
+    width: 50%;
+    padding: 5px;
+    border-radius: 5px;
+}
+tfoot{
+    display: table-header-group;
+}
+
+@media (max-width:991px) and (min-width:1px) {
+    .filter_search {
+        width: 100%;
+    }
+}​
