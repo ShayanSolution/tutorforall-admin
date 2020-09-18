@@ -156,7 +156,7 @@
                             columns: ['0', '1', '2', '3', '4'],
                         } }
                 ],
-                "bSort": truegit
+                "bSort": true
             });
 
             // Event listener to the two range filtering inputs to redraw on input

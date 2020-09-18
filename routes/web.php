@@ -172,6 +172,10 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'tutorsList',
         'uses' => 'TutorController@tutorsList'
     ]);
+    Route::get('admin/tutors/archivelist',[
+        'as' => 'tutorsArchiveList',
+        'uses' => 'TutorController@tutorsArchiveList'
+    ]);
     Route::get('admin/tutors/mentors',[
         'as' => 'mentorsList',
         'uses' => 'TutorController@mentorsList'
@@ -219,6 +223,10 @@ Route::group(['middleware' => 'admin'],function (){
     Route::get('admin/tutor/delete/{tutor}',[
         'as' => 'tutorDelete',
         'uses' => 'TutorController@tutorDelete'
+    ]);
+    Route::get('admin/tutor/restore/{tutor}',[
+        'as' => 'tutorRestore',
+        'uses' => 'TutorController@tutorRestore'
     ]);
 
     //Students
