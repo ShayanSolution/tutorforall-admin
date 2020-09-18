@@ -14,6 +14,7 @@
             display: inline-block;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 
 @section('content')
@@ -38,22 +39,240 @@
                 <h3 class="box-title m-b-0">Tutors List Details</h3>
                 <hr>
                 <div class="table-responsive">
-                    <div class="col-md-10"></div>
-                    <div class="col-md-2" style="padding: 0">
+                    {{--                    Location Filters start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Location:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select Country</option>
+                                    <option value="all">Pakistan</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select Province</option>
+                                    <option value="all">Punjab</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select District</option>
+                                    <option value="all">Lahore</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select  Area List</option>
+                                    <option value="all">Gulberg</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {{--                    Location Filters end--}}
+                    {{--                    Online/Last Login Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Online & Last Login:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Online Status</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
+                                {{--                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">--}}
+                                {{--                                    <option value="all">Last Online</option>--}}
+                                {{--                                </select>--}}
+                                <input type="text" name="dates" value="" placeholder="Last Login" />
+                            </div>
+
+                        </div>
+                    </div>
+                    {{--                    Online/Last Login end--}}
+                    {{--                    Class & Subject Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Class & Subject:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select Classes</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select Subjects</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    {{--                    Class & Subject end--}}
+                    {{--                    Experience  Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Experience:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
+                                <input type="number" class="min_experience" placeholder="Min" style="width: 50px">
+                            </div>
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
+                                <input type="number" class="max_experience" placeholder="Max" style="width: 50px">
+                            </div>
+
+                        </div>
+                    </div>
+                    {{--                    Experience  end--}}
+                    {{--                    Rate  Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Rate:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
+                                <input type="number" class="min_rating" placeholder="Min" style="width: 50px">
+                            </div>
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
+                                <input type="number" class="max_rating" placeholder="Max" style="width: 50px">
+                            </div>
+
+                        </div>
+                    </div>
+                    {{--                    Rate  end--}}
+                    {{--                    active/inactive Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Active/InActive:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {{--                    active/inactive end--}}
+                    {{--                    gender Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Gender:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {{--                    gender end--}}
+                    {{--                    Age  Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Age:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
+                                <input type="number" placeholder="Min" style="width: 50px">
+                            </div>
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
+                                <input type="number" placeholder="Max" style="width: 50px">
+                            </div>
+
+                        </div>
+                    </div>
+                    {{--                    Age  end--}}
+                    {{--                    Age  Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">No. of Sessions:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
+                                <input type="number" placeholder="Min" style="width: 50px">
+                            </div>
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
+                                <input type="number" placeholder="Max" style="width: 50px">
+                            </div>
+
+                        </div>
+                    </div>
+                    {{--                    Age  end--}}
+                    {{--                    Monthly/Hourly Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Monthly/Hourly:</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {{--                    Monthly/Hourly end--}}
+                    {{--                    Call Student/Go to Student  Start--}}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="black-333">Call Student/Go to Student :</label>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {{--                    Call Student/Go to Student end--}}
+                    {{--                    rating filter start--}}
+                    <div class="col-md-12">
                         <div class="col-md-6">
                             <label class="black-333">Rating filter:</label>
                         </div>
-                        <div class="col-md-6 placeholder" style="padding: 0">
-                            <select id="ratings" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
-                                <option value="all">All</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
+                        <br>
+                        <div class="col-md-12" style="padding: 0; margin: 5px">
+                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
+                                <select id="ratings" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                    <option value="all">All</option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
                         </div>
+                    </div>
+                    {{--                    rating ends--}}
+
+                    <div class="col-md-3" style="margin-top: 20px; margin-left: 5px">
+                        <button class="btn apply-filter" style="background-color: #ab8ce4; color: white"> Apply filter</button>
                     </div>
                     <br>
                     <br>
@@ -75,44 +294,44 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($tutors as $tutor)
-                                <tr>
-                                    <td hidden>{{$tutor->id}}</td>
-                                    <td>{{$tutor->firstName ? $tutor->firstName : 'N-A'}}</td>
-                                    <td>{{$tutor->lastName ? $tutor->lastName : 'N-A'}}</td>
-                                    <td>{{$tutor->email}}</td>
-                                    <td>{{$tutor->phone}}</td>
-                                    <td>{{round($tutor->rating->avg('rating'),1)}}</td>
-                                    <td>{{dateTimeConverter($tutor->created_at)}}</td>
-                                    <td>{{$tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login)}}</td>
-                                    {{--<td>@if($tutor->is_active == 1) Yes @else No @endif</td>--}}
-                                    <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($tutor->is_active == 1) checked @endif></td>
-                                    <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="is_approved_by_admin" data-color="#99d683" @if($tutor->is_approved == 1) checked @endif></td>
-                                    <td><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="{{route('tutorProfile',$tutor->id)}}" alt="default">View</a></td>
-                                    <td><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModaltutor{{$tutor->id}}">Delete</a></td>
-                                </tr>
+                        @foreach($tutors as $tutor)
+                            <tr>
+                                <td hidden>{{$tutor->id}}</td>
+                                <td>{{$tutor->firstName ? $tutor->firstName : 'N-A'}}</td>
+                                <td>{{$tutor->lastName ? $tutor->lastName : 'N-A'}}</td>
+                                <td>{{$tutor->email}}</td>
+                                <td>{{$tutor->phone}}</td>
+                                <td>{{round($tutor->rating->avg('rating'),1)}}</td>
+                                <td>{{dateTimeConverter($tutor->created_at)}}</td>
+                                <td>{{$tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login)}}</td>
+                                {{--<td>@if($tutor->is_active == 1) Yes @else No @endif</td>--}}
+                                <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($tutor->is_active == 1) checked @endif></td>
+                                <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="is_approved_by_admin" data-color="#99d683" @if($tutor->is_approved == 1) checked @endif></td>
+                                <td><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="{{route('tutorProfile',$tutor->id)}}" alt="default">View</a></td>
+                                <td><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModaltutor{{$tutor->id}}">Delete</a></td>
+                            </tr>
 
-                                <!-- delete modal content -->
-                                <div id="deleteModaltutor{{$tutor->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-confirm">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Delete</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Do you really want to delete this tutor?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                                                <a type="button" class="fcbtn btn btn-danger btn-1d" href="{{route('tutorDelete',$tutor->id)}}" style="color: white">Delete</a>
-                                            </div>
+                            <!-- delete modal content -->
+                            <div id="deleteModaltutor{{$tutor->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-confirm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Delete</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you really want to delete this tutor?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                            <a type="button" class="fcbtn btn btn-danger btn-1d" href="{{route('tutorDelete',$tutor->id)}}" style="color: white">Delete</a>
                                         </div>
                                     </div>
-                                    <!-- /.modal-dialog -->
                                 </div>
-                                <!-- /.modal -->
-                            @endforeach
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -122,8 +341,22 @@
 @endsection
 @section('javascripts')
     @parent
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
+        $('input[name="dates"]').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+        $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        });
 
+        $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
         $.fn.dataTable.ext.search.push(
             function( settings, data, dataIndex ) {
 
@@ -156,7 +389,7 @@
                             columns: ['0', '1', '2', '3', '4'],
                         } }
                 ],
-                "bSort": truegit
+                "bSort": true
             });
 
             // Event listener to the two range filtering inputs to redraw on input
@@ -164,7 +397,7 @@
                 table.draw();
             });
         });
-        $('.js-switch').on('change.bootstrapSwitch', function(e) {
+        $('body').on('change.bootstrapSwitch','.js-switch', function(e) {
             var base_url = $(this).data('url');
             var tutor_id = $(this).attr("data-tutor-id");
             $.ajax({
@@ -183,7 +416,7 @@
             var base_url = $(this).data('url');
         });
 
-        $('.is_approved_by_admin').on('change.bootstrapSwitch', function(e) {
+        $('body').on('change.bootstrapSwitch','.is_approved_by_admin', function(e) {
             var base_url = $(this).data('url');
             var tutor_id = $(this).attr("data-tutor-id");
             $.ajax({
@@ -200,6 +433,76 @@
         $('.is_approved_by_admin').each(function () {
             new Switchery($(this)[0], $(this).data());
             var base_url = $(this).data('url');
+        });
+    </script>
+    <script>
+        $(document).ready(function()
+        {
+            //Start function by Muhammad Talha Jamshed
+            $('body').on('click','.apply-filter',function ()
+            {
+                var fd = new FormData();
+                if($('input[name="dates"]').val() != '')
+                    fd.append('last_login', $('input[name="dates"]').val());
+                if($('.min_experience').val() != '')
+                    fd.append('min_experience', $('.min_experience').val());
+                if($('.max_experience').val() != '')
+                    fd.append('max_experience', $('.max_experience').val());
+                if($('.min_rating').val() != '')
+                    fd.append('min_rating', $('.min_rating').val());
+                if($('.max_rating').val() != '')
+                    fd.append('max_rating', $('.max_rating').val());
+                fd.append('_token', "{{ csrf_token() }}");
+                $.ajax({
+                    url : "{{URL::to('/admin/tutors/filter')}}",
+                    type : 'POST',
+                    data : fd,
+                    dataType: 'html',
+                    contentType: false,
+                    processData: false,
+                    success:function (response){
+                        $('#myTable').DataTable().clear().destroy();
+                        $('#myTable').html(response);
+
+                        // Switchery
+                        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+                        $('.js-switch').each(function () {
+                            new Switchery($(this)[0], $(this).data());
+                            var base_url = $(this).data('url');
+                        });
+
+                        // Data tables
+
+                        let table = $('#myTable').DataTable({
+                            dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-2"l><"col-sm-10"p>>',
+                            buttons: [
+                                { extend: 'csv', className: 'btn-md', exportOptions: {
+                                        columns: ['0', '1', '2', '3', '4'],
+                                    } },
+                                { extend: 'excel', className: 'btn-md', exportOptions: {
+                                        columns: ['0', '1', '2', '3', '4'],
+                                    }  },
+                                { extend: 'print', className: 'btn-md', exportOptions: {
+                                        columns: ['0', '1', '2', '3', '4'],
+                                    } }
+                            ],
+                            "bSort": true
+                        });
+                        $('#ratings').change(function() {
+                            table.draw();
+                        });
+
+                        // Switchery
+                        var elems = Array.prototype.slice.call(document.querySelectorAll('.is_approved_by_admin'));
+                        $('.is_approved_by_admin').each(function () {
+                            new Switchery($(this)[0], $(this).data());
+                            var base_url = $(this).data('url');
+                        });
+                    }
+                });
+
+            });
+            //End function by Muhammad Talha Jamshed
         });
     </script>
 @stop

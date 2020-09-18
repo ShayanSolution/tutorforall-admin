@@ -10,8 +10,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 
+use App\Traits\TutorFilterTrait;
+
 class TutorController extends Controller
 {
+    use TutorFilterTrait;
     public function tutorAdd(){
         $classes = Program::where('status',1)->get();
         return view('admin.tutor.tutorAdd',compact('classes'));
@@ -134,7 +137,7 @@ class TutorController extends Controller
     public function tutorsList(){
         $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
             $q->where('is_mentor', 0);
-        })->with('rating')->where('role_id',2)->orderBy('id', 'DESC')->get();
+        })->with('rating')->where('role_id',2)->orderBy('id', 'DESC')->limit(100)->get();
         $mentorOrCommercial = 'Commercial';
         return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
     }
@@ -306,6 +309,11 @@ class TutorController extends Controller
             ->where('longitude', '!=', null)
             ->get();
         return view('admin.tutor.map', compact('tutors'));
+    }
+    public function applyTutorFilter(Request  $request)
+    {
+        $tutors = $this->tutorFilter($request);
+        return view('admin.tutor.ajaxView.tutorsAjaxList',compact('tutors'));
     }
 
 }

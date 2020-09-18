@@ -176,6 +176,10 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'mentorsList',
         'uses' => 'TutorController@mentorsList'
     ]);
+    Route::post('admin/tutors/filter',[
+        'as' => 'tutorsFilter',
+        'uses' => 'TutorController@applyTutorFilter'
+    ]);
     Route::get('admin/candidate/{id}/documents',[
         'as' => 'candidateDocuments',
         'uses' => 'AdminController@candidateDocuments'
