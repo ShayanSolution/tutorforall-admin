@@ -18,8 +18,8 @@
 <link href="{{url('admin_assets/css/animate.css')}}" rel="stylesheet">
 <!-- Custom CSS -->
 <link href="{{url('admin_assets/css/style.css')}}" rel="stylesheet">
-
-<link href="{{url('admin_assets/css/git.css')}}" rel="stylesheet">
+<!-- Filter CSS -->
+<link href="{{url('admin_assets/css/filter.css')}}" rel="stylesheet">
 <!-- color CSS -->
 {{--<link href="{{url('admin_assets/css/colors/blue.css')}}" id="theme" rel="stylesheet">--}}
 <link href="{{url('admin_assets/css/colors/default.css')}}" id="theme" rel="stylesheet">
