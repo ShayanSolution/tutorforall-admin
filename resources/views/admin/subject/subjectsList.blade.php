@@ -23,6 +23,15 @@
                 <hr>
                 <div class="table-responsive">
                     <table id="myTable" class="table table-striped">
+                        <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>Active</th>
+                            <th>Program</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </tfoot>
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -84,7 +93,7 @@
     @parent
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable( {
+            var table = $('#myTable').DataTable( {
                 dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-2"l><"col-sm-10"p>>',
                 buttons: [
                     { extend: 'csv', className: 'btn-md', exportOptions: {
@@ -98,6 +107,23 @@
                         } }
                 ],
                 "bSort": true
+            } );
+            $("#myTable tfoot th").each( function ( i ) {
+
+                if ($(this).text() !== '' ) {
+                    var select = $('<select class="filter_search_subject"><option value="">All</option></select>')
+                        .appendTo( $(this).empty() )
+                        .on( 'change', function () {
+                            var val = $(this).val();
+
+                            table.column( i )
+                                .search( val ? '^'+$(this).val()+'$' : val, true, false )
+                                .draw();
+                        } );
+                    table.column( i ).data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' );
+                    } );
+                }
             } );
         });
         $('.js-switch').on('change.bootstrapSwitch', function(e) {

@@ -4,6 +4,12 @@
     border-radius: 5px;
 }
 
+.filter_search_subject{
+    width: auto;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 tfoot{
     display: table-header-group;
 }
