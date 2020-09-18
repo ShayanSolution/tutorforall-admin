@@ -137,9 +137,16 @@ class TutorController extends Controller
     public function tutorsList(){
         $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
             $q->where('is_mentor', 0);
-        })->with('rating')->where('role_id',2)->orderBy('id', 'DESC')->limit(100)->get();
+        })->with('rating')->limit(10)->where('role_id',2)->orderBy('id', 'DESC')->get();GIT
         $mentorOrCommercial = 'Commercial';
         return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
+    }
+    public function tutorsArchiveList(){
+        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
+            $q->where('is_mentor', 0);
+        })->with('rating')->onlyTrashed()->orderBy('id', 'DESC')->get();
+        $mentorOrCommercial = 'Commercial';
+        return view('admin.tutor.tutorsArchiveList',compact('tutors', 'mentorOrCommercial'));
     }
     public function mentorsList(){
         $tutors = User::whereHas('profile', function ($q){
@@ -240,7 +247,11 @@ class TutorController extends Controller
         User::where('id', $tutor)->delete();
         return redirect()->route('tutorsList')->with('success','Tutor Deleted successfully');
     }
-
+    public function tutorRestore($tutor){
+        /*dd($tutor);*/
+        User::withTrashed()->find($tutor)->restore();
+        return redirect()->route('tutorsArchiveList')->with('success','Tutor Restored successfully');
+    }
     public function profileUpdate(Request $request){
 
         $userProfile = Profile::where('user_id', $request->user_id)->first();
