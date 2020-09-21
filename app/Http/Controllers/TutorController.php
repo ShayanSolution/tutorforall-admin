@@ -137,7 +137,7 @@ class TutorController extends Controller
     public function tutorsList(){
         $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
             $q->where('is_mentor', 0);
-        })->with('rating')->limit(10)->where('role_id',2)->orderBy('id', 'DESC')->get();GIT
+        })->with('rating')->limit(10)->where('role_id',2)->orderBy('id', 'DESC')->get();
         $mentorOrCommercial = 'Commercial';
         return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
     }
