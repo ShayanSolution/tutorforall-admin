@@ -271,7 +271,7 @@
                     </div>
                     {{--                    rating ends--}}
 
-                    <div class="col-md-3" style="margin-top: 20px; margin-left: 5px">
+                    <div class="col-md-3" style="margin-top: 20px; margin-left: 5px; margin-bottom: 20px;">
                         <button class="btn apply-filter" style="background-color: #ab8ce4; color: white"> Apply filter</button>
                     </div>
                     <br>
@@ -294,44 +294,26 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($tutors as $tutor)
-                            <tr>
-                                <td hidden>{{$tutor->id}}</td>
-                                <td>{{$tutor->firstName ? $tutor->firstName : 'N-A'}}</td>
-                                <td>{{$tutor->lastName ? $tutor->lastName : 'N-A'}}</td>
-                                <td>{{$tutor->email}}</td>
-                                <td>{{$tutor->phone}}</td>
-                                <td>{{round($tutor->rating->avg('rating'),1)}}</td>
-                                <td>{{dateTimeConverter($tutor->created_at)}}</td>
-                                <td>{{$tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login)}}</td>
-                                {{--<td>@if($tutor->is_active == 1) Yes @else No @endif</td>--}}
-                                <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($tutor->is_active == 1) checked @endif></td>
-                                <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="is_approved_by_admin" data-color="#99d683" @if($tutor->is_approved == 1) checked @endif></td>
-                                <td><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="{{route('tutorProfile',$tutor->id)}}" alt="default">View</a></td>
-                                <td><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModaltutor{{$tutor->id}}">Delete</a></td>
-                            </tr>
-
-                            <!-- delete modal content -->
-                            <div id="deleteModaltutor{{$tutor->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-confirm">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Delete</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Do you really want to delete this tutor?</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                                            <a type="button" class="fcbtn btn btn-danger btn-1d" href="{{route('tutorDelete',$tutor->id)}}" style="color: white">Delete</a>
-                                        </div>
+                        <!-- delete modal content -->
+                        <div id="deleteModaltutor" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-confirm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Do you really want to delete this tutor?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                        <a type="button" class="fcbtn btn btn-danger btn-1d modelDeleteBtn" href="#" style="color: white">Delete</a>
                                     </div>
                                 </div>
-                                <!-- /.modal-dialog -->
                             </div>
-                            <!-- /.modal -->
-                        @endforeach
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
                         </tbody>
                     </table>
                 </div>
@@ -377,7 +359,40 @@
 
         $(document).ready(function () {
             let table = $('#myTable').DataTable({
-                dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-2"l><"col-sm-10"p>>',
+                dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
+                processing: true,
+                serverSide: true,
+                ajax : {
+                    url : "{{ route('tutorsList') }}",
+                    complete : function (data) {
+                        // Switchery
+                        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+                        $('.js-switch').each(function () {
+                            new Switchery($(this)[0], $(this).data());
+                            var base_url = $(this).data('url');
+                        });
+
+                        // Switchery
+                        var elems = Array.prototype.slice.call(document.querySelectorAll('.is_approved_by_admin'));
+                        $('.is_approved_by_admin').each(function () {
+                            new Switchery($(this)[0], $(this).data());
+                            var base_url = $(this).data('url');
+                        });
+                    }
+                },
+                columns: [
+                    {data: 'firstName', name: 'firstName'},
+                    {data: 'lastName', name: 'lastName'},
+                    {data: 'email', name: 'email'},
+                    {data: 'phone', name: 'phone'},
+                    {data: 'rating', name: 'rating.rating'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'last_login', name: 'last_login'},
+                    {data: 'is_active', name: 'is_active'},
+                    {data: 'is_approve', name: 'is_approve'},
+                    {data: 'edit', name: 'edit' },
+                    {data: 'delete', name: 'delete' },
+                ],
                 buttons: [
                     { extend: 'csv', className: 'btn-md', exportOptions: {
                             columns: ['0', '1', '2', '3', '4'],
@@ -397,6 +412,12 @@
                 table.draw();
             });
         });
+        $('body').on('click', '.delete',function (){
+            var id = $(this).data('id');
+            var href = "{{URL::to('admin/tutor/delete')}}/"+id;
+            $('.modelDeleteBtn').attr("href", href);
+            $('#deleteModaltutor').modal();
+        });
         $('body').on('change.bootstrapSwitch','.js-switch', function(e) {
             var base_url = $(this).data('url');
             var tutor_id = $(this).attr("data-tutor-id");
@@ -408,12 +429,6 @@
                     console.log(response);
                 }
             });
-        });
-        // Switchery
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-        $('.js-switch').each(function () {
-            new Switchery($(this)[0], $(this).data());
-            var base_url = $(this).data('url');
         });
 
         $('body').on('change.bootstrapSwitch','.is_approved_by_admin', function(e) {
@@ -427,12 +442,6 @@
                     console.log(response);
                 }
             });
-        });
-        // Switchery
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.is_approved_by_admin'));
-        $('.is_approved_by_admin').each(function () {
-            new Switchery($(this)[0], $(this).data());
-            var base_url = $(this).data('url');
         });
     </script>
     <script>
