@@ -271,6 +271,7 @@ Route::group(['middleware' => 'admin'],function (){
         Route::get('settings', 'SettingsController@getSettings')->name('getSettings');
         Route::post('settings/save', 'SettingsController@saveSettings')->name('saveSettings');
         Route::get('session/booked', 'SessionController@sessionBooked')->name('sessionBooked');
+        Route::get('reports', 'ReportsController@tutorReportList')->name('reports');
         Route::get('session/started', 'SessionController@sessionStarted')->name('sessionStarted');
         Route::get('session/completed', 'SessionController@sessionCompleted')->name('sessionCompleted');
         Route::get('session/missed', 'SessionController@sessionMissed')->name('sessionMissed');
