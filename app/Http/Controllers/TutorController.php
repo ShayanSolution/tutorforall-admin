@@ -148,6 +148,9 @@ class TutorController extends Controller
                 })->with('rating')->where('role_id',2)->orderBy('id', 'DESC');
             }
             return datatables()->eloquent($tutors)
+                ->orderColumn('firstName', function ($query, $order) {
+                    $query->orderBy('status', $order);
+                })
                 ->addColumn('rating', function($tutor){
                     return round($tutor->rating->avg('rating'),1);
                 })

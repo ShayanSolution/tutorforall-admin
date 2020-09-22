@@ -18,4 +18,12 @@ tfoot{
     .filter_search {
         width: 100%;
     }
-}​
+    .placeholder {
+        margin-bottom: 10px;
+    }
+}
+@media (max-width:767px) and (min-width:1px) {
+    .slimScrollDiv {
+        height: auto !important;
+    }
+}

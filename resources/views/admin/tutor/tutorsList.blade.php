@@ -38,134 +38,80 @@
                 </div>
                 <h3 class="box-title m-b-0">Tutors List Details</h3>
                 <hr>
-                <div class="table-responsive">
-                    {{--                    Location Filters start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Location:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                {{--                    Location Filters start--}}
+                {{-- Start Design By Muhammad Talha Jamshed --}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="black-333">Location:</label>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col-xs-6  placeholder">
+                                <select id="" name="ratings" class="form-control black-333" >
                                     <option value="all">Select Country</option>
                                     <option value="all">Pakistan</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                            <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
+                                <select id="" name="ratings" class="form-control black-333">
                                     <option value="all">Select Province</option>
                                     <option value="all">Punjab</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                            <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
+                                <select id="" name="ratings" class="form-control black-333">
                                     <option value="all">Select District</option>
                                     <option value="all">Lahore</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                            <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
+                                <select id="" name="ratings" class="form-control black-333">
                                     <option value="all">Select  Area List</option>
                                     <option value="all">Gulberg</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    {{--                    Location Filters end--}}
-                    {{--                    Online/Last Login Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Online & Last Login:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333 online_status" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
-                                    <option value="all">Online Status</option>
-                                    <option value="1">Online</option>
-                                    <option value="0">Offline</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
-                                {{--                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">--}}
-                                {{--                                    <option value="all">Last Online</option>--}}
-                                {{--                                </select>--}}
-                                <input type="text" name="dates" value="" placeholder="Last Login" />
-                            </div>
-
-                        </div>
-                    </div>
-                    {{--                    Online/Last Login end--}}
-                    {{--                    Class & Subject Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Class & Subject:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                    <div class="col-md-6">
+                        <label class="black-333">Class & Subject:</label>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6  placeholder">
+                                <select id="" name="ratings" class="form-control black-333">
                                     <option value="all">Select Classes</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                            <div class="col-md-6 col-sm-6 col-xs-6 placeholder">
+                                <select id="" name="ratings" class="form-control black-333">
                                     <option value="all">Select Subjects</option>
                                 </select>
                             </div>
 
                         </div>
                     </div>
-                    {{--                    Class & Subject end--}}
-                    {{--                    Experience  Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Experience:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" class="min_experience" placeholder="Min" style="width: 50px">
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="black-333">Online & Last Login:</label>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6  placeholder">
+                                <select id="" name="ratings" class="form-control black-333 online_status">
+                                    <option value="all">Online Status</option>
+                                    <option value="1">Online</option>
+                                    <option value="0">Last login</option>
+                                </select>
                             </div>
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" class="max_experience" placeholder="Max" style="width: 50px">
+                            <div class="col-md-6 col-sm-6 placeholder hide last_login">
+                                <input type="text" name="dates" class="form-control" autocomplete="off" value="" placeholder="Last Login" />
                             </div>
-
                         </div>
                     </div>
-                    {{--                    Experience  end--}}
-                    {{--                    Rate  Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Rate:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" class="min_rating" placeholder="Min" style="width: 50px">
-                            </div>
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" class="max_rating" placeholder="Max" style="width: 50px">
-                            </div>
-
-                        </div>
-                    </div>
-                    {{--                    Rate  end--}}
-                    {{--                    active/inactive Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Active/InActive:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333 active_record" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                    <div class="col-md-6">
+                        <label class="black-333">Active/InActive:</label>
+                        <div class="row">
+                            <div class="col-md-6  placeholder">
+                                <select id="" name="ratings" class="form-control black-333 active_record">
                                     <option value="all">Select</option>
                                     <option value="1">Active</option>
                                     <option value="0">In-Active</option>
@@ -173,16 +119,37 @@
                             </div>
                         </div>
                     </div>
-                    {{--                    active/inactive end--}}
-                    {{--                    gender Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Gender:</label>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="black-333">Experience:</label>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6  placeholder">
+                                <input type="number" class="min_experience form-control" placeholder="Min">
+                            </div>
+                            <div class="col-md-3 col-sm-6 placeholder">
+                                <input type="number" class="max_experience form-control" placeholder="Max">
+                            </div>
                         </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333 gender_record" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="black-333">Rate:</label>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6  placeholder">
+                                <input type="number" class="min_rating form-control" placeholder="Min">
+                            </div>
+                            <div class="col-md-3 col-sm-6 placeholder">
+                                <input type="number" class="max_rating form-control" placeholder="Max">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="black-333">Gender:</label>
+                        <div class="row">
+                            <div class="col-md-6  placeholder">
+                                <select id="" name="ratings" class="form-control black-333 gender_record">
                                     <option value="all">Select</option>
                                     <option value="1">Male</option>
                                     <option value="2">Female</option>
@@ -190,80 +157,46 @@
                             </div>
                         </div>
                     </div>
-                    {{--                    gender end--}}
-                    {{--                    Age  Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Age:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" placeholder="Min" class="min_age" style="width: 50px">
+                    <div class="col-md-6">
+                        <label class="black-333">Age:</label>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 placeholder">
+                                <input type="number" placeholder="Min" class="form-control min_age">
                             </div>
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" placeholder="Max" class="max_age" style="width: 50px">
+                            <div class="col-md-3 col-sm-6 placeholder">
+                                <input type="number" placeholder="Max" class="form-control max_age">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="black-333">No. of Sessions:</label>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6  placeholder">
+                                <input type="number" placeholder="Min" class="form-control">
+                            </div>
+                            <div class="col-md-3 col-sm-6 placeholder">
+                                <input type="number" placeholder="Max" class="form-control">
                             </div>
 
                         </div>
                     </div>
-                    {{--                    Age  end--}}
-                    {{--                    Age  Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">No. of Sessions:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" placeholder="Min" style="width: 50px">
-                            </div>
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" placeholder="Max" style="width: 50px">
-                            </div>
-
-                        </div>
-                    </div>
-                    {{--                    Age  end--}}
-                    {{--                    Monthly/Hourly Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Monthly/Hourly:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                    <div class="col-md-6 col-sm-6">
+                        <label class="black-333">Meet Point:</label>
+                        <div class="row">
+                            <div class="col-md-6 placeholder">
+                                <select id="" name="ratings" class="form-control black-333">
                                     <option value="all">Select</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    {{--                    Monthly/Hourly end--}}
-                    {{--                    Call Student/Go to Student  Start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Call Student/Go to Student :</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
-                                    <option value="all">Select</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    {{--                    Call Student/Go to Student end--}}
-                    {{--                    rating filter start--}}
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <label class="black-333">Rating filter:</label>
-                        </div>
-                        <br>
-                        <div class="col-md-12" style="padding: 0; margin: 5px">
-                            <div class="col-md-1 placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="ratings" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                    <div class="col-md-6 col-sm-6">
+                        <label class="black-333">Rating filter:</label>
+                        <div class="row">
+                            <div class="col-md-6 placeholder">
+                                <select id="ratings" name="ratings" class="form-control black-333">
                                     <option value="all">All</option>
                                     <option value="0">0</option>
                                     <option value="1">1</option>
@@ -275,11 +208,16 @@
                             </div>
                         </div>
                     </div>
-                    {{--                    rating ends--}}
-
-                    <div class="col-md-3" style="margin-top: 20px; margin-left: 5px; margin-bottom: 20px;">
-                        <button class="btn apply-filter" style="background-color: #ab8ce4; color: white"> Apply filter</button>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-3" style="margin-top: 20px; margin-left: 5px; margin-bottom: 20px;">
+                            <button class="btn apply-filter" style="background-color: #ab8ce4; color: white"> Apply filter</button>
+                        </div>
                     </div>
+                </div>
+                {{-- End Design By Muhammad Talha Jamshed --}}
+                <div class="table-responsive">
                     <br>
                     <br>
                     <table id="myTable" class="table table-striped">
@@ -334,6 +272,14 @@
     <script>
         $('input[name="dates"]').daterangepicker({
             autoUpdateInput: false,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
             locale: {
                 cancelLabel: 'Clear'
             }
@@ -370,7 +316,7 @@
             {
                 var filterDataArray = {};
                 $('#myTable').DataTable().clear().destroy();
-                if($('.online_status').val() != '')
+                if($('.online_status').val() != '' && $('.online_status').val() !== '0' )
                     filterDataArray['online_status'] = $('.online_status').val();
                 if($('input[name="dates"]').val() != '')
                     filterDataArray['last_login'] = $('input[name="dates"]').val();
@@ -391,6 +337,16 @@
                 if($('.max_age').val() != '')
                     filterDataArray['max_age'] = $('.max_age').val();
                 fetch_data(filterDataArray);
+            });
+            $('body').on('change','.online_status',function ()
+            {
+                var value = $(this).val();
+                if(value === '0')
+                    $('.last_login').removeClass('hide');
+                else {
+                    if($('.last_login').not('.hide'))
+                        $('.last_login').addClass('hide');
+                }
             });
             //End function by Muhammad Talha Jamshed
             function fetch_data(filterDataArray = '')
@@ -498,5 +454,8 @@
 <style>
     .black-333{
         color: #333333;
+    }
+    .col-md-6{
+        margin-bottom:10px;
     }
 </style>
