@@ -39,7 +39,6 @@ class TutorController extends Controller
             'confirm_password' => 'required|min:6|max:20|same:password',
             'dob' => 'required',
             'gender_id' => 'required',
-            'experience' => 'required',
             'qualification' => 'required',
             'cnic_no' => 'required',
             'subject_id' => 'required',
@@ -55,7 +54,6 @@ class TutorController extends Controller
             'dob.required' => 'Date of birth is required.',
             'phone.required' => 'Phone number is required.',
             'gender_id.required' => 'Select gender',
-            'experience.required' => 'Select experience',
             'qualification.required' => 'Qualification is required',
             'cnic_no.required' => 'Enter CNIC number',
             'subject_id.required' => 'Select subject',
@@ -91,6 +89,7 @@ class TutorController extends Controller
             $prosub = new ProgramSubject();
             $prosub->user_id =    $user->id;
             $prosub->program_id = $sub->programme_id;
+            $prosub->document_id = 0;
             $prosub->subject_id = $subject;
             $prosub->save();
         }

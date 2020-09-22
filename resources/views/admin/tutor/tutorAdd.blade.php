@@ -158,7 +158,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-md-12" for="example-text">Experience</label>
                                         <div class="col-md-12">
-                                            <input type="text" id="experience" name="experience" class="form-control" placeholder="Enter Experience" value="{{ old('experience') }}" required>
+                                            <input type="text" id="experience" name="experience" class="form-control" placeholder="Enter Experience" value="{{ old('experience') }}">
                                             @if ($errors->has('experience'))
                                                 <span class="text-danger">{{ $errors->first('experience') }}</span>
                                             @endif
@@ -256,7 +256,7 @@
                                         , message: 'The first name must be more than 6 and less than 30 characters long'
                                     }
                                     , regexp: {
-                                        regexp: /^[a-zA-Z0-9_\.]+$/
+                                        regexp: /^[a-zA-Z0-9_ \.]+$/
                                         ,
                                         message: 'The first name can only consist of alphabetical, number, dot and underscore'
                                     }
@@ -273,7 +273,7 @@
                                         , message: 'The last name must be more than 6 and less than 30 characters long'
                                     }
                                     , regexp: {
-                                        regexp: /^[a-zA-Z0-9_\.]+$/
+                                        regexp: /^[a-zA-Z0-9_ \.]+$/
                                         ,
                                         message: 'The last name can only consist of alphabetical, number, dot and underscore'
                                     }
@@ -290,7 +290,7 @@
                                         message: 'The father name must be more than 6 and less than 30 characters long'
                                     },
                                     regexp: {
-                                        regexp: /^\w+(\s\w+)*$/,
+                                        regexp: /^[a-zA-Z0-9_ \.]+$/,
                                         message: 'The father name can only consist of alphabetical, number, dot and underscore'
                                     }
                                 }
@@ -381,13 +381,13 @@
                                     }
                                 }
                             },
-                            experience: {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Experience is required'
-                                    }
-                                }
-                            },
+                            // experience: {
+                            //     validators: {
+                            //         notEmpty: {
+                            //             message: 'Experience is required'
+                            //         }
+                            //     }
+                            // },
                         }
                     });
                 },
