@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Validation\Rule;
 
 use App\Traits\TutorFilterTrait;
+use Illuminate\Support\Facades\Input;
 
 class TutorController extends Controller
 {
@@ -38,7 +39,6 @@ class TutorController extends Controller
             'confirm_password' => 'required|min:6|max:20|same:password',
             'dob' => 'required',
             'gender_id' => 'required',
-            'experience' => 'required',
             'qualification' => 'required',
             'cnic_no' => 'required',
             'subject_id' => 'required',
@@ -54,7 +54,6 @@ class TutorController extends Controller
             'dob.required' => 'Date of birth is required.',
             'phone.required' => 'Phone number is required.',
             'gender_id.required' => 'Select gender',
-            'experience.required' => 'Select experience',
             'qualification.required' => 'Qualification is required',
             'cnic_no.required' => 'Enter CNIC number',
             'subject_id.required' => 'Select subject',
@@ -90,6 +89,7 @@ class TutorController extends Controller
             $prosub = new ProgramSubject();
             $prosub->user_id =    $user->id;
             $prosub->program_id = $sub->programme_id;
+            $prosub->document_id = 0;
             $prosub->subject_id = $subject;
             $prosub->save();
         }
@@ -137,9 +137,16 @@ class TutorController extends Controller
     public function tutorsList(Request $request){
         if($request->ajax())
         {
-            $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
-                $q->where('is_mentor', 0);
-            })->with('rating')->where('role_id',2)->orderBy('id', 'DESC');
+            if( $request->input('filterDataArray') != '' && $request->has('filterDataArray'))
+            {
+                $tutors = $this->tutorFilter($request);
+            }
+            else
+            {
+                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
+                    $q->where('is_mentor', 0);
+                })->with('rating')->where('role_id',2)->orderBy('id', 'DESC');
+            }
             return datatables()->eloquent($tutors)
                 ->addColumn('rating', function($tutor){
                     return round($tutor->rating->avg('rating'),1);
@@ -169,15 +176,9 @@ class TutorController extends Controller
                     return $delete_btn;
                 })
                 ->rawColumns(['rating','created_at','last_login','is_active','is_approve','edit','delete'])
-                ->make();
+                ->make(true);
         }
         $mentorOrCommercial = 'Commercial';
-        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
-            $q->where('is_mentor', 0);
-        })->with('rating')->where('role_id',2)->orderBy('id', 'DESC')->get();
-//        echo '<pre>';
-//        print_r($tutors);
-//        exit();
         return view('admin.tutor.tutorsList',compact('mentorOrCommercial'));
     }
     public function tutorsArchiveList(){
@@ -362,7 +363,36 @@ class TutorController extends Controller
     public function applyTutorFilter(Request  $request)
     {
         $tutors = $this->tutorFilter($request);
-        return view('admin.tutor.ajaxView.tutorsAjaxList',compact('tutors'));
+        return datatables()->eloquent($tutors)
+            ->addColumn('rating', function($tutor){
+                return round($tutor->rating->avg('rating'),1);
+            })
+            ->addColumn('created_at', function($tutor){
+                return dateTimeConverter($tutor->created_at);
+            })
+            ->addColumn('last_login', function($tutor){
+                return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
+            })
+            ->addColumn('is_active', function($tutor){
+                $is_checked = $tutor->is_active == 1 ? 'checked' : '';
+                $is_active = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="js-switch" data-color="#99d683"'. $is_checked .'>';
+                return $is_active;
+            })
+            ->addColumn('is_approve', function($tutor){
+                $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
+                $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
+                return $is_approve;
+            })
+            ->addColumn('edit', function($tutor){
+                $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
+                return $btn;
+            })
+            ->addColumn('delete', function($tutor){
+                $delete_btn = '<a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$tutor->id.'">Delete</a>';
+                return $delete_btn;
+            })
+            ->rawColumns(['rating','created_at','last_login','is_active','is_approve','edit','delete'])
+            ->make(true);
     }
 
 }

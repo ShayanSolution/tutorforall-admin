@@ -84,8 +84,10 @@
                         <br>
                         <div class="col-md-12" style="padding: 0; margin: 5px">
                             <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                <select id="" name="ratings" class="form-control black-333 online_status" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
                                     <option value="all">Online Status</option>
+                                    <option value="1">Online</option>
+                                    <option value="0">Offline</option>
                                 </select>
                             </div>
 
@@ -163,8 +165,10 @@
                         <br>
                         <div class="col-md-12" style="padding: 0; margin: 5px">
                             <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                <select id="" name="ratings" class="form-control black-333 active_record" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
                                     <option value="all">Select</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">In-Active</option>
                                 </select>
                             </div>
                         </div>
@@ -178,8 +182,10 @@
                         <br>
                         <div class="col-md-12" style="padding: 0; margin: 5px">
                             <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px">
-                                <select id="" name="ratings" class="form-control black-333" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
+                                <select id="" name="ratings" class="form-control black-333 gender_record" style="margin-left: 0px; float: right; height: 25px; font-size: x-small; padding: 0;">
                                     <option value="all">Select</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
                                 </select>
                             </div>
                         </div>
@@ -193,10 +199,10 @@
                         <br>
                         <div class="col-md-12" style="padding: 0; margin: 5px">
                             <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" placeholder="Min" style="width: 50px">
+                                <input type="number" placeholder="Min" class="min_age" style="width: 50px">
                             </div>
                             <div class="col-md-1  placeholder" style="padding: 0; margin-right: 10px; width: 50px">
-                                <input type="number" placeholder="Max" style="width: 50px">
+                                <input type="number" placeholder="Max" class="max_age" style="width: 50px">
                             </div>
 
                         </div>
@@ -358,59 +364,102 @@
         );
 
         $(document).ready(function () {
-            let table = $('#myTable').DataTable({
-                dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
-                processing: true,
-                serverSide: true,
-                ajax : {
-                    url : "{{ route('tutorsList') }}",
-                    complete : function (data) {
-                        // Switchery
-                        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-                        $('.js-switch').each(function () {
-                            new Switchery($(this)[0], $(this).data());
-                            var base_url = $(this).data('url');
-                        });
-
-                        // Switchery
-                        var elems = Array.prototype.slice.call(document.querySelectorAll('.is_approved_by_admin'));
-                        $('.is_approved_by_admin').each(function () {
-                            new Switchery($(this)[0], $(this).data());
-                            var base_url = $(this).data('url');
-                        });
-                    }
-                },
-                columns: [
-                    {data: 'firstName', name: 'firstName'},
-                    {data: 'lastName', name: 'lastName'},
-                    {data: 'email', name: 'email'},
-                    {data: 'phone', name: 'phone'},
-                    {data: 'rating', name: 'rating.rating'},
-                    {data: 'created_at', name: 'created_at'},
-                    {data: 'last_login', name: 'last_login'},
-                    {data: 'is_active', name: 'is_active'},
-                    {data: 'is_approve', name: 'is_approve'},
-                    {data: 'edit', name: 'edit' },
-                    {data: 'delete', name: 'delete' },
-                ],
-                buttons: [
-                    { extend: 'csv', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4'],
-                        } },
-                    { extend: 'excel', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4'],
-                        }  },
-                    { extend: 'print', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4'],
-                        } }
-                ],
-                "bSort": true
+            fetch_data();
+            //Start function by Muhammad Talha Jamshed
+            $('body').on('click','.apply-filter',function ()
+            {
+                var filterDataArray = {};
+                $('#myTable').DataTable().clear().destroy();
+                if($('.online_status').val() != '')
+                    filterDataArray['online_status'] = $('.online_status').val();
+                if($('input[name="dates"]').val() != '')
+                    filterDataArray['last_login'] = $('input[name="dates"]').val();
+                if($('.min_experience').val() != '')
+                    filterDataArray['min_experience'] = $('.min_experience').val();
+                if($('.max_experience').val() != '')
+                    filterDataArray['max_experience'] = $('.max_experience').val();
+                if($('.min_rating').val() != '')
+                    filterDataArray['min_rating'] = $('.min_rating').val();
+                if($('.max_rating').val() != '')
+                    filterDataArray['max_rating'] = $('.max_rating').val();
+                if($('.active_record').val() != '')
+                    filterDataArray['active_record'] = $('.active_record').val();
+                if($('.gender_record').val() != '')
+                    filterDataArray['gender_record'] = $('.gender_record').val();
+                if($('.min_age').val() != '')
+                    filterDataArray['min_age'] = $('.min_age').val();
+                if($('.max_age').val() != '')
+                    filterDataArray['max_age'] = $('.max_age').val();
+                fetch_data(filterDataArray);
             });
+            //End function by Muhammad Talha Jamshed
+            function fetch_data(filterDataArray = '')
+            {
+                let table = $('#myTable').DataTable({
+                    dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
+                    processing: true,
+                    serverSide: true,
+                    ajax : {
+                        url : "{{ route('tutorsList') }}",
+                        data: {filterDataArray : filterDataArray},
+                        complete : function (data) {
+                            // Switchery
+                            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+                            $('.js-switch').each(function () {
+                                new Switchery($(this)[0], $(this).data());
+                                var base_url = $(this).data('url');
+                            });
 
-            // Event listener to the two range filtering inputs to redraw on input
-            $('#ratings').change(function() {
-                table.draw();
-            });
+                            // Switchery
+                            var elems = Array.prototype.slice.call(document.querySelectorAll('.is_approved_by_admin'));
+                            $('.is_approved_by_admin').each(function () {
+                                new Switchery($(this)[0], $(this).data());
+                                var base_url = $(this).data('url');
+                            });
+                        }
+                    },
+                    columns: [
+                        {data: 'id', name: 'id'},
+                        {data: 'firstName', name: 'firstName'},
+                        {data: 'lastName', name: 'lastName'},
+                        {data: 'email', name: 'email'},
+                        {data: 'phone', name: 'phone'},
+                        {data: 'rating', name: 'rating.rating'},
+                        {data: 'created_at', name: 'created_at'},
+                        {data: 'last_login', name: 'last_login'},
+                        {data: 'is_active', name: 'is_active'},
+                        {data: 'is_approve', name: 'is_approve'},
+                        {data: 'edit', name: 'edit' },
+                        {data: 'delete', name: 'delete' },
+                    ],
+                    "columnDefs": [
+                        {
+                            "targets": [ 0 ],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ],
+                    buttons: [
+                        { extend: 'csv', className: 'btn-md', exportOptions: {
+                                columns: ['0', '1', '2', '3', '4'],
+                            } },
+                        { extend: 'excel', className: 'btn-md', exportOptions: {
+                                columns: ['0', '1', '2', '3', '4'],
+                            }  },
+                        { extend: 'print', className: 'btn-md', exportOptions: {
+                                columns: ['0', '1', '2', '3', '4'],
+                            } }
+                    ],
+                    search: {
+                        "regex": true
+                    },
+                    "bSort": true
+                });
+                // Event listener to the two range filtering inputs to redraw on input
+                $('#ratings').change(function() {
+                    table.draw();
+                });
+            }
         });
         $('body').on('click', '.delete',function (){
             var id = $(this).data('id');
@@ -442,76 +491,7 @@
                     console.log(response);
                 }
             });
-        });
-    </script>
-    <script>
-        $(document).ready(function()
-        {
-            //Start function by Muhammad Talha Jamshed
-            $('body').on('click','.apply-filter',function ()
-            {
-                var fd = new FormData();
-                if($('input[name="dates"]').val() != '')
-                    fd.append('last_login', $('input[name="dates"]').val());
-                if($('.min_experience').val() != '')
-                    fd.append('min_experience', $('.min_experience').val());
-                if($('.max_experience').val() != '')
-                    fd.append('max_experience', $('.max_experience').val());
-                if($('.min_rating').val() != '')
-                    fd.append('min_rating', $('.min_rating').val());
-                if($('.max_rating').val() != '')
-                    fd.append('max_rating', $('.max_rating').val());
-                fd.append('_token', "{{ csrf_token() }}");
-                $.ajax({
-                    url : "{{URL::to('/admin/tutors/filter')}}",
-                    type : 'POST',
-                    data : fd,
-                    dataType: 'html',
-                    contentType: false,
-                    processData: false,
-                    success:function (response){
-                        $('#myTable').DataTable().clear().destroy();
-                        $('#myTable').html(response);
 
-                        // Switchery
-                        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-                        $('.js-switch').each(function () {
-                            new Switchery($(this)[0], $(this).data());
-                            var base_url = $(this).data('url');
-                        });
-
-                        // Data tables
-
-                        let table = $('#myTable').DataTable({
-                            dom: '<"row"<"col-sm-8"B><"col-sm-4"fr>>t<"row"<"col-sm-2"l><"col-sm-10"p>>',
-                            buttons: [
-                                { extend: 'csv', className: 'btn-md', exportOptions: {
-                                        columns: ['0', '1', '2', '3', '4'],
-                                    } },
-                                { extend: 'excel', className: 'btn-md', exportOptions: {
-                                        columns: ['0', '1', '2', '3', '4'],
-                                    }  },
-                                { extend: 'print', className: 'btn-md', exportOptions: {
-                                        columns: ['0', '1', '2', '3', '4'],
-                                    } }
-                            ],
-                            "bSort": true
-                        });
-                        $('#ratings').change(function() {
-                            table.draw();
-                        });
-
-                        // Switchery
-                        var elems = Array.prototype.slice.call(document.querySelectorAll('.is_approved_by_admin'));
-                        $('.is_approved_by_admin').each(function () {
-                            new Switchery($(this)[0], $(this).data());
-                            var base_url = $(this).data('url');
-                        });
-                    }
-                });
-
-            });
-            //End function by Muhammad Talha Jamshed
         });
     </script>
 @stop
