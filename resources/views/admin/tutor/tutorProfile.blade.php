@@ -82,6 +82,7 @@
                             <div class="profile-style" style="text-align: center"><img alt="user" src="{{url('admin_assets/images/user.png')}}"></div>
                         @endif
                             <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" style="margin-left: 128px;margin-top: 50px;" href="{{route('tutorEdit',$user->id)}}">Edit</a>
+                            <a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="margin-left: 8px;margin-top: 50px;" href="{{route('candidateDocuments', $user->id)}}">Review Documents</a>
                         <div class="user-btm-box">
                             <hr>
                             <div class="row text-center m-t-10">
