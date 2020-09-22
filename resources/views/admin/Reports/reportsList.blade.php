@@ -94,6 +94,7 @@
                     }
                 },
                 columns: [
+                    {data: 'id', name: 'id'},
                     {data: 'firstName', name: 'firstName'},
                     {data: 'lastName', name: 'lastName'},
                     {data: 'booked', name: 'booked'},
@@ -102,6 +103,13 @@
                     {data: 'missed', name: 'missed'},
                     {data: 'pending', name: 'pending'},
                     {data: 'rejected', name: 'rejected'},
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false,
+                        "searchable": false
+                    }
                 ],
                 buttons: [
                     {
@@ -120,6 +128,9 @@
                         }
                     }
                 ],
+                search: {
+                    "regex": true
+                },
                 "bSort": false
             });
 

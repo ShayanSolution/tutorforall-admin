@@ -10,7 +10,15 @@
                 <ol class="breadcrumb">
 {{--                    <li><a href="#">Admin</a></li>--}}
 {{--                    <li class="active">Documents and Subjects List</li>--}}
-                    <li><a class="btn btn-inverse waves-effect waves-light" style="color: white;" href="/admin/candidates">Back</a></li>
+                    <? global $href; ?>
+                    <? $href="/admin/candidates"?>
+                    @foreach($tutorDocuments as $progSubDoc)
+                        @if($progSubDoc->status != 'Pending')
+                            <? $href="/admin/tutors/list"?>
+                        @endif
+                    @endforeach
+
+                    <li><a class="btn btn-inverse waves-effect waves-light"  style="color: white;" href={{$href}}>Back</a></li>
                 </ol>
             </div>
             <!-- /.col-lg-12 -->
