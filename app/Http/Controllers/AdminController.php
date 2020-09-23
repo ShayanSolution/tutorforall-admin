@@ -157,7 +157,7 @@ class AdminController extends Controller
         ]);
         //When doc accepted than approved Tutor
         User::where('id', $document->user_id)->update([
-            'is_approved' => 1
+            'is_approved' => 0
         ]);
 
         if ($document->program->name && $document->subject->name) {
