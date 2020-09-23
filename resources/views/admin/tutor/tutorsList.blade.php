@@ -232,7 +232,7 @@
                             <th>Created</th>
                             <th>Last Login</th>
                             <th>Active</th>
-                            <th>Approved</th>
+{{--                            <th>Approved</th>--}}
                             <th>Detail</th>
                             <th>Action</th>
                         </tr>
@@ -351,12 +351,15 @@
             //End function by Muhammad Talha Jamshed
             function fetch_data(filterDataArray = '')
             {
+
+                let $mentorOrCommercial='{{$mentorOrCommercial}}';
                 let table = $('#myTable').DataTable({
                     dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
                     processing: true,
                     serverSide: true,
                     ajax : {
-                        url : "{{ route('tutorsList') }}",
+
+                        url :$mentorOrCommercial === 'Mentor'?"{{ route('mentorsList') }}":"{{ route('tutorsList') }}",
                         data: {filterDataArray : filterDataArray},
                         complete : function (data) {
                             // Switchery
@@ -384,7 +387,7 @@
                         {data: 'created_at', name: 'created_at'},
                         {data: 'last_login', name: 'last_login'},
                         {data: 'is_active', name: 'is_active'},
-                        {data: 'is_approve', name: 'is_approve'},
+                        // {data: 'is_approve', name: 'is_approve'},
                         {data: 'edit', name: 'edit' },
                         {data: 'delete', name: 'delete' },
                     ],

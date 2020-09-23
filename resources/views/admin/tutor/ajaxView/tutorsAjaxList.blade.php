@@ -10,7 +10,7 @@
         <th>Created</th>
         <th>Last Login</th>
         <th>Active</th>
-        <th>Approved</th>
+{{--        <th>Approved</th>--}}
         <th>Detail</th>
         <th>Action</th>
     </tr>
@@ -28,7 +28,7 @@
             <td>{{$tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login)}}</td>
             {{--<td>@if($tutor->is_active == 1) Yes @else No @endif</td>--}}
             <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($tutor->is_active == 1) checked @endif></td>
-            <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="is_approved_by_admin" data-color="#99d683" @if($tutor->is_approved == 1) checked @endif></td>
+{{--            <td><input type="checkbox" data-tutor-id="{{ $tutor->id }}" data-url="{{url('/')}}" class="is_approved_by_admin" data-color="#99d683" @if($tutor->is_approved == 1) checked @endif></td>--}}
             <td><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="{{route('tutorProfile',$tutor->id)}}" alt="default">View</a></td>
             <td><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModaltutor{{$tutor->id}}">Delete</a></td>
         </tr>

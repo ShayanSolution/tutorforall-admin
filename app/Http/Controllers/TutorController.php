@@ -135,17 +135,18 @@ class TutorController extends Controller
     }
 
     public function tutorsList(Request $request){
+        $mentorOrCommercial = 'Commercial';
         if($request->ajax())
         {
             if( $request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $tutors = $this->tutorFilter($request);
+                $tutors = $this->tutorFilter($request,$mentorOrCommercial);
             }
             else
             {
                 $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
                     $q->where('is_mentor', 0);
-                })->with('rating')->where('role_id',2)->orderBy('id', 'DESC');
+                })->with('rating')->where('role_id',2)->where('is_approved',1)->orderBy('id', 'DESC');
             }
             return datatables()->eloquent($tutors)
                 ->orderColumn('firstName', function ($query, $order) {
@@ -165,11 +166,11 @@ class TutorController extends Controller
                     $is_active = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="js-switch" data-color="#99d683"'. $is_checked .'>';
                     return $is_active;
                 })
-                ->addColumn('is_approve', function($tutor){
-                    $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
-                    $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
-                    return $is_approve;
-                })
+//                ->addColumn('is_approve', function($tutor){
+//                    $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
+//                    $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
+//                    return $is_approve;
+//                })
                 ->addColumn('edit', function($tutor){
                     $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
                     return $btn;
@@ -178,10 +179,9 @@ class TutorController extends Controller
                     $delete_btn = '<a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$tutor->id.'">Delete</a>';
                     return $delete_btn;
                 })
-                ->rawColumns(['rating','created_at','last_login','is_active','is_approve','edit','delete'])
+                ->rawColumns(['rating','created_at','last_login','is_active','edit','delete'])
                 ->make(true);
         }
-        $mentorOrCommercial = 'Commercial';
         return view('admin.tutor.tutorsList',compact('mentorOrCommercial'));
     }
     public function tutorsArchiveList(){
@@ -191,12 +191,62 @@ class TutorController extends Controller
         $mentorOrCommercial = 'Commercial';
         return view('admin.tutor.tutorsArchiveList',compact('tutors', 'mentorOrCommercial'));
     }
-    public function mentorsList(){
-        $tutors = User::whereHas('profile', function ($q){
-            $q->where('is_mentor', 1);
-        })->where('role_id',2)->orderBy('id', 'DESC')->get();
+    public function mentorsList(Request $request){
         $mentorOrCommercial = 'Mentor';
-        return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
+
+        if($request->ajax())
+        {
+
+            if( $request->input('filterDataArray') != '' && $request->has('filterDataArray'))
+            {
+                $tutors = $this->tutorFilter($request,$mentorOrCommercial);
+            }
+            else
+            {
+                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
+                    $q->where('is_mentor', 1);
+                })->with('rating')->where('role_id',2)->where('is_approved',1)->orderBy('id', 'DESC');
+            }
+            return datatables()->eloquent($tutors)
+                ->orderColumn('firstName', function ($query, $order) {
+                    $query->orderBy('status', $order);
+                })
+                ->addColumn('rating', function($tutor){
+                    return round($tutor->rating->avg('rating'),1);
+                })
+                ->addColumn('created_at', function($tutor){
+                    return dateTimeConverter($tutor->created_at);
+                })
+                ->addColumn('last_login', function($tutor){
+                    return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
+                })
+                ->addColumn('is_active', function($tutor){
+                    $is_checked = $tutor->is_active == 1 ? 'checked' : '';
+                    $is_active = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="js-switch" data-color="#99d683"'. $is_checked .'>';
+                    return $is_active;
+                })
+//                ->addColumn('is_approve', function($tutor){
+//                    $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
+//                    $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
+//                    return $is_approve;
+//                })
+                ->addColumn('edit', function($tutor){
+                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
+                    return $btn;
+                })
+                ->addColumn('delete', function($tutor){
+                    $delete_btn = '<a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$tutor->id.'">Delete</a>';
+                    return $delete_btn;
+                })
+                ->rawColumns(['rating','created_at','last_login','is_active','edit','delete'])
+                ->make(true);
+        }
+        return view('admin.tutor.tutorsList',compact('mentorOrCommercial'));
+//        $tutors = User::whereHas('profile', function ($q){
+//            $q->where('is_mentor', 1);
+//        })->where('role_id',2)->orderBy('id', 'DESC')->get();
+//        $mentorOrCommercial = 'Mentor';
+//        return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
     }
     public function tutorProfile(User $user){
         $programs_subjects = ProgramSubject::where('user_id',$user->id)->with('program', 'subject')->get();
@@ -365,7 +415,8 @@ class TutorController extends Controller
     }
     public function applyTutorFilter(Request  $request)
     {
-        $tutors = $this->tutorFilter($request);
+        dd($request);
+        $tutors = $this->tutorFilter($request,0);
         return datatables()->eloquent($tutors)
             ->addColumn('rating', function($tutor){
                 return round($tutor->rating->avg('rating'),1);
@@ -381,11 +432,11 @@ class TutorController extends Controller
                 $is_active = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="js-switch" data-color="#99d683"'. $is_checked .'>';
                 return $is_active;
             })
-            ->addColumn('is_approve', function($tutor){
-                $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
-                $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
-                return $is_approve;
-            })
+//            ->addColumn('is_approve', function($tutor){
+//                $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
+//                $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
+//                return $is_approve;
+//            })
             ->addColumn('edit', function($tutor){
                 $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
                 return $btn;
@@ -394,7 +445,7 @@ class TutorController extends Controller
                 $delete_btn = '<a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$tutor->id.'">Delete</a>';
                 return $delete_btn;
             })
-            ->rawColumns(['rating','created_at','last_login','is_active','is_approve','edit','delete'])
+            ->rawColumns(['rating','created_at','last_login','is_active','edit','delete'])
             ->make(true);
     }
 

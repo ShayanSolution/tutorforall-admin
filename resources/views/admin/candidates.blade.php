@@ -22,6 +22,7 @@
                     <table id="myTable" class="table table-striped">
                         <thead>
                         <tr>
+                            <th>id</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Type</th>
@@ -32,24 +33,24 @@
                          </tr>
                         </thead>
                         <tbody>
-                        @foreach($tutors as $tutor)
-                            <tr>
-                                <td>{{$tutor->firstName}}</td>
-                                <td>{{$tutor->lastName}}</td>
-                                <td>{{$tutor->profile ? ($tutor->profile->is_mentor ? 'Mentor' : 'Commercial' ) : 'N-A'}}</td>
-                                <td>{{$tutor->email}}</td>
-                                <td>{{$tutor->phone}}</td>
-                                <td>{{dateTimeConverter($tutor->created_at)}}</td>
-                                <td>
-                                    <a type="button"
-                                       class="fcbtn btn btn-warning btn-outline btn-1d"
-                                       href="{{route('candidateDocuments', $tutor->id)}}"
-                                    >
-                                        Review Documents
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
+{{--                        @foreach($tutors as $tutor)--}}
+{{--                            <tr>--}}
+{{--                                <td>{{$tutor->firstName}}</td>--}}
+{{--                                <td>{{$tutor->lastName}}</td>--}}
+{{--                                <td>{{$tutor->profile ? ($tutor->profile->is_mentor ? 'Mentor' : 'Commercial' ) : 'N-A'}}</td>--}}
+{{--                                <td>{{$tutor->email}}</td>--}}
+{{--                                <td>{{$tutor->phone}}</td>--}}
+{{--                                <td>{{dateTimeConverter($tutor->created_at)}}</td>--}}
+{{--                                <td>--}}
+{{--                                    <a type="button"--}}
+{{--                                       class="fcbtn btn btn-warning btn-outline btn-1d"--}}
+{{--                                       href="{{route('candidateDocuments', $tutor->id)}}"--}}
+{{--                                    >--}}
+{{--                                        Review Documents--}}
+{{--                                    </a>--}}
+{{--                                </td>--}}
+{{--                            </tr>--}}
+{{--                        @endforeach--}}
                         </tbody>
                     </table>
                 </div>
@@ -59,15 +60,65 @@
 @endsection
 @section('javascripts')
     @parent
-    <script src="{{url('admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url('admin_assets/plugins/bower_components/switchery/dist/switchery.min.js')}}"></script>
-    <script src="{{url('admin_assets/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
+
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable({
-                dom:'<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
+            let table = $('#myTable').DataTable({
+                dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
+                processing: true,
+                serverSide: true,
+                ajax : {
+                    url : "{{ route('candidates') }}",
+                    complete : function (data) {
+                        // Switchery
+                        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+                        $('.js-switch').each(function () {
+                            new Switchery($(this)[0], $(this).data());
+                            var base_url = $(this).data('url');
+                        });
+
+                        // Switchery
+                        var elems = Array.prototype.slice.call(document.querySelectorAll('.is_approved_by_admin'));
+                        $('.is_approved_by_admin').each(function () {
+                            new Switchery($(this)[0], $(this).data());
+                            var base_url = $(this).data('url');
+                        });
+                    }
+                },
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'firstName', name: 'firstName'},
+                    {data: 'lastName', name: 'lastName'},
+                    {data: 'type', name: 'type'},
+                    {data: 'email', name: 'email'},
+                    {data: 'phone', name: 'phone'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'documents', name: 'documents'},
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ],
+                buttons: [
+                    { extend: 'csv', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4'],
+                        } },
+                    { extend: 'excel', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4'],
+                        }  },
+                    { extend: 'print', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4'],
+                        } }
+                ],
+                search: {
+                    "regex": true
+                },
                 "bSort": true
             });
+
         });
     </script>
 @stop
