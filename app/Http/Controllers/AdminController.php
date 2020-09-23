@@ -98,11 +98,39 @@ class AdminController extends Controller
 
     }
 
-    public function candidates(){
-        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'created_at')->with(['profile'=>function($q){
-            $q->select("is_mentor", "user_id");
-        }])->where('role_id', 2)->where('is_approved',0)->get();
-        return view('admin.candidates', compact('tutors'));
+    public function candidates(Request $request){
+
+
+        if($request->ajax())
+        {
+                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
+                    $q->where('is_mentor', 0);
+                })->with('rating')->where('role_id',2)->where('is_approved',0)->orderBy('id', 'DESC');
+
+            return datatables()->eloquent($tutors)
+                ->orderColumn('firstName', function ($query, $order) {
+                    $query->orderBy('status', $order);
+                })
+                ->addColumn('type', function($tutor){
+                    return $tutor->profile->is_mentor ? 'Mentor' : 'Commercial';
+                })
+                ->addColumn('created_at', function($tutor){
+                    return dateTimeConverter($tutor->created_at);
+                })
+                ->addColumn('documents', function($tutor){
+                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('candidateDocuments', $tutor->id).'" alt="default">Review Documents</a>';
+                    return $btn;
+                })
+
+                ->rawColumns(['type','created_at','documents'])
+                ->make(true);
+        }
+        $mentorOrCommercial = 'Commercial';
+        return view('admin.candidates',compact('mentorOrCommercial'));
+//        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'created_at')->with(['profile'=>function($q){
+//            $q->select("is_mentor", "user_id");
+//        }])->where('role_id', 2)->where('is_approved',0)->get();
+//        return view('admin.candidates', compact('tutors'));
     }
 
     public function candidateDocuments($id){

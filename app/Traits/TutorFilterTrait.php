@@ -8,7 +8,7 @@ use App\Models\Session;
 use Illuminate\Support\Facades\DB;
 
 trait TutorFilterTrait {
-    public function tutorFilter(Request $request)
+    public function tutorFilter(Request $request, String $mentorOrCommercial)
     {
         $query =  User::query();
 
@@ -159,7 +159,19 @@ trait TutorFilterTrait {
 //                }
 //            }
         }
-        $tutors = $query->where('role_id',2)->orderBy('id', 'DESC');
+        $mentorOrCommercial === 'Mentor'?
+            $tutors =
+                $query->whereHas('profile', function ($q){
+                        $q->where('is_mentor', 1);
+                    })->where('role_id',2)
+                    ->where('is_approved',1)
+                    ->orderBy('id', 'DESC') :
+            $tutors =
+                $query->whereHas('profile', function ($q){
+                    $q->where('is_mentor', 0);
+                    })->where('role_id',2)
+                    ->where('is_approved',1)
+                    ->orderBy('id', 'DESC');
         return $tutors;
     }
 }
