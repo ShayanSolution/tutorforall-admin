@@ -105,7 +105,7 @@ class AdminController extends Controller
         {
                 $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
                     $q->where('is_mentor', 0);
-                })->with('rating')->where('role_id',2)->where('is_approved',1)->orderBy('id', 'DESC');
+                })->with('rating')->where('role_id',2)->where('is_approved',0)->orderBy('id', 'DESC');
 
             return datatables()->eloquent($tutors)
                 ->orderColumn('firstName', function ($query, $order) {
@@ -157,7 +157,7 @@ class AdminController extends Controller
         ]);
         //When doc accepted than approved Tutor
         User::where('id', $document->user_id)->update([
-            'is_approved' => 0
+            'is_approved' => 1
         ]);
 
         if ($document->program->name && $document->subject->name) {
