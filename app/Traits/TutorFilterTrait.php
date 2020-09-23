@@ -83,8 +83,8 @@ trait TutorFilterTrait {
             }
 //            if (isset($request->input('filterDataArray')['min_experience']) && isset($request->input('filterDataArray')['max_experience'])) {
 
-                $min_experience = $request->input('filterDataArray')['min_experience'];
-                $max_experience = $request->input('filterDataArray')['max_experience'];
+//                $min_experience = $request->input('filterDataArray')['min_experience'];
+//                $max_experience = $request->input('filterDataArray')['max_experience'];
 //                $query .= DB::statement("select * from (select *, count(*) as total from sessions) as newTable where total between 1 and 600;");
 //                $query = $query->with(['session' => function($q) use($min_experience, $max_experience)
 //                {
@@ -159,20 +159,21 @@ trait TutorFilterTrait {
 //                }
 //            }
         }
-        $mentorOrCommercial === 'Mentor'?
-            $tutors =
-                $query->whereHas('profile', function ($q){
-                        $q->where('is_mentor', 1);
-                    })->where('role_id',2)
-                    ->where('is_approved',1)
-                    ->orderBy('id', 'DESC') :
-            $tutors =
-                $query->whereHas('profile', function ($q){
-                    $q->where('is_mentor', 0);
-                    })->where('role_id',2)
-                    ->where('is_approved',1)
-                    ->orderBy('id', 'DESC');
-        return $tutors;
+//        $mentorOrCommercial === 'Mentor'?
+//            $query =
+//                $query->whereHas('profile', function ($q){
+//                        $q->where('is_mentor', 1);
+//                    })->where('role_id',2)
+//                    ->where('is_approved',1)
+//                    ->orderBy('id', 'DESC') :
+//            $query =
+//                $query->whereHas('profile', function ($q){
+//                    $q->where('is_mentor', 0);
+//                    })->where('role_id',2)
+//                    ->where('is_approved',1)
+//                    ->orderBy('id', 'DESC');
+//        return $tutors;
+        return $query;
     }
 }
 ?>
