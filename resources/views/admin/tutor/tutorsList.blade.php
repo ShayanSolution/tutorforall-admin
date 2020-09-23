@@ -45,30 +45,29 @@
                         <label class="black-333">Location:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6 col-xs-6  placeholder">
-                                <select id="" name="ratings" class="form-control black-333" >
+                                <select id="" name="ratings" class="form-control black-333 countries">
                                     <option value="all">Select Country</option>
-                                    <option value="all">Pakistan</option>
+                                    @foreach($countries as $country)
+                                        <option value="{{$country->country}}">{{$country->country}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
                             <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333">
+                                <select id="" name="ratings" class="form-control black-333 provinces">
                                     <option value="all">Select Province</option>
-                                    <option value="all">Punjab</option>
                                 </select>
                             </div>
 
                             <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333">
-                                    <option value="all">Select District</option>
-                                    <option value="all">Lahore</option>
+                                <select id="" name="ratings" class="form-control black-333 cities">
+                                    <option value="all">Select City</option>
                                 </select>
                             </div>
 
                             <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333">
+                                <select id="" name="ratings" class="form-control black-333 areas">
                                     <option value="all">Select  Area List</option>
-                                    <option value="all">Gulberg</option>
                                 </select>
                             </div>
                         </div>
@@ -77,13 +76,16 @@
                         <label class="black-333">Class & Subject:</label>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6  placeholder">
-                                <select id="" name="ratings" class="form-control black-333">
+                                <select id="" name="ratings" class="form-control black-333 classes">
                                     <option value="all">Select Classes</option>
+                                    @foreach($programs as $program)
+                                        <option value="{{$program->id}}">{{$program->name}}</option>
+                                    @endforeach()
                                 </select>
                             </div>
 
                             <div class="col-md-6 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333">
+                                <select id="" name="ratings" class="form-control black-333 subjects">
                                     <option value="all">Select Subjects</option>
                                 </select>
                             </div>
@@ -170,24 +172,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <label class="black-333">No. of Sessions:</label>
-                        <div class="row">
-                            <div class="col-md-3 col-sm-6  placeholder">
-                                <input type="number" placeholder="Min" class="form-control">
-                            </div>
-                            <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" placeholder="Max" class="form-control">
-                            </div>
-
-                        </div>
-                    </div>
                     <div class="col-md-6 col-sm-6">
                         <label class="black-333">Meet Point:</label>
                         <div class="row">
                             <div class="col-md-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333">
-                                    <option value="all">Select</option>
+                                <select id="" name="ratings" class="form-control black-333 meet_point">
+                                    <option value="all">No Preference</option>
+                                    <option value="0">Call Student</option>
+                                    <option value="1">Go Home</option>
                                 </select>
                             </div>
                         </div>
@@ -291,23 +283,23 @@
         $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('');
         });
-        $.fn.dataTable.ext.search.push(
-            function( settings, data, dataIndex ) {
-
-                let ratingSel = $('#ratings').val();
-
-                if(
-                    !isNaN(data[4]) &&
-                    !isNaN(ratingSel) &&
-                    (parseInt(data[4]) >= parseInt(ratingSel)) &&
-                    (parseInt(data[4]) < parseInt(ratingSel)+1)
-                    || ratingSel === 'all'
-                )
-                    return true;
-
-                return false;
-            }
-        );
+        // $.fn.dataTable.ext.search.push(
+        //     function( settings, data, dataIndex ) {
+        //
+        //         let ratingSel = $('#ratings').val();
+        //
+        //         if(
+        //             !isNaN(data[4]) &&
+        //             !isNaN(ratingSel) &&
+        //             (parseInt(data[4]) >= parseInt(ratingSel)) &&
+        //             (parseInt(data[4]) < parseInt(ratingSel)+1)
+        //             || ratingSel === 'all'
+        //         )
+        //             return true;
+        //
+        //         return false;
+        //     }
+        // );
 
         $(document).ready(function () {
             fetch_data();
@@ -316,6 +308,24 @@
             {
                 var filterDataArray = {};
                 $('#myTable').DataTable().clear().destroy();
+
+                //Location data
+                if($('.countries').val() != '')
+                    filterDataArray['country'] = $('.countries').val();
+                if($('.provinces').val() != '')
+                    filterDataArray['province'] = $('.provinces').val();
+                if($('.cities').val() != '')
+                    filterDataArray['city'] = $('.cities').val();
+                if($('.areas').val() != '')
+                    filterDataArray['area'] = $('.areas').val();
+
+                //Classes and subjects
+                if($('.classes').val() != '')
+                    filterDataArray['class'] = $('.classes').val();
+                if($('.subjects').val() != '')
+                    filterDataArray['subject'] = $('.subjects').val();
+
+                //Online Status
                 if($('.online_status').val() != '' && $('.online_status').val() !== '0' )
                     filterDataArray['online_status'] = $('.online_status').val();
                 if($('input[name="dates"]').val() != '')
@@ -336,6 +346,15 @@
                     filterDataArray['min_age'] = $('.min_age').val();
                 if($('.max_age').val() != '')
                     filterDataArray['max_age'] = $('.max_age').val();
+
+                // Meet Point
+                if($('.meet_point').val() != '')
+                    filterDataArray['meet_point'] = $('.meet_point').val();
+
+                //Rating Filter
+                if($('#ratings').val() != '')
+                    filterDataArray['rating'] = $('#ratings').val();
+
                 fetch_data(filterDataArray);
             });
             $('body').on('change','.online_status',function ()
@@ -412,9 +431,9 @@
                     "bSort": true
                 });
                 // Event listener to the two range filtering inputs to redraw on input
-                $('#ratings').change(function() {
-                    table.draw();
-                });
+                // $('#ratings').change(function() {
+                //     table.draw();
+                // });
             }
         });
         $('body').on('click', '.delete',function (){
@@ -448,6 +467,115 @@
                 }
             });
 
+        });
+    </script>
+    <script>
+        $(document).ready(function()
+        {
+            $('body').on('change','.countries',function()
+            {
+                var value = $(this).val();
+                if(value !== 'all')
+                {
+                    var fd = new FormData();
+                    fd.append('country',value);
+                    fd.append('_token', "{{ csrf_token() }}");
+                    $.ajax({
+                        url : "{{URL::to('/admin/tutors/fetchProvince')}}",
+                        type : 'POST',
+                        data : fd,
+                        dataType: 'html',
+                        contentType: false,
+                        processData: false,
+                        success:function (response) {
+                            $('.provinces').html(response);
+                        }
+                    });
+                }
+                else {
+                    $('.provinces').html('<option value="all">Select Province</option>');
+                    $('.cities').html('<option value="all">Select City</option>');
+                    $('.areas').html('<option value="all">Select Area List</option>');
+                }
+            });
+            $('body').on('change','.provinces',function()
+            {
+                var value = $(this).val();
+                if(value !== 'all')
+                {
+                    var fd = new FormData();
+                    fd.append('province',value);
+                    fd.append('_token', "{{ csrf_token() }}");
+                    $.ajax({
+                        url : "{{URL::to('/admin/tutors/fetchCity')}}",
+                        type : 'POST',
+                        data : fd,
+                        dataType: 'html',
+                        contentType: false,
+                        processData: false,
+                        success:function (response) {
+                            $('.cities').html(response);
+                        }
+                    });
+                }
+                else {
+                    $('.cities').html('<option value="all">Select City</option>');
+                    $('.areas').html('<option value="all">Select Area List</option>');
+                }
+            });
+            $('body').on('change','.cities',function()
+            {
+                var value = $(this).val();
+                if(value !== 'all')
+                {
+                    var fd = new FormData();
+                    fd.append('city',value);
+                    fd.append('_token', "{{ csrf_token() }}");
+                    $.ajax({
+                        url : "{{URL::to('/admin/tutors/fetchArea')}}",
+                        type : 'POST',
+                        data : fd,
+                        dataType: 'html',
+                        contentType: false,
+                        processData: false,
+                        success:function (response) {
+                            $('.areas').html(response);
+                        }
+                    });
+                }
+                else {
+                    $('.areas').html('<option value="all">Select Area List</option>');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function()
+        {
+            $('body').on('change','.classes',function()
+            {
+                var value = $(this).val();
+                if(value !== 'all')
+                {
+                    var fd = new FormData();
+                    fd.append('class',value);
+                    fd.append('_token', "{{ csrf_token() }}");
+                    $.ajax({
+                        url : "{{URL::to('/admin/tutors/fetchSubjects')}}",
+                        type : 'POST',
+                        data : fd,
+                        dataType: 'html',
+                        contentType: false,
+                        processData: false,
+                        success:function (response) {
+                            $('.subjects').html(response);
+                        }
+                    });
+                }
+                else {
+                    $('.subjects').html('<option value="all">Select Subjects</option>');
+                }
+            });
         });
     </script>
 @stop

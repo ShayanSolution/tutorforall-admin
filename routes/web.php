@@ -184,6 +184,26 @@ Route::group(['middleware' => 'admin'],function (){
         'as' => 'tutorsFilter',
         'uses' => 'TutorController@applyTutorFilter'
     ]);
+    Route::post('admin/tutors/fetchProvince',[
+        'as' => 'tutorsFilter',
+        'uses' => 'TutorController@fetchProvince'
+    ]);
+
+    Route::post('admin/tutors/fetchArea',[
+        'as' => 'tutorsFilter',
+        'uses' => 'TutorController@fetchArea'
+    ]);
+
+    Route::post('admin/tutors/fetchCity',[
+        'as' => 'tutorsFilter',
+        'uses' => 'TutorController@fetchCity'
+    ]);
+
+    Route::post('admin/tutors/fetchSubjects',[
+        'as' => 'tutorsFilter',
+        'uses' => 'TutorController@fetchSubjects'
+    ]);
+
     Route::get('admin/candidate/{id}/documents',[
         'as' => 'candidateDocuments',
         'uses' => 'AdminController@candidateDocuments'

@@ -36,6 +36,7 @@
         <script src="{{url('/admin_assets/datatables/pdfmake/build/pdfmake.min.js')}}"></script>
         <script src="{{url('/admin_assets/datatables/pdfmake/build/vfs_fonts.js')}}"></script>
         <script src="{{url('/admin_assets/datatables/jszip/dist/jszip.min.js')}}"></script>
+        <script src="{{url('/admin_assets/js/location.js')}}"></script>
         <script>
             function hideAndShowFullOrSmallLogo() {
                 $('.logo-full').hide();

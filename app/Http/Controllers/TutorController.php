@@ -11,11 +11,13 @@ use App\Models\User;
 use Illuminate\Validation\Rule;
 
 use App\Traits\TutorFilterTrait;
+use App\Traits\LocationTrait;
 use Illuminate\Support\Facades\Input;
 
 class TutorController extends Controller
 {
     use TutorFilterTrait;
+    use LocationTrait;
     public function tutorAdd(){
         $classes = Program::where('status',1)->get();
         return view('admin.tutor.tutorAdd',compact('classes'));
@@ -181,8 +183,10 @@ class TutorController extends Controller
                 ->rawColumns(['rating','created_at','last_login','is_active','is_approve','edit','delete'])
                 ->make(true);
         }
+        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
         $mentorOrCommercial = 'Commercial';
-        return view('admin.tutor.tutorsList',compact('mentorOrCommercial'));
+        return view('admin.tutor.tutorsList',compact('mentorOrCommercial','countries', 'programs'));
     }
     public function tutorsArchiveList(){
         $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
@@ -363,39 +367,30 @@ class TutorController extends Controller
             ->get();
         return view('admin.tutor.map', compact('tutors'));
     }
-    public function applyTutorFilter(Request  $request)
+    public function fetchProvince(Request $request)
     {
-        $tutors = $this->tutorFilter($request);
-        return datatables()->eloquent($tutors)
-            ->addColumn('rating', function($tutor){
-                return round($tutor->rating->avg('rating'),1);
-            })
-            ->addColumn('created_at', function($tutor){
-                return dateTimeConverter($tutor->created_at);
-            })
-            ->addColumn('last_login', function($tutor){
-                return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
-            })
-            ->addColumn('is_active', function($tutor){
-                $is_checked = $tutor->is_active == 1 ? 'checked' : '';
-                $is_active = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="js-switch" data-color="#99d683"'. $is_checked .'>';
-                return $is_active;
-            })
-            ->addColumn('is_approve', function($tutor){
-                $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
-                $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
-                return $is_approve;
-            })
-            ->addColumn('edit', function($tutor){
-                $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
-                return $btn;
-            })
-            ->addColumn('delete', function($tutor){
-                $delete_btn = '<a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$tutor->id.'">Delete</a>';
-                return $delete_btn;
-            })
-            ->rawColumns(['rating','created_at','last_login','is_active','is_approve','edit','delete'])
-            ->make(true);
+        $provicesHtml = $this->getProviceByCountry($request);
+        return $provicesHtml;
+    }
+    public function fetchCity(Request $request)
+    {
+        $citesHtml = $this->getCityByProvince($request);
+        return $citesHtml;
+    }
+    public function fetchArea(Request $request)
+    {
+        $areaHtml = $this->getAreaByCity($request);
+        return $areaHtml;
+    }
+    public function fetchSubjects(Request $request)
+    {
+        $html = '<option value="all">Select Subjects</option>';
+        $subjects = Subject::where('status', '!=', '2')->where('programme_id', $request->input('class'))->get();
+        foreach ($subjects as $subject)
+        {
+            $html.= '<option value="'.$subject->id.'">'.$subject->name.'</option>';
+        }
+        return $html;
     }
 
 }

@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements CanResetPasswordInterface
 {
     use SoftDeletes, CanResetPassword, Notifiable;
-    
+
     protected $table = 'users';
     public $remember_token=false;
     public $appends = ['fullName'];
@@ -56,6 +56,10 @@ class User extends Authenticatable implements CanResetPasswordInterface
     public function rating()
     {
         return $this->hasMany("App\Models\Rating")->orderBy('created_at', 'Desc');
+    }
+    public function session()
+    {
+        return $this->hasMany("App\Models\Session", 'tutor_id', 'id');
     }
     public function program_subject()
     {
