@@ -308,7 +308,6 @@
             {
                 var filterDataArray = {};
                 $('#myTable').DataTable().clear().destroy();
-
                 //Location data
                 if($('.countries').val() != '')
                     filterDataArray['country'] = $('.countries').val();
@@ -378,7 +377,6 @@
                     serverSide: true,
                     ordering: false,
                     ajax : {
-
                         url :$mentorOrCommercial === 'Mentor'?"{{ route('mentorsList') }}":"{{ route('tutorsList') }}",
                         data: {filterDataArray : filterDataArray},
                         complete : function (data) {

@@ -61,6 +61,10 @@ class User extends Authenticatable implements CanResetPasswordInterface
     {
         return $this->hasMany("App\Models\Session", 'tutor_id', 'id');
     }
+    public function studentSession()
+    {
+        return $this->hasMany("App\Models\Session", 'student_id', 'id');
+    }
     public function program_subject()
     {
         return $this->hasMany("App\Models\ProgramSubject");
