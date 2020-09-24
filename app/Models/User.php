@@ -69,4 +69,10 @@ class User extends Authenticatable implements CanResetPasswordInterface
     public function documents(){
         return $this->hasMany(Document::class, 'tutor_id', 'id');
     }
+
+    public function scopeSessionsThreshold($query, $min, $max)
+    {
+        $count = $this->session()->count();
+        return $query->where('votes', '>', 100);
+    }
 }

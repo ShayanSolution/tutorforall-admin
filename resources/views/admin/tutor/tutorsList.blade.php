@@ -76,7 +76,7 @@
                         <label class="black-333">Class & Subject:</label>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6  placeholder">
-                                <select id="" name="ratings" class="form-control black-333 classes">
+                                <select id="classes" name="ratings" class="form-control black-333 classes" multiple>
                                     <option value="all">Select Classes</option>
                                     @foreach($programs as $program)
                                         <option value="{{$program->id}}">{{$program->name}}</option>
@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="col-md-6 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333 subjects">
+                                <select id="subjects" name="ratings" class="form-control black-333 subjects" multiple>
                                     <option value="all">Select Subjects</option>
                                 </select>
                             </div>
@@ -555,6 +555,10 @@
     <script>
         $(document).ready(function()
         {
+            $('#classes').select2({
+            });
+            $('#subjects').select2({
+            });
             $('body').on('change','.classes',function()
             {
                 var value = $(this).val();
@@ -588,5 +592,16 @@
     }
     .col-md-6{
         margin-bottom:10px;
+    }
+    .select2
+    {
+        line-height: 31px;
+        border: 1px solid #e4e7ea;
+        border-radius: 0px;
+        box-shadow: none;
+    }
+    .select2-container--default .select2-selection--multiple
+    {
+        border: 0px solid !important;
     }
 </style>

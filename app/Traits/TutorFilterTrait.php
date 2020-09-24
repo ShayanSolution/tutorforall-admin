@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Models\User;
 use App\Models\Session;
+use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
 
 trait TutorFilterTrait {
@@ -55,10 +56,12 @@ trait TutorFilterTrait {
                 {
                     $programm_id = $request->input('filterDataArray')['class'];
                     $subject_id = $request->input('filterDataArray')['subject'];
+//                    $programm_id = explode(',',$request->input('filterDataArray')['class']);
+//                    $subject_id = explode(',',$request->input('filterDataArray')['subject']);
                     $query = $query->whereHas('program_subject', function ($q) use($programm_id, $subject_id){
-                        $q->where('program_id', $programm_id);
+                        $q->whereIn('program_id', $programm_id);
                         if($subject_id && $subject_id != 'all')
-                            $q->where('subject_id', $subject_id);
+                            $q->whereIn('subject_id', $subject_id);
                     });
                 }
                 else{
@@ -81,26 +84,21 @@ trait TutorFilterTrait {
                     $q->whereBetween('created_at', [$start_date, $end_date]);
                 });
             }
-//            if (isset($request->input('filterDataArray')['min_experience']) && isset($request->input('filterDataArray')['max_experience'])) {
+            if (isset($request->input('filterDataArray')['min_experience']) && isset($request->input('filterDataArray')['max_experience'])) {
+                if($request->input('filterDataArray')['min_experience'] != '' && $request->input('filterDataArray')['max_experience'] != '')
+                {
+                    $min_experience = $request->input('filterDataArray')['min_experience'];
+                    $max_experience = $request->input('filterDataArray')['max_experience'];
 
-//                $min_experience = $request->input('filterDataArray')['min_experience'];
-//                $max_experience = $request->input('filterDataArray')['max_experience'];
-//                $query .= DB::statement("select * from (select *, count(*) as total from sessions) as newTable where total between 1 and 600;");
-//                $query = $query->with(['session' => function($q) use($min_experience, $max_experience)
-//                {
-//                    $q->groupBy('tutor_id')->count();
-//                    $q->addSelect(['total_count' => Session::select('*, count(*) AS total')->groupBy('tutor_id')]);
-//                    $q->whereBetween('total',[ $min_experience , $max_experience]);
-//                }]);
-//                $query = $query->addSelect(['total_count' => Session::select('*, count(*) AS total')->groupBy('tutor_id')])
-//                    ->whereBetween('total',[$request->input('filterDataArray')['min_experience'], $request->input('filterDataArray')['max_experience']]);
-//                $query .= DB::raw("select * from (SELECT *,count(*) as total from sessions group BY 'tutor_id') AS newTable where total BETWEEN 1 and 586;");
-//                $query = $query->with(['session' => function ($q){
-//                    $q->select("*, count(*) as total")->groupBy('tutor_id');
-////                    $q->statement("select * from (SELECT *,count(*) as total from sessions group BY tutor_id) AS newTable where total BETWEEN 1 and 586;");
-//                }])->whereBetween('total', [$request->input('filterDataArray')['min_experience'], $request->input('filterDataArray')['max_experience']]);
-//                $query = $query->whereBetween('experience',);
-//            }
+                    $userIds = Session::select('tutor_id', DB::raw('count(*) as number_of_sessions'))
+                        ->having('number_of_sessions', '>=' ,  $min_experience)
+                        ->having('number_of_sessions', '<=' ,  $max_experience)
+                        ->where('status','ended')
+                        ->groupBy('tutor_id')
+                        ->get()->pluck('tutor_id')->toArray();
+                    $query = $query->whereIn('id', $userIds);
+                }
+            }
             if (isset($request->input('filterDataArray')['min_rating']) && isset($request->input('filterDataArray')['max_rating'])) {
                 $min_rating = $request->input('filterDataArray')['min_rating'];
                 $max_rating = $request->input('filterDataArray')['max_rating'];
@@ -146,33 +144,29 @@ trait TutorFilterTrait {
             }
 
             // Rating Star Filter
-//            if(isset($request->input('filterDataArray')['rating']))
-//            {
-//                if($request->input('filterDataArray')['rating'] !== 'all')
-//                {
-//                    $rating = $request->input('filterDataArray')['rating'];
-//                    $query = $query->raw('SELECT rating from ratings having'.'(Select AVG(rating) FROM ratings GROUP BY user_id )'.'='.$rating);
-////                    $query = $query->with(['rating' => function ($q) use($rating){
-//
-////                        $q->DB::raw('SELECT rating from ratings having'.'(Select AVG(rating) GROUP BY user_id )'.'='.$rating);
-////                    }]);
-//                }
-//            }
+            if(isset($request->input('filterDataArray')['rating']))
+            {
+                if($request->input('filterDataArray')['rating'] !== 'all')
+                {
+                    $userIds = Rating::select('user_id', DB::raw(' CEILING( avg(rating)) as user_rating'))
+                        ->having('user_rating', '=' ,  $request->input('filterDataArray')['rating'])
+                        ->groupBy('user_id')
+                        ->get()->pluck('user_id')->toArray();
+                    $query = $query->whereIn('id', $userIds);
+                }
+            }
         }
-//        $mentorOrCommercial === 'Mentor'?
-//            $query =
-//                $query->whereHas('profile', function ($q){
-//                        $q->where('is_mentor', 1);
-//                    })->where('role_id',2)
-//                    ->where('is_approved',1)
-//                    ->orderBy('id', 'DESC') :
-//            $query =
-//                $query->whereHas('profile', function ($q){
-//                    $q->where('is_mentor', 0);
-//                    })->where('role_id',2)
-//                    ->where('is_approved',1)
-//                    ->orderBy('id', 'DESC');
-//        return $tutors;
+        $mentorOrCommercial === 'Mentor'?
+            $query = $query->whereHas('profile', function ($q){
+                        $q->where('is_mentor', 1);
+                    })->where('role_id',2)
+                    ->where('is_approved',1)
+                    ->orderBy('id', 'DESC') :
+            $query =  $query->whereHas('profile', function ($q){
+                    $q->where('is_mentor', 0);
+                    })->where('role_id',2)
+                    ->where('is_approved',1)
+                    ->orderBy('id', 'DESC');
         return $query;
     }
 }

@@ -37,6 +37,10 @@
         <script src="{{url('/admin_assets/datatables/pdfmake/build/vfs_fonts.js')}}"></script>
         <script src="{{url('/admin_assets/datatables/jszip/dist/jszip.min.js')}}"></script>
         <script src="{{url('/admin_assets/js/location.js')}}"></script>
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
         <script>
             function hideAndShowFullOrSmallLogo() {
                 $('.logo-full').hide();

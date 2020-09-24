@@ -142,7 +142,7 @@ class TutorController extends Controller
         {
             if( $request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $tutors = $this->tutorFilter($request,$mentorOrCommercial);
+                $tutors = $this->tutorFilter($request,$mentorOrCommercial)->where('is_approved',1);
             }
             else
             {
@@ -435,8 +435,9 @@ class TutorController extends Controller
     }
     public function fetchSubjects(Request $request)
     {
+        $where_array = explode(',', $request->input('class'));
         $html = '<option value="all">Select Subjects</option>';
-        $subjects = Subject::where('status', '!=', '2')->where('programme_id', $request->input('class'))->get();
+        $subjects = Subject::where('status', '!=', '2')->whereIn('programme_id', $where_array)->get();
         foreach ($subjects as $subject)
         {
             $html.= '<option value="'.$subject->id.'">'.$subject->name.'</option>';
