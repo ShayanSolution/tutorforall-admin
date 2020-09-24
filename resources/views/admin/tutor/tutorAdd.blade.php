@@ -124,7 +124,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-md-12" for="bdate">Date of Birth</label>
                                         <div class="col-md-12">
-                                            <input type="text" id="dob" name="dob" class="form-control mydatepicker" placeholder="Enter your birth date" value="{{ old('dob') }}" autocomplete="off" required>
+                                            <input type="date" id="dob" name="dob" class="form-control mydatepicker" placeholder="Enter your birth date" autocomplete="off" required>
                                             @if ($errors->has('dob'))
                                                 <span class="text-danger">{{ $errors->first('dob') }}</span>
                                             @endif
@@ -214,9 +214,9 @@
     <script src="{{url('admin_assets/plugins/bower_components/blockUI/jquery.blockUI.js')}}"></script>
     <script>
         $(document).ready(function () {
-            $('#dob').datepicker({
-                format: 'yyyy-mm-dd'
-            });
+            // $('#dob').datepicker({
+            //     format: 'yyyy-mm-dd'
+            // });
 
         $('#class').on('change', function(e){
             console.log(e);
