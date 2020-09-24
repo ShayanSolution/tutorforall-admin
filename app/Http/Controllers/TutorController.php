@@ -179,6 +179,7 @@ class TutorController extends Controller
                     return $delete_btn;
                 })
                 ->rawColumns(['rating','created_at','last_login','is_active','edit','delete'])
+                ->orderColumn('firstName', 'email $1')
                 ->make(true);
         }
         $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();

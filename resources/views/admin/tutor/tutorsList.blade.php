@@ -376,6 +376,7 @@
                     dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
                     processing: true,
                     serverSide: true,
+                    ordering: false,
                     ajax : {
 
                         url :$mentorOrCommercial === 'Mentor'?"{{ route('mentorsList') }}":"{{ route('tutorsList') }}",
@@ -407,8 +408,8 @@
                         {data: 'last_login', name: 'last_login'},
                         {data: 'is_active', name: 'is_active'},
                         // {data: 'is_approve', name: 'is_approve'},
-                        {data: 'edit', name: 'edit' },
-                        {data: 'delete', name: 'delete' },
+                        {data: 'edit', name: 'edit'},
+                        {data: 'delete', name: 'delete'},
                     ],
                     "columnDefs": [
                         {
