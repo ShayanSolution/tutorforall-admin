@@ -19,9 +19,11 @@ class ReportsController extends Controller
             {
                 $tutors = $this->tutorFilter($request,'reports')->where('is_approved',1);
             }else{
-                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
-                    $q->where('is_mentor', 0);
-                })->with('rating')->where('role_id', 2)->orderBy('id', 'DESC');
+                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')
+                    ->with('rating')
+                    ->where('role_id', 2)
+                    ->where('is_approved',1)
+                    ->orderBy('id', 'DESC');
             }
             return datatables()->eloquent($tutors)
                 ->addColumn('booked', function ($tutor) {
