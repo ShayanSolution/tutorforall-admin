@@ -49,6 +49,7 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('data'));
     }
     public function studentsList(Request $request){
+        $listType = 'studentsList';
         if($request->ajax())
         {
             if( $request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
@@ -86,13 +87,52 @@ class AdminController extends Controller
         }
         $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
         $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
-        return view('admin.student.studentsList',compact('countries', 'programs'));
+        return view('admin.student.studentsList',compact('countries', 'programs','listType'));
     }
-    public function deservingStudentsList(){
-        $students = User::whereHas('profile', function ($query) {
-            $query->where('is_deserving', 1);
-        })->where('role_id', 3)->orderby('id','DESC')->get();
-        return view('admin.student.studentsList',compact('students'));
+    public function deservingStudentsList(Request $request){
+        $listType = 'deservingStudentsList';
+        if($request->ajax())
+        {
+            if( $request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+                $students = $this->studentFilter($request)->where('role_id',3)->whereHas('profile', function ($query) {
+                    $query->where('is_deserving', 1);
+                });
+            }
+            else{
+                $students = User::whereHas('profile', function ($query) {
+                    $query->where('is_deserving', 1);
+                })->where('role_id', 3)->orderby('id','DESC');
+            }
+            return datatables()->eloquent($students)
+                ->addColumn('firstName', function($student){
+                    return $student->firstName ? $student->firstName : 'N-A';
+                })
+                ->addColumn('lastName', function($student){
+                    return $student->lastName ? $student->lastName : 'N-A';
+                })
+                ->addColumn('created_at', function($student){
+                    return dateTimeConverter($student->created_at);
+                })
+                ->addColumn('is_active', function($student){
+                    $is_checked = $student->is_active == 1 ? 'checked' : '';
+                    $is_active = '<input type="checkbox" data-student-id="'.$student->id.'" class="js-switch-is_active" data-color="#99d683"'. $is_checked .'>';
+                    return $is_active;
+                })
+                ->addColumn('is_deserving', function($student){
+                    $is_checked = $student->profile->is_deserving ? 'checked' : '';
+                    $is_active = '<input type="checkbox" data-student-id="'.$student->id.'" class="js-switch" data-color="#99d683"'. $is_checked .'>';
+                    return $is_active;
+                })
+                ->addColumn('delete', function($student){
+                    $delete_btn = '<a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$student->id.'">Delete</a>';
+                    return $delete_btn;
+                })
+                ->rawColumns(['firstName','lastName','created_at','is_active','is_deserving','delete'])
+                ->make(true);
+        }
+        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
+        return view('admin.student.studentsList',compact('countries','programs','listType'));
     }
     public function changeStudentDeserving(Request $request){
         $student_id = $request->student_id;

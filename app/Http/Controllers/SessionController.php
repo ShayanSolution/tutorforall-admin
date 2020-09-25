@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Program;
 use App\Models\Session;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -50,7 +51,8 @@ class SessionController extends Controller
                 ->make(true);
         }
         $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
-        return view('admin.session.sessionList', compact('countries', 'sessionStatus'));
+        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
+        return view('admin.session.sessionList', compact('countries', 'sessionStatus','programs'));
     }
 
     public function sessionStarted(){
@@ -66,7 +68,7 @@ class SessionController extends Controller
     }
 
     public function sessionCompleted(){
-        $sessionStatus = 'sessionEnded';
+        $sessionStatus = 'sessionCompleted';
         $sessions = Session::all();
         $sessions = Session::with([
             'tutor',

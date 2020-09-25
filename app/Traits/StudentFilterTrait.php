@@ -72,7 +72,7 @@ trait StudentFilterTrait {
                 $range_date = explode('-',$request->input('filterDataArray')['last_login']);
                 $start_date = \Carbon\Carbon::parse($range_date[0])->format('Y-m-d');
                 $end_date = \Carbon\Carbon::parse($range_date[1])->format('Y-m-d');
-                $query = $query->whereHas('profile', function ($q) use ($start_date , $end_date) {
+                $query = $query->whereHas('logins', function ($q) use ($start_date , $end_date) {
                     $q->whereBetween('created_at', [$start_date, $end_date]);
                 });
             }

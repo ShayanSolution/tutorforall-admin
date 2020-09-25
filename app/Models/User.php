@@ -79,4 +79,8 @@ class User extends Authenticatable implements CanResetPasswordInterface
         $count = $this->session()->count();
         return $query->where('votes', '>', 100);
     }
+    public function logins()
+    {
+        return $this->hasMany("App\Models\LastLogin", 'user_id', 'id');
+    }
 }

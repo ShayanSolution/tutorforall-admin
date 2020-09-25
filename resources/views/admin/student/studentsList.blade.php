@@ -257,7 +257,7 @@
                     serverSide: true,
                     ordering: false,
                     ajax : {
-                        url : "{{ route('studentsList')}}",
+                        url : "{{ route($listType)}}",
                         data: {filterDataArray : filterDataArray},
                         complete : function (data) {
                             // Switchery
