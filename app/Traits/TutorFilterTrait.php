@@ -154,17 +154,21 @@ trait TutorFilterTrait {
                 }
             }
         }
-        $mentorOrCommercial === 'Mentor'?
-            $query = $query->whereHas('profile', function ($q){
-                        $q->where('is_mentor', 1);
-                    })->where('role_id',2)
-                    ->where('is_approved',1)
+        if($mentorOrCommercial === 'reports'){
+            $query = $query->whereHas('profile')
+                ->where('role_id', 2)
+                ->orderBy('id', 'DESC');
+        }else {
+            $mentorOrCommercial === 'Mentor' ?
+                $query = $query->whereHas('profile', function ($q) {
+                    $q->where('is_mentor', 1);
+                })->where('role_id', 2)
                     ->orderBy('id', 'DESC') :
-            $query =  $query->whereHas('profile', function ($q){
+                $query = $query->whereHas('profile', function ($q) {
                     $q->where('is_mentor', 0);
-                    })->where('role_id',2)
-                    ->where('is_approved',1)
+                })->where('role_id', 2)
                     ->orderBy('id', 'DESC');
+        }
         return $query;
     }
 }

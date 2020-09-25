@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Program;
 use App\Models\Session;
 use App\Models\User;
+use App\Traits\TutorFilterTrait;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
 class ReportsController extends Controller
 {
+    use TutorFilterTrait;
     public function tutorReportList(Request $request)
     {
         if ($request->ajax()) {
-            $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
-                $q->where('is_mentor', 0);
-            })->with('rating')->where('role_id', 2)->orderBy('id', 'DESC');
+            if( $request->input('filterDataArray') != '' && $request->has('filterDataArray'))
+            {
+                $tutors = $this->tutorFilter($request,'reports')->where('is_approved',1);
+            }else{
+                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
+                    $q->where('is_mentor', 0);
+                })->with('rating')->where('role_id', 2)->orderBy('id', 'DESC');
+            }
             return datatables()->eloquent($tutors)
                 ->addColumn('booked', function ($tutor) {
                     return self::getSessionsCount($tutor->id, "booked");
@@ -37,8 +45,10 @@ class ReportsController extends Controller
                 ->rawColumns(['booked', 'started', 'completed', 'missed', 'pending', 'rejected'])
                 ->make();
         }
+        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
 
-        return view('admin.Reports.reportsList');
+        return view('admin.Reports.reportsList',compact('countries','programs'));
 
     }
 

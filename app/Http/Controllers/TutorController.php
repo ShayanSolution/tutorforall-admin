@@ -244,7 +244,10 @@ class TutorController extends Controller
                 ->rawColumns(['rating','created_at','last_login','is_active','edit','delete'])
                 ->make(true);
         }
-        return view('admin.tutor.tutorsList',compact('mentorOrCommercial'));
+        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
+
+        return view('admin.tutor.tutorsList',compact('mentorOrCommercial','countries', 'programs'));
 //        $tutors = User::whereHas('profile', function ($q){
 //            $q->where('is_mentor', 1);
 //        })->where('role_id',2)->orderBy('id', 'DESC')->get();
