@@ -79,8 +79,8 @@ trait TutorFilterTrait {
                 $start_date = \Carbon\Carbon::parse($range_date[0])->format('Y-m-d'). ' 00:00:00';
                 $end_date = \Carbon\Carbon::parse($range_date[1])->format('Y-m-d'). ' 23:59:00';
                 $query = $query->whereHas('logins', function ($q) use ($start_date , $end_date) {
-                    $q->where('created_at', '>=' , $start_date);
-                    $q->where('created_at', '<=' , $end_date);
+                    $q->whereDate('created_at', '>=' , $start_date);
+                    $q->whereDate('created_at', '<=' , $end_date);
 //                    $q->whereBetween('created_at', [$start_date, $end_date]);
                 });
             }
