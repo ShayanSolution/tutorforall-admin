@@ -70,11 +70,10 @@ trait StudentFilterTrait {
             if(isset($request->input('filterDataArray')['last_login']))
             {
                 $range_date = explode('-',$request->input('filterDataArray')['last_login']);
-                $start_date = \Carbon\Carbon::parse($range_date[0])->format('Y-m-d');
-                $end_date = \Carbon\Carbon::parse($range_date[1])->format('Y-m-d');
+                $start_date = \Carbon\Carbon::parse($range_date[0])->format('Y-m-d'). ' 00:00:00';
+                $end_date = \Carbon\Carbon::parse($range_date[1])->format('Y-m-d'). ' 23:59:00';
                 $query = $query->whereHas('logins', function ($q) use ($start_date , $end_date) {
-                    $q->where('created_at', '>=' , $start_date);
-                    $q->where('created_at', '<=' , $end_date);
+                    $q->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date);
                 });
             }
             // No of Session
