@@ -14,6 +14,24 @@ tfoot{
     display: table-header-group;
 }
 
+.black-333{
+    color: #333333;
+}
+.col-md-6{
+    margin-bottom:10px;
+}
+.select2
+{
+    line-height: 24px;
+    border: 1px solid #e4e7ea;
+    border-radius: 0px;
+    box-shadow: none;
+}
+.select2-container--default .select2-selection--multiple
+{
+    border: 0px solid !important;
+}
+
 @media (max-width:991px) and (min-width:1px) {
     .filter_search {
         width: 100%;

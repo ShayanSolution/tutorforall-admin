@@ -14,7 +14,6 @@
             display: inline-block;
         }
     </style>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 
 @section('content')
@@ -110,13 +109,13 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="black-333">Active/InActive:</label>
+                        <label class="black-333">Active</label>
                         <div class="row">
                             <div class="col-md-6  placeholder">
                                 <select id="" name="ratings" class="form-control black-333 active_record">
-                                    <option value="all">Select</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">In-Active</option>
+                                    <option value="all">All</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
                                 </select>
                             </div>
                         </div>
@@ -259,51 +258,10 @@
 @endsection
 @section('javascripts')
     @parent
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    @include('admin.includes.filter')
     <script>
-        $('input[name="dates"]').daterangepicker({
-            autoUpdateInput: false,
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            },
-            locale: {
-                cancelLabel: 'Clear'
-            }
-        });
-        $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-        });
-
-        $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('');
-        });
-        // $.fn.dataTable.ext.search.push(
-        //     function( settings, data, dataIndex ) {
-        //
-        //         let ratingSel = $('#ratings').val();
-        //
-        //         if(
-        //             !isNaN(data[4]) &&
-        //             !isNaN(ratingSel) &&
-        //             (parseInt(data[4]) >= parseInt(ratingSel)) &&
-        //             (parseInt(data[4]) < parseInt(ratingSel)+1)
-        //             || ratingSel === 'all'
-        //         )
-        //             return true;
-        //
-        //         return false;
-        //     }
-        // );
-
         $(document).ready(function () {
             fetch_data();
-            //Start function by Muhammad Talha Jamshed
             $('body').on('click','.apply-filter',function ()
             {
                 var filterDataArray = {};
@@ -366,7 +324,6 @@
                         $('.last_login').addClass('hide');
                 }
             });
-            //End function by Muhammad Talha Jamshed
             function fetch_data(filterDataArray = '')
             {
 
@@ -432,10 +389,6 @@
                     },
                     "bSort": true
                 });
-                // Event listener to the two range filtering inputs to redraw on input
-                // $('#ratings').change(function() {
-                //     table.draw();
-                // });
             }
         });
         $('body').on('click', '.delete',function (){
@@ -456,7 +409,6 @@
                 }
             });
         });
-
         $('body').on('change.bootstrapSwitch','.is_approved_by_admin', function(e) {
             var base_url = $(this).data('url');
             var tutor_id = $(this).attr("data-tutor-id");
@@ -468,139 +420,6 @@
                     console.log(response);
                 }
             });
-
-        });
-    </script>
-    <script>
-        $(document).ready(function()
-        {
-            $('body').on('change','.countries',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('country',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchProvince')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.provinces').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.provinces').html('<option value="all">Select Province</option>');
-                    $('.cities').html('<option value="all">Select City</option>');
-                    $('.areas').html('<option value="all">Select Area List</option>');
-                }
-            });
-            $('body').on('change','.provinces',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('province',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchCity')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.cities').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.cities').html('<option value="all">Select City</option>');
-                    $('.areas').html('<option value="all">Select Area List</option>');
-                }
-            });
-            $('body').on('change','.cities',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('city',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchArea')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.areas').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.areas').html('<option value="all">Select Area List</option>');
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function()
-        {
-            $('#classes').select2({
-            });
-            $('#subjects').select2({
-            });
-            $('body').on('change','.classes',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('class',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchSubjects')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.subjects').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.subjects').html('<option value="all">Select Subjects</option>');
-                }
-            });
         });
     </script>
 @stop
-<style>
-    .black-333{
-        color: #333333;
-    }
-    .col-md-6{
-        margin-bottom:10px;
-    }
-    .select2
-    {
-        line-height: 31px;
-        border: 1px solid #e4e7ea;
-        border-radius: 0px;
-        box-shadow: none;
-    }
-    .select2-container--default .select2-selection--multiple
-    {
-        border: 0px solid !important;
-    }
-</style>
