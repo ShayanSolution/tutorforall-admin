@@ -118,10 +118,10 @@
                         <label class="black-333">Rate:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6  placeholder">
-                                <input type="number" class="min_rating form-control" placeholder="Min">
+                                <input type="number" class="min_rate form-control" placeholder="Min">
                             </div>
                             <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" class="max_rating form-control" placeholder="Max">
+                                <input type="number" class="max_rate form-control" placeholder="Max">
                             </div>
                         </div>
                     </div>
@@ -251,10 +251,10 @@
                     filterDataArray['min_experience'] = $('.min_experience').val();
                 if($('.max_experience').val() != '')
                     filterDataArray['max_experience'] = $('.max_experience').val();
-                if($('.min_rating').val() != '')
-                    filterDataArray['min_rating'] = $('.min_rating').val();
-                if($('.max_rating').val() != '')
-                    filterDataArray['max_rating'] = $('.max_rating').val();
+                if($('.min_rate').val() != '')
+                    filterDataArray['min_rate'] = $('.min_rate').val();
+                if($('.max_rate').val() != '')
+                    filterDataArray['max_rate'] = $('.max_rate').val();
                 if($('.active_record').val() != '')
                     filterDataArray['active_record'] = $('.active_record').val();
                 if($('.gender_record').val() != '')

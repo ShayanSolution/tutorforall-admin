@@ -71,7 +71,7 @@ trait StudentFilterTrait {
             {
                 $range_date = explode('-',$request->input('filterDataArray')['last_login']);
                 $start_date = \Carbon\Carbon::parse($range_date[0])->format('Y-m-d'). ' 00:00:00';
-                $end_date = \Carbon\Carbon::parse($range_date[1])->format('Y-m-d'). ' 23:59:00';
+                $end_date = \Carbon\Carbon::parse($range_date[1])->format('Y-m-d'). ' 23:59:59';
                 $query = $query->whereHas('logins', function ($q) use ($start_date , $end_date) {
                     $q->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date);
                 });
@@ -112,7 +112,7 @@ trait StudentFilterTrait {
                 $min_dob = date('Y-m-d',$min_dob);
                 $max_dob = strtotime($todayDate. '-'.$request->input('filterDataArray')['max_age'].' year');
                 $max_dob = date('Y-m-d',$max_dob);
-                $query = $query->whereBetween('dob', [$max_dob, $min_dob]);
+                $query = $query->whereDate('dob','>=', $min_dob)->whereDate('dob','<=',$max_dob);
             }
             // Deserving
             if (isset($request->input('filterDataArray')['deserving'])) {

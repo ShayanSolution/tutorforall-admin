@@ -17,7 +17,7 @@ class SessionController extends Controller
         {
             if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $this->sessionFilter($request)->where('status','booked');
+                $sessions = $this->sessionFilter($request)->where('status','booked');
             }
             else
             {
