@@ -65,14 +65,13 @@ trait SessionFilterTrait
 //                    $query = $query->where('is_online', $request->input('filterDataArray')['online_status']);
 //                }
 //            }
-//            if (isset($request->input('filterDataArray')['last_login'])) {
-//                $range_date = explode('-', $request->input('filterDataArray')['last_login']);
-//                $start_date = \Carbon\Carbon::parse($range_date[0])->format('Y-m-d');
-//                $end_date = \Carbon\Carbon::parse($range_date[1])->format('Y-m-d');
-//                $query = $query->whereHas('profile', function ($q) use ($start_date, $end_date) {
-//                    $q->whereBetween('created_at', [$start_date, $end_date]);
-//                });
-//            }
+            if (isset($request->input('filterDataArray')['date_range'])) {
+                $range_date = explode('-', $request->input('filterDataArray')['date_range']);
+                $start_date = \Carbon\Carbon::parse($range_date[0])->format('Y-m-d'). ' 00:00:00';
+                $end_date = \Carbon\Carbon::parse($range_date[1])->format('Y-m-d').' 23:59:59';
+                $query = $query->whereDate('started_at','>=', $start_date)
+                ->whereDate('started_at','<=', $end_date);
+            }
 //            if (isset($request->input('filterDataArray')['min_experience']) && isset($request->input('filterDataArray')['max_experience'])) {
 //                if ($request->input('filterDataArray')['min_experience'] != '' && $request->input('filterDataArray')['max_experience'] != '') {
 //                    $min_experience = $request->input('filterDataArray')['min_experience'];
@@ -118,17 +117,11 @@ trait SessionFilterTrait
 //                $query = $query->whereBetween('dob', [$max_dob, $min_dob]);
 //            }
             // Meet Point Filter
-//            if (isset($request->input('filterDataArray')['meet_point'])) {
-//                if ($request->input('filterDataArray')['meet_point'] !== 'all') {
-//                    $meet_point = $request->input('filterDataArray')['meet_point'];
-//                    $query = $query->whereHas('profile', function ($q) use ($meet_point) {
-//                        if ($meet_point == '0')
-//                            $q->where('call_student', 1);
-//                        else if ($meet_point == '1')
-//                            $q->where('is_home', 1);
-//                    });
-//                }
-//            }
+            if (isset($request->input('filterDataArray')['meet_point'])) {
+                if ($request->input('filterDataArray')['meet_point'] !== 'all') {
+                    $query = $query->where('is_home', $request->input('filterDataArray')['meet_point']);
+                }
+            }
 
             // Rating Star Filter
 //            if (isset($request->input('filterDataArray')['rating'])) {

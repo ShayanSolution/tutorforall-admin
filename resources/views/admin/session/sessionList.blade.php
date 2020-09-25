@@ -75,17 +75,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="black-333">Online & Last Login:</label>
+                        <label class="black-333">Date Range:</label>
                         <div class="row">
-                            <div class="col-md-6 col-sm-6  placeholder">
-                                <select id="" name="ratings" class="form-control black-333 online_status">
-                                    <option value="all">Online Status</option>
-                                    <option value="1">Online</option>
-                                    <option value="0">Last login</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 col-sm-6 placeholder hide last_login">
-                                <input type="text" name="dates" class="form-control" autocomplete="off" value="" placeholder="Last Login" />
+                            <div class="col-md-6 col-sm-6 placeholder date_range">
+                                <input type="text" name="dates" class="form-control" autocomplete="off" value="" placeholder="Date Range" />
                             </div>
                         </div>
                     </div>
@@ -158,8 +151,8 @@
                             <div class="col-md-6 placeholder">
                                 <select id="" name="ratings" class="form-control black-333 meet_point">
                                     <option value="all">No Preference</option>
-                                    <option value="0">Call Student</option>
-                                    <option value="1">Go Home</option>
+                                    <option value="1">Call Tutor</option>
+                                    <option value="0">Go to Tutor</option>
                                 </select>
                             </div>
                         </div>
@@ -243,10 +236,8 @@
                     filterDataArray['subject'] = $('.subjects').val();
 
                 //Online Status
-                if($('.online_status').val() != '' && $('.online_status').val() !== '0' )
-                    filterDataArray['online_status'] = $('.online_status').val();
                 if($('input[name="dates"]').val() != '')
-                    filterDataArray['last_login'] = $('input[name="dates"]').val();
+                    filterDataArray['date_range'] = $('input[name="dates"]').val();
                 if($('.min_experience').val() != '')
                     filterDataArray['min_experience'] = $('.min_experience').val();
                 if($('.max_experience').val() != '')
