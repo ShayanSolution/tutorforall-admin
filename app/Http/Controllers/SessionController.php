@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Program;
 use App\Models\Session;
 use App\Models\User;
+use App\Traits\SessionFilterTrait;
 use Illuminate\Http\Request;
 
 class SessionController extends Controller
 {
+    use SessionFilterTrait;
     public function sessionBooked(Request $request){
         $sessionStatus = 'sessionBooked';
         if($request->ajax())
         {
             if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-
+                $this->sessionFilter($request)->where('status','booked');
             }
             else
             {

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 trait SessionFilterTrait
 {
-    public function sessionFilter(Request $request, string $mentorOrCommercial)
+    public function sessionFilter(Request $request)
     {
         $query = Session::query();
 

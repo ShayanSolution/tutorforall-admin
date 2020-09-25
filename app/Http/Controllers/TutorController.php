@@ -140,7 +140,7 @@ class TutorController extends Controller
         $mentorOrCommercial = 'Commercial';
         if($request->ajax())
         {
-            if( $request->input('filterDataArray') != '' && $request->has('filterDataArray'))
+            if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
                 $tutors = $this->tutorFilter($request,$mentorOrCommercial)->where('is_approved',1);
             }

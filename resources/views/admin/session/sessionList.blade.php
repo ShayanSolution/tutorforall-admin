@@ -222,6 +222,58 @@
     <script>
         $(document).ready(function () {
             fetch_data();
+            $('body').on('click','.apply-filter',function ()
+            {
+                var filterDataArray = {};
+                $('#myTable').DataTable().clear().destroy();
+                //Location data
+                if($('.countries').val() != '')
+                    filterDataArray['country'] = $('.countries').val();
+                if($('.provinces').val() != '')
+                    filterDataArray['province'] = $('.provinces').val();
+                if($('.cities').val() != '')
+                    filterDataArray['city'] = $('.cities').val();
+                if($('.areas').val() != '')
+                    filterDataArray['area'] = $('.areas').val();
+
+                //Classes and subjects
+                if($('.classes').val() != '')
+                    filterDataArray['class'] = $('.classes').val();
+                if($('.subjects').val() != '')
+                    filterDataArray['subject'] = $('.subjects').val();
+
+                //Online Status
+                if($('.online_status').val() != '' && $('.online_status').val() !== '0' )
+                    filterDataArray['online_status'] = $('.online_status').val();
+                if($('input[name="dates"]').val() != '')
+                    filterDataArray['last_login'] = $('input[name="dates"]').val();
+                if($('.min_experience').val() != '')
+                    filterDataArray['min_experience'] = $('.min_experience').val();
+                if($('.max_experience').val() != '')
+                    filterDataArray['max_experience'] = $('.max_experience').val();
+                if($('.min_rating').val() != '')
+                    filterDataArray['min_rating'] = $('.min_rating').val();
+                if($('.max_rating').val() != '')
+                    filterDataArray['max_rating'] = $('.max_rating').val();
+                if($('.active_record').val() != '')
+                    filterDataArray['active_record'] = $('.active_record').val();
+                if($('.gender_record').val() != '')
+                    filterDataArray['gender_record'] = $('.gender_record').val();
+                if($('.min_age').val() != '')
+                    filterDataArray['min_age'] = $('.min_age').val();
+                if($('.max_age').val() != '')
+                    filterDataArray['max_age'] = $('.max_age').val();
+
+                // Meet Point
+                if($('.meet_point').val() != '')
+                    filterDataArray['meet_point'] = $('.meet_point').val();
+
+                //Rating Filter
+                if($('#ratings').val() != '')
+                    filterDataArray['rating'] = $('#ratings').val();
+
+                fetch_data(filterDataArray);
+            });
             function fetch_data(filterDataArray = '')
             {
                 let table = $('#myTable').DataTable({
