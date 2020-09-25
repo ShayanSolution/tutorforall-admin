@@ -1,7 +1,6 @@
 @extends('admin.layout')
 @section('title','studentsList')
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 @section('content')
 
@@ -23,7 +22,6 @@
                 <h3 class="box-title m-b-0">Students List Details</h3>
                 <hr>
                 {{--                    Location Filters start--}}
-                {{-- Start Design By Muhammad Talha Jamshed --}}
                 <div class="row">
                     <div class="col-md-6">
                         <label class="black-333">Location:</label>
@@ -81,24 +79,17 @@
                     <div class="col-md-6">
                         <label class="black-333">Online & Last Login:</label>
                         <div class="row">
-{{--                            <div class="col-md-6 col-sm-6  placeholder">--}}
-{{--                                <select id="" name="ratings" class="form-control black-333 online_status">--}}
-{{--                                    <option value="all">Online Status</option>--}}
-{{--                                    <option value="1">Online</option>--}}
-{{--                                    <option value="0">Last login</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
                             <div class="col-md-6 col-sm-6 placeholder last_login">
                                 <input type="text" name="dates" class="form-control" autocomplete="off" value="" placeholder="Last Login" />
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="black-333">Active/InActive:</label>
+                        <label class="black-333">Active</label>
                         <div class="row">
                             <div class="col-md-6  placeholder">
                                 <select id="" name="ratings" class="form-control black-333 active_record">
-                                    <option value="all">Select</option>
+                                    <option value="all">All</option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
@@ -157,27 +148,13 @@
                     </div>
                 </div>
                 <div class="row">
-{{--                    <div class="col-md-6 col-sm-6">--}}
-{{--                        <label class="black-333">Meet Point:</label>--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="col-md-6 placeholder">--}}
-{{--                                <select id="" name="ratings" class="form-control black-333 meet_point">--}}
-{{--                                    <option value="all">No Preference</option>--}}
-{{--                                    <option value="1">Call Tutor</option>--}}
-{{--                                    <option value="0">Go to Tutor</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-                </div>
-                <div class="row">
                     <div class="col-md-12">
                         <div class="col-md-3" style="margin-top: 20px; margin-left: 5px; margin-bottom: 20px;">
                             <button class="btn apply-filter" style="background-color: #ab8ce4; color: white"> Apply filter</button>
                         </div>
                     </div>
                 </div>
-                {{-- End Design By Muhammad Talha Jamshed --}}
+                {{-- Location Filter End --}}
                 <div class="table-responsive">
                     <table id="myTable" class="table table-striped">
                         <thead>
@@ -220,30 +197,8 @@
 @endsection
 @section('javascripts')
     @parent
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    @include('admin.includes.filter')
     <script>
-        $('input[name="dates"]').daterangepicker({
-            autoUpdateInput: false,
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            },
-            locale: {
-                cancelLabel: 'Clear'
-            }
-        });
-        $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-        });
-
-        $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('');
-        });
         $(document).ready(function () {
             fetch_data();
             $('body').on('click','.apply-filter',function ()
@@ -286,8 +241,6 @@
                 // Deserving
                 if($('.deserving').val() != '')
                     filterDataArray['deserving'] = $('.deserving').val();
-
-
                 fetch_data(filterDataArray);
             });
             $('body').on('click', '.delete',function (){
@@ -295,30 +248,6 @@
                 var href = "{{URL::to('admin/student/delete')}}/"+id;
                 $('.deleteModalStudent').attr("href", href);
                 $('#deleteModalStudent').modal();
-            });
-            $('body').on('change','.classes',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('class',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchSubjects')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.subjects').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.subjects').html('<option value="all">Select Subjects</option>');
-                }
             });
             function fetch_data(filterDataArray= '')
             {
@@ -376,15 +305,9 @@
                     "bSort": true
                 } );
             }
-
-            $('#classes').select2({
-            });
-            $('#subjects').select2({
-            });
-
             var base_url = '{{url('/')}}';
             var _token = "{{csrf_token()}}";
-            $('.js-switch').on('change.bootstrapSwitch', function(e) {
+            $('body').on('change.bootstrapSwitch','.js-switch', function(e) {
                 var student_id = $(this).attr("data-student-id");
                 $.ajax({
                     url:base_url+'/admin/changeStudentDeserving',
@@ -395,7 +318,7 @@
                     }
                 });
             });
-            $('.js-switch-is_active').on('change.bootstrapSwitch',function (e) {
+            $('body').on('change.bootstrapSwitch','.js-switch-is_active',function (e) {
                 var student_id = $(this).attr("data-student-id");
                 $.ajax({
                     url:base_url+'/admin/changeStudentStatus',
@@ -408,103 +331,4 @@
             });
         });
     </script>
-    <script>
-        $(document).ready(function()
-        {
-            $('body').on('change','.countries',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('country',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchProvince')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.provinces').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.provinces').html('<option value="all">Select Province</option>');
-                    $('.cities').html('<option value="all">Select City</option>');
-                    $('.areas').html('<option value="all">Select Area List</option>');
-                }
-            });
-            $('body').on('change','.provinces',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('province',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchCity')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.cities').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.cities').html('<option value="all">Select City</option>');
-                    $('.areas').html('<option value="all">Select Area List</option>');
-                }
-            });
-            $('body').on('change','.cities',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('city',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchArea')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.areas').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.areas').html('<option value="all">Select Area List</option>');
-                }
-            });
-        });
-    </script>
 @stop
-<style>
-    .black-333{
-        color: #333333;
-    }
-    .col-md-6{
-        margin-bottom:10px;
-    }
-    .select2
-    {
-        line-height: 31px;
-        border: 1px solid #e4e7ea;
-        border-radius: 0px;
-        box-shadow: none;
-    }
-    .select2-container--default .select2-selection--multiple
-    {
-        border: 0px solid !important;
-    }
-</style>

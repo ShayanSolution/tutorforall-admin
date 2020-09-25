@@ -56,8 +56,6 @@ trait TutorFilterTrait {
                 {
                     $programm_id = $request->input('filterDataArray')['class'];
                     $subject_id = $request->input('filterDataArray')['subject'];
-//                    $programm_id = explode(',',$request->input('filterDataArray')['class']);
-//                    $subject_id = explode(',',$request->input('filterDataArray')['subject']);
                     $query = $query->whereHas('program_subject', function ($q) use($programm_id, $subject_id){
                         $q->whereIn('program_id', $programm_id);
                         if($subject_id && $subject_id != 'all')

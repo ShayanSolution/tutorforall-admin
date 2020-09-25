@@ -67,12 +67,6 @@ trait StudentFilterTrait {
                 }
             }
 
-//            if (isset($request->input('filterDataArray')['online_status'])) {
-//                if($request->input('filterDataArray')['online_status'] !== 'all')
-//                {
-//                    $query = $query->where('is_online',$request->input('filterDataArray')['online_status']);
-//                }
-//            }
             if(isset($request->input('filterDataArray')['last_login']))
             {
                 $range_date = explode('-',$request->input('filterDataArray')['last_login']);
@@ -104,12 +98,14 @@ trait StudentFilterTrait {
                     $query = $query->where('is_active',$request->input('filterDataArray')['active_record']);
                 }
             }
+            // Gender
             if (isset($request->input('filterDataArray')['gender_record'])) {
                 if($request->input('filterDataArray')['gender_record'] !== 'all')
                 {
                     $query = $query->where('gender_id',$request->input('filterDataArray')['gender_record']);
                 }
             }
+            // Age
             if (isset($request->input('filterDataArray')['min_age']) && isset($request->input('filterDataArray')['max_age']) ) {
                 $todayDate = \Carbon\Carbon::now()->format('Y-m-d');
                 $min_dob = strtotime($todayDate. ' -'.$request->input('filterDataArray')['min_age'].' year');
@@ -128,16 +124,6 @@ trait StudentFilterTrait {
                     });
                 }
             }
-            // Meet Point Filter
-//            if (isset($request->input('filterDataArray')['meet_point'])) {
-//                if($request->input('filterDataArray')['meet_point'] !== 'all')
-//                {
-//                    $meet_point = $request->input('filterDataArray')['meet_point'];
-//                    $query = $query->whereHas('session', function ($q) use($meet_point){
-//                        $q->where('is_home', $meet_point);
-//                    });
-//                }
-//            }
         }
         return $query;
     }
