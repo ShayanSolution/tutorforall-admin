@@ -37,23 +37,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($sessions as $session)
-                                <tr>
-                                    <td>{{$session->id}}</td>
-                                    <td>{{$session->student ? $session->student->firstName." ". $session->student->lastName: 'N-A'}}</td>
-                                    <td>{{$session->tutor ? $session->tutor->firstName." ". $session->tutor->lastName: 'N-A'}}</td>
-                                    <td>{{$session->class ? $session->class->name : 'N-A'}}</td>
-                                    <td>{{$session->subject ? $session->subject->name : 'N-A'}}</td>
-                                    <td>{{$session->is_group == 0 ? 'No' : ' Yes'}}</td>
-                                    <td>{{$session->group_members}}</td>
-                                    <td>{{$session->status}}</td>
-                                    <td>{{ ($session->duration == "") ? "" : \Carbon\Carbon::parse($session->duration)->format('H:i:s')}}</td>
-                                    <td style="width: 20%">{{$session->session_location}}</td>
-                                    <td>{{$session->hourly_rate}}</td>
-                                    <td>{{dateTimeConverter($session->created_at)}}</td>
 
-                                </tr>
-                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -65,21 +49,51 @@
     @parent
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable({
-                dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
-                buttons: [
-                    { extend: 'csv', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                        } },
-                    { extend: 'excel', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                        } },
-                    { extend: 'print', className: 'btn-md', exportOptions: {
-                            columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                        } }
-                ],
-                "bSort": true
-            });
+            fetch_data();
+            function fetch_data(filterDataArray = '')
+            {
+                let table = $('#myTable').DataTable({
+                    dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
+                    processing: true,
+                    serverSide: true,
+                    ordering: false,
+                    ajax : {
+                        url :"{{ route($sessionStatus) }}",
+                        data: {filterDataArray : filterDataArray},
+                        complete : function (data) {
+                        }
+                    },
+                    columns: [
+                        {data: 'id', name: 'id'},
+                        {data: 'studentName', name: 'studentName'},
+                        {data: 'tutorName', name: 'tutorName'},
+                        {data: 'className', name: 'className'},
+                        {data: 'subjectName', name: 'subjectName'},
+                        {data: 'groupSession', name: 'groupSession'},
+                        {data: 'group_members', name: 'group_members'},
+                        {data: 'status', name: 'status'},
+                        {data: 'duration', name: 'duration'},
+                        {data: 'session_location', name: 'session_location'},
+                        {data: 'hourly_rate', name: 'hourly_rate'},
+                        {data: 'created_at', name: 'created_at'},
+                    ],
+                    buttons: [
+                        { extend: 'csv', className: 'btn-md', exportOptions: {
+                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                            } },
+                        { extend: 'excel', className: 'btn-md', exportOptions: {
+                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                            } },
+                        { extend: 'print', className: 'btn-md', exportOptions: {
+                                columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                            } }
+                    ],
+                    search: {
+                        "regex": true
+                    },
+                    "bSort": true
+                });
+            }
         });
     </script>
 @stop

@@ -358,7 +358,7 @@
                         {data: 'lastName', name: 'lastName'},
                         {data: 'email', name: 'email'},
                         {data: 'phone', name: 'phone'},
-                        {data: 'rating', name: 'rating.rating'},
+                        {data: 'rating', name: 'rating'},
                         {data: 'created_at', name: 'created_at'},
                         {data: 'last_login', name: 'last_login'},
                         {data: 'is_active', name: 'is_active'},
