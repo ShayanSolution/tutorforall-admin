@@ -94,7 +94,7 @@
     <script>
         $(document).ready(function () {
             var table = $('#myTable').DataTable( {
-                dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-2"i><"col-sm-10"p>>',
+                dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-4"i><"col-sm-8"p>>',
                 buttons: [
                     { extend: 'csv', className: 'btn-md', exportOptions: {
                             columns: ['0','1', '2'],
