@@ -185,22 +185,22 @@ Route::group(['middleware' => 'admin'],function (){
         'uses' => 'TutorController@applyTutorFilter'
     ]);
     Route::post('admin/tutors/fetchProvince',[
-        'as' => 'tutorsFilter',
+        'as' => 'tutorsFilterProvince',
         'uses' => 'TutorController@fetchProvince'
     ]);
 
     Route::post('admin/tutors/fetchArea',[
-        'as' => 'tutorsFilter',
+        'as' => 'tutorsFilterArea',
         'uses' => 'TutorController@fetchArea'
     ]);
 
     Route::post('admin/tutors/fetchCity',[
-        'as' => 'tutorsFilter',
+        'as' => 'tutorsFilterCity',
         'uses' => 'TutorController@fetchCity'
     ]);
 
     Route::post('admin/tutors/fetchSubjects',[
-        'as' => 'tutorsFilter',
+        'as' => 'tutorsFilterSubjects',
         'uses' => 'TutorController@fetchSubjects'
     ]);
 
@@ -298,9 +298,23 @@ Route::group(['middleware' => 'admin'],function (){
         Route::get('session/pending', 'SessionController@sessionPending')->name('sessionPending');
         Route::get('session/rejected', 'SessionController@sessionRejected')->name('sessionRejected');
         Route::get('session/list', 'SessionController@sessionList')->name('sessionList');
+
         Route::resource('notifications', 'NotificationController');
         Route::post('download/document', 'DocumentsController@downloadDocument')->name('downloadDocument');
     });
+
+    Route::post('admin/session/fetchProvince',[
+        'as' => 'sessionFetchProvince',
+        'uses' => 'SessionController@fetchProvince'
+    ]);
+    Route::post('admin/session/fetchCity',[
+        'as' => 'sessionFetchCity',
+        'uses' => 'SessionController@fetchCity'
+    ]);
+    Route::post('admin/session/fetchArea',[
+        'as' => 'sessionFetchArea',
+        'uses' => 'SessionController@fetchArea'
+    ]);
 
 });
 //admin Middleware ends

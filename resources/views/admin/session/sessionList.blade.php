@@ -25,7 +25,7 @@
                         <label class="black-333">Location:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6 col-xs-6  placeholder">
-                                <select id="" name="ratings" class="form-control black-333 countries">
+                                <select id="" data-session_page="{{$status}}" name="ratings" class="mySelectDropDown form-control black-333 countries">
                                     <option value="all">Select Country</option>
                                     @foreach($countries as $country)
                                         <option value="{{$country->country}}">{{$country->country}}</option>
@@ -34,19 +34,19 @@
                             </div>
 
                             <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333 provinces">
+                                <select id="" name="ratings" class="mySelectDropDown form-control black-333 provinces">
                                     <option value="all">Select Province</option>
                                 </select>
                             </div>
 
                             <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333 cities">
+                                <select id="" name="ratings" class="mySelectDropDown form-control black-333 cities">
                                     <option value="all">Select City</option>
                                 </select>
                             </div>
 
                             <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333 areas">
+                                <select id="" name="ratings" class="mySelectDropDown form-control black-333 areas">
                                     <option value="all">Select  Area List</option>
                                 </select>
                             </div>
@@ -56,7 +56,7 @@
                         <label class="black-333">Class & Subject:</label>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6  placeholder">
-                                <select id="classes" name="ratings" class="form-control black-333 classes" multiple>
+                                <select id="classes" name="ratings" class="mySelectDropDown form-control black-333 classes" multiple>
                                     <option value="all">Select Classes</option>
                                     @foreach($programs as $program)
                                         <option value="{{$program->id}}">{{$program->name}}</option>
@@ -65,7 +65,7 @@
                             </div>
 
                             <div class="col-md-6 col-sm-6 col-xs-6 placeholder">
-                                <select id="subjects" name="ratings" class="form-control black-333 subjects" multiple>
+                                <select id="subjects" name="ratings" class="mySelectDropDown form-control black-333 subjects" multiple>
                                     <option value="all">Select Subjects</option>
                                 </select>
                             </div>
@@ -83,41 +83,28 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="black-333">Active</label>
-                        <div class="row">
-                            <div class="col-md-6  placeholder">
-                                <select id="" name="ratings" class="form-control black-333 active_record">
-                                    <option value="all">All</option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label class="black-333">Experience:</label>
-                        <div class="row">
-                            <div class="col-md-3 col-sm-6  placeholder">
-                                <input type="number" class="min_experience form-control" placeholder="Min">
-                            </div>
-                            <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" class="max_experience form-control" placeholder="Max">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
                         <label class="black-333">Rate:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6  placeholder">
-                                <input type="number" class="min_rate form-control" placeholder="Min">
+                                <input type="number" class="min_rate form-control" min="0" placeholder="Min">
                             </div>
                             <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" class="max_rate form-control" placeholder="Max">
+                                <input type="number" class="max_rate form-control" min="0" placeholder="Max">
                             </div>
                         </div>
                     </div>
+{{--                    <div class="col-md-6">--}}
+{{--                        <label class="black-333">Active</label>--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-md-6  placeholder">--}}
+{{--                                <select id="" name="ratings" class="form-control black-333 active_record">--}}
+{{--                                    <option value="all">All</option>--}}
+{{--                                    <option value="1">Yes</option>--}}
+{{--                                    <option value="0">No</option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -125,9 +112,11 @@
                         <div class="row">
                             <div class="col-md-6  placeholder">
                                 <select id="" name="ratings" class="form-control black-333 gender_record">
-                                    <option value="all">Select</option>
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
+                                    <option value="all">All</option>
+                                    <option value="1,1">Both Male</option>
+                                    <option value="2,2">Both Female</option>
+                                    <option value="2,1">Student Female - Tutor Male</option>
+                                    <option value="1,2">Student Male - Tutor Female</option>
                                 </select>
                             </div>
                         </div>
@@ -136,10 +125,10 @@
                         <label class="black-333">Age:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" placeholder="Min" class="form-control min_age">
+                                <input type="number" placeholder="Min" min="0" class="form-control min_age">
                             </div>
                             <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" placeholder="Max" class="form-control max_age">
+                                <input type="number" placeholder="Max" min="0" class="form-control max_age">
                             </div>
                         </div>
                     </div>
@@ -157,23 +146,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6">
-                        <label class="black-333">Rating filter:</label>
-                        <div class="row">
-                            <div class="col-md-6 placeholder">
-                                <select id="ratings" name="ratings" class="form-control black-333">
-                                    <option value="all">All</option>
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
+                    @if($sessionStatus === 'sessionCompleted')
+                        <div class="col-md-6 col-sm-6">
+                            <label class="black-333">Session Rating</label>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6  placeholder">
+                                    <input type="number" class="min_rate_star form-control" min="0" placeholder="Min">
+                                </div>
+                                <div class="col-md-3 col-sm-6 placeholder">
+                                    <input type="number" class="max_rate_star form-control" min="0" max="5" placeholder="Max">
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+                @if($sessionStatus === 'sessionCompleted')
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="black-333">Tutor Experience:</label>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6  placeholder">
+                                    <input type="number" class="min_experience form-control" min="0" placeholder="Min">
+                                </div>
+                                <div class="col-md-3 col-sm-6 placeholder">
+                                    <input type="number" class="max_experience form-control" placeholder="Max">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
                 <div class="row">
                     <div class="col-md-12">
                         <div class="col-md-3" style="margin-top: 20px; margin-left: 5px; margin-bottom: 20px;">
@@ -238,16 +239,16 @@
                 //Online Status
                 if($('input[name="dates"]').val() != '')
                     filterDataArray['date_range'] = $('input[name="dates"]').val();
+
                 if($('.min_experience').val() != '')
                     filterDataArray['min_experience'] = $('.min_experience').val();
                 if($('.max_experience').val() != '')
                     filterDataArray['max_experience'] = $('.max_experience').val();
+
                 if($('.min_rate').val() != '')
                     filterDataArray['min_rate'] = $('.min_rate').val();
                 if($('.max_rate').val() != '')
                     filterDataArray['max_rate'] = $('.max_rate').val();
-                if($('.active_record').val() != '')
-                    filterDataArray['active_record'] = $('.active_record').val();
                 if($('.gender_record').val() != '')
                     filterDataArray['gender_record'] = $('.gender_record').val();
                 if($('.min_age').val() != '')
@@ -260,8 +261,10 @@
                     filterDataArray['meet_point'] = $('.meet_point').val();
 
                 //Rating Filter
-                if($('#ratings').val() != '')
-                    filterDataArray['rating'] = $('#ratings').val();
+                if($('.min_rate_star').val() != '')
+                    filterDataArray['min_rate_star'] = $('.min_rate_star').val();
+                if($('.max_rate_star').val() != '')
+                    filterDataArray['max_rate_star'] = $('.max_rate_star').val();
 
                 fetch_data(filterDataArray);
             });

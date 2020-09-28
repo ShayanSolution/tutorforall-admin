@@ -182,7 +182,7 @@ class TutorController extends Controller
                 ->orderColumn('firstName', 'email $1')
                 ->make(true);
         }
-        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $countries = User::select('country')->whereNotNull('country')->where('role_id','2')->groupBy('country')->get();
         $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
         $mentorOrCommercial = 'Commercial';
         return view('admin.tutor.tutorsList',compact('mentorOrCommercial','countries', 'programs'));
@@ -244,7 +244,7 @@ class TutorController extends Controller
                 ->rawColumns(['rating','created_at','last_login','is_active','edit','delete'])
                 ->make(true);
         }
-        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $countries = User::select('country')->where('role_id','2')->whereNotNull('country')->groupBy('country')->get();
         $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
 
         return view('admin.tutor.tutorsList',compact('mentorOrCommercial','countries', 'programs'));

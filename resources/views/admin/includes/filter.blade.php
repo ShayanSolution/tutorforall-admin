@@ -22,7 +22,7 @@
     });
     $(document).ready(function()
     {
-        $('body').on('change','.classes',function()
+        $('body').on('change','.classes',function(e)
         {
             var value = $(this).val();
             if(value !== 'all')
@@ -43,12 +43,12 @@
                 });
             }
             else {
+                alert("I am here");
+                $(this).remove();
                 $('.subjects').html('<option value="all">Select Subjects</option>');
             }
         });
-        $('#classes').select2({
-        });
-        $('#subjects').select2({
+        $('.mySelectDropDown').select2({
         });
     });
 </script>
@@ -58,13 +58,21 @@
         $('body').on('change','.countries',function()
         {
             var value = $(this).val();
+            var role = $(this).data('role-id');
+            var url = "";
+            if(role != '' && role !== undefined)
+                url = "{{URL::to('/admin/tutors/fetchProvince')}}";
+            else
+                url = "{{route('sessionFetchProvince')}}";
             if(value !== 'all')
             {
                 var fd = new FormData();
                 fd.append('country',value);
+                fd.append('role_id',role);
+                fd.append('status', $('.countries').data('session_page'))
                 fd.append('_token', "{{ csrf_token() }}");
                 $.ajax({
-                    url : "{{URL::to('/admin/tutors/fetchProvince')}}",
+                    url : url,
                     type : 'POST',
                     data : fd,
                     dataType: 'html',
@@ -84,13 +92,21 @@
         $('body').on('change','.provinces',function()
         {
             var value = $(this).val();
+            var role = $('.countries').data('role-id');
+            var url= '';
+            if(role != '' && role !== undefined)
+                url = "{{URL::to('/admin/tutors/fetchCity')}}";
+            else
+                url = "{{route('sessionFetchCity')}}";
             if(value !== 'all')
             {
                 var fd = new FormData();
                 fd.append('province',value);
+                fd.append('role_id',role);
+                fd.append('status', $('.countries').data('session_page'))
                 fd.append('_token', "{{ csrf_token() }}");
                 $.ajax({
-                    url : "{{URL::to('/admin/tutors/fetchCity')}}",
+                    url : url,
                     type : 'POST',
                     data : fd,
                     dataType: 'html',
@@ -109,13 +125,23 @@
         $('body').on('change','.cities',function()
         {
             var value = $(this).val();
+            var role = $('.countries').data('role-id');
+            var url= '';
+            if(role != '' && role !== undefined)
+                url = "{{URL::to('/admin/tutors/fetchArea')}}";
+            else
+                url = "{{route('sessionFetchArea')}}";
+
+
             if(value !== 'all')
             {
                 var fd = new FormData();
                 fd.append('city',value);
+                fd.append('role_id',role)
+                fd.append('status', $('.countries').data('session_page'))
                 fd.append('_token', "{{ csrf_token() }}");
                 $.ajax({
-                    url : "{{URL::to('/admin/tutors/fetchArea')}}",
+                    url : url,
                     type : 'POST',
                     data : fd,
                     dataType: 'html',
