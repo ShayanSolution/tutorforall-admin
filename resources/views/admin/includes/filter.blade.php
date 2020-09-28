@@ -43,11 +43,16 @@
                 });
             }
             else {
-                alert("I am here");
-                $(this).remove();
                 $('.subjects').html('<option value="all">Select Subjects</option>');
             }
         });
+        $('#classes').select2({
+            placeholder: "Select Classes ",
+        });
+        $('#subjects').select2({
+            placeholder: "Select subjects",
+        });
+
         $('.mySelectDropDown').select2({
         });
     });

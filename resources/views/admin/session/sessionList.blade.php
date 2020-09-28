@@ -56,8 +56,7 @@
                         <label class="black-333">Class & Subject:</label>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6  placeholder">
-                                <select id="classes" name="ratings" class="mySelectDropDown form-control black-333 classes" multiple>
-                                    <option value="all">Select Classes</option>
+                                <select id="classes" name="ratings" class="form-control black-333 classes" multiple>
                                     @foreach($programs as $program)
                                         <option value="{{$program->id}}">{{$program->name}}</option>
                                     @endforeach()
@@ -65,8 +64,7 @@
                             </div>
 
                             <div class="col-md-6 col-sm-6 col-xs-6 placeholder">
-                                <select id="subjects" name="ratings" class="mySelectDropDown form-control black-333 subjects" multiple>
-                                    <option value="all">Select Subjects</option>
+                                <select id="subjects" name="ratings" class="form-control black-333 subjects" multiple>
                                 </select>
                             </div>
 

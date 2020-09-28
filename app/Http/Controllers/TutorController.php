@@ -437,7 +437,8 @@ class TutorController extends Controller
     public function fetchSubjects(Request $request)
     {
         $where_array = explode(',', $request->input('class'));
-        $html = '<option value="all">Select Subjects</option>';
+//        $html = '<option value="all">Select Subjects</option>';
+        $html = '';
         $subjects = Subject::where('status', '!=', '2')->whereIn('programme_id', $where_array)->get();
         foreach ($subjects as $subject)
         {
