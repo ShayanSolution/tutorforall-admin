@@ -498,6 +498,7 @@
                 var value = $(this).val();
                 if(value !== 'all')
                 {
+                    var subject_selected = $('.subjects').val();
                     var fd = new FormData();
                     fd.append('class',value);
                     fd.append('_token', "{{ csrf_token() }}");
@@ -510,6 +511,7 @@
                         processData: false,
                         success:function (response) {
                             $('.subjects').html(response);
+                            $('.subjects').val(subject_selected);
                         }
                     });
                 }
