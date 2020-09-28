@@ -41,7 +41,7 @@
                         <label class="black-333">Location:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6 col-xs-6  placeholder">
-                                <select id="" name="ratings" class="form-control black-333 countries">
+                                <select id="" data-role-id="2"  name="ratings" class="form-control black-333 countries">
                                     <option value="all">Select Country</option>
                                     @foreach($countries as $country)
                                         <option value="{{$country->country}}">{{$country->country}}</option>
@@ -73,7 +73,6 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6  placeholder">
                                 <select id="classes" name="ratings" class="form-control black-333 classes" multiple>
-                                    <option value="all">Select Classes</option>
                                     @foreach($programs as $program)
                                         <option value="{{$program->id}}">{{$program->name}}</option>
                                     @endforeach()
@@ -82,7 +81,6 @@
 
                             <div class="col-md-6 col-sm-6 col-xs-6 placeholder">
                                 <select id="subjects" name="ratings" class="form-control black-333 subjects" multiple>
-                                    <option value="all">Select Subjects</option>
                                 </select>
                             </div>
 
@@ -406,10 +404,12 @@
             $('body').on('change','.countries',function()
             {
                 var value = $(this).val();
+                var role = $(this).data('role-id');
                 if(value !== 'all')
                 {
                     var fd = new FormData();
                     fd.append('country',value);
+                    fd.append('role_id',role);
                     fd.append('_token', "{{ csrf_token() }}");
                     $.ajax({
                         url : "{{URL::to('/admin/tutors/fetchProvince')}}",
@@ -432,10 +432,12 @@
             $('body').on('change','.provinces',function()
             {
                 var value = $(this).val();
+                var role = $('.countries').data('role-id');
                 if(value !== 'all')
                 {
                     var fd = new FormData();
                     fd.append('province',value);
+                    fd.append('role_id',role);
                     fd.append('_token', "{{ csrf_token() }}");
                     $.ajax({
                         url : "{{URL::to('/admin/tutors/fetchCity')}}",
@@ -457,10 +459,12 @@
             $('body').on('change','.cities',function()
             {
                 var value = $(this).val();
+                var role = $('.countries').data('role-id');
                 if(value !== 'all')
                 {
                     var fd = new FormData();
                     fd.append('city',value);
+                    fd.append('role_id',role);
                     fd.append('_token', "{{ csrf_token() }}");
                     $.ajax({
                         url : "{{URL::to('/admin/tutors/fetchArea')}}",
@@ -484,8 +488,10 @@
         $(document).ready(function()
         {
             $('#classes').select2({
+                placeholder: "Select Classes ",
             });
             $('#subjects').select2({
+                placeholder: "Select Subjects ",
             });
             $('body').on('change','.classes',function()
             {
