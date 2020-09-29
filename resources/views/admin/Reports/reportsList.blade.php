@@ -308,7 +308,10 @@
                         url: "{{ route('reports') }}",
                         data: {filterDataArray : filterDataArray},
                         beforeSend: function(){
-                            $('.preloader').css('display','block');
+                            $('.preloader').css({
+                                'display':'block',
+                                'background' : 'none'
+                            });
                         },
                         complete: function (data) {
                             $('.preloader').css('display','none');

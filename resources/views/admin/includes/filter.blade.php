@@ -66,6 +66,7 @@
 <script>
     $(document).ready(function()
     {
+        $('.preloader').css('background','none');
         $('body').on('change','.countries',function()
         {
             var value = $(this).val();
