@@ -276,7 +276,11 @@
                     ajax : {
                         url :"{{ route($sessionStatus) }}",
                         data: {filterDataArray : filterDataArray},
+                        beforeSend: function(){
+                            $('.preloader').css('display','block');
+                        },
                         complete : function (data) {
+                            $('.preloader').css('display','none');
                         }
                     },
                     columns: [

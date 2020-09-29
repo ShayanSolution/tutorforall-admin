@@ -38,9 +38,13 @@
                     dataType: 'html',
                     contentType: false,
                     processData: false,
+                    beforeSend: function(){
+                        $('.preloader').css('display','block');
+                    },
                     success:function (response) {
                         $('.subjects').html(response);
                         $('.subjects').val(subject_selected);
+                        $('.preloader').css('display','none');
                     }
                 });
             }
@@ -85,8 +89,12 @@
                     dataType: 'html',
                     contentType: false,
                     processData: false,
+                    beforeSend: function(){
+                        $('.preloader').css('display','block');
+                    },
                     success:function (response) {
                         $('.provinces').html(response);
+                        $('.preloader').css('display','none');
                     }
                 });
             }
@@ -119,8 +127,12 @@
                     dataType: 'html',
                     contentType: false,
                     processData: false,
+                    beforeSend: function(){
+                        $('.preloader').css('display','block');
+                    },
                     success:function (response) {
                         $('.cities').html(response);
+                        $('.preloader').css('display','none');
                     }
                 });
             }
@@ -154,8 +166,12 @@
                     dataType: 'html',
                     contentType: false,
                     processData: false,
+                    beforeSend: function(){
+                        $('.preloader').css('display','block');
+                    },
                     success:function (response) {
                         $('.areas').html(response);
+                        $('.preloader').css('display','none');
                     }
                 });
             }

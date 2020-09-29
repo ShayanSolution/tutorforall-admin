@@ -334,7 +334,11 @@
                     ajax : {
                         url :$mentorOrCommercial === 'Mentor'?"{{ route('mentorsList') }}":"{{ route('tutorsList') }}",
                         data: {filterDataArray : filterDataArray},
+                        beforeSend: function(){
+                            $('.preloader').css('display','block');
+                        },
                         complete : function (data) {
+                            $('.preloader').css('display','none');
                             // Switchery
                             var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
                             $('.js-switch').each(function () {
