@@ -330,7 +330,6 @@
                     dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-4"i><"col-sm-8"p>>',
                     processing: true,
                     serverSide: true,
-                    ordering: false,
                     ajax : {
                         url :$mentorOrCommercial === 'Mentor'?"{{ route('mentorsList') }}":"{{ route('tutorsList') }}",
                         data: {filterDataArray : filterDataArray},
