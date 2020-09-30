@@ -38,7 +38,7 @@
                             <th>Active</th>
                             <th>Program</th>
                             <th>Created</th>
-                            <th>Edit</th>
+                            <th>Action</th>
 {{--                            <th>Delete</th>--}}
                         </tr>
                         </thead>
@@ -106,7 +106,10 @@
                             columns: ['0','1', '2'],
                         } }
                 ],
-                "bSort": true
+                "bSort": true,
+                "columnDefs": [
+                    { "orderable": false, "targets": 4 }
+                ]
             } );
             $("#myTable tfoot th").each( function ( i ) {
 

@@ -30,7 +30,7 @@ class UserTableSeeder extends Seeder
             'device_token' => 'N/A',
             'confirmed' => 0,
             'username' => 'SuperAdmin',
-            'profileImage' => 'https://png.icons8.com/ios/50/000000/gender-neutral-user.png',
+            'profileImage' => 'https://img.icons8.com/ios/50/000000/gender-neutral-user.png',
             'confirmation_code' => $confirmation_code
         ]);
     }

@@ -29,7 +29,7 @@
                             <th></th>
                             <th>Active</th>
                             <th></th>
-                            <th></th>
+{{--                            <th></th>--}}
                         </tr>
                         </tfoot>
                         <thead>
@@ -37,8 +37,9 @@
                                 <th>Name</th>
                                 <th>Created</th>
                                 <th>Active</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th style="align-self: center">Action</th>
+{{--                                <th>Edit</th>--}}
+{{--                                <th>Delete</th>--}}
                             </tr>
                         </thead>
                         <tbody>
@@ -51,8 +52,8 @@
                                     <div class="col-lg-4 col-sm-4 col-xs-4">
                                         <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('categoryEdit',$category->id)}}">Edit</a>
                                     </div>
-                                </td>
-                                <td>
+{{--                                </td>--}}
+{{--                                <td>--}}
                                     <div class="col-lg-4 col-sm-4 col-xs-4">
                                         <a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModal{{$category->id}}">Delete</a>
                                     </div>
@@ -105,7 +106,10 @@
                             columns: ['0'],
                         } }
                 ],
-                "bSort": true
+                "bSort": true,
+                "columnDefs": [
+                    { "orderable": false, "targets": 3 }
+                ]
             });
 
             $("#myTable tfoot th").each( function ( i ) {
