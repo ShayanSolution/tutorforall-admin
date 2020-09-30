@@ -56,7 +56,7 @@ class AdminController extends Controller
                 $students = $this->studentFilter($request)->where('role_id',3)->with('profile');
             }
             else{
-                $students = User::where('role_id',3)->with('profile')->orderby('id','DESC');
+                $students = User::where('role_id',3)->with('profile');
             }
             return datatables()->eloquent($students)
             ->addColumn('firstName', function($student){
@@ -101,7 +101,7 @@ class AdminController extends Controller
             else{
                 $students = User::whereHas('profile', function ($query) {
                     $query->where('is_deserving', 1);
-                })->where('role_id', 3)->orderby('id','DESC');
+                })->where('role_id', 3);
             }
             return datatables()->eloquent($students)
                 ->addColumn('firstName', function($student){
@@ -184,12 +184,9 @@ class AdminController extends Controller
         {
                 $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
                     $q->where('is_mentor', 0);
-                })->with('rating')->where('role_id',2)->where('is_approved',0)->orderBy('id', 'DESC');
+                })->with('rating')->where('role_id',2)->where('is_approved',0);
 
             return datatables()->eloquent($tutors)
-                ->orderColumn('firstName', function ($query, $order) {
-                    $query->orderBy('status', $order);
-                })
                 ->addColumn('type', function($tutor){
                     return $tutor->profile->is_mentor ? 'Mentor' : 'Commercial';
                 })
@@ -200,7 +197,6 @@ class AdminController extends Controller
                     $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('candidateDocuments', $tutor->id).'" alt="default">Review Documents</a>';
                     return $btn;
                 })
-
                 ->rawColumns(['type','created_at','documents'])
                 ->make(true);
         }

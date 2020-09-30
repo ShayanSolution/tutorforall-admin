@@ -146,9 +146,12 @@ class TutorController extends Controller
             }
             else
             {
+//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
+//                    $q->where('is_mentor', 0);
+//                })->with('rating')->where('role_id',2)->where('is_approved',1)->orderBy('id', 'DESC');
                 $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
                     $q->where('is_mentor', 0);
-                })->with('rating')->where('role_id',2)->where('is_approved',1)->orderBy('id', 'DESC');
+                })->with('rating')->where('role_id',2)->where('is_approved',1);
             }
             return datatables()->eloquent($tutors)
                 ->addColumn('rating', function($tutor){
@@ -182,7 +185,7 @@ class TutorController extends Controller
                 ->orderColumn('firstName', 'email $1')
                 ->make(true);
         }
-        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $countries = User::select('country')->whereNotNull('country')->where('role_id','2')->groupBy('country')->get();
         $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
         $mentorOrCommercial = 'Commercial';
         return view('admin.tutor.tutorsList',compact('mentorOrCommercial','countries', 'programs'));
@@ -199,7 +202,6 @@ class TutorController extends Controller
 
         if($request->ajax())
         {
-
             if( $request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
                 $tutors = $this->tutorFilter($request,$mentorOrCommercial);
@@ -208,7 +210,7 @@ class TutorController extends Controller
             {
                 $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
                     $q->where('is_mentor', 1);
-                })->with('rating')->where('role_id',2)->where('is_approved',1)->orderBy('id', 'DESC');
+                })->with('rating')->where('role_id',2)->where('is_approved',1);
             }
             return datatables()->eloquent($tutors)
                 ->orderColumn('firstName', function ($query, $order) {
@@ -244,7 +246,7 @@ class TutorController extends Controller
                 ->rawColumns(['rating','created_at','last_login','is_active','edit','delete'])
                 ->make(true);
         }
-        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $countries = User::select('country')->where('role_id','2')->whereNotNull('country')->groupBy('country')->get();
         $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
 
         return view('admin.tutor.tutorsList',compact('mentorOrCommercial','countries', 'programs'));
@@ -437,7 +439,8 @@ class TutorController extends Controller
     public function fetchSubjects(Request $request)
     {
         $where_array = explode(',', $request->input('class'));
-        $html = '<option value="all">Select Subjects</option>';
+//        $html = '<option value="all">Select Subjects</option>';
+        $html = '';
         $subjects = Subject::where('status', '!=', '2')->whereIn('programme_id', $where_array)->get();
         foreach ($subjects as $subject)
         {

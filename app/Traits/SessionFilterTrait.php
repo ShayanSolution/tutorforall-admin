@@ -9,10 +9,11 @@ use App\Models\User;
 use App\Models\Session;
 use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
+use function foo\func;
 
 trait SessionFilterTrait
 {
-    public function sessionFilter(Request $request)
+    public function sessionFilter(Request $request, $status = 'booked')
     {
         $query = Session::query();
 
@@ -59,12 +60,6 @@ trait SessionFilterTrait
                         $query = $query->whereIn('subject_id', $subject_id);
                 }
             }
-
-//            if (isset($request->input('filterDataArray')['online_status'])) {
-//                if ($request->input('filterDataArray')['online_status'] !== 'all') {
-//                    $query = $query->where('is_online', $request->input('filterDataArray')['online_status']);
-//                }
-//            }
             if (isset($request->input('filterDataArray')['date_range'])) {
                 $range_date = explode('-', $request->input('filterDataArray')['date_range']);
                 $start_date = \Carbon\Carbon::parse($range_date[0])->format('Y-m-d'). ' 00:00:00';
@@ -72,50 +67,56 @@ trait SessionFilterTrait
                 $query = $query->whereDate('started_at','>=', $start_date)
                 ->whereDate('started_at','<=', $end_date);
             }
-//            if (isset($request->input('filterDataArray')['min_experience']) && isset($request->input('filterDataArray')['max_experience'])) {
-//                if ($request->input('filterDataArray')['min_experience'] != '' && $request->input('filterDataArray')['max_experience'] != '') {
-//                    $min_experience = $request->input('filterDataArray')['min_experience'];
-//                    $max_experience = $request->input('filterDataArray')['max_experience'];
-//
-//                    $userIds = Session::select('tutor_id', DB::raw('count(*) as number_of_sessions'))
-//                        ->having('number_of_sessions', '>=', $min_experience)
-//                        ->having('number_of_sessions', '<=', $max_experience)
-//                        ->where('status', 'ended')
-//                        ->groupBy('tutor_id')
-//                        ->get()->pluck('tutor_id')->toArray();
-//                    $query = $query->whereIn('id', $userIds);
-//                }
-//            }
+            if (isset($request->input('filterDataArray')['min_experience']) && isset($request->input('filterDataArray')['max_experience'])) {
+                if ($request->input('filterDataArray')['min_experience'] != '' && $request->input('filterDataArray')['max_experience'] != '') {
+                    $min_experience = $request->input('filterDataArray')['min_experience'];
+                    $max_experience = $request->input('filterDataArray')['max_experience'];
+                        $SessionIds = Session::selectRaw('count(*) as number_of_sessions, tutor_id, ANY_VALUE(id)')
+                        ->having('number_of_sessions', '>=', $min_experience)
+                        ->having('number_of_sessions', '<=', $max_experience)
+                        ->where('status', 'ended')
+                        ->groupBy('tutor_id')->get()->pluck('ANY_VALUE(id)')->toArray();
+                    $query = $query->whereIn('id', $SessionIds);
+                }
+            }
+
             if (isset($request->input('filterDataArray')['min_rate']) && isset($request->input('filterDataArray')['max_rate'])) {
                 $min_rate = $request->input('filterDataArray')['min_rate'];
                 $max_rate = $request->input('filterDataArray')['max_rate'];
                 $query = $query->where('hourly_rate','>=', $min_rate)
                 ->where('hourly_rate','<=',$max_rate);
-//                $query = $query->whereHas('profile', function ($q) use ($min_rating, $max_rating) {
-//                    if ($min_rating)
-//                        $q->where('min_slider_value', '>=', $min_rating);
-//                    if ($max_rating)
-//                        $q->where('max_slider_value', '<=', $max_rating);
-//                });
             }
-//            if (isset($request->input('filterDataArray')['active_record'])) {
-//                if ($request->input('filterDataArray')['active_record'] !== 'all') {
-//                    $query = $query->where('is_active', $request->input('filterDataArray')['active_record']);
-//                }
-//            }
-//            if (isset($request->input('filterDataArray')['gender_record'])) {
-//                if ($request->input('filterDataArray')['gender_record'] !== 'all') {
-//                    $query = $query->where('gender_id', $request->input('filterDataArray')['gender_record']);
-//                }
-//            }
-//            if (isset($request->input('filterDataArray')['min_age']) && isset($request->input('filterDataArray')['max_age'])) {
-//                $todayDate = \Carbon\Carbon::now()->format('Y-m-d');
-//                $min_dob = strtotime($todayDate . ' -' . $request->input('filterDataArray')['min_age'] . ' year');
-//                $min_dob = date('Y-m-d', $min_dob);
-//                $max_dob = strtotime($todayDate . '-' . $request->input('filterDataArray')['max_age'] . ' year');
-//                $max_dob = date('Y-m-d', $max_dob);
-//                $query = $query->whereBetween('dob', [$max_dob, $min_dob]);
-//            }
+//            Gender Session
+            if (isset($request->input('filterDataArray')['gender_record'])) {
+                if ($request->input('filterDataArray')['gender_record'] !== 'all') {
+
+                    $gender_id_array = explode(',',$request->input('filterDataArray')['gender_record']);
+                    $tutor_value = $gender_id_array[1];
+                    $student_value = $gender_id_array[0];
+                    $query = $query->whereHas('tutor', function ($q) use($tutor_value){
+                        $q->where('gender_id', $tutor_value);
+                    });
+                    $query = $query->whereHas('student', function ($q) use($student_value){
+                        $q->where('gender_id', $student_value);
+                    });
+                }
+            }
+//            Filter age
+            if (isset($request->input('filterDataArray')['min_age']) && isset($request->input('filterDataArray')['max_age'])) {
+                $todayDate = \Carbon\Carbon::now()->format('Y-m-d');
+                $min_dob = strtotime($todayDate . ' -' . $request->input('filterDataArray')['min_age'] . ' year');
+                $min_dob = date('Y-m-d', $min_dob);
+                $max_dob = strtotime($todayDate . '-' . $request->input('filterDataArray')['max_age'] . ' year');
+                $max_dob = date('Y-m-d', $max_dob);
+                $query = $query->whereHas('tutor', function ($q) use($min_dob, $max_dob){
+                    $q->where('dob','>=', $max_dob);
+                    $q->where('dob','<=', $min_dob);
+                })->where('status',$status);
+                $query = $query->orWhereHas('student', function ($q) use($min_dob, $max_dob){
+                    $q->where('dob','>=', $max_dob);
+                    $q->where('dob','<=', $min_dob);
+                })->where('status',$status);
+            }
             // Meet Point Filter
             if (isset($request->input('filterDataArray')['meet_point'])) {
                 if ($request->input('filterDataArray')['meet_point'] !== 'all') {
@@ -124,15 +125,16 @@ trait SessionFilterTrait
             }
 
             // Rating Star Filter
-//            if (isset($request->input('filterDataArray')['rating'])) {
-//                if ($request->input('filterDataArray')['rating'] !== 'all') {
-//                    $userIds = Rating::select('user_id', DB::raw(' CEILING( avg(rating)) as user_rating'))
-//                        ->having('user_rating', '=', $request->input('filterDataArray')['rating'])
-//                        ->groupBy('user_id')
-//                        ->get()->pluck('user_id')->toArray();
-//                    $query = $query->whereIn('id', $userIds);
-//                }
-//            }
+            if (isset($request->input('filterDataArray')['min_rate_star']) && isset($request->input('filterDataArray')['max_rate_star'])) {
+                if ($request->input('filterDataArray')['min_rate_star'] != '' && $request->input('filterDataArray')['max_rate_star'] != '') {
+                    $min_rate_star = $request->input('filterDataArray')['min_rate_star'];
+                    $max_rate_star = $request->input('filterDataArray')['max_rate_star'];
+                    $query = $query->whereHas('rating', function ($q) use($min_rate_star , $max_rate_star) {
+                        $q->where('rating' , '>=', $min_rate_star);
+                        $q->where('rating' ,  '<=', $max_rate_star);
+                    });
+                }
+            }
         }
         return $query;
     }

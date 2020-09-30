@@ -41,7 +41,7 @@
                         <label class="black-333">Location:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6 col-xs-6  placeholder">
-                                <select id="" name="ratings" class="form-control black-333 countries">
+                                <select id="" data-role-id="2"  name="ratings" class="form-control black-333 countries">
                                     <option value="all">Select Country</option>
                                     @foreach($countries as $country)
                                         <option value="{{$country->country}}">{{$country->country}}</option>
@@ -73,7 +73,6 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6  placeholder">
                                 <select id="classes" name="ratings" class="form-control black-333 classes" multiple>
-                                    <option value="all">Select Classes</option>
                                     @foreach($programs as $program)
                                         <option value="{{$program->id}}">{{$program->name}}</option>
                                     @endforeach()
@@ -82,7 +81,6 @@
 
                             <div class="col-md-6 col-sm-6 col-xs-6 placeholder">
                                 <select id="subjects" name="ratings" class="form-control black-333 subjects" multiple>
-                                    <option value="all">Select Subjects</option>
                                 </select>
                             </div>
 
@@ -233,33 +231,8 @@
 @endsection
 @section('javascripts')
     @parent
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    @include('admin.includes.filter')
     <script>
-        $('input[name="dates"]').daterangepicker({
-            autoUpdateInput: false,
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            },
-            locale: {
-                cancelLabel: 'Clear'
-            }
-        });
-        $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-        });
-
-        $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('');
-        });
-
-
-
         $(document).ready(function () {
                 fetch_data();
             $('body').on('click','.apply-filter',function ()
@@ -334,7 +307,14 @@
                     ajax: {
                         url: "{{ route('reports') }}",
                         data: {filterDataArray : filterDataArray},
+                        beforeSend: function(){
+                            $('.preloader').css({
+                                'display':'block',
+                                'background' : 'none'
+                            });
+                        },
                         complete: function (data) {
+                            $('.preloader').css('display','none');
                             // Switchery
                             var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
                             $('.js-switch').each(function () {
@@ -398,120 +378,6 @@
             }
         });
 
-
-    </script>
-    <script>
-        $(document).ready(function()
-        {
-            $('body').on('change','.countries',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('country',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchProvince')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.provinces').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.provinces').html('<option value="all">Select Province</option>');
-                    $('.cities').html('<option value="all">Select City</option>');
-                    $('.areas').html('<option value="all">Select Area List</option>');
-                }
-            });
-            $('body').on('change','.provinces',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('province',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchCity')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.cities').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.cities').html('<option value="all">Select City</option>');
-                    $('.areas').html('<option value="all">Select Area List</option>');
-                }
-            });
-            $('body').on('change','.cities',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('city',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchArea')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.areas').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.areas').html('<option value="all">Select Area List</option>');
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function()
-        {
-            $('#classes').select2({
-            });
-            $('#subjects').select2({
-            });
-            $('body').on('change','.classes',function()
-            {
-                var value = $(this).val();
-                if(value !== 'all')
-                {
-                    var fd = new FormData();
-                    fd.append('class',value);
-                    fd.append('_token', "{{ csrf_token() }}");
-                    $.ajax({
-                        url : "{{URL::to('/admin/tutors/fetchSubjects')}}",
-                        type : 'POST',
-                        data : fd,
-                        dataType: 'html',
-                        contentType: false,
-                        processData: false,
-                        success:function (response) {
-                            $('.subjects').html(response);
-                        }
-                    });
-                }
-                else {
-                    $('.subjects').html('<option value="all">Select Subjects</option>');
-                }
-            });
-        });
     </script>
 @stop
 <style>

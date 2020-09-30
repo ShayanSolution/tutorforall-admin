@@ -44,7 +44,7 @@
                         <label class="black-333">Location:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6 col-xs-6  placeholder">
-                                <select id="" name="ratings" class="form-control black-333 countries">
+                                <select id="" data-role-id="2" name="ratings" class="mySelectDropDown form-control black-333 countries">
                                     <option value="all">Select Country</option>
                                     @foreach($countries as $country)
                                         <option value="{{$country->country}}">{{$country->country}}</option>
@@ -53,19 +53,19 @@
                             </div>
 
                             <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333 provinces">
+                                <select id="" name="ratings" class="mySelectDropDown form-control black-333 provinces">
                                     <option value="all">Select Province</option>
                                 </select>
                             </div>
 
                             <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333 cities">
+                                <select id="" name="ratings" class="mySelectDropDown form-control black-333 cities">
                                     <option value="all">Select City</option>
                                 </select>
                             </div>
 
                             <div class="col-md-3 col-sm-6 col-xs-6 placeholder">
-                                <select id="" name="ratings" class="form-control black-333 areas">
+                                <select id="" name="ratings" class="mySelectDropDown form-control black-333 areas">
                                     <option value="all">Select  Area List</option>
                                 </select>
                             </div>
@@ -76,7 +76,6 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6  placeholder">
                                 <select id="classes" name="ratings" class="form-control black-333 classes" multiple>
-                                    <option value="all">Select Classes</option>
                                     @foreach($programs as $program)
                                         <option value="{{$program->id}}">{{$program->name}}</option>
                                     @endforeach()
@@ -85,7 +84,6 @@
 
                             <div class="col-md-6 col-sm-6 col-xs-6 placeholder">
                                 <select id="subjects" name="ratings" class="form-control black-333 subjects" multiple>
-                                    <option value="all">Select Subjects</option>
                                 </select>
                             </div>
 
@@ -332,11 +330,14 @@
                     dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-4"i><"col-sm-8"p>>',
                     processing: true,
                     serverSide: true,
-                    ordering: false,
                     ajax : {
                         url :$mentorOrCommercial === 'Mentor'?"{{ route('mentorsList') }}":"{{ route('tutorsList') }}",
                         data: {filterDataArray : filterDataArray},
+                        beforeSend: function(){
+                            $('.preloader').css('display','block');
+                        },
                         complete : function (data) {
+                            $('.preloader').css('display','none');
                             // Switchery
                             var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
                             $('.js-switch').each(function () {

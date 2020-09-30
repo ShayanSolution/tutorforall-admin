@@ -22,11 +22,12 @@
     });
     $(document).ready(function()
     {
-        $('body').on('change','.classes',function()
+        $('body').on('change','.classes',function(e)
         {
             var value = $(this).val();
             if(value !== 'all')
             {
+                var subject_selected = $('.subjects').val();
                 var fd = new FormData();
                 fd.append('class',value);
                 fd.append('_token', "{{ csrf_token() }}");
@@ -37,8 +38,13 @@
                     dataType: 'html',
                     contentType: false,
                     processData: false,
+                    beforeSend: function(){
+                        $('.preloader').css('display','block');
+                    },
                     success:function (response) {
                         $('.subjects').html(response);
+                        $('.subjects').val(subject_selected);
+                        $('.preloader').css('display','none');
                     }
                 });
             }
@@ -47,31 +53,49 @@
             }
         });
         $('#classes').select2({
+            placeholder: "Select Classes ",
         });
         $('#subjects').select2({
+            placeholder: "Select subjects",
+        });
+
+        $('.mySelectDropDown').select2({
         });
     });
 </script>
 <script>
     $(document).ready(function()
     {
+        $('.preloader').css('background','none');
         $('body').on('change','.countries',function()
         {
             var value = $(this).val();
+            var role = $(this).data('role-id');
+            var url = "";
+            if(role != '' && role !== undefined)
+                url = "{{URL::to('/admin/tutors/fetchProvince')}}";
+            else
+                url = "{{route('sessionFetchProvince')}}";
             if(value !== 'all')
             {
                 var fd = new FormData();
                 fd.append('country',value);
+                fd.append('role_id',role);
+                fd.append('status', $('.countries').data('session_page'))
                 fd.append('_token', "{{ csrf_token() }}");
                 $.ajax({
-                    url : "{{URL::to('/admin/tutors/fetchProvince')}}",
+                    url : url,
                     type : 'POST',
                     data : fd,
                     dataType: 'html',
                     contentType: false,
                     processData: false,
+                    beforeSend: function(){
+                        $('.preloader').css('display','block');
+                    },
                     success:function (response) {
                         $('.provinces').html(response);
+                        $('.preloader').css('display','none');
                     }
                 });
             }
@@ -84,20 +108,32 @@
         $('body').on('change','.provinces',function()
         {
             var value = $(this).val();
+            var role = $('.countries').data('role-id');
+            var url= '';
+            if(role != '' && role !== undefined)
+                url = "{{URL::to('/admin/tutors/fetchCity')}}";
+            else
+                url = "{{route('sessionFetchCity')}}";
             if(value !== 'all')
             {
                 var fd = new FormData();
                 fd.append('province',value);
+                fd.append('role_id',role);
+                fd.append('status', $('.countries').data('session_page'))
                 fd.append('_token', "{{ csrf_token() }}");
                 $.ajax({
-                    url : "{{URL::to('/admin/tutors/fetchCity')}}",
+                    url : url,
                     type : 'POST',
                     data : fd,
                     dataType: 'html',
                     contentType: false,
                     processData: false,
+                    beforeSend: function(){
+                        $('.preloader').css('display','block');
+                    },
                     success:function (response) {
                         $('.cities').html(response);
+                        $('.preloader').css('display','none');
                     }
                 });
             }
@@ -109,20 +145,34 @@
         $('body').on('change','.cities',function()
         {
             var value = $(this).val();
+            var role = $('.countries').data('role-id');
+            var url= '';
+            if(role != '' && role !== undefined)
+                url = "{{URL::to('/admin/tutors/fetchArea')}}";
+            else
+                url = "{{route('sessionFetchArea')}}";
+
+
             if(value !== 'all')
             {
                 var fd = new FormData();
                 fd.append('city',value);
+                fd.append('role_id',role)
+                fd.append('status', $('.countries').data('session_page'))
                 fd.append('_token', "{{ csrf_token() }}");
                 $.ajax({
-                    url : "{{URL::to('/admin/tutors/fetchArea')}}",
+                    url : url,
                     type : 'POST',
                     data : fd,
                     dataType: 'html',
                     contentType: false,
                     processData: false,
+                    beforeSend: function(){
+                        $('.preloader').css('display','block');
+                    },
                     success:function (response) {
                         $('.areas').html(response);
+                        $('.preloader').css('display','none');
                     }
                 });
             }

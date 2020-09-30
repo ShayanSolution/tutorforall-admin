@@ -22,6 +22,11 @@ class Session extends Model
         return $this->belongsTo(Subject::class, 'subject_id');
     }
 
+    public function rating()
+    {
+        return $this->hasOne('App\Models\Rating');
+    }
+
 //    public function setDurationAttribute($value){
 //        $this->attributes['duration'] = \Carbon\Carbon::parse($value)->format('H:i:s');
 //    }

@@ -136,9 +136,9 @@ trait TutorFilterTrait {
                     $meet_point = $request->input('filterDataArray')['meet_point'];
                     $query = $query->whereHas('profile', function ($q) use($meet_point){
                         if($meet_point == '0')
-                            $q->where('call_student', 1);
+                            $q->where('call_student', 1)->where('is_home', 0);
                         else if($meet_point == '1')
-                            $q->where('is_home', 1);
+                            $q->where('is_home', 1)->where('call_student', 0);
                     });
                 }
             }
