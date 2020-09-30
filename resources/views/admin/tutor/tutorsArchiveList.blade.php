@@ -121,7 +121,7 @@
                 ],
                 "bSort": true,
                 "columnDefs": [
-                    { "orderable": false, "targets": 7 }
+                    { "orderable": false, "targets": 8 }
                 ]
             });
 
