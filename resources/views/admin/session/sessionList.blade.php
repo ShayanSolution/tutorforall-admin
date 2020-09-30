@@ -310,7 +310,10 @@
                     search: {
                         "regex": true
                     },
-                    "bSort": true
+                    "bSort": true,
+                    "columnDefs": [
+                        { "orderable": false, "targets": [1,2,3,4] }
+                    ]
                 });
             }
         });

@@ -52,6 +52,7 @@ class AdminController extends Controller
         $listType = 'studentsList';
         if($request->ajax())
         {
+            $students = User::where('role_id',3)->with('profile');
             if( $request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
                 $students = $this->studentFilter($request)->where('role_id',3)->with('profile');
             }
@@ -83,6 +84,8 @@ class AdminController extends Controller
                 return $delete_btn;
             })
             ->rawColumns(['firstName','lastName','created_at','is_active','is_deserving','delete'])
+            ->orderColumn('created_at', 'created_at $1')
+            ->orderColumn('is_active', 'is_active $1')
             ->make(true);
         }
         $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
@@ -128,6 +131,9 @@ class AdminController extends Controller
                     return $delete_btn;
                 })
                 ->rawColumns(['firstName','lastName','created_at','is_active','is_deserving','delete'])
+                ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('is_active', 'is_active $1')
+                ->orderColumn('is_deserving', 'is_deserving $1')
                 ->make(true);
         }
         $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
@@ -198,6 +204,7 @@ class AdminController extends Controller
                     return $btn;
                 })
                 ->rawColumns(['type','created_at','documents'])
+                ->orderColumn('created_at', 'created_at $1')
                 ->make(true);
         }
         $mentorOrCommercial = 'Commercial';

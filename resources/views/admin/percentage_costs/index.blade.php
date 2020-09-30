@@ -29,8 +29,8 @@
                             <th>Number of Students</th>
                             <th>Percentage</th>
                             <th>Created</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+{{--                            <th>Edit</th>--}}
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -44,8 +44,7 @@
                                     <div class="col-lg-4 col-sm-4 col-xs-4">
                                         <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('percentage-costs.edit',$percentageCost->id)}}">Edit</a>
                                     </div>
-                                </td>
-                                <td>
+
                                     <div class="col-lg-4 col-sm-4 col-xs-4">
                                         <a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModal{{$percentageCost->id}}">Delete</a>
                                     </div>
@@ -100,7 +99,10 @@
                             columns: ['0','1'],
                         } }
                 ],
-                "bSort": true
+                "bSort": true,
+                "columnDefs": [
+                    { "orderable": false, "targets": 3 }
+                ]
             });
         });
         // $('.js-switch').on('change.bootstrapSwitch', function(e) {

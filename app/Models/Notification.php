@@ -30,4 +30,17 @@ class Notification extends Model
                 :
                 $value;
     }
+    public function showMessage(){
+
+        $value = $this->message;
+
+        $strLength = 100;
+
+        return
+            strlen($value) > $strLength
+                ?
+                substr($value, 0, $strLength).'....  <a data-toggle="modal" style="cursor:pointer" data-target="#showMoreMessage'.$this->id.'">Show More</a>'
+                :
+                $value;
+    }
 }

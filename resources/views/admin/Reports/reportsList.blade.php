@@ -346,7 +346,8 @@
                             "targets": [0],
                             "visible": false,
                             "searchable": false
-                        }
+                        },
+                        { "orderable": false, "targets": [3,4,5,6,7,8] }
                     ],
                     buttons: [
                         {
@@ -368,7 +369,7 @@
                     search: {
                         "regex": true
                     },
-                    "bSort": false
+                    "bSort": true
                 });
 
                 // Event listener to the two range filtering inputs to redraw on input

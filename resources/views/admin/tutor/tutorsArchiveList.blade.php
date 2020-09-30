@@ -119,7 +119,10 @@
                             columns: ['0', '1', '2', '3', '4'],
                         } }
                 ],
-                "bSort": true
+                "bSort": true,
+                "columnDefs": [
+                    { "orderable": false, "targets": 7 }
+                ]
             });
 
             // Event listener to the two range filtering inputs to redraw on input

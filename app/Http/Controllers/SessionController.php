@@ -53,6 +53,9 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+                ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('duration', 'duration $1')
+                ->orderColumn('groupSession', 'is_group $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status',$status)->groupBy('country')->get();
@@ -100,6 +103,9 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+                ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('duration', 'duration $1')
+                ->orderColumn('groupSession', 'is_group $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -147,6 +153,9 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+                ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('duration', 'duration $1')
+                ->orderColumn('groupSession', 'is_group $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -194,6 +203,9 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+                ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('duration', 'duration $1')
+                ->orderColumn('groupSession', 'is_group $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -241,6 +253,9 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+                ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('duration', 'duration $1')
+                ->orderColumn('groupSession', 'is_group $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -288,6 +303,9 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+                ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('duration', 'duration $1')
+                ->orderColumn('groupSession', 'is_group $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();

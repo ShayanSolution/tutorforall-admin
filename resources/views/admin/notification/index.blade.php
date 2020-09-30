@@ -28,14 +28,16 @@
                             <th>Title</th>
                             <th>Message</th>
                             <th>Descriptions</th>
+                            <th>Sent Date</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($notifications as $notification)
                             <tr>
                                 <td>{{$notification->title}}</td>
-                                <td>{{$notification->message}}</td>
+                                <td>{!! $notification->showMessage() !!}</td>
                                 <td>{!! $notification->showDescription() !!}</td>
+                                <td>{{dateTimeConverter($notification->created_at)}}</td>
                             </tr>
 
                             <div id="showMore{{$notification->id}}" class="modal fade" role="dialog">
@@ -48,6 +50,24 @@
                                         </div>
                                         <div class="modal-body">
                                             <p>{{$notification->description}}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="showMoreMessage{{$notification->id}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Notification Description</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>{{$notification->message}}</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

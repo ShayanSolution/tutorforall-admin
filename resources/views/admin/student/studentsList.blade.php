@@ -287,6 +287,10 @@
                             "targets": [ 0 ],
                             "visible": false,
                             "searchable": false
+                        },
+                        {
+                            "orderable": false,
+                            "targets": [8,7]
                         }
                     ],
                     buttons: [

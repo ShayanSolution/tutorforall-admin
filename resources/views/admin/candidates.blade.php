@@ -100,6 +100,10 @@
                         "targets": [ 0 ],
                         "visible": false,
                         "searchable": false
+                    },
+                    {
+                        "orderable": false,
+                        "targets": 6
                     }
                 ],
                 buttons: [

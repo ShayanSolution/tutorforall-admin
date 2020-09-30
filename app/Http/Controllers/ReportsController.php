@@ -22,8 +22,7 @@ class ReportsController extends Controller
                 $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')
                     ->with('rating')
                     ->where('role_id', 2)
-                    ->where('is_approved',1)
-                    ->orderBy('id', 'DESC');
+                    ->where('is_approved',1);
             }
             return datatables()->eloquent($tutors)
                 ->addColumn('booked', function ($tutor) {
@@ -45,7 +44,8 @@ class ReportsController extends Controller
                     return self::getSessionsCount($tutor->id, "reject");
                 })
                 ->rawColumns(['booked', 'started', 'completed', 'missed', 'pending', 'rejected'])
-                ->make();
+                ->orderColumn('firstName', '-firstName $1')
+                ->make(true);
         }
         $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
         $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
