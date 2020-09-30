@@ -34,7 +34,7 @@ class Notification extends Model
 
         $value = $this->message;
 
-        $strLength = 100;
+        $strLength = 10;
 
         return
             strlen($value) > $strLength
