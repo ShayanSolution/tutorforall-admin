@@ -13,6 +13,7 @@ use Illuminate\Validation\Rule;
 use App\Traits\TutorFilterTrait;
 use App\Traits\LocationTrait;
 use Illuminate\Support\Facades\Input;
+use function foo\func;
 
 class TutorController extends Controller
 {
@@ -173,16 +174,18 @@ class TutorController extends Controller
 //                    $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
 //                    return $is_approve;
 //                })
-                ->addColumn('edit', function($tutor){
-                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
-                    return $btn;
-                })
+//                ->addColumn('edit', function($tutor){
+//                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
+//                    return $btn;
+//                })
                 ->addColumn('delete', function($tutor){
-                    $delete_btn = '<a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$tutor->id.'">Delete</a>';
+                    $delete_btn = '<div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a></div><div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$tutor->id.'">Delete</a></div>';
                     return $delete_btn;
                 })
-                ->rawColumns(['rating','created_at','last_login','is_active','edit','delete'])
-                ->orderColumn('firstName', 'email $1')
+                ->rawColumns(['rating','created_at','last_login','is_active','delete'])
+                ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('last_login', 'last_login $1')
+                ->orderColumn('is_active', 'is_active $1')
                 ->make(true);
         }
         $countries = User::select('country')->whereNotNull('country')->where('role_id','2')->groupBy('country')->get();
@@ -244,6 +247,9 @@ class TutorController extends Controller
                     return $delete_btn;
                 })
                 ->rawColumns(['rating','created_at','last_login','is_active','edit','delete'])
+                ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('last_login', 'last_login $1')
+                ->orderColumn('is_active', 'is_active $1')
                 ->make(true);
         }
         $countries = User::select('country')->where('role_id','2')->whereNotNull('country')->groupBy('country')->get();

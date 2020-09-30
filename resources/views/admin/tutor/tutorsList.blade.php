@@ -222,7 +222,7 @@
                             <th>Last Login</th>
                             <th>Active</th>
 {{--                            <th>Approved</th>--}}
-                            <th>Detail</th>
+{{--                            <th>Detail</th>--}}
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -326,7 +326,7 @@
             {
 
                 let $mentorOrCommercial='{{$mentorOrCommercial}}';
-                let table = $('#myTable').DataTable({
+                let $table = $('#myTable').DataTable({
                     dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-4"i><"col-sm-8"p>>',
                     processing: true,
                     serverSide: true,
@@ -364,7 +364,7 @@
                         {data: 'last_login', name: 'last_login'},
                         {data: 'is_active', name: 'is_active'},
                         // {data: 'is_approve', name: 'is_approve'},
-                        {data: 'edit', name: 'edit'},
+                        // {data: 'edit', name: 'edit'},
                         {data: 'delete', name: 'delete'},
                     ],
                     "columnDefs": [
@@ -372,6 +372,10 @@
                             "targets": [ 0 ],
                             "visible": false,
                             "searchable": false
+                        },
+                        {
+                            "orderable": false,
+                            "targets": [9,5]
                         }
                     ],
                     buttons: [
@@ -390,6 +394,7 @@
                     },
                     "bSort": true
                 });
+
             }
         });
         $('body').on('click', '.delete',function (){
@@ -422,5 +427,6 @@
                 }
             });
         });
+
     </script>
 @stop
