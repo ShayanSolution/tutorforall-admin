@@ -103,7 +103,7 @@
                     },
                     {
                         "orderable": false,
-                        "targets": 6
+                        "targets": 7
                     }
                 ],
                 buttons: [

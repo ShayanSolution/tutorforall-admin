@@ -193,7 +193,9 @@
                             <th>Group Session</th>
                             <th>Group Members</th>
                             <th>Session Status</th>
+                            @if($status == 'ended')
                             <th>Duration</th>
+                            @endif
                             <th>Session Location</th>
                             <th>Hourly Rate/RS</th>
                             <th>Created</th>
@@ -268,6 +270,7 @@
             });
             function fetch_data(filterDataArray = '')
             {
+                let status='{{$status}}';
                 let table = $('#myTable').DataTable({
                     dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-4"i><"col-sm-8"p>>',
                     processing: true,
@@ -282,6 +285,7 @@
                             $('.preloader').css('display','none');
                         }
                     },
+                    @if($status == 'ended')
                     columns: [
                         {data: 'id', name: 'id'},
                         {data: 'studentName', name: 'studentName'},
@@ -296,17 +300,42 @@
                         {data: 'hourly_rate', name: 'hourly_rate'},
                         {data: 'created_at', name: 'created_at'},
                     ],
+                        buttons: [
+                    { extend: 'csv', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                        } },
+                    { extend: 'excel', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                        } },
+                    { extend: 'print', className: 'btn-md', exportOptions: {
+                            columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                        } }
+                ], @else
+                    columns: [
+                        {data: 'id', name: 'id'},
+                        {data: 'studentName', name: 'studentName'},
+                        {data: 'tutorName', name: 'tutorName'},
+                        {data: 'className', name: 'className'},
+                        {data: 'subjectName', name: 'subjectName'},
+                        {data: 'groupSession', name: 'groupSession'},
+                        {data: 'group_members', name: 'group_members'},
+                        {data: 'status', name: 'status'},
+                        {data: 'session_location', name: 'session_location'},
+                        {data: 'hourly_rate', name: 'hourly_rate'},
+                        {data: 'created_at', name: 'created_at'},
+                    ],
                     buttons: [
                         { extend: 'csv', className: 'btn-md', exportOptions: {
-                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
                             } },
                         { extend: 'excel', className: 'btn-md', exportOptions: {
-                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
                             } },
                         { extend: 'print', className: 'btn-md', exportOptions: {
-                                columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                                columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9'],
                             } }
                     ],
+@endif
                     search: {
                         "regex": true
                     },
