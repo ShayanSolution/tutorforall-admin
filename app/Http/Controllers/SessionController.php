@@ -20,16 +20,21 @@ class SessionController extends Controller
         {
             if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $sessions = $this->sessionFilter($request, $status)->where('status','booked');
+                $sessions = $this->sessionFilter($request, $status)->select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             else
             {
-                $sessions = Session::with([
-                    'tutor',
-                    'student',
-                    'class',
-                    'subject'
-                ])->where('status','booked');
+                $sessions = Session::select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             return datatables()->eloquent($sessions)
                 ->addColumn('studentName', function($session){
@@ -56,6 +61,10 @@ class SessionController extends Controller
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
+                ->orderColumn('studentName', 'studentName $1')
+                ->orderColumn('tutorName', 'tutorName $1')
+                ->orderColumn('className', 'className $1')
+                ->orderColumn('subjectName', 'subjectName $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status',$status)->groupBy('country')->get();
@@ -70,16 +79,21 @@ class SessionController extends Controller
         {
             if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $sessions = $this->sessionFilter($request, $status)->where('status','started');
+                $sessions = $this->sessionFilter($request, $status)->select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             else
             {
-                $sessions = Session::with([
-                    'tutor',
-                    'student',
-                    'class',
-                    'subject'
-                ])->where('status','started');
+                $sessions = Session::select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             return datatables()->eloquent($sessions)
                 ->addColumn('studentName', function($session){
@@ -106,6 +120,10 @@ class SessionController extends Controller
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
+                ->orderColumn('studentName', 'studentName $1')
+                ->orderColumn('tutorName', 'tutorName $1')
+                ->orderColumn('className', 'className $1')
+                ->orderColumn('subjectName', 'subjectName $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -120,16 +138,22 @@ class SessionController extends Controller
         {
             if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $sessions = $this->sessionFilter($request, $status)->where('status','ended');
+                $sessions = $this->sessionFilter($request, $status)->select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             else
             {
-                $sessions = Session::with([
-                    'tutor',
-                    'student',
-                    'class',
-                    'subject'
-                ])->where('status','ended');
+
+                $sessions = Session::select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             return datatables()->eloquent($sessions)
                 ->addColumn('studentName', function($session){
@@ -156,6 +180,10 @@ class SessionController extends Controller
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
+                ->orderColumn('studentName', 'studentName $1')
+                ->orderColumn('tutorName', 'tutorName $1')
+                ->orderColumn('className', 'className $1')
+                ->orderColumn('subjectName', 'subjectName $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -170,16 +198,21 @@ class SessionController extends Controller
         {
             if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $sessions = $this->sessionFilter($request, $status)->where('status','expired');
+                $sessions = $this->sessionFilter($request, $status)->select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             else
             {
-                $sessions = Session::with([
-                    'tutor',
-                    'student',
-                    'class',
-                    'subject'
-                ])->where('status','expired');
+                $sessions = Session::select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             return datatables()->eloquent($sessions)
                 ->addColumn('studentName', function($session){
@@ -206,6 +239,10 @@ class SessionController extends Controller
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
+                ->orderColumn('studentName', 'studentName $1')
+                ->orderColumn('tutorName', 'tutorName $1')
+                ->orderColumn('className', 'className $1')
+                ->orderColumn('subjectName', 'subjectName $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -220,16 +257,21 @@ class SessionController extends Controller
         {
             if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $sessions = $this->sessionFilter($request, $status)->where('status','pending');
+                $sessions = $this->sessionFilter($request, $status)->select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             else
             {
-                $sessions = Session::with([
-                    'tutor',
-                    'student',
-                    'class',
-                    'subject'
-                ])->where('status','pending');
+                $sessions = Session::select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             return datatables()->eloquent($sessions)
                 ->addColumn('studentName', function($session){
@@ -256,6 +298,10 @@ class SessionController extends Controller
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
+                ->orderColumn('studentName', 'studentName $1')
+                ->orderColumn('tutorName', 'tutorName $1')
+                ->orderColumn('className', 'className $1')
+                ->orderColumn('subjectName', 'subjectName $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -270,16 +316,21 @@ class SessionController extends Controller
         {
             if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $sessions = $this->sessionFilter($request, $status)->where('status','reject');
+                $sessions = $this->sessionFilter($request, $status)->select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             else
             {
-                $sessions = Session::with([
-                    'tutor',
-                    'student',
-                    'class',
-                    'subject'
-                ])->where('status','reject');
+                $sessions = Session::select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                    ->where('sessions.status','=',$status)
+                    ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                    ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             return datatables()->eloquent($sessions)
                 ->addColumn('studentName', function($session){
@@ -306,6 +357,10 @@ class SessionController extends Controller
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
+                ->orderColumn('studentName', 'studentName $1')
+                ->orderColumn('tutorName', 'tutorName $1')
+                ->orderColumn('className', 'className $1')
+                ->orderColumn('subjectName', 'subjectName $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();

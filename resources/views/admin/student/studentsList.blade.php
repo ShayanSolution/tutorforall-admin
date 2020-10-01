@@ -290,7 +290,7 @@
                         },
                         {
                             "orderable": false,
-                            "targets": [8,7]
+                            "targets": [8]
                         }
                     ],
                     buttons: [

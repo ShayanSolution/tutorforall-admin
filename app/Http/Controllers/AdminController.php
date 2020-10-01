@@ -54,10 +54,13 @@ class AdminController extends Controller
         {
             $students = User::where('role_id',3)->with('profile');
             if( $request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
-                $students = $this->studentFilter($request)->where('role_id',3)->with('profile');
+                $students = $this->studentFilter($request)->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
+                    ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');
             }
             else{
-                $students = User::where('role_id',3)->with('profile');
+//                $students = User::where('role_id',3)->with('profile');
+                $students = User::where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
+                    ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');
             }
             return datatables()->eloquent($students)
             ->addColumn('firstName', function($student){
@@ -86,6 +89,7 @@ class AdminController extends Controller
             ->rawColumns(['firstName','lastName','created_at','is_active','is_deserving','delete'])
             ->orderColumn('created_at', 'created_at $1')
             ->orderColumn('is_active', 'is_active $1')
+            ->orderColumn('is_deserving', 'isdeserving $1')
             ->make(true);
         }
         $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
@@ -99,12 +103,14 @@ class AdminController extends Controller
             if( $request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
                 $students = $this->studentFilter($request)->where('role_id',3)->whereHas('profile', function ($query) {
                     $query->where('is_deserving', 1);
-                });
+                })->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
+                    ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');;
             }
             else{
                 $students = User::whereHas('profile', function ($query) {
                     $query->where('is_deserving', 1);
-                })->where('role_id', 3);
+                })->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
+                    ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');;
             }
             return datatables()->eloquent($students)
                 ->addColumn('firstName', function($student){
@@ -133,7 +139,7 @@ class AdminController extends Controller
                 ->rawColumns(['firstName','lastName','created_at','is_active','is_deserving','delete'])
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('is_active', 'is_active $1')
-                ->orderColumn('is_deserving', 'is_deserving $1')
+                ->orderColumn('is_deserving', 'isdeserving $1')
                 ->make(true);
         }
         $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();

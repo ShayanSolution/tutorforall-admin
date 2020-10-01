@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
+    protected $with = ['student'];
+
     public function tutor(){
         return $this->belongsTo(User::class, 'tutor_id');
     }

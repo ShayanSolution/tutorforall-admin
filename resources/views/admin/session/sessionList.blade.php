@@ -302,13 +302,13 @@
                     ],
                         buttons: [
                     { extend: 'csv', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
                         } },
                     { extend: 'excel', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
                         } },
                     { extend: 'print', className: 'btn-md', exportOptions: {
-                            columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                            columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
                         } }
                 ], @else
                     columns: [
@@ -326,23 +326,20 @@
                     ],
                     buttons: [
                         { extend: 'csv', className: 'btn-md', exportOptions: {
-                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                             } },
                         { extend: 'excel', className: 'btn-md', exportOptions: {
-                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                             } },
                         { extend: 'print', className: 'btn-md', exportOptions: {
-                                columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                                columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                             } }
                     ],
 @endif
                     search: {
                         "regex": true
                     },
-                    "bSort": true,
-                    "columnDefs": [
-                        { "orderable": false, "targets": [1,2,3,4] }
-                    ]
+                    "bSort": true
                 });
             }
         });
