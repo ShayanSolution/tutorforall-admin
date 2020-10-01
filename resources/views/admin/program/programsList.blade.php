@@ -37,7 +37,7 @@
                             <th>Name</th>
                             <th>Active</th>
                             <th>Created</th>
-                            <th>Action</th>
+                            <th style="padding-left: 90px">Action</th>
 {{--                            <th>Subjects</th>--}}
 {{--                            <th>Edit</th>--}}
 {{--                            <th>Delete</th>--}}
@@ -51,7 +51,7 @@
                                 <td>@if($program->status == 1) Yes @else No @endif</td>
                                 <td>{{dateTimeConverter($program->created_at)}}</td>
                                 <td>
-                                    <div class="col-lg-4 col-sm-4 col-xs-4">
+                                    <div class="col-lg-4 col-sm-4 col-xs-4" style="margin-right: 5px">
                                         <a type="button" class="fcbtn btn btn-warning btn-outline btn-1d"  alt="default" data-toggle="modal" data-target="#myModal{{$program->id}}" >Subjects</a>
                                     </div>
 {{--                                </td>--}}

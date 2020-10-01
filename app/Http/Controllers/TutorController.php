@@ -176,7 +176,7 @@ class TutorController extends Controller
 //                    return $btn;
 //                })
                 ->addColumn('delete', function($tutor){
-                    $delete_btn = '<div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a></div><div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$tutor->id.'">Delete</a></div>';
+                    $delete_btn = '<div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a></div><br><br><div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="'.$tutor->id.'">Delete</a></div>';
                     return $delete_btn;
                 })
                 ->rawColumns(['rating','created_at','last_login','is_active','delete'])
@@ -242,7 +242,7 @@ class TutorController extends Controller
 //                    return $btn;
 //                })
                 ->addColumn('delete', function($tutor){
-                    $delete_btn = '<div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a></div><div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" data-id="'.$tutor->id.'">Delete</a></div>';
+                    $delete_btn = '<div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a></div><br><br><div class="col-lg-4 col-sm-4 col-xs-4"><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="'.$tutor->id.'">Delete</a></div>';
                     return $delete_btn;
                 })
                 ->rawColumns(['rating','created_at','last_login','is_active','delete'])

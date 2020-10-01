@@ -223,7 +223,7 @@
                             <th>Active</th>
 {{--                            <th>Approved</th>--}}
 {{--                            <th>Detail</th>--}}
-                            <th>Action</th>
+                            <th style="padding-left: 30px">Action</th>
                         </tr>
                         </thead>
                         <tbody>

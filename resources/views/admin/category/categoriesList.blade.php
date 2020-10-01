@@ -37,7 +37,7 @@
                                 <th>Name</th>
                                 <th>Created</th>
                                 <th>Active</th>
-                                <th style="align-self: center">Action</th>
+                                <th style="padding-left: 90px">Action</th>
 {{--                                <th>Edit</th>--}}
 {{--                                <th>Delete</th>--}}
                             </tr>

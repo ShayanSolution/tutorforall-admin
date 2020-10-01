@@ -30,7 +30,7 @@
                             <th>Percentage</th>
                             <th>Created</th>
 {{--                            <th>Edit</th>--}}
-                            <th>Action</th>
+                            <th style="padding-left: 80px">Action</th>
                         </tr>
                         </thead>
                         <tbody>
