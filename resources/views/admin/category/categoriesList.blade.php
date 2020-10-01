@@ -37,7 +37,7 @@
                                 <th>Name</th>
                                 <th>Created</th>
                                 <th>Active</th>
-                                <th style="padding-left: 90px">Action</th>
+                                <th style="text-align: center">Action</th>
 {{--                                <th>Edit</th>--}}
 {{--                                <th>Delete</th>--}}
                             </tr>
@@ -49,12 +49,12 @@
                                 <td>{{dateTimeConverter($category->created_at)}}</td>
                                 <td data-filter="@if($category->status != 1) No @else Yes @endif"><input type="checkbox" data-category-id="{{ $category->id }}" data-url="{{url('/')}}" class="js-switch" data-color="#99d683" @if($category->status == 1) checked @endif></td>
                                 <td>
-                                    <div class="col-lg-4 col-sm-4 col-xs-4">
+                                    <div style="text-align: center">
                                         <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('categoryEdit',$category->id)}}">Edit</a>
-                                    </div>
+{{--                                    </div>--}}
 {{--                                </td>--}}
 {{--                                <td>--}}
-                                    <div class="col-lg-4 col-sm-4 col-xs-4">
+{{--                                    <div class="col-lg-4 col-sm-4 col-xs-4">--}}
                                         <a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModal{{$category->id}}">Delete</a>
                                     </div>
                                 </td>

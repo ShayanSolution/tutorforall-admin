@@ -30,7 +30,7 @@
                             <th>Percentage</th>
                             <th>Created</th>
 {{--                            <th>Edit</th>--}}
-                            <th style="padding-left: 80px">Action</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -40,14 +40,14 @@
                                 <td>{{$percentageCost->number_of_students}}</td>
                                 <td>{{$percentageCost->percentage}} %</td>
                                 <td>{{dateTimeConverter($percentageCost->created_at)}}</td>
-                                <td>
-                                    <div class="col-lg-4 col-sm-4 col-xs-4">
+                                <td style="text-align: center">
+{{--                                    <div class="col-lg-4 col-sm-4 col-xs-4">--}}
                                         <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" href="{{route('percentage-costs.edit',$percentageCost->id)}}">Edit</a>
-                                    </div>
+{{--                                    </div>--}}
 
-                                    <div class="col-lg-4 col-sm-4 col-xs-4">
+{{--                                    <div class="col-lg-4 col-sm-4 col-xs-4">--}}
                                         <a type="button" class="fcbtn btn btn-danger btn-outline btn-1d"  data-toggle="modal" data-target="#deleteModal{{$percentageCost->id}}">Delete</a>
-                                    </div>
+{{--                                    </div>--}}
                                 </td>
                             </tr>
                             <!-- delete modal content -->

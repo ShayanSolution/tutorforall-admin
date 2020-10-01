@@ -29,7 +29,7 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Created</th>
-                            <th>Action</th>
+                            <th style="text-align: center">Action</th>
                          </tr>
                         </thead>
                         <tbody>
