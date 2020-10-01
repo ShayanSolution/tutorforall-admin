@@ -104,13 +104,13 @@ class AdminController extends Controller
                 $students = $this->studentFilter($request)->where('role_id',3)->whereHas('profile', function ($query) {
                     $query->where('is_deserving', 1);
                 })->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
-                    ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');;
+                    ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');
             }
             else{
                 $students = User::whereHas('profile', function ($query) {
                     $query->where('is_deserving', 1);
                 })->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
-                    ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');;
+                    ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');
             }
             return datatables()->eloquent($students)
                 ->addColumn('firstName', function($student){
@@ -194,10 +194,9 @@ class AdminController extends Controller
 
         if($request->ajax())
         {
-                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
-                    $q->where('is_mentor', 0);
-                })->with('rating')->where('role_id',2)->where('is_approved',0);
-
+//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->with('profile')->with('rating')->where('role_id',2)->where('is_approved',0);
+            $tutors = User::where('role_id',2)->where('is_approved',0)->select('users.*', 'profile.is_mentor as ismentor')
+                ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');
             return datatables()->eloquent($tutors)
                 ->addColumn('type', function($tutor){
                     return $tutor->profile->is_mentor ? 'Mentor' : 'Commercial';
@@ -211,14 +210,11 @@ class AdminController extends Controller
                 })
                 ->rawColumns(['type','created_at','documents'])
                 ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('type', 'ismentor $1')
                 ->make(true);
         }
         $mentorOrCommercial = 'Commercial';
         return view('admin.candidates',compact('mentorOrCommercial'));
-//        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'created_at')->with(['profile'=>function($q){
-//            $q->select("is_mentor", "user_id");
-//        }])->where('role_id', 2)->where('is_approved',0)->get();
-//        return view('admin.candidates', compact('tutors'));
     }
 
     public function candidateDocuments($id){
