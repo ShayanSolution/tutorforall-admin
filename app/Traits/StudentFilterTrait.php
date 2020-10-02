@@ -89,7 +89,7 @@ trait StudentFilterTrait {
                         ->where('status','ended')
                         ->groupBy('student_id')
                         ->get()->pluck('student_id')->toArray();
-                    $query = $query->whereIn('id', $userIds);
+                    $query = $query->whereIn('users.id', $userIds);
                 }
             }
             if (isset($request->input('filterDataArray')['active_record'])) {

@@ -24,26 +24,26 @@ trait SessionFilterTrait
             // Country Filter
             if (isset($request->input('filterDataArray')['country'])) {
                 if ($request->input('filterDataArray')['country'] !== 'all') {
-                    $query = $query->where('country', $request->input('filterDataArray')['country']);
+                    $query = $query->where('tutor.country', $request->input('filterDataArray')['country']);
                 }
             }
             // Province Filter
             if (isset($request->input('filterDataArray')['province'])) {
                 if ($request->input('filterDataArray')['province'] !== 'all') {
-                    $query = $query->where('province', $request->input('filterDataArray')['province']);
+                    $query = $query->where('tutor.province', $request->input('filterDataArray')['province']);
                 }
             }
 
             // City Filter
             if (isset($request->input('filterDataArray')['city'])) {
                 if ($request->input('filterDataArray')['city'] !== 'all') {
-                    $query = $query->where('city', $request->input('filterDataArray')['city']);
+                    $query = $query->where('tutor.city', $request->input('filterDataArray')['city']);
                 }
             }
             // Area List Filter
             if (isset($request->input('filterDataArray')['area'])) {
                 if ($request->input('filterDataArray')['area'] !== 'all') {
-                    $query = $query->where('area', $request->input('filterDataArray')['area']);
+                    $query = $query->where('tutor.area', $request->input('filterDataArray')['area']);
                 }
             }
 
@@ -54,10 +54,10 @@ trait SessionFilterTrait
 
             if (isset($request->input('filterDataArray')['class'])) {
                 if ($request->input('filterDataArray')['class'] !== 'all') {
-                    $query = $query->whereIn('programme_id', $request->input('filterDataArray')['class']);
+                    $query = $query->whereIn('class.id', $request->input('filterDataArray')['class']);
                     $subject_id = $request->input('filterDataArray')['subject'];
                     if ($subject_id && $subject_id != 'all')
-                        $query = $query->whereIn('subject_id', $subject_id);
+                        $query = $query->whereIn('subject.id', $subject_id);
                 }
             }
             if (isset($request->input('filterDataArray')['date_range'])) {
@@ -108,14 +108,8 @@ trait SessionFilterTrait
                 $min_dob = date('Y-m-d', $min_dob);
                 $max_dob = strtotime($todayDate . '-' . $request->input('filterDataArray')['max_age'] . ' year');
                 $max_dob = date('Y-m-d', $max_dob);
-                $query = $query->whereHas('tutor', function ($q) use($min_dob, $max_dob){
-                    $q->where('dob','>=', $max_dob);
-                    $q->where('dob','<=', $min_dob);
-                })->where('status',$status);
-                $query = $query->orWhereHas('student', function ($q) use($min_dob, $max_dob){
-                    $q->where('dob','>=', $max_dob);
-                    $q->where('dob','<=', $min_dob);
-                })->where('status',$status);
+                $query = $query->where('tutor.dob','>=', $max_dob)->where('tutor.dob','<=', $min_dob)->where('sessions.status',$status);
+                $query = $query->where('student.dob','>=', $max_dob)->where('student.dob','<=', $min_dob)->where('sessions.status',$status);
             }
             // Meet Point Filter
             if (isset($request->input('filterDataArray')['meet_point'])) {
