@@ -108,7 +108,8 @@
                 ],
                 "bSort": true,
                 "columnDefs": [
-                    { "orderable": false, "targets": [3,2] }
+                    { "orderable": false, "targets": [3,2] },
+                    { "targets":2, "orderDataType": "dom-text", type: 'boolean' },
                 ]
             });
 
