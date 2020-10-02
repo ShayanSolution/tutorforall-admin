@@ -88,6 +88,8 @@ class AdminController extends Controller
             })
             ->rawColumns(['firstName','lastName','created_at','is_active','is_deserving','delete'])
             ->orderColumn('created_at', 'created_at $1')
+            ->orderColumn('firstName', 'firstName $1')
+            ->orderColumn('lastName', 'lastName $1')
             ->orderColumn('is_active', 'is_active $1')
             ->orderColumn('is_deserving', 'isdeserving $1')
             ->make(true);
@@ -138,6 +140,8 @@ class AdminController extends Controller
                 })
                 ->rawColumns(['firstName','lastName','created_at','is_active','is_deserving','delete'])
                 ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('firstName', 'firstName $1')
+                ->orderColumn('lastName', 'lastName $1')
                 ->orderColumn('is_active', 'is_active $1')
                 ->orderColumn('is_deserving', 'isdeserving $1')
                 ->make(true);
