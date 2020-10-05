@@ -45,8 +45,10 @@ class AdminController extends Controller
 
         foreach (['booked','started','ended','reject','pending','expired'] as $status)
             $data['sessions'.ucwords($status)] = Session::where('status', $status)->count();
+        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
 
-        return view('admin.dashboard', compact('data'));
+        return view('admin.dashboard', compact('data','countries','programs'));
     }
     public function studentsList(Request $request){
         $listType = 'studentsList';

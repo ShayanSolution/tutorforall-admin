@@ -76,7 +76,7 @@ trait SessionFilterTrait
                         ->having('number_of_sessions', '<=', $max_experience)
                         ->where('status', 'ended')
                         ->groupBy('tutor_id')->get()->pluck('ANY_VALUE(id)')->toArray();
-                    $query = $query->whereIn('id', $SessionIds);
+                    $query = $query->whereIn('sessions.id', $SessionIds);
                 }
             }
 
