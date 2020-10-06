@@ -294,16 +294,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <script>
-        // setCharts();
+        let activeInactiveTutors = document.getElementById('activeInactiveTutors').getContext('2d');
+        let activeInactiveStudents = document.getElementById('activeInactiveStudents').getContext('2d');
+        let tutorsStudents = document.getElementById('tutorsStudents').getContext('2d');
+        let sessions = document.getElementById('sessions').getContext('2d');
+        let tutorsAndMentors = document.getElementById('tutorsAndMentors').getContext('2d');
+        let deservingAndNonDeservingStudents = document.getElementById('deservingAndNonDeservingStudents').getContext('2d');
+        let activetutorChart,activestudentChart, studentChart, sessionChart, tutorMentorChart, deservingNonDeservingChart;
+        setCharts();
 
-        // function setCharts() {
-            let activeInactiveTutors = document.getElementById('activeInactiveTutors').getContext('2d');
-            let activeInactiveStudents = document.getElementById('activeInactiveStudents').getContext('2d');
-            let tutorsStudents = document.getElementById('tutorsStudents').getContext('2d');
-            let sessions = document.getElementById('sessions').getContext('2d');
-            let tutorsAndMentors = document.getElementById('tutorsAndMentors').getContext('2d');
-            let deservingAndNonDeservingStudents = document.getElementById('deservingAndNonDeservingStudents').getContext('2d');
-            let activetutorChart = new Chart(
+        function setCharts() {
+
+            activetutorChart = new Chart(
                 activeInactiveTutors,
                 {
                     options: {
@@ -332,7 +334,7 @@
                 }
             );
 
-            let activestudentChart = new Chart(
+            activestudentChart = new Chart(
                 activeInactiveStudents,
                 {
                     "type": "doughnut",
@@ -357,7 +359,7 @@
                     }
                 }
             );
-            let studentChart = new Chart(
+            studentChart = new Chart(
                 tutorsStudents,
                 {
                     "type": "bar",
@@ -400,7 +402,7 @@
 
                 }
             );
-            let sessionChart = new Chart(
+            sessionChart = new Chart(
                 sessions,
                 {
                     "type": "pie",
@@ -433,7 +435,7 @@
                 }
             );
 
-            let tutormentorChart = new Chart(
+            tutormentorChart = new Chart(
                 tutorsAndMentors,
                 {
                     "type": "pie",
@@ -458,7 +460,7 @@
                 }
             );
 
-            let deservingNonDeservingChart = new Chart(
+            deservingNonDeservingChart = new Chart(
                 deservingAndNonDeservingStudents,
                 {
                     "type": "pie",
@@ -483,7 +485,7 @@
                 }
             );
 
-        // }
+        }
         document.querySelectorAll('.sessionfilter').forEach((el, index) => {
             el.disabled = 'disabled';
             el.value = 'all';
@@ -494,7 +496,7 @@
         });
         function showtutorfilters($e) {
             if ($e.checked) {
-
+                setCharts();
                 document.getElementsByClassName('countries')[0].value = 'all';
                 $('.classes').val('all').trigger('change');
                 $('.subjects').val('all').trigger('change');
@@ -537,7 +539,7 @@
 
         function showstudentfilters($e) {
             if ($e.checked) {
-
+                setCharts();
                 document.getElementsByClassName('countries')[0].value = 'all';
                 $('.classes').val('all').trigger('change');
                 $('.subjects').val('all').trigger('change');
@@ -581,7 +583,7 @@
 
         function showsessionfilters($e) {
             if ($e.checked) {
-
+                setCharts();
                 document.getElementsByClassName('countries')[0].value = 'all';
                 // document.getElementsByClassName('classes')[0].value = 'all';
                 $('.classes').val('all').trigger('change');
