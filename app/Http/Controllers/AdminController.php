@@ -44,6 +44,7 @@ class AdminController extends Controller
                     $data['mentor_tutors'] = $this->tutorFilter($request,"Mentor")->where('is_approved',1)->whereHas('profile', function ($q){
                         return $q->where('is_mentor', 1);
                     })->where('role_id', 2)->count();
+                    $data['tutors'] =  $this->tutorFilter($request,"reports")->has('profile')->where('role_id', 2)->where('is_approved',1)->count();
                 }
                 else if($selectedfilter=="student"){
 
@@ -60,6 +61,8 @@ class AdminController extends Controller
                         ->leftJoin('profiles as profile', 'users.id','=','profile.user_id')->whereHas('profile', function ($q){
                         return $q->where('is_deserving', 0);
                     })->where('role_id', 3)->count();
+                    $data['students'] = $this->studentFilter($request)->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
+                            ->leftJoin('profiles as profile', 'users.id','=','profile.user_id')->has('profile')->where('role_id', 3)->count();
                 }
                 else{
                     foreach (['booked','started','ended','reject','pending','expired'] as $status)

@@ -26,7 +26,7 @@
         </div>
         <div class="row">
             <div class="white-box col-md-12">
-                <div class="col-md-4"><input id="tutorbtn" type="radio" value="tutor" onclick="showtutorfilters(this)" checked>Tutors
+                <div class="col-md-4"><input id="tutorbtn" type="radio" value="tutor" onclick="showtutorfilters(this)" checked> Tutors
                 </div>
                 <div class="col-md-4"><input id="studentbtn" type="radio" value="student"
                                              onclick="showstudentfilters(this)"> Students
