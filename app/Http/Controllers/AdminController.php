@@ -9,31 +9,99 @@ use App\Models\Program;
 use App\Models\ProgramSubject;
 use App\Models\Session;
 use App\Models\User;
+use App\Traits\LocationTrait;
+use App\Traits\SessionFilterTrait;
 use App\Traits\StudentFilterTrait;
+use App\Traits\TutorFilterTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
     use StudentFilterTrait;
-    public function dashboard(){
+    use TutorFilterTrait;
+    use LocationTrait;
+    use SessionFilterTrait;
 
-        $data['onlineTutors'] = User::has('profile')->where('role_id', 2)->where('is_online', 1)->count();
-        $data['offlineTutors'] = User::has('profile')->where('role_id', 2)->where('is_online', 0)->count();
+    public function dashboard(Request $request){
+        $selectedfilter="";
+        if($request->ajax())
+        {
+            if( $request->input('selectedFilter') != '' && $request->has('selectedFilter')) {
+                $selectedfilter=$request->input('selectedFilter');
+            }
+            if( $request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+                $data=$this->setData();
+                if($selectedfilter=="tutor"){
+                    $data['onlineTutors'] = $this->tutorFilter($request,"reports")->where('is_approved',1)->has('profile')->where('role_id', 2)->where('is_online', 1)->count();
+                    $data['offlineTutors'] = $this->tutorFilter($request,"reports")->where('is_approved',1)->has('profile')->where('role_id', 2)->where(function($q) {
+                        $q->where('is_online', '=', 0)
+                            ->orWhere('is_online', null);
+                    })->count();
+                    $data['commercial_tutors'] =$this->tutorFilter($request,"commercial")->where('is_approved',1)->whereHas('profile', function ($q){
+                        return $q->where('is_mentor', 0);
+                    })->where('role_id', 2)->count();
+                    $data['mentor_tutors'] = $this->tutorFilter($request,"Mentor")->where('is_approved',1)->whereHas('profile', function ($q){
+                        return $q->where('is_mentor', 1);
+                    })->where('role_id', 2)->count();
+                }
+                else if($selectedfilter=="student"){
+
+                    $data['activeStudents'] =  $this->studentFilter($request)->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
+                        ->leftJoin('profiles as profile', 'users.id','=','profile.user_id')->has('profile')->where('role_id', 3)->where('is_active', 1)->count();
+                    $data['inactiveStudents'] = $this->studentFilter($request)->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
+                        ->leftJoin('profiles as profile', 'users.id','=','profile.user_id')->has('profile')->where('role_id', 3)->where('is_active', 0)->count();
+                    $data['deserving_students'] = $this->studentFilter($request)->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
+                        ->leftJoin('profiles as profile', 'users.id','=','profile.user_id')->whereHas('profile', function ($q){
+                        return $q->where('is_deserving', 1);
+                    })->count();
+
+                    $data['non_deserving_students'] = $this->studentFilter($request)->where('role_id',3)->select('users.*', 'profile.is_deserving as isdeserving')
+                        ->leftJoin('profiles as profile', 'users.id','=','profile.user_id')->whereHas('profile', function ($q){
+                        return $q->where('is_deserving', 0);
+                    })->where('role_id', 3)->count();
+                }
+                else{
+                    foreach (['booked','started','ended','reject','pending','expired'] as $status)
+                        $data['sessions'.ucwords($status)] = $this->sessionFilter($request,"all")->select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                            ->leftJoin('users as student', 'sessions.student_id','=','student.id')
+                            ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                            ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                            ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id')->where('sessions.status', $status)->count();
+
+                }
+                return response()->json($data, 200);
+            }
+        }
+        else{
+            $data=$this->setData();
+        }
+        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
+        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
+
+
+        return view('admin.dashboard', compact('data','countries','programs'));
+    }
+    private function setData(){
+        $data['onlineTutors'] = User::has('profile')->where('role_id', 2)->where('is_online', 1)->where('is_approved',1)->count();
+        $data['offlineTutors'] = User::has('profile')->where('role_id', 2)->where('is_approved',1)->where(function($q) {
+            $q->where('is_online', '=', 0)
+                ->orWhere('is_online', null);
+        })->count();
 
         $data['activeStudents'] = User::has('profile')->where('role_id', 3)->where('is_active', 1)->count();
         $data['inactiveStudents'] = User::has('profile')->where('role_id', 3)->where('is_active', 0)->count();
 
-        $data['tutors'] = User::has('profile')->where('role_id', 2)->count();
+        $data['tutors'] = User::has('profile')->where('role_id', 2)->where('is_approved',1)->count();
         $data['students'] = User::has('profile')->where('role_id', 3)->count();
 
         $data['commercial_tutors'] = User::whereHas('profile', function ($q){
             return $q->where('is_mentor', 0);
-        })->where('role_id', 2)->count();
+        })->where('role_id', 2)->where('is_approved',1)->count();
 
         $data['mentor_tutors'] = User::whereHas('profile', function ($q){
             return $q->where('is_mentor', 1);
-        })->where('role_id', 2)->count();
+        })->where('role_id', 2)->where('is_approved',1)->count();
 
         $data['deserving_students'] = User::whereHas('profile', function ($q){
             return $q->where('is_deserving', 1);
@@ -45,10 +113,7 @@ class AdminController extends Controller
 
         foreach (['booked','started','ended','reject','pending','expired'] as $status)
             $data['sessions'.ucwords($status)] = Session::where('status', $status)->count();
-        $countries = User::select('country')->whereNotNull('country')->groupBy('country')->get();
-        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
-
-        return view('admin.dashboard', compact('data','countries','programs'));
+return $data;
     }
     public function studentsList(Request $request){
         $listType = 'studentsList';
