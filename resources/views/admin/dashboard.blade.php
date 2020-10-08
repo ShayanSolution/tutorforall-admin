@@ -233,6 +233,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label class="black-333">Date Range:</label>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 placeholder date_range">
+                                <input type="text" name="dates" class="form-control dates" autocomplete="off" value="" placeholder="Date Range" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -300,7 +308,7 @@
         let sessions = document.getElementById('sessions').getContext('2d');
         let tutorsAndMentors = document.getElementById('tutorsAndMentors').getContext('2d');
         let deservingAndNonDeservingStudents = document.getElementById('deservingAndNonDeservingStudents').getContext('2d');
-        let activetutorChart,activestudentChart, studentChart, sessionChart, tutorMentorChart, deservingNonDeservingChart;
+        let activetutorChart,activestudentChart, studentChart, sessionChart, tutormentorChart, deservingNonDeservingChart;
         setCharts();
 
         function setCharts() {
@@ -486,6 +494,8 @@
             );
 
         }
+        document.getElementsByClassName('dates')[0].disabled = 'disabled';
+
         document.querySelectorAll('.sessionfilter').forEach((el, index) => {
             el.disabled = 'disabled';
             el.value = 'all';
@@ -515,8 +525,12 @@
                 });
                 document.getElementById('studentbtn').checked = false;
                 document.getElementById('sessionbtn').checked = false;
+                document.getElementsByClassName('dates')[0].disabled = 'disabled';
+
                 $('.gender_record option').remove();
                 $('.gender_record').append('<option value="all">Select</option>\n<option value="1">Male</option>\n<option value="2">Female</option>');
+                $('.meet_point option').remove();
+                $('.meet_point').append('<option value="all">No Preference</option>\n<option value="0">Call Student</option>\n<option value="1">Go Home</option>');
                 document.getElementsByClassName('online_status')[0].removeAttribute('disabled');
                 document.getElementsByClassName('online_status')[0].value = 'all';
                 document.getElementsByClassName('active_record')[0].removeAttribute('disabled');
@@ -558,10 +572,13 @@
                 });
                 $('.gender_record option').remove();
                 $('.gender_record').append('<option value="all">Select</option>\n<option value="1">Male</option>\n<option value="2">Female</option>');
+                $('.meet_point option').remove();
+                $('.meet_point').append('<option value="all">No Preference</option>\n<option value="1">Call Tutor</option>\n<option value="0">Go to Tutor</option>');
                 document.getElementsByClassName('online_status')[0].removeAttribute('disabled');
                 document.getElementsByClassName('online_status')[0].value = 'all';
                 document.getElementsByClassName('active_record')[0].removeAttribute('disabled');
                 document.getElementsByClassName('active_record')[0].value = 'all';
+                document.getElementsByClassName('dates')[0].disabled = 'disabled';
                 $('.countries').trigger( "change" );
                 $('.last_login').addClass('hide');
                 $('.last_login').val('');
@@ -595,11 +612,13 @@
                 });
                 $('.gender_record option').remove();
                 $('.gender_record').append(' <option value="all">All</option>\n<option value="1,1">Both Male</option>\n<option value="2,2">Both Female</option>\n<option value="2,1">Student Female - Tutor Male</option>\n<option value="1,2">Student Male - Tutor Female</option>');
+                $('.meet_point option').remove();
+                $('.meet_point').append('<option value="all">No Preference</option>\n<option value="1">Call Tutor</option>\n<option value="0">Go to Tutor</option>');
                 document.getElementsByClassName('online_status')[0].disabled = 'disabled';
                 document.getElementsByClassName('online_status')[0].value = 'all';
                 document.getElementsByClassName('active_record')[0].disabled = 'disabled';
                 document.getElementsByClassName('active_record')[0].value = 'all';
-
+                document.getElementsByClassName('dates')[0].removeAttribute('disabled');
                 document.getElementsByClassName('ratings')[0].disabled = 'disabled';
                 document.getElementsByClassName('ratings')[0].value = 'all';
                 document.querySelectorAll('.sessionfilter').forEach((el, index) => {
@@ -694,6 +713,10 @@
                 filterDataArray['min_rate_star'] = $('.min_rate_star').val();
             if ($('.max_rate_star').val() != '')
                 filterDataArray['max_rate_star'] = $('.max_rate_star').val();
+            //Date Range Filter
+            if($('.dates').val() != '')
+                filterDataArray['date_range'] = $('.dates').val();
+
             let selectedFilter;
             document.querySelectorAll("input[type=radio]").forEach((_el, index) => {
                 if (_el.checked) {
@@ -723,6 +746,24 @@
         });
 
         function setCharts2(data) {
+            let node = $('#activeInactiveTutors').parent();
+            node.empty();
+            node.html('<h2>Tutors</h2><canvas id="activeInactiveTutors" width="90" height="20"></canvas>');
+            node = $('#activeInactiveStudents').parent();
+            node.empty();
+            node.html('<h2>Students</h2><canvas id="activeInactiveStudents" width="90" height="20"></canvas>');
+            node = $('#tutorsStudents').parent();
+            node.empty();
+            node.html('<h2>Tutors / Students</h2> <canvas id="tutorsStudents" width="90" height="20"></canvas>');
+            node = $('#sessions').parent().empty();
+            node.empty();
+            node.html('<h2>Sessions</h2> <canvas id="sessions" width="90" height="20"></canvas>');
+            node = $('#tutorsAndMentors').parent().empty();
+            node.empty();
+            node.html('  <h2>Tutors / Mentors</h2> <canvas id="tutorsAndMentors" width="90" height="20"></canvas>');
+            node = $('#deservingAndNonDeservingStudents').parent().empty();
+            node.empty();
+            node.html('   <h2>Deserving / Non Deserving Students</h2> <canvas id="deservingAndNonDeservingStudents" width="90" height="20"></canvas>');
             deservingNonDeservingChart.destroy();
             tutormentorChart.destroy();
             activetutorChart.destroy();
@@ -730,12 +771,14 @@
             studentChart.destroy();
             sessionChart.destroy();
 
-            let activeInactiveTutors = document.getElementById('activeInactiveTutors').getContext('2d');
-            let activeInactiveStudents = document.getElementById('activeInactiveStudents').getContext('2d');
-            let tutorsStudents = document.getElementById('tutorsStudents').getContext('2d');
-            let sessions = document.getElementById('sessions').getContext('2d');
-            let tutorsAndMentors = document.getElementById('tutorsAndMentors').getContext('2d');
-            let deservingAndNonDeservingStudents = document.getElementById('deservingAndNonDeservingStudents').getContext('2d');
+            activeInactiveTutors = document.getElementById('activeInactiveTutors').getContext('2d');
+            activeInactiveStudents = document.getElementById('activeInactiveStudents').getContext('2d');
+            tutorsStudents = document.getElementById('tutorsStudents').getContext('2d');
+            sessions = document.getElementById('sessions').getContext('2d');
+            tutorsAndMentors = document.getElementById('tutorsAndMentors').getContext('2d');
+            deservingAndNonDeservingStudents = document.getElementById('deservingAndNonDeservingStudents').getContext('2d');
+
+
              activetutorChart = new Chart(
                 activeInactiveTutors,
                 {
