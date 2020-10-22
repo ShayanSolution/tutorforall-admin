@@ -269,7 +269,7 @@ return $data;
         if($request->ajax())
         {
 //                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->with('profile')->with('rating')->where('role_id',2)->where('is_approved',0);
-            $tutors = User::where('role_id',2)->where('is_approved',0)->select('users.*', 'profile.is_mentor as ismentor')
+            $tutors = User::where('role_id',2)->where('is_approved',0)->where('is_documents_uploaded', 1)->select('users.*', 'profile.is_mentor as ismentor')
                 ->leftJoin('profiles as profile', 'users.id','=','profile.user_id');
             return datatables()->eloquent($tutors)
                 ->addColumn('type', function($tutor){
