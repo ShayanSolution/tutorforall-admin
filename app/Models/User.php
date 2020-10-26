@@ -31,7 +31,7 @@ class User extends Authenticatable implements CanResetPasswordInterface
         'role_id',
         'experience',
         'qualification',
-        'is_approved'
+        'is_approved',
     ];
 
     public function getLatAttribute($value){

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
 use App\Models\Profile;
 use App\Models\Program;
 use App\Models\ProgramSubject;
@@ -19,6 +20,9 @@ class TutorController extends Controller
 {
     use TutorFilterTrait;
     use LocationTrait;
+
+    private static $documentStoragePath = "/home/tutorapi/public_html/storage/app/public/documents/";
+
     public function tutorAdd(){
         $classes = Program::where('status',1)->get();
         return view('admin.tutor.tutorAdd',compact('classes'));
@@ -190,6 +194,7 @@ class TutorController extends Controller
         $mentorOrCommercial = 'Commercial';
         return view('admin.tutor.tutorsList',compact('mentorOrCommercial','countries', 'programs'));
     }
+
     public function tutorsArchiveList(){
         $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
             $q->where('is_mentor', 0);
@@ -199,6 +204,7 @@ class TutorController extends Controller
 
         return view('admin.tutor.tutorsArchiveList',compact('tutors', 'mentorOrCommercial'));
     }
+
     public function mentorsList(Request $request){
         $mentorOrCommercial = 'Mentor';
 
@@ -261,11 +267,13 @@ class TutorController extends Controller
 //        $mentorOrCommercial = 'Mentor';
 //        return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
     }
+
     public function tutorProfile(User $user){
         $programs_subjects = ProgramSubject::where('user_id',$user->id)->with('program', 'subject')->get();
         $programs = Program::where('status',1)->get();
         return view('admin.tutor.tutorProfile',compact('user','programs_subjects','programs'));
     }
+
     public function tutorSubjectsUpdate(Request $request)
     {
        $user_id = $request->user_id;
@@ -308,6 +316,16 @@ class TutorController extends Controller
             'experience' => 'required',
             'qualification' => 'required',
             'cnic_no' => 'required',
+            'profile_picture' =>[
+                'name' => 'max:40',
+                'image' => 'mimes:jpeg,png',
+            ],'cnic_front' =>[
+                'name' => 'max:40',
+                'image' => 'mimes:jpeg,png',
+            ],'cnic_back' =>[
+                'name' => 'max:40',
+                'image' => 'mimes:jpeg,png',
+            ],
         ], [
             'firstName.required' => 'Name is required',
             'firstName.min' => 'Name must be at least 2 characters.',
@@ -323,7 +341,16 @@ class TutorController extends Controller
             'experience.required' => 'Select experience',
             'qualification.required' => 'Qualification is required',
             'cnic_no.required' => 'Enter CNIC number',
+            'profile_picture.max' => 'Profile photo name Must be within 40 characters',
+            'profile_picture.mimes' => 'Profile Image must be of type JPEG or PNG',
+            'cnic_front.max' => 'CNIC front photo name Must be within 40 characters',
+            'cnic_front.mimes' => 'CNIC front Image must be of type JPEG or PNG',
+            'cnic_back.max' => 'CNIC back photo name Must be within 40 characters',
+            'cnic_back.mimes' => 'CNIC back Image must be of type JPEG or PNG',
+
         ]);
+//        dd(Document::get()->last()->id);
+//        dd($user->id);
         $user->firstName = $request->firstName;
         $user->lastName = $request->lastName;
         $user->fatherName = $request->fatherName;
@@ -334,6 +361,86 @@ class TutorController extends Controller
         $user->qualification = $request->qualification;
         $user->cnic_no = $request->cnic_no;
         $user->email = $request->email;
+        if($request->hasFile('profile_picture'))
+        {
+            $imageName = time().'1.'.$request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->storeAs('/public/documents',$imageName);
+            $storagePath = self::$documentStoragePath.'/'.$imageName;
+            $fullyQualifiedPath = '/storage/documents/'.$imageName;
+            $profilePhotoId = Document::create([
+                'id'=>Document::get()->last()->id,
+                'tutor_id'          => $user->id,
+                'title'             => "Profile Photo",
+                'path'              => $fullyQualifiedPath,
+                'document_type'     => "profile_photo",
+                'storage_path'      => $storagePath,
+            ])->id;
+        }
+        if($request->hasFile('cnic_back'))
+        {
+            $imageName = time().'2.'.$request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->storeAs('/public/documents',$imageName);
+            $storagePath = self::$documentStoragePath.'/'.$imageName;
+            $fullyQualifiedPath = '/storage/documents/'.$imageName;
+            $cnicBackId = Document::create([
+                'id'=>Document::get()->last()->id,
+                'tutor_id'          => $user->id,
+                'title'             => "CNIC Back",
+                'path'              => $fullyQualifiedPath,
+                'document_type'     => "cnic_back",
+                'storage_path'      => $storagePath,
+            ])->id;
+        }
+        if($request->hasFile('cnic_front'))
+        {
+            $imageName = time().'3.'.$request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->storeAs('/public/documents',$imageName);
+            $storagePath = self::$documentStoragePath.'/'.$imageName;
+            $fullyQualifiedPath = '/storage/documents/'.$imageName;
+            $cnicFrontId = Document::create([
+                'id'=>Document::get()->last()->id,
+                'tutor_id'          => $user->id,
+                'title'             => "CNIC Front",
+                'path'              => $fullyQualifiedPath,
+                'document_type'     => "cnic_front",
+                'storage_path'      => $storagePath,
+            ])->id;
+        }
+        $profilePhotoprogrameId=Program::where('name','ProfilePhoto')->id;
+        $cnicprogrameId=Program::where('name','Cnic')->id;
+        $profilePhotoSubId=Subject::where('programme_id',$profilePhotoprogrameId)->id;
+        $cnicFrontSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_front')->id;
+        $cnicBackSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_back')->id;
+        ProgramSubject::create([
+            'program_id'=>$profilePhotoprogrameId,
+            'document_id'=>$profilePhotoId,
+            'subject_id'=>$profilePhotoSubId,
+            'status'=>2,
+            'user_id'=>$user->id,
+            'rejection_reason'=>null,
+            'verified_at'=>null,
+            'verified_by'=>null
+        ]);
+        ProgramSubject::create([
+            'program_id'=>$cnicprogrameId,
+            'document_id'=>$cnicFrontId,
+            'subject_id'=>$cnicFrontSubId,
+            'status'=>2,
+            'user_id'=>$user->id,
+            'rejection_reason'=>null,
+            'verified_at'=>null,
+            'verified_by'=>null
+        ]);
+        ProgramSubject::create([
+            'program_id'=>$cnicprogrameId,
+            'document_id'=>$cnicBackId,
+            'subject_id'=>$cnicBackSubId,
+            'status'=>2,
+            'user_id'=>$user->id,
+            'rejection_reason'=>null,
+            'verified_at'=>null,
+            'verified_by'=>null
+        ]);
 
         if ($request->password){
             $user->password = bcrypt($request->password);

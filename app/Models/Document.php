@@ -16,7 +16,11 @@ class Document extends Model
         'rejection_reason',
         'status',
         'verified_by',
-        'verified_at'
+        'verified_at', 'tutor_id',
+'title'        ,
+'path'         ,
+'document_type',
+'storage_path' ,
     ];
 
 //    public function getStatusAttribute($value){

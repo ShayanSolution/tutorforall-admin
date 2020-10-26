@@ -17,7 +17,7 @@
         <div class="row">
             <div class="white-box">
                 <h3 class="box-title m-b-0">Edit Tutor Information</h3>
-                    <form id="form" class="form-horizontal" action="{{route('tutorUpdate',$user->id)}}" method="POST">
+                    <form id="form" class="form-horizontal" action="{{route('tutorUpdate',$user->id)}}" method="POST"  enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="wizard-content">
                             <div class="wizard-pane active" role="tabpanel">
@@ -152,6 +152,41 @@
                                             <input type="text" id="experience" name="experience" class="form-control" placeholder="Enter Experience" value="@if ($user->experience != '') {{$user->experience}} @endif" required>
                                             @if ($errors->has('experience'))
                                                 <span class="text-danger">{{ $errors->first('experience') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="col-md-12" for="example-text">Profile Picture</label>
+                                        <div class="col-md-12">
+                                            <input type="file" id="profile_picture" name="profile_picture" class="form-control" placeholder="Choose Photo"
+{{--                                                   value="@if ($user->qualification != '') {{$user->qualification}} @endif" --}}
+                                                   required>
+                                            @if ($errors->has('profile_picture'))
+                                                <span class="text-danger">{{ $errors->first('profile_picture') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="col-md-12" for="example-text">CNIC Front</label>
+                                        <div class="col-md-12">
+                                            <input type="file" id="cnic_front" name="cnic_front" class="form-control" placeholder="Choose Photo"
+{{--                                                   value="@if ($user->experience != '') {{$user->experience}} @endif" --}}
+                                                   required>
+                                            @if ($errors->has('cnic_front'))
+                                                <span class="text-danger">{{ $errors->first('cnic_front') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="col-md-12" for="example-text">CNIC Back</label>
+                                        <div class="col-md-12">
+                                            <input type="file" id="cnic_back" name="cnic_back" class="form-control" placeholder="Choose Photo"
+{{--                                                   value="@if ($user->experience != '') {{$user->experience}} @endif" --}}
+                                                   required>
+                                            @if ($errors->has('cnic_back'))
+                                                <span class="text-danger">{{ $errors->first('cnic_back') }}</span>
                                             @endif
                                         </div>
                                     </div>
