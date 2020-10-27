@@ -22,7 +22,7 @@ class TutorController extends Controller
     use TutorFilterTrait;
     use LocationTrait;
 
-    private static $documentStoragePath = "/home/tutorapi/public_html/storage/app/public/documents/";
+    private static $documentStoragePath = "/home/devtutor4allapis/public_html/storage/app/public/documents";
 
     public function tutorAdd()
     {
