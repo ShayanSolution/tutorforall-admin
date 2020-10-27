@@ -343,15 +343,15 @@ class TutorController extends Controller
             'qualification' => 'required',
             'cnic_no' => 'required',
             'profile_picture' => [
-                'name' => 'max:40',
+                'name' => 'max:300',
                 'image' => 'mimes:jpeg,png',
                 'nullable'
             ], 'cnic_front' => [
-                'name' => 'max:40',
+                'name' => 'max:300',
                 'image' => 'mimes:jpeg,png',
                 'nullable'
             ], 'cnic_back' => [
-                'name' => 'max:40',
+                'name' => 'max:300',
                 'image' => 'mimes:jpeg,png',
                 'nullable'
             ],
@@ -370,11 +370,11 @@ class TutorController extends Controller
             'experience.required' => 'Select experience',
             'qualification.required' => 'Qualification is required',
             'cnic_no.required' => 'Enter CNIC number',
-            'profile_picture.max' => 'Profile photo name Must be within 40 characters',
+            'profile_picture.max' => 'Profile photo name Must be within 300 characters',
             'profile_picture.mimes' => 'Profile Image must be of type JPEG or PNG',
-            'cnic_front.max' => 'CNIC front photo name Must be within 40 characters',
+            'cnic_front.max' => 'CNIC front photo name Must be within 300 characters',
             'cnic_front.mimes' => 'CNIC front Image must be of type JPEG or PNG',
-            'cnic_back.max' => 'CNIC back photo name Must be within 40 characters',
+            'cnic_back.max' => 'CNIC back photo name Must be within 300 characters',
             'cnic_back.mimes' => 'CNIC back Image must be of type JPEG or PNG',
 
         ]);
