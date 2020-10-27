@@ -160,9 +160,9 @@
                                     <div class="form-group col-md-4">
                                         <label class="col-md-12" for="example-text">Profile Picture</label>
                                         <div class="col-md-12">
+                                            <div class="profile-style profile" style="text-align: center"><img alt="user" src="@if ($profile!='0') {{url('http://dev-tutor4all-api.shayansolutions.com'.$profile)}} @else {{url('admin_assets/images/user.png')}} @endif" style="width: 200px; height: 150px"></div>
                                             <input type="file" id="profile_picture" name="profile_picture" class="form-control" placeholder="Choose Photo"
-{{--                                                   value="@if ($user->qualification != '') {{$user->qualification}} @endif" --}}
-                                                   required>
+                                                   style="text-align: center" >
                                             @if ($errors->has('profile_picture'))
                                                 <span class="text-danger">{{ $errors->first('profile_picture') }}</span>
                                             @endif
@@ -171,9 +171,9 @@
                                     <div class="form-group col-md-4">
                                         <label class="col-md-12" for="example-text">CNIC Front</label>
                                         <div class="col-md-12">
+                                            <div class="profile-style cnicfront" style="text-align: center"><img alt="user" src="@if ($cnicfront!='0') {{url('http://dev-tutor4all-api.shayansolutions.com'.$cnicfront)}} @else {{url('admin_assets/images/user.png')}} @endif" style="width: 200px; height: 150px"></div>
                                             <input type="file" id="cnic_front" name="cnic_front" class="form-control" placeholder="Choose Photo"
-{{--                                                   value="@if ($user->experience != '') {{$user->experience}} @endif" --}}
-                                                   required>
+                                                   style="text-align: center">
                                             @if ($errors->has('cnic_front'))
                                                 <span class="text-danger">{{ $errors->first('cnic_front') }}</span>
                                             @endif
@@ -182,9 +182,11 @@
                                     <div class="form-group col-md-4">
                                         <label class="col-md-12" for="example-text">CNIC Back</label>
                                         <div class="col-md-12">
+                                            {{--'http://dev-tutor4all-api.shayansolutions.com/images/'.--}}
+                                            <div class="profile-style cnicback" style="text-align: center"><img alt="user" src="@if ($cnicback!='0') {{url('http://dev-tutor4all-api.shayansolutions.com'.$cnicback)}} @else {{url('admin_assets/images/user.png')}} @endif" style="width: 200px; height: 150px"></div>
                                             <input type="file" id="cnic_back" name="cnic_back" class="form-control" placeholder="Choose Photo"
-{{--                                                   value="@if ($user->experience != '') {{$user->experience}} @endif" --}}
-                                                   required>
+                                                   style="text-align: center"
+                                                   >
                                             @if ($errors->has('cnic_back'))
                                                 <span class="text-danger">{{ $errors->first('cnic_back') }}</span>
                                             @endif
@@ -233,6 +235,21 @@
                         allowsubmit = false;
                     }
                 });
+//                $("#cnic_back").change(function(e) {
+//                    var image, file;
+//                    if ((file = this.files[0])) {
+//
+//                        image = new Image();
+//                        image.onload = function() {
+//                            console.log('inhere');
+//
+//                            src = this.src;
+//                            $('.cnicback').html('<img src="'+ src +'"></div>');
+//                            e.preventDefault();
+//                        }
+//                    };
+////                    image.src = _URL.createObjectURL(file);
+//                });
                 //jquery form submit
                 $('#form').submit(function(){
 

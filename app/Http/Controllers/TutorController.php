@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\Program;
 use App\Models\ProgramSubject;
 use App\Models\Subject;
+use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
@@ -23,18 +24,22 @@ class TutorController extends Controller
 
     private static $documentStoragePath = "/home/tutorapi/public_html/storage/app/public/documents/";
 
-    public function tutorAdd(){
-        $classes = Program::where('status',1)->get();
-        return view('admin.tutor.tutorAdd',compact('classes'));
+    public function tutorAdd()
+    {
+        $classes = Program::where('status', 1)->get();
+        return view('admin.tutor.tutorAdd', compact('classes'));
     }
-    public function getSubjects($class_id){
-        $subjects = Subject::where('programme_id',$class_id)->get();
+
+    public function getSubjects($class_id)
+    {
+        $subjects = Subject::where('programme_id', $class_id)->get();
         return response()->json([
             'subjects' => $subjects,
         ]);
     }
 
-    public function tutorSave(Request $request){
+    public function tutorSave(Request $request)
+    {
 //        dd($request->all());
         request()->validate([
             'firstName' => 'required|min:2|max:50',
@@ -66,9 +71,9 @@ class TutorController extends Controller
             'subject_id.required' => 'Select subject',
         ]);
 
-        $input = request()->except('password','confirm_password');
-        $user=new User($input);
-        $user->password=bcrypt(request()->password);
+        $input = request()->except('password', 'confirm_password');
+        $user = new User($input);
+        $user->password = bcrypt(request()->password);
         $user->uid = str_random(32);
         $user->is_active = 1;
         $user->role_id = 2;
@@ -76,34 +81,35 @@ class TutorController extends Controller
 
         //Create profile table entry
         $profile = Profile::create(
-                        [
-                            'is_mentor'=>0,
-                            'is_deserving' => 0,
-                            'one_on_one' => 0,
-                            'call_tutor' => 0,
-                            'call_student' => 0,
-                            'is_home' => 0,
-                            'is_group' => 0,
-                            'subject_id' => 0,
-                            'programme_id' => 0,
-                            'meeting_type_id' => 0,
-                            'user_id' => $user->id
-                        ]);
+            [
+                'is_mentor' => 0,
+                'is_deserving' => 0,
+                'one_on_one' => 0,
+                'call_tutor' => 0,
+                'call_student' => 0,
+                'is_home' => 0,
+                'is_group' => 0,
+                'subject_id' => 0,
+                'programme_id' => 0,
+                'meeting_type_id' => 0,
+                'user_id' => $user->id
+            ]);
 
         $subjects = $request->subject_id;
         foreach ($subjects as $subject) {
-            $sub = Subject::where('id',$subject)->first();
+            $sub = Subject::where('id', $subject)->first();
             $prosub = new ProgramSubject();
-            $prosub->user_id =    $user->id;
+            $prosub->user_id = $user->id;
             $prosub->program_id = $sub->programme_id;
             $prosub->document_id = 0;
             $prosub->subject_id = $subject;
             $prosub->save();
         }
-        return redirect()->route('tutorsList')->with('success','Tutor added Successfully');
+        return redirect()->route('tutorsList')->with('success', 'Tutor added Successfully');
     }
 
-    public function changeTutorStatus(Request $request){
+    public function changeTutorStatus(Request $request)
+    {
         request()->validate([
             'tutor_id' => 'required',
             'is_active' => 'required'
@@ -111,18 +117,18 @@ class TutorController extends Controller
         $tutor_id = $request->tutor_id;
         $is_active = $request->is_active;
 
-        $tutor = User::where('id',$tutor_id)->first();
-        if ($is_active == 'true'){
+        $tutor = User::where('id', $tutor_id)->first();
+        if ($is_active == 'true') {
             $tutor->is_active = 1;
             $tutor->save();
-        }else
-        {
+        } else {
             $tutor->is_active = 0;
             $tutor->save();
         }
     }
 
-    public function changeTutorApprovedStatus(Request $request){
+    public function changeTutorApprovedStatus(Request $request)
+    {
         request()->validate([
             'tutor_id' => 'required',
             'is_approved' => 'required'
@@ -130,44 +136,40 @@ class TutorController extends Controller
         $tutor_id = $request->tutor_id;
         $is_approved = $request->is_approved;
 
-        $tutor = User::where('id',$tutor_id)->first();
-        if ($is_approved == 'true'){
+        $tutor = User::where('id', $tutor_id)->first();
+        if ($is_approved == 'true') {
             $tutor->is_approved = 1;
             $tutor->save();
-        }else
-        {
+        } else {
             $tutor->is_approved = 0;
             $tutor->save();
         }
     }
 
-    public function tutorsList(Request $request){
+    public function tutorsList(Request $request)
+    {
         $mentorOrCommercial = 'Commercial';
-        if($request->ajax())
-        {
-            if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
-            {
-                $tutors = $this->tutorFilter($request,$mentorOrCommercial)->where('is_approved',1);
-            }
-            else
-            {
-               $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
+        if ($request->ajax()) {
+            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1);
+            } else {
+                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
                     $q->where('is_mentor', 0);
-                })->with('rating')->where('role_id',2)->where('is_approved',1);
+                })->with('rating')->where('role_id', 2)->where('is_approved', 1);
             }
             return datatables()->eloquent($tutors)
-                ->addColumn('rating', function($tutor){
-                    return round($tutor->rating->avg('rating'),1);
+                ->addColumn('rating', function ($tutor) {
+                    return round($tutor->rating->avg('rating'), 1);
                 })
-                ->addColumn('created_at', function($tutor){
+                ->addColumn('created_at', function ($tutor) {
                     return dateTimeConverter($tutor->created_at);
                 })
-                ->addColumn('last_login', function($tutor){
+                ->addColumn('last_login', function ($tutor) {
                     return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
                 })
-                ->addColumn('is_active', function($tutor){
+                ->addColumn('is_active', function ($tutor) {
                     $is_checked = $tutor->is_active == 1 ? 'checked' : '';
-                    $is_active = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="js-switch" data-color="#99d683"'. $is_checked .'>';
+                    $is_active = '<input type="checkbox" data-tutor-id="' . $tutor->id . '" data-url="' . url('/') . '" class="js-switch" data-color="#99d683"' . $is_checked . '>';
                     return $is_active;
                 })
 //                ->addColumn('is_approve', function($tutor){
@@ -179,63 +181,61 @@ class TutorController extends Controller
 //                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
 //                    return $btn;
 //                })
-                ->addColumn('delete', function($tutor){
-                    $delete_btn = '<div style="text-align: center"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a><br><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="'.$tutor->id.'">Delete</a></div>';
+                ->addColumn('delete', function ($tutor) {
+                    $delete_btn = '<div style="text-align: center"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="' . route('tutorProfile', $tutor->id) . '" alt="default">View</a><br><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="' . $tutor->id . '">Delete</a></div>';
                     return $delete_btn;
                 })
-                ->rawColumns(['rating','created_at','last_login','is_active','delete'])
+                ->rawColumns(['rating', 'created_at', 'last_login', 'is_active', 'delete'])
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('last_login', 'last_login $1')
                 ->orderColumn('is_active', 'is_active $1')
                 ->make(true);
         }
-        $countries = User::select('country')->whereNotNull('country')->where('role_id','2')->groupBy('country')->get();
+        $countries = User::select('country')->whereNotNull('country')->where('role_id', '2')->groupBy('country')->get();
         $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
         $mentorOrCommercial = 'Commercial';
-        return view('admin.tutor.tutorsList',compact('mentorOrCommercial','countries', 'programs'));
+        return view('admin.tutor.tutorsList', compact('mentorOrCommercial', 'countries', 'programs'));
     }
 
-    public function tutorsArchiveList(){
-        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
+    public function tutorsArchiveList()
+    {
+        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
             $q->where('is_mentor', 0);
         })->with('rating')->onlyTrashed()->orderBy('id', 'DESC')->get();
         $mentorOrCommercial = 'Commercial';
 
 
-        return view('admin.tutor.tutorsArchiveList',compact('tutors', 'mentorOrCommercial'));
+        return view('admin.tutor.tutorsArchiveList', compact('tutors', 'mentorOrCommercial'));
     }
 
-    public function mentorsList(Request $request){
+    public function mentorsList(Request $request)
+    {
         $mentorOrCommercial = 'Mentor';
 
-        if($request->ajax())
-        {
-            if( $request->input('filterDataArray') != '' && $request->has('filterDataArray'))
-            {
-                $tutors = $this->tutorFilter($request,$mentorOrCommercial);
-            }
-            else
-            {
-                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q){
+        if ($request->ajax()) {
+            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+                $tutors = $this->tutorFilter($request, $mentorOrCommercial);
+            } else {
+                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
                     $q->where('is_mentor', 1);
-                })->with('rating')->where('role_id',2)->where('is_approved',1);
+                })->with('rating')->where('role_id', 2)->where('is_approved', 1);
             }
             return datatables()->eloquent($tutors)
                 ->orderColumn('firstName', function ($query, $order) {
                     $query->orderBy('status', $order);
                 })
-                ->addColumn('rating', function($tutor){
-                    return round($tutor->rating->avg('rating'),1);
+                ->addColumn('rating', function ($tutor) {
+                    return round($tutor->rating->avg('rating'), 1);
                 })
-                ->addColumn('created_at', function($tutor){
+                ->addColumn('created_at', function ($tutor) {
                     return dateTimeConverter($tutor->created_at);
                 })
-                ->addColumn('last_login', function($tutor){
+                ->addColumn('last_login', function ($tutor) {
                     return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
                 })
-                ->addColumn('is_active', function($tutor){
+                ->addColumn('is_active', function ($tutor) {
                     $is_checked = $tutor->is_active == 1 ? 'checked' : '';
-                    $is_active = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="js-switch" data-color="#99d683"'. $is_checked .'>';
+                    $is_active = '<input type="checkbox" data-tutor-id="' . $tutor->id . '" data-url="' . url('/') . '" class="js-switch" data-color="#99d683"' . $is_checked . '>';
                     return $is_active;
                 })
 //                ->addColumn('is_approve', function($tutor){
@@ -247,20 +247,20 @@ class TutorController extends Controller
 //                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
 //                    return $btn;
 //                })
-                ->addColumn('delete', function($tutor){
-                    $delete_btn = '<div style="text-align: center"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a><br><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="'.$tutor->id.'">Delete</a></div>';
+                ->addColumn('delete', function ($tutor) {
+                    $delete_btn = '<div style="text-align: center"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="' . route('tutorProfile', $tutor->id) . '" alt="default">View</a><br><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="' . $tutor->id . '">Delete</a></div>';
                     return $delete_btn;
                 })
-                ->rawColumns(['rating','created_at','last_login','is_active','delete'])
+                ->rawColumns(['rating', 'created_at', 'last_login', 'is_active', 'delete'])
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('last_login', 'last_login $1')
                 ->orderColumn('is_active', 'is_active $1')
                 ->make(true);
         }
-        $countries = User::select('country')->where('role_id','2')->whereNotNull('country')->groupBy('country')->get();
+        $countries = User::select('country')->where('role_id', '2')->whereNotNull('country')->groupBy('country')->get();
         $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
 
-        return view('admin.tutor.tutorsList',compact('mentorOrCommercial','countries', 'programs'));
+        return view('admin.tutor.tutorsList', compact('mentorOrCommercial', 'countries', 'programs'));
 //        $tutors = User::whereHas('profile', function ($q){
 //            $q->where('is_mentor', 1);
 //        })->where('role_id',2)->orderBy('id', 'DESC')->get();
@@ -268,33 +268,59 @@ class TutorController extends Controller
 //        return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
     }
 
-    public function tutorProfile(User $user){
-        $programs_subjects = ProgramSubject::where('user_id',$user->id)->with('program', 'subject')->get();
-        $programs = Program::where('status',1)->get();
-        return view('admin.tutor.tutorProfile',compact('user','programs_subjects','programs'));
+    public function tutorProfile(User $user)
+    {
+        $programs_subjects = ProgramSubject::where('user_id', $user->id)->with('program', 'subject')->get();
+        $programs = Program::where('status', 1)->get();
+        $profile = $user->documents()->where('document_type', 'profile_photo')->exists() ? $user->documents()->where('document_type', 'profile_photo')->orderBy('id', 'desc')->pluck('path')[0] : '0';
+        $cnicfront = $user->documents()->where('document_type', 'cnic_front')->exists() ? $user->documents()->where('document_type', 'cnic_front')->orderBy('id', 'desc')->pluck('path')[0] : '0';
+        $cnicback = $user->documents()->where('document_type', 'cnic_back')->exists() ? $user->documents()->where('document_type', 'cnic_back')->orderBy('id', 'desc')->pluck('path')[0] : '0';
+
+        return view('admin.tutor.tutorProfile', compact('user', 'programs_subjects', 'programs','profile', 'cnicfront', 'cnicback'));
     }
 
     public function tutorSubjectsUpdate(Request $request)
     {
-       $user_id = $request->user_id;
-       ProgramSubject::where('user_id',$user_id)->delete();
-       $subjects = $request->subject_id;
-        if($subjects != null){
-           foreach ($subjects as $subject){
+        $user_id = $request->user_id;
+        ProgramSubject::where('user_id', $user_id)->delete();
+        $subjects = $request->subject_id;
+        if ($subjects != null) {
+            foreach ($subjects as $subject) {
                 $prosub = new ProgramSubject();
-                $sub = Subject::where('id',$subject)->first();
-                $prosub->program_id  = $sub->programme_id;
-                $prosub->subject_id  = $subject;
-                $prosub->user_id  = $user_id;
+                $sub = Subject::where('id', $subject)->first();
+                $prosub->program_id = $sub->programme_id;
+                $prosub->subject_id = $subject;
+                $prosub->user_id = $user_id;
                 $prosub->save();
-           }
+            }
         }
-        return redirect()->route('tutorProfile',$user_id)->with('success','Tutor subjects updated Successfully');
+        return redirect()->route('tutorProfile', $user_id)->with('success', 'Tutor subjects updated Successfully');
     }
-    public function tutorsEdit(User $user){
-        return view('admin.tutor.profileEdit',compact('user'));
+
+    public function tutorsEdit(User $user)
+    {
+//
+//        $profilePhotoprogrameId=Program::where('name','ProfilePhoto')->pluck('id')[0];
+//        $cnicprogrameId=Program::where('name','Cnic')->pluck('id')[0];
+//        $profilePhotoSubId=Subject::where('programme_id',$profilePhotoprogrameId)->pluck('id')[0];
+//        $cnicFrontSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_front')->pluck('id')[0];
+//        $cnicBackSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_back')->pluck('id')[0];
+
+//$user->program_subject()-->where('program_id',$profilePhotoprogrameId)->where('subject_id',$profilePhotoSubId);
+        $profile = $user->documents()->where('document_type', 'profile_photo')->exists() ? $user->documents()->where('document_type', 'profile_photo')->orderBy('id', 'desc')->pluck('path')[0] : '0';
+        $cnicfront = $user->documents()->where('document_type', 'cnic_front')->exists() ? $user->documents()->where('document_type', 'cnic_front')->orderBy('id', 'desc')->pluck('path')[0] : '0';
+        $cnicback = $user->documents()->where('document_type', 'cnic_back')->exists() ? $user->documents()->where('document_type', 'cnic_back')->orderBy('id', 'desc')->pluck('path')[0] : '0';
+//dd($profile);
+        return view('admin.tutor.profileEdit', compact('user', 'profile', 'cnicfront', 'cnicback'));
     }
-    public function tutorUpdate(Request $request,User $user){
+
+    public function tutorUpdate(Request $request, User $user)
+    {
+        $profilePhotoprogrameId = Program::where('name', 'ProfilePhoto')->pluck('id')[0];
+        $cnicprogrameId = Program::where('name', 'Cnic')->pluck('id')[0];
+        $profilePhotoSubId = Subject::where('programme_id', $profilePhotoprogrameId)->pluck('id')[0];
+        $cnicFrontSubId = Subject::where('programme_id', $cnicprogrameId)->where('name', 'cnic_front')->pluck('id')[0];
+        $cnicBackSubId = Subject::where('programme_id', $cnicprogrameId)->where('name', 'cnic_back')->pluck('id')[0];
         $request->validate([
             'firstName' => 'required|min:2|max:50',
             'lastName' => 'required|min:2|max:50',
@@ -316,15 +342,18 @@ class TutorController extends Controller
             'experience' => 'required',
             'qualification' => 'required',
             'cnic_no' => 'required',
-            'profile_picture' =>[
+            'profile_picture' => [
                 'name' => 'max:40',
                 'image' => 'mimes:jpeg,png',
-            ],'cnic_front' =>[
+                'nullable'
+            ], 'cnic_front' => [
                 'name' => 'max:40',
                 'image' => 'mimes:jpeg,png',
-            ],'cnic_back' =>[
+                'nullable'
+            ], 'cnic_back' => [
                 'name' => 'max:40',
                 'image' => 'mimes:jpeg,png',
+                'nullable'
             ],
         ], [
             'firstName.required' => 'Name is required',
@@ -361,159 +390,179 @@ class TutorController extends Controller
         $user->qualification = $request->qualification;
         $user->cnic_no = $request->cnic_no;
         $user->email = $request->email;
-        if($request->hasFile('profile_picture'))
-        {
-            $imageName = time().'1.'.$request->profile_picture->getClientOriginalExtension();
-            $request->profile_picture->storeAs('/public/documents',$imageName);
-            $storagePath = self::$documentStoragePath.'/'.$imageName;
-            $fullyQualifiedPath = '/storage/documents/'.$imageName;
-            $profilePhotoId = Document::create([
-                'id'=>Document::get()->last()->id,
-                'tutor_id'          => $user->id,
-                'title'             => "Profile Photo",
-                'path'              => $fullyQualifiedPath,
-                'document_type'     => "profile_photo",
-                'storage_path'      => $storagePath,
-            ])->id;
-        }
-        if($request->hasFile('cnic_back'))
-        {
-            $imageName = time().'2.'.$request->profile_picture->getClientOriginalExtension();
-            $request->profile_picture->storeAs('/public/documents',$imageName);
-            $storagePath = self::$documentStoragePath.'/'.$imageName;
-            $fullyQualifiedPath = '/storage/documents/'.$imageName;
-            $cnicBackId = Document::create([
-                'id'=>Document::get()->last()->id,
-                'tutor_id'          => $user->id,
-                'title'             => "CNIC Back",
-                'path'              => $fullyQualifiedPath,
-                'document_type'     => "cnic_back",
-                'storage_path'      => $storagePath,
-            ])->id;
-        }
-        if($request->hasFile('cnic_front'))
-        {
-            $imageName = time().'3.'.$request->profile_picture->getClientOriginalExtension();
-            $request->profile_picture->storeAs('/public/documents',$imageName);
-            $storagePath = self::$documentStoragePath.'/'.$imageName;
-            $fullyQualifiedPath = '/storage/documents/'.$imageName;
-            $cnicFrontId = Document::create([
-                'id'=>Document::get()->last()->id,
-                'tutor_id'          => $user->id,
-                'title'             => "CNIC Front",
-                'path'              => $fullyQualifiedPath,
-                'document_type'     => "cnic_front",
-                'storage_path'      => $storagePath,
-            ])->id;
-        }
-        $profilePhotoprogrameId=Program::where('name','ProfilePhoto')->id;
-        $cnicprogrameId=Program::where('name','Cnic')->id;
-        $profilePhotoSubId=Subject::where('programme_id',$profilePhotoprogrameId)->id;
-        $cnicFrontSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_front')->id;
-        $cnicBackSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_back')->id;
-        ProgramSubject::create([
-            'program_id'=>$profilePhotoprogrameId,
-            'document_id'=>$profilePhotoId,
-            'subject_id'=>$profilePhotoSubId,
-            'status'=>2,
-            'user_id'=>$user->id,
-            'rejection_reason'=>null,
-            'verified_at'=>null,
-            'verified_by'=>null
-        ]);
-        ProgramSubject::create([
-            'program_id'=>$cnicprogrameId,
-            'document_id'=>$cnicFrontId,
-            'subject_id'=>$cnicFrontSubId,
-            'status'=>2,
-            'user_id'=>$user->id,
-            'rejection_reason'=>null,
-            'verified_at'=>null,
-            'verified_by'=>null
-        ]);
-        ProgramSubject::create([
-            'program_id'=>$cnicprogrameId,
-            'document_id'=>$cnicBackId,
-            'subject_id'=>$cnicBackSubId,
-            'status'=>2,
-            'user_id'=>$user->id,
-            'rejection_reason'=>null,
-            'verified_at'=>null,
-            'verified_by'=>null
-        ]);
+        $profilePhotoId = 0;
+        $cnicBackId = 0;
+        $cnicFrontId = 0;
 
-        if ($request->password){
-            $user->password = bcrypt($request->password);
-            $user->save();
+
+        if ($request->hasFile('profile_picture')) {
+            $imageName = time() . '1.' . $request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->storeAs('/public/documents', $imageName);
+            $storagePath = self::$documentStoragePath . '/' . $imageName;
+            $fullyQualifiedPath = '/storage/documents/' . $imageName;
+            $profilePhotoId = Document::create([
+                'tutor_id' => $user->id,
+                'title' => "Profile Photo",
+                'path' => $fullyQualifiedPath,
+                'document_type' => "profile_photo",
+                'storage_path' => $storagePath,
+            ])->id;
+
+            if (!$user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->exists()) {
+                ProgramSubject::create([
+                    'program_id' => $profilePhotoprogrameId,
+                    'document_id' => (int)$profilePhotoId,
+                    'subject_id' => $profilePhotoSubId,
+                    'status' => 2,
+                    'user_id' => $user->id,
+                    'rejection_reason' => null,
+                    'verified_at' => null,
+                    'verified_by' => null
+                ]);
+            } else {
+                $user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->update(['document_id' => $profilePhotoId]);
+            }
         }
+        if ($request->hasFile('cnic_back')) {
+            $imageName = time() . '2.' . $request->cnic_back->getClientOriginalExtension();
+            $request->cnic_back->storeAs('/public/documents', $imageName);
+            $storagePath = self::$documentStoragePath . '/' . $imageName;
+            $fullyQualifiedPath = '/storage/documents/' . $imageName;
+            $cnicBackId = Document::create([
+                'tutor_id' => $user->id,
+                'title' => "CNIC Back",
+                'path' => $fullyQualifiedPath,
+                'document_type' => "cnic_back",
+                'storage_path' => $storagePath,
+            ])->id;
+
+            if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->exists()) {
+
+                ProgramSubject::create([
+                    'program_id' => $cnicprogrameId,
+                    'document_id' => $cnicBackId,
+                    'subject_id' => $cnicBackSubId,
+                    'status' => 2,
+                    'user_id' => $user->id,
+                    'rejection_reason' => null,
+                    'verified_at' => null,
+                    'verified_by' => null
+                ]);
+            } else {
+                $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->update(['document_id' => $cnicBackId]);
+//                ProgramSubject::where('id',$id)-;
+            }
+            if ($request->password) {
+                $user->password = bcrypt($request->password);
+                $user->save();
+            }
+
+
+        }
+        if ($request->hasFile('cnic_front')) {
+            $imageName = time() . '3.' . $request->cnic_front->getClientOriginalExtension();
+            $request->cnic_front->storeAs('/public/documents', $imageName);
+            $storagePath = self::$documentStoragePath . '/' . $imageName;
+            $fullyQualifiedPath = '/storage/documents/' . $imageName;
+            $cnicFrontId = Document::create([
+                'tutor_id' => $user->id,
+                'title' => "CNIC Front",
+                'path' => $fullyQualifiedPath,
+                'document_type' => "cnic_front",
+                'storage_path' => $storagePath,
+            ])->id;
+
+            if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->exists()) {
+                ProgramSubject::create([
+                    'program_id' => $cnicprogrameId,
+                    'document_id' => $cnicFrontId,
+                    'subject_id' => $cnicFrontSubId,
+                    'status' => 2,
+                    'user_id' => $user->id,
+                    'rejection_reason' => null,
+                    'verified_at' => null,
+                    'verified_by' => null
+                ]);
+            } else {
+
+                $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->update(['document_id' => $cnicFrontId]);
+            }
+
+        }
+
 //        else{
 //            $user->password = $user->password;
 //            $user->save();
 //        }
         $user->save();
 //        dd('saved');
-        return redirect()->route('tutorsList')->with('success','Tutor updated Successfully');
+        return redirect()->route('tutorsList')->with('success', 'Tutor updated Successfully');
     }
 
-    public function tutorDelete($tutor){
+    public function tutorDelete($tutor)
+    {
         User::where('id', $tutor)->delete();
-        return redirect()->route('tutorsList')->with('success','Tutor Deleted successfully');
+        return redirect()->route('tutorsList')->with('success', 'Tutor Deleted successfully');
     }
-    public function tutorRestore($tutor){
+
+    public function tutorRestore($tutor)
+    {
         /*dd($tutor);*/
         User::withTrashed()->find($tutor)->restore();
-        return redirect()->route('tutorsArchiveList')->with('success','Tutor Restored successfully');
+        return redirect()->route('tutorsArchiveList')->with('success', 'Tutor Restored successfully');
     }
-    public function profileUpdate(Request $request){
+
+    public function profileUpdate(Request $request)
+    {
 
         $userProfile = Profile::where('user_id', $request->user_id)->first();
 
-        if($request->group_tutor_or_one_on_one == 'group_tutor'){
+        if ($request->group_tutor_or_one_on_one == 'group_tutor') {
             $userProfile->is_group = 1;
             $userProfile->one_on_one = 0;
         }
 
-        if($request->group_tutor_or_one_on_one == 'one_on_one'){
+        if ($request->group_tutor_or_one_on_one == 'one_on_one') {
             $userProfile->is_group = 0;
             $userProfile->one_on_one = 1;
         }
 
-        if($request->group_tutor_or_one_on_one == 'no_pref'){
+        if ($request->group_tutor_or_one_on_one == 'no_pref') {
             $userProfile->is_group = 1;
             $userProfile->one_on_one = 1;
         }
 
 
-        if($request->call_student_or_go_home == 'call_student'){
+        if ($request->call_student_or_go_home == 'call_student') {
             $userProfile->call_student = 1;
             $userProfile->is_home = 0;
         }
 
-        if($request->call_student_or_go_home == 'go_home'){
+        if ($request->call_student_or_go_home == 'go_home') {
             $userProfile->call_student = 0;
             $userProfile->is_home = 1;
         }
 
-        if($request->call_student_or_go_home == 'no_pref'){
+        if ($request->call_student_or_go_home == 'no_pref') {
             $userProfile->call_student = 1;
             $userProfile->is_home = 1;
         }
 
-        if($request->who_would_you_like_to_teach == 'male'){
+        if ($request->who_would_you_like_to_teach == 'male') {
             $userProfile->teach_to = 1;
         }
-        if($request->who_would_you_like_to_teach == 'female'){
+        if ($request->who_would_you_like_to_teach == 'female') {
             $userProfile->teach_to = 2;
         }
-        if($request->who_would_you_like_to_teach == 'no_preference'){
+        if ($request->who_would_you_like_to_teach == 'no_preference') {
             $userProfile->teach_to = 0;
         }
 
 
-        if($request->commercial_or_mentor == 'commercial'){
+        if ($request->commercial_or_mentor == 'commercial') {
             $userProfile->is_mentor = 0;
         }
-        if($request->commercial_or_mentor == 'mentor'){
+        if ($request->commercial_or_mentor == 'mentor') {
             $userProfile->is_mentor = 1;
         }
 
@@ -524,7 +573,8 @@ class TutorController extends Controller
     }
 
 
-    public function getCoordinatesOfTutors(){
+    public function getCoordinatesOfTutors()
+    {
         $tutors = User::select('latitude as lat', 'longitude as lng', 'firstName', 'lastName', 'phone')
             ->where('role_id', 2)
             ->where('is_online', 1)
@@ -533,30 +583,33 @@ class TutorController extends Controller
             ->get();
         return view('admin.tutor.map', compact('tutors'));
     }
+
     public function fetchProvince(Request $request)
     {
         $provicesHtml = $this->getProviceByCountry($request);
         return $provicesHtml;
     }
+
     public function fetchCity(Request $request)
     {
         $citesHtml = $this->getCityByProvince($request);
         return $citesHtml;
     }
+
     public function fetchArea(Request $request)
     {
         $areaHtml = $this->getAreaByCity($request);
         return $areaHtml;
     }
+
     public function fetchSubjects(Request $request)
     {
         $where_array = explode(',', $request->input('class'));
 //        $html = '<option value="all">Select Subjects</option>';
         $html = '';
         $subjects = Subject::where('status', '!=', '2')->whereIn('programme_id', $where_array)->get();
-        foreach ($subjects as $subject)
-        {
-            $html.= '<option value="'.$subject->id.'">'.$subject->name.'</option>';
+        foreach ($subjects as $subject) {
+            $html .= '<option value="' . $subject->id . '">' . $subject->name . '</option>';
         }
         return $html;
     }

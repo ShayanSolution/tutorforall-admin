@@ -20,6 +20,7 @@ class ProgramSubject extends Model
         'user_id',
         'rejection_reason',
         'verified_at',
+        'document_id',
         'verified_by'
     ];
 
