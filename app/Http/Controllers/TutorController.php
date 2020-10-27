@@ -151,11 +151,11 @@ class TutorController extends Controller
         $mentorOrCommercial = 'Commercial';
         if ($request->ajax()) {
             if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
-                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1);
+                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
             } else {
                 $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
                     $q->where('is_mentor', 0);
-                })->with('rating')->where('role_id', 2)->where('is_approved', 1);
+                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
             }
             return datatables()->eloquent($tutors)
                 ->addColumn('rating', function ($tutor) {
@@ -214,11 +214,11 @@ class TutorController extends Controller
 
         if ($request->ajax()) {
             if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
-                $tutors = $this->tutorFilter($request, $mentorOrCommercial);
+                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
             } else {
                 $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
                     $q->where('is_mentor', 1);
-                })->with('rating')->where('role_id', 2)->where('is_approved', 1);
+                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
             }
             return datatables()->eloquent($tutors)
                 ->orderColumn('firstName', function ($query, $order) {

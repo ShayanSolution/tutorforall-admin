@@ -58,6 +58,9 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+                ->addColumn('sessionType', function($session){
+                    return $session->is_hourly?"Hourly Session":"Monthly Session";
+                })
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
@@ -65,6 +68,7 @@ class SessionController extends Controller
                 ->orderColumn('tutorName', 'tutorName $1')
                 ->orderColumn('className', 'className $1')
                 ->orderColumn('subjectName', 'subjectName $1')
+                ->orderColumn('sessionType', 'is_hourly $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status',$status)->groupBy('country')->get();
@@ -117,6 +121,9 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+                ->addColumn('sessionType', function($session){
+                    return $session->is_hourly?"Hourly Session":"Monthly Session";
+                })
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
@@ -124,6 +131,7 @@ class SessionController extends Controller
                 ->orderColumn('tutorName', 'tutorName $1')
                 ->orderColumn('className', 'className $1')
                 ->orderColumn('subjectName', 'subjectName $1')
+                ->orderColumn('sessionType', 'is_hourly $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -177,13 +185,17 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
-                ->orderColumn('created_at', 'created_at $1')
+
+                ->addColumn('sessionType', function($session){
+                    return $session->is_hourly?"Hourly Session":"Monthly Session";
+                })->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
                 ->orderColumn('studentName', 'studentName $1')
                 ->orderColumn('tutorName', 'tutorName $1')
                 ->orderColumn('className', 'className $1')
                 ->orderColumn('subjectName', 'subjectName $1')
+                ->orderColumn('sessionType', 'is_hourly $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -221,7 +233,10 @@ class SessionController extends Controller
                 ->addColumn('tutorName', function($session){
                     return $session->tutor ? $session->tutor->firstName." ". $session->tutor->lastName: 'N-A';
                 })
-                ->addColumn('className', function($session){
+
+                ->addColumn('sessionType', function($session){
+                    return $session->is_hourly?"Hourly Session":"Monthly Session";
+                })->addColumn('className', function($session){
                     return $session->class ? $session->class->name : 'N-A';
                 })
                 ->addColumn('subjectName', function($session){
@@ -243,6 +258,7 @@ class SessionController extends Controller
                 ->orderColumn('tutorName', 'tutorName $1')
                 ->orderColumn('className', 'className $1')
                 ->orderColumn('subjectName', 'subjectName $1')
+                ->orderColumn('sessionType', 'is_hourly $1')
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();
@@ -295,6 +311,11 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+
+                ->addColumn('sessionType', function($session){
+                    return $session->is_hourly?"Hourly Session":"Monthly Session";
+                })
+                ->orderColumn('sessionType', 'is_hourly $1')
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')
@@ -354,6 +375,11 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
+
+                ->addColumn('sessionType', function($session){
+                    return $session->is_hourly?"Hourly Session":"Monthly Session";
+                })
+                ->orderColumn('sessionType', 'is_hourly $1')
                 ->orderColumn('created_at', 'created_at $1')
                 ->orderColumn('duration', 'duration $1')
                 ->orderColumn('groupSession', 'is_group $1')

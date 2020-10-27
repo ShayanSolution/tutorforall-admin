@@ -190,6 +190,7 @@
                             <th>Tutor Name</th>
                             <th>Class Name</th>
                             <th>Subject Name</th>
+                            <th>Session Type</th>
                             <th>Group Session</th>
                             <th>Group Members</th>
                             <th>Session Status</th>
@@ -292,6 +293,7 @@
                         {data: 'tutorName', name: 'tutorName'},
                         {data: 'className', name: 'className'},
                         {data: 'subjectName', name: 'subjectName'},
+                        {data: 'sessionType', name: 'sessionType'},
                         {data: 'groupSession', name: 'groupSession'},
                         {data: 'group_members', name: 'group_members'},
                         {data: 'status', name: 'status'},
@@ -302,13 +304,13 @@
                     ],
                         buttons: [
                     { extend: 'csv', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12'],
                         } },
                     { extend: 'excel', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12'],
                         } },
                     { extend: 'print', className: 'btn-md', exportOptions: {
-                            columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+                            columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12'],
                         } }
                 ], @else
                     columns: [
@@ -317,6 +319,7 @@
                         {data: 'tutorName', name: 'tutorName'},
                         {data: 'className', name: 'className'},
                         {data: 'subjectName', name: 'subjectName'},
+                        {data: 'sessionType', name: 'sessionType'},
                         {data: 'groupSession', name: 'groupSession'},
                         {data: 'group_members', name: 'group_members'},
                         {data: 'status', name: 'status'},
@@ -326,13 +329,13 @@
                     ],
                     buttons: [
                         { extend: 'csv', className: 'btn-md', exportOptions: {
-                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11'],
                             } },
                         { extend: 'excel', className: 'btn-md', exportOptions: {
-                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                                columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11'],
                             } },
                         { extend: 'print', className: 'btn-md', exportOptions: {
-                                columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                                columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11'],
                             } }
                     ],
 @endif
