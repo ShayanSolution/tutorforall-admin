@@ -7,7 +7,9 @@ use App\Models\Profile;
 use App\Models\Program;
 use App\Models\ProgramSubject;
 use App\Models\Subject;
-use function GuzzleHttp\Promise\all;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
@@ -16,6 +18,8 @@ use App\Traits\TutorFilterTrait;
 use App\Traits\LocationTrait;
 use Illuminate\Support\Facades\Input;
 use function foo\func;
+use Nexmo\Client\Response\ResponseInterface;
+use Nexmo\Message\Shortcode\Alert;
 
 class TutorController extends Controller
 {
@@ -390,71 +394,145 @@ class TutorController extends Controller
         $user->qualification = $request->qualification;
         $user->cnic_no = $request->cnic_no;
         $user->email = $request->email;
-        $profilePhotoId = 0;
-        $cnicBackId = 0;
-        $cnicFrontId = 0;
-
+        $client = new Client();
+//dd($request);
 
         if ($request->hasFile('profile_picture')) {
             $imageName = time() . '1.' . $request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->storeAs('/public/documents', $imageName);
-            $storagePath = self::$documentStoragePath . '/' . $imageName;
-            $fullyQualifiedPath = '/storage/documents/' . $imageName;
-            $profilePhotoId = Document::create([
-                'tutor_id' => $user->id,
-                'title' => "Profile Photo",
-                'path' => $fullyQualifiedPath,
-                'document_type' => "profile_photo",
-                'storage_path' => $storagePath,
-            ])->id;
-
+//            $storagePath = self::$documentStoragePath . '/' . $imageName;
+            $fullyQualifiedPath = base_path() . '/storage/app/public/documents/' . $imageName;
             if (!$user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->exists()) {
-                ProgramSubject::create([
-                    'program_id' => $profilePhotoprogrameId,
-                    'document_id' => (int)$profilePhotoId,
-                    'subject_id' => $profilePhotoSubId,
-                    'status' => 2,
-                    'user_id' => $user->id,
-                    'rejection_reason' => null,
-                    'verified_at' => null,
-                    'verified_by' => null
+//                dd('profile'.$user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->exists());
+
+                $promise = $client->request('POST', 'http://dev-tutor4all-api.shayansolutions.com/admin-upload-documents', [
+                    'multipart' => [
+                        [
+                            'name' => 'title',
+                            'contents' => 'Profile Photo'
+                        ],
+                        [
+                            'name' => 'document_type',
+                            'contents' => 'profile_photo'
+                        ],
+                        [
+                            'name' => 'device',
+                            'contents' => 'android'
+                        ],
+                        [
+                            'name' => 'id',
+                            'contents' => $user->id
+                        ],
+                        [
+                            'name' => 'document',
+                            'contents' => fopen($fullyQualifiedPath, 'r')
+                        ]
+                    ]
                 ]);
-            } else {
-                $user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->update(['document_id' => $profilePhotoId]);
+//                dd($promise);
+
+            }
+            else {
+                $documentId = $user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->pluck('document_id')[0];
+                $promise = $client->request('POST', 'http://dev-tutor4all-api.shayansolutions.com/admin-update-tutors-document', [
+                    'multipart' => [
+                        [
+                            'name' => 'title',
+                            'contents' => 'Profile Photo'
+                        ],
+                        [
+                            'name' => 'document_type',
+                            'contents' => 'profile_photo'
+                        ],
+                        [
+                            'name' => 'device',
+                            'contents' => 'android'
+                        ],
+                        [
+                            'name' => 'id',
+                            'contents' => $user->id
+                        ],
+                        [
+                            'name' => 'document_id',
+                            'contents' => $documentId
+                        ],
+                        [
+                            'name' => 'document',
+                            'contents' => fopen($fullyQualifiedPath, 'r')
+                        ]
+                    ]
+                ]);
+
+//                dd($promise);
             }
         }
         if ($request->hasFile('cnic_back')) {
             $imageName = time() . '2.' . $request->cnic_back->getClientOriginalExtension();
             $request->cnic_back->storeAs('/public/documents', $imageName);
             $storagePath = self::$documentStoragePath . '/' . $imageName;
-            $fullyQualifiedPath = '/storage/documents/' . $imageName;
-            $cnicBackId = Document::create([
-                'tutor_id' => $user->id,
-                'title' => "CNIC Back",
-                'path' => $fullyQualifiedPath,
-                'document_type' => "cnic_back",
-                'storage_path' => $storagePath,
-            ])->id;
+            $fullyQualifiedPath = base_path() . '/storage/app/public/documents/' . $imageName;
+//            dd('cnicback'.$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->exists());
 
             if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->exists()) {
 
-                ProgramSubject::create([
-                    'program_id' => $cnicprogrameId,
-                    'document_id' => $cnicBackId,
-                    'subject_id' => $cnicBackSubId,
-                    'status' => 2,
-                    'user_id' => $user->id,
-                    'rejection_reason' => null,
-                    'verified_at' => null,
-                    'verified_by' => null
+                $promise = $client->request('POST', 'http://dev-tutor4all-api.shayansolutions.com/admin-upload-documents', [
+                    'multipart' => [
+                        [
+                            'name' => 'title',
+                            'contents' => 'CNIC Back'
+                        ],
+                        [
+                            'name' => 'document_type',
+                            'contents' => 'cnic_back'
+                        ],
+                        [
+                            'name' => 'device',
+                            'contents' => 'android'
+                        ],
+                        [
+                            'name' => 'id',
+                            'contents' => $user->id
+                        ],
+                        [
+                            'name' => 'document',
+                            'contents' => fopen($fullyQualifiedPath, 'r')
+                        ]
+                    ]
                 ]);
-            } else {
-                $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->update(['document_id' => $cnicBackId]);
-//                ProgramSubject::where('id',$id)-;
+
             }
-            if ($request->password) {
-                $user->password = bcrypt($request->password);
-                $user->save();
+            else {
+                $documentId = $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->pluck('document_id')[0];
+                $promise = $client->request('POST', 'http://dev-tutor4all-api.shayansolutions.com/admin-update-tutors-document', [
+                    'multipart' => [
+                        [
+                            'name' => 'title',
+                            'contents' => 'CNIC Back'
+                        ],
+                        [
+                            'name' => 'document_type',
+                            'contents' => 'cnic_back'
+                        ],
+                        [
+                            'name' => 'device',
+                            'contents' => 'android'
+                        ],
+                        [
+                            'name' => 'id',
+                            'contents' => $user->id
+                        ],
+                        [
+                            'name' => 'document_id',
+                            'contents' => $documentId
+                        ],
+                        [
+                            'name' => 'document',
+                            'contents' => fopen($fullyQualifiedPath, 'r')
+                        ]
+                    ]
+                ]);
+
+//                dd($promise);
             }
 
 
@@ -463,38 +541,82 @@ class TutorController extends Controller
             $imageName = time() . '3.' . $request->cnic_front->getClientOriginalExtension();
             $request->cnic_front->storeAs('/public/documents', $imageName);
             $storagePath = self::$documentStoragePath . '/' . $imageName;
-            $fullyQualifiedPath = '/storage/documents/' . $imageName;
-            $cnicFrontId = Document::create([
-                'tutor_id' => $user->id,
-                'title' => "CNIC Front",
-                'path' => $fullyQualifiedPath,
-                'document_type' => "cnic_front",
-                'storage_path' => $storagePath,
-            ])->id;
+            $fullyQualifiedPath = base_path() . '/storage/app/public/documents/' . $imageName;
+//            dd('cnicfrotn',$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->exists());
 
             if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->exists()) {
-                ProgramSubject::create([
-                    'program_id' => $cnicprogrameId,
-                    'document_id' => $cnicFrontId,
-                    'subject_id' => $cnicFrontSubId,
-                    'status' => 2,
-                    'user_id' => $user->id,
-                    'rejection_reason' => null,
-                    'verified_at' => null,
-                    'verified_by' => null
+                $promise = $client->request('POST', 'http://dev-tutor4all-api.shayansolutions.com/admin-upload-documents', [
+                    'multipart' => [
+                        [
+                            'name' => 'title',
+                            'contents' => 'CNIC Front'
+                        ],
+                        [
+                            'name' => 'document_type',
+                            'contents' => 'cnic_front'
+                        ],
+                        [
+                            'name' => 'device',
+                            'contents' => 'android'
+                        ],
+                        [
+                            'name' => 'id',
+                            'contents' => $user->id
+                        ],
+                        [
+                            'name' => 'document',
+                            'contents' => fopen($fullyQualifiedPath, 'r')
+                        ]
+                    ]
                 ]);
-            } else {
-
-                $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->update(['document_id' => $cnicFrontId]);
             }
+            else {
+                $documentId = $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->pluck('document_id')[0];
 
+//                dd($user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->pluck('document_id')[0]);
+                $promise = $client->request('POST', 'http://dev-tutor4all-api.shayansolutions.com/admin-update-tutors-document', [
+                    'multipart' => [
+                        [
+                            'name' => 'title',
+                            'contents' => 'CNIC Front'
+                        ],
+                        [
+                            'name' => 'document_type',
+                            'contents' => 'cnic_front'
+                        ],
+                        [
+                            'name' => 'device',
+                            'contents' => 'android'
+                        ],
+                        [
+                            'name' => 'id',
+                            'contents' => $user->id
+                        ],
+                        [
+                            'name' => 'document_id',
+                            'contents' => $documentId
+                        ],
+                        [
+                            'name' => 'document',
+                            'contents' => fopen($fullyQualifiedPath, 'r')
+                        ]
+                    ]
+                ]);
+
+//                dd($promise);
+            }
         }
 
-//        else{
-//            $user->password = $user->password;
-//            $user->save();
-//        }
-        $user->save();
+
+        if ($request->password) {
+            $user->password = bcrypt($request->password);
+            $user->save();
+        }
+                else{
+            $user->password = $user->password;
+            $user->save();
+        }
+//        $user->save();
 //        dd('saved');
         return redirect()->route('tutorsList')->with('success', 'Tutor updated Successfully');
     }
