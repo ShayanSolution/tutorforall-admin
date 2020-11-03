@@ -405,7 +405,7 @@ class TutorController extends Controller
             if (!$user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->exists()) {
 //                dd('profile'.$user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->exists());
 
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com/').'admin-upload-documents', [
+                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-upload-documents', [
                     'multipart' => [
                         [
                             'name' => 'title',
@@ -434,7 +434,7 @@ class TutorController extends Controller
             }
             else {
                 $documentId = $user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->pluck('document_id')[0];
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com/').'admin-update-tutors-document', [
+                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-update-tutors-document', [
                     'multipart' => [
                         [
                             'name' => 'title',
@@ -476,7 +476,7 @@ class TutorController extends Controller
 
             if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->exists()) {
 
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com/').'admin-upload-documents', [
+                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-upload-documents', [
                     'multipart' => [
                         [
                             'name' => 'title',
@@ -504,7 +504,7 @@ class TutorController extends Controller
             }
             else {
                 $documentId = $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->pluck('document_id')[0];
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com/').'admin-update-tutors-document', [
+                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-update-tutors-document', [
                     'multipart' => [
                         [
                             'name' => 'title',
@@ -546,7 +546,7 @@ class TutorController extends Controller
 //            dd('cnicfrotn',$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->exists());
 
             if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->exists()) {
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'admin-upload-documents', [
+                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-upload-documents', [
                     'multipart' => [
                         [
                             'name' => 'title',
@@ -575,7 +575,7 @@ class TutorController extends Controller
                 $documentId = $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->pluck('document_id')[0];
 
 //                dd($user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->pluck('document_id')[0]);
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com/').'admin-update-tutors-document', [
+                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-update-tutors-document', [
                     'multipart' => [
                         [
                             'name' => 'title',

@@ -61,6 +61,9 @@
     <div class="container-fluid">
         <div class="row bg-title">
             @include('errors.common-errors')
+            <?php
+            $showarray = Config('app.api_url', 'www.test.com/');
+            ?>
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                 <h4 class="page-title">Tutor Profile</h4> </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
@@ -80,20 +83,20 @@
                         @if($profile == '0' || $profile == null)
                             <div class="profile-style" style="text-align: center"><img alt="user" src="{{url('admin_assets/images/user.png')}}"></div>
                         @else
-                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://tutor4all-api.shayansolutions.com'.$profile}}" style="max-width: 200px; max-height: 300px"></div>
+                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ $showarray.$profile}}" style="max-width: 200px; max-height: 300px"></div>
 
                         @endif
                         <h4><b>CNIC Front</b></h4>
                         @if($cnicfront == '0' || $cnicfront == null)
                             <div class="profile-style" style="text-align: center"><img alt="user" src="{{url('admin_assets/images/user.png')}}"></div>
                         @else
-                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://tutor4all-api.shayansolutions.com'.$cnicfront}}" style="max-width: 200px; max-height: 300px"></div>
+                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ $showarray.$cnicfront}}" style="max-width: 200px; max-height: 300px"></div>
                         @endif
                         <h4><b>CNIC Back</b></h4>
                         @if($cnicback == '0' || $cnicback == null)
                             <div class="profile-style" style="text-align: center"><img alt="user" src="{{url('admin_assets/images/user.png')}}"></div>
                         @else
-                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://tutor4all-api.shayansolutions.com'.$cnicback}}" style="max-width: 200px; max-height: 300px"></div>
+                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ $showarray.$cnicback}}" style="max-width: 200px; max-height: 300px"></div>
                         @endif
                         <div style="display: grid">
                             <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" style="margin: auto;margin-top: 5px;" href="{{route('tutorEdit',$user->id)}}">Edit</a>
