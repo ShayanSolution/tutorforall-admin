@@ -160,7 +160,7 @@
                                     <div class="form-group col-md-4">
                                         <label class="col-md-12" for="example-text">Profile Picture</label>
                                         <div class="col-md-12">
-                                            <div class="profile-style profile" style="text-align: center"><img alt="user" src="@if ($profile!='0') {{url('http://dev-tutor4all-api.shayansolutions.com'.$profile)}} @else {{url('admin_assets/images/user.png')}} @endif" style="width: 200px; height: 150px"></div>
+                                            <div class="profile-style profile" style="text-align: center"><img alt="user" src="@if ($profile!='0') {{url('http://tutor4all-api.shayansolutions.com'.$profile)}} @else {{url('admin_assets/images/user.png')}} @endif" style="width: 200px; height: 150px"></div>
                                             <input type="file" id="profile_picture" name="profile_picture" class="form-control" placeholder="Choose Photo"
                                                    style="text-align: center" >
                                             @if ($errors->has('profile_picture'))
@@ -171,7 +171,7 @@
                                     <div class="form-group col-md-4">
                                         <label class="col-md-12" for="example-text">CNIC Front</label>
                                         <div class="col-md-12">
-                                            <div class="profile-style cnicfront" style="text-align: center"><img alt="user" src="@if ($cnicfront!='0') {{url('http://dev-tutor4all-api.shayansolutions.com'.$cnicfront)}} @else {{url('admin_assets/images/user.png')}} @endif" style="width: 200px; height: 150px"></div>
+                                            <div class="profile-style cnicfront" style="text-align: center"><img alt="user" src="@if ($cnicfront!='0') {{url('http://tutor4all-api.shayansolutions.com'.$cnicfront)}} @else {{url('admin_assets/images/user.png')}} @endif" style="width: 200px; height: 150px"></div>
                                             <input type="file" id="cnic_front" name="cnic_front" class="form-control" placeholder="Choose Photo"
                                                    style="text-align: center">
                                             @if ($errors->has('cnic_front'))
@@ -183,7 +183,7 @@
                                         <label class="col-md-12" for="example-text">CNIC Back</label>
                                         <div class="col-md-12">
                                             {{--'http://dev-tutor4all-api.shayansolutions.com/images/'.--}}
-                                            <div class="profile-style cnicback" style="text-align: center"><img alt="user" src="@if ($cnicback!='0') {{url('http://dev-tutor4all-api.shayansolutions.com'.$cnicback)}} @else {{url('admin_assets/images/user.png')}} @endif" style="width: 200px; height: 150px"></div>
+                                            <div class="profile-style cnicback" style="text-align: center"><img alt="user" src="@if ($cnicback!='0') {{url('http://tutor4all-api.shayansolutions.com'.$cnicback)}} @else {{url('admin_assets/images/user.png')}} @endif" style="width: 200px; height: 150px"></div>
                                             <input type="file" id="cnic_back" name="cnic_back" class="form-control" placeholder="Choose Photo"
                                                    style="text-align: center"
                                                    >

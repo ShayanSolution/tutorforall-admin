@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <img
-                                                    src="{{$progSubDoc->document != null ? 'http://dev-tutor4all-api.shayansolutions.com'.$progSubDoc->document->path : ''}}"
+                                                    src="{{$progSubDoc->document != null ? 'http://tutor4all-api.shayansolutions.com'.$progSubDoc->document->path : ''}}"
                                                     width="500">
                                             </div>
                                             <div class="modal-footer">

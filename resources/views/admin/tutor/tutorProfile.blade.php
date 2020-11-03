@@ -80,20 +80,20 @@
                         @if($profile == '0' || $profile == null)
                             <div class="profile-style" style="text-align: center"><img alt="user" src="{{url('admin_assets/images/user.png')}}"></div>
                         @else
-                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://dev-tutor4all-api.shayansolutions.com'.$profile}}" style="max-width: 200px; max-height: 300px"></div>
+                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://tutor4all-api.shayansolutions.com'.$profile}}" style="max-width: 200px; max-height: 300px"></div>
 
                         @endif
                         <h4><b>CNIC Front</b></h4>
                         @if($cnicfront == '0' || $cnicfront == null)
                             <div class="profile-style" style="text-align: center"><img alt="user" src="{{url('admin_assets/images/user.png')}}"></div>
                         @else
-                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://dev-tutor4all-api.shayansolutions.com'.$cnicfront}}" style="max-width: 200px; max-height: 300px"></div>
+                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://tutor4all-api.shayansolutions.com'.$cnicfront}}" style="max-width: 200px; max-height: 300px"></div>
                         @endif
                         <h4><b>CNIC Back</b></h4>
                         @if($cnicback == '0' || $cnicback == null)
                             <div class="profile-style" style="text-align: center"><img alt="user" src="{{url('admin_assets/images/user.png')}}"></div>
                         @else
-                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://dev-tutor4all-api.shayansolutions.com'.$cnicback}}" style="max-width: 200px; max-height: 300px"></div>
+                            <div class="profile-style" style="text-align: center"><img alt="user" src="{{ 'http://tutor4all-api.shayansolutions.com'.$cnicback}}" style="max-width: 200px; max-height: 300px"></div>
                         @endif
                         <div style="display: grid">
                             <a type="button" class="fcbtn btn btn-info btn-outline btn-1d" style="margin: auto;margin-top: 5px;" href="{{route('tutorEdit',$user->id)}}">Edit</a>
