@@ -196,6 +196,8 @@
                             <th>Session Status</th>
                             @if($status == 'ended')
                             <th>Duration</th>
+                                <th>Payment Method</th>
+
                             @endif
                             <th>Session Location</th>
                             <th>Hourly Rate/RS</th>
@@ -298,19 +300,20 @@
                         {data: 'group_members', name: 'group_members'},
                         {data: 'status', name: 'status'},
                         {data: 'duration', name: 'duration'},
+                        {data: 'paymentMethod', name: 'paymentMethod'},
                         {data: 'session_location', name: 'session_location'},
                         {data: 'hourly_rate', name: 'hourly_rate'},
                         {data: 'created_at', name: 'created_at'},
                     ],
-                        buttons: [
-                    { extend: 'csv', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12'],
+                    buttons: [
+                        { extend: 'csv', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12', '13'],
                         } },
-                    { extend: 'excel', className: 'btn-md', exportOptions: {
-                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12'],
+                        { extend: 'excel', className: 'btn-md', exportOptions: {
+                            columns: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12', '13'],
                         } },
-                    { extend: 'print', className: 'btn-md', exportOptions: {
-                            columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12'],
+                        { extend: 'print', className: 'btn-md', exportOptions: {
+                            columns: ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12', '13'],
                         } }
                 ], @else
                     columns: [

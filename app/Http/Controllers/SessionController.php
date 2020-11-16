@@ -146,21 +146,23 @@ class SessionController extends Controller
         {
             if($request->input('filterDataArray') != '' && $request->has('filterDataArray'))
             {
-                $sessions = $this->sessionFilter($request, $status)->select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+                $sessions = $this->sessionFilter($request, $status)->select('sessions.*', 'student.firstName as studentName','payment.transaction_platform as payment', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
                     ->where('sessions.status','=',$status)
                     ->leftJoin('users as student', 'sessions.student_id','=','student.id')
                     ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
+                    ->leftJoin('session_payments as payment', 'sessions.id','=','payment.session_id')
                     ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
                     ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             else
             {
-
-                $sessions = Session::select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className', 'subject.name as subjectName')
+//,'payment.transaction_platform as payment'
+                $sessions = Session::select('sessions.*', 'student.firstName as studentName', 'tutor.firstName as tutorName', 'class.name as className','payment.transaction_platform as payment', 'subject.name as subjectName')
                     ->where('sessions.status','=',$status)
                     ->leftJoin('users as student', 'sessions.student_id','=','student.id')
                     ->leftJoin('users as tutor', 'sessions.tutor_id','=','tutor.id')
                     ->leftJoin('programmes as class', 'sessions.programme_id','=','class.id')
+                    ->leftJoin('session_payments as payment', 'sessions.id','=','payment.session_id')
                     ->leftJoin('subjects as subject', 'sessions.subject_id','=','subject.id');
             }
             return datatables()->eloquent($sessions)
@@ -185,7 +187,9 @@ class SessionController extends Controller
                 ->addColumn('created_at', function($session){
                     return dateTimeConverter($session->created_at);
                 })
-
+                ->addColumn('paymentMethod', function($session){
+                    return $session->payment!=null ? $session->payment: "Cash";
+                })
                 ->addColumn('sessionType', function($session){
                     return $session->is_hourly?"Hourly Session":"Monthly Session";
                 })->orderColumn('created_at', 'created_at $1')
@@ -196,6 +200,8 @@ class SessionController extends Controller
                 ->orderColumn('className', 'className $1')
                 ->orderColumn('subjectName', 'subjectName $1')
                 ->orderColumn('sessionType', 'is_hourly $1')
+                ->orderColumn('paymentMethod', 'payment $1')
+
                 ->make(true);
         }
         $countries = Session::select('country')->whereNotNull('country')->where('status', $status)->groupBy('country')->get();

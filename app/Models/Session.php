@@ -15,7 +15,10 @@ class Session extends Model
     public function student(){
         return $this->belongsTo(User::class, 'student_id');
     }
-
+    public function payment()
+    {
+        return $this->hasOne('App\Models\SessionPayment');
+    }
     public function class(){
         return $this->belongsTo(Program::class, 'programme_id');
     }
