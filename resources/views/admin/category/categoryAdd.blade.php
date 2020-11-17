@@ -1,5 +1,6 @@
 @extends('admin.layout')
 @section('title','classesAdd')
+
 @section('content')
     <div class="container-fluid">
         <div class="row bg-title">
@@ -27,7 +28,7 @@
                     <div class="form-group">
                         <label class="col-md-12" for="example-text">Percentage</label>
                         <div class="col-md-12">
-                            <input type="text" name="percentage" class="form-control" placeholder="Enter percentage value for this category" required>
+                            <input type="number" name="percentage" class="form-control percentage" placeholder="Enter percentage value for this category" required>
                         </div>
                     </div>
                     <div class="form-group">

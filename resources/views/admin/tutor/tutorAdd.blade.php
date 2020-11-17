@@ -1,5 +1,16 @@
 @extends('admin.layout')
 @section('title','tutorsAdd')
+
+@section('styles')
+    <style>
+        .cnic::-webkit-outer-spin-button,
+        .cnic::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+    </style>
+@endsection
 @section('content')
     <div class="container-fluid">
         <div class="row bg-title">
@@ -68,7 +79,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-md-12" for="example-text">CNIC</label>
                                         <div class="col-md-12">
-                                            <input type="text" id="cnic_no" name="cnic_no" class="form-control" placeholder="Enter CNIC Number" value="{{ old('cnic_no') }}" required>
+                                            <input type="number" id="cnic_no" name="cnic_no" class="form-control cnic" placeholder="Enter CNIC Number" value="{{ old('cnic_no') }}" required>
                                             @if ($errors->has('cnic_no'))
                                                 <span class="text-danger">{{ $errors->first('cnic_no') }}</span>
                                             @endif

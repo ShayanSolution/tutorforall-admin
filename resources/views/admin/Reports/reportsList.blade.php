@@ -121,10 +121,10 @@
                         <label class="black-333">Experience:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6  placeholder">
-                                <input type="number" class="min_experience form-control" placeholder="Min">
+                                <input type="number" class="min_experience form-control" placeholder="Min"  min="0">
                             </div>
                             <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" class="max_experience form-control" placeholder="Max">
+                                <input type="number" class="max_experience form-control" placeholder="Max" min="0">
                             </div>
                         </div>
                     </div>
@@ -132,10 +132,10 @@
                         <label class="black-333">Rate:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6  placeholder">
-                                <input type="number" class="min_rating form-control" placeholder="Min">
+                                <input type="number" class="min_rating form-control" placeholder="Min" min="0">
                             </div>
                             <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" class="max_rating form-control" placeholder="Max">
+                                <input type="number" class="max_rating form-control" placeholder="Max" min="0">
                             </div>
                         </div>
                     </div>
@@ -157,10 +157,10 @@
                         <label class="black-333">Age:</label>
                         <div class="row">
                             <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" placeholder="Min" class="form-control min_age">
+                                <input type="number" placeholder="Min" class="form-control min_age" min="0">
                             </div>
                             <div class="col-md-3 col-sm-6 placeholder">
-                                <input type="number" placeholder="Max" class="form-control max_age">
+                                <input type="number" placeholder="Max" class="form-control max_age" min="0">
                             </div>
                         </div>
                     </div>

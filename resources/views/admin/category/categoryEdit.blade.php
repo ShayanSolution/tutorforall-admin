@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label class="col-md-12" for="example-text">Percentage</label>
                         <div class="col-md-12">
-                            <input type="text" name="percentage" class="form-control" value="{{$category->percentage}}" placeholder="Enter percentage value for this category" required>
+                            <input type="number" name="percentage" class="form-control percentage" value="{{$category->percentage}}" placeholder="Enter percentage value for this category" required>
                         </div>
                     </div>
 
