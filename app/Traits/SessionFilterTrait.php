@@ -71,11 +71,11 @@ trait SessionFilterTrait
                 if ($request->input('filterDataArray')['min_experience'] != '' && $request->input('filterDataArray')['max_experience'] != '') {
                     $min_experience = $request->input('filterDataArray')['min_experience'];
                     $max_experience = $request->input('filterDataArray')['max_experience'];
-                        $SessionIds = Session::selectRaw('count(*) as number_of_sessions, tutor_id, ANY_VALUE(id)')
+                        $SessionIds = Session::selectRaw('count(*) as number_of_sessions, tutor_id, MIN(id)')
                         ->having('number_of_sessions', '>=', $min_experience)
                         ->having('number_of_sessions', '<=', $max_experience)
                         ->where('status', 'ended')
-                        ->groupBy('tutor_id')->get()->pluck('ANY_VALUE(id)')->toArray();
+                        ->groupBy('tutor_id')->get()->pluck('MIN(id)')->toArray();
                     $query = $query->whereIn('sessions.id', $SessionIds);
                 }
             }
