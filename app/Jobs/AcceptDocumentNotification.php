@@ -42,6 +42,9 @@ class AcceptDocumentNotification extends Job
 
             $title  = Config::get('user-constants.APP_NAME');
             $body   = 'Your document against '.$program.'('.$subject.') has been '.$type.'.';
+            if($type=='accepted'){
+                $body="Your registration is not complete yet. Complete the Final Step by verifying your phone number in the app (If already done this ignore the message)";
+            }
             $customData = array(
                 'notification_type' => 'accept_document',
             );
