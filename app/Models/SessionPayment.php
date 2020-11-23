@@ -11,4 +11,8 @@ class SessionPayment extends Model
     {
         return $this->belongsTo('App\Models\Session');
     }
+    public function disbursement()
+    {
+        return $this->morphOne('App\Models\Disbursement','paymentable');
+    }
 }

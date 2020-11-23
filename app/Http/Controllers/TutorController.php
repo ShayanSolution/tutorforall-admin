@@ -6,6 +6,7 @@ use App\Models\Document;
 use App\Models\Profile;
 use App\Models\Program;
 use App\Models\ProgramSubject;
+use App\Models\SessionPayment;
 use App\Models\Subject;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -279,8 +280,10 @@ class TutorController extends Controller
         $profile = $user->documents()->where('document_type', 'profile_photo')->exists() ? $user->documents()->where('document_type', 'profile_photo')->orderBy('id', 'desc')->pluck('path')[0] : '0';
         $cnicfront = $user->documents()->where('document_type', 'cnic_front')->exists() ? $user->documents()->where('document_type', 'cnic_front')->orderBy('id', 'desc')->pluck('path')[0] : '0';
         $cnicback = $user->documents()->where('document_type', 'cnic_back')->exists() ? $user->documents()->where('document_type', 'cnic_back')->orderBy('id', 'desc')->pluck('path')[0] : '0';
+        $payment_invoices= SessionPayment::with('session')->whereIn('id',$user->disbursement->pluck('paymentable_id'));
 
-        return view('admin.tutor.tutorProfile', compact('user', 'programs_subjects', 'programs','profile', 'cnicfront', 'cnicback'));
+//                        dd($payment_invoices->first()!=null);
+        return view('admin.tutor.tutorProfile', compact('user', 'programs_subjects', 'programs','profile', 'cnicfront', 'cnicback', 'payment_invoices'));
     }
 
     public function tutorSubjectsUpdate(Request $request)

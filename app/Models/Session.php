@@ -19,6 +19,10 @@ class Session extends Model
     {
         return $this->hasOne('App\Models\SessionPayment');
     }
+    public function payments()
+    {
+        return $this->belongsTo('App\Models\SessionPayment');
+    }
     public function class(){
         return $this->belongsTo(Program::class, 'programme_id');
     }
