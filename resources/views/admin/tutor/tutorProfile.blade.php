@@ -662,12 +662,12 @@
                             <!-- /.tabs3 -->
                             {{--<!-- .tabs 5 -->--}}
                             <div class="tab-pane" id="tutor_invoices">
-                                @php $payment_invoicestmp = $payment_invoices->get() @endphp
+                                @php $payment_invoicestmp = $payment_invoices->orderBy('id','Desc')->get() @endphp
                                 @if ($payment_invoicestmp->first()!=null)
                                     <div class="steamline">
                                         <hr>
                                         @php $n=1 @endphp
-                                    @foreach($payment_invoices->get() as $review)
+                                    @foreach($payment_invoices->orderBy('id','Desc')->get() as $review)
                                             @php $n++ @endphp
                                             <div class="row">
                                                 <span class="m-l-5 pull-right" style="color: orange;" >
