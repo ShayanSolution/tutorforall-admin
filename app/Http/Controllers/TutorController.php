@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Input;
 use function foo\func;
 use Nexmo\Client\Response\ResponseInterface;
 use Nexmo\Message\Shortcode\Alert;
+use Yajra\DataTables\Facades\DataTables;
 
 class TutorController extends Controller {
 
@@ -433,471 +434,493 @@ class TutorController extends Controller {
 		//        return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
 	}
 
-    public function tutorProfile(User $user)
-    {
-        $programs_subjects = ProgramSubject::where('user_id', $user->id)->with('program', 'subject')->get();
-        $programs = Program::where('status', 1)->get();
-        $profile = $user->documents()->where('document_type', 'profile_photo')->exists() ? $user->documents()->where('document_type', 'profile_photo')->orderBy('id', 'desc')->pluck('path')[0] : '0';
-        $cnicfront = $user->documents()->where('document_type', 'cnic_front')->exists() ? $user->documents()->where('document_type', 'cnic_front')->orderBy('id', 'desc')->pluck('path')[0] : '0';
-        $cnicback = $user->documents()->where('document_type', 'cnic_back')->exists() ? $user->documents()->where('document_type', 'cnic_back')->orderBy('id', 'desc')->pluck('path')[0] : '0';
-        $payment_invoices= SessionPayment::with('session')->whereIn('id',$user->disbursement->pluck('paymentable_id'));
+	public function tutorProfile(User $user) {
+		$programs_subjects = ProgramSubject::where('user_id', $user->id)->with('program', 'subject')->get();
+		$programs          = Program::where('status', 1)->get();
+		$profile           = $user->documents()->where('document_type',
+			'profile_photo')->exists() ? $user->documents()->where('document_type', 'profile_photo')->orderBy('id',
+			'desc')->pluck('path')[0] : '0';
+		$cnicfront         = $user->documents()->where('document_type',
+			'cnic_front')->exists() ? $user->documents()->where('document_type', 'cnic_front')->orderBy('id',
+			'desc')->pluck('path')[0] : '0';
+		$cnicback          = $user->documents()->where('document_type',
+			'cnic_back')->exists() ? $user->documents()->where('document_type', 'cnic_back')->orderBy('id',
+			'desc')->pluck('path')[0] : '0';
+		$payment_invoices  = SessionPayment::with('session')->whereIn('id',
+			$user->disbursement->pluck('paymentable_id'));
 
-//                        dd($payment_invoices->first()!=null);
-        return view('admin.tutor.tutorProfile', compact('user', 'programs_subjects', 'programs','profile', 'cnicfront', 'cnicback', 'payment_invoices'));
-    }
+		//                        dd($payment_invoices->first()!=null);
+		return view('admin.tutor.tutorProfile',
+			compact('user', 'programs_subjects', 'programs', 'profile', 'cnicfront', 'cnicback', 'payment_invoices'));
+	}
 
-    public function tutorSubjectsUpdate(Request $request)
-    {
-        $user_id = $request->user_id;
-        ProgramSubject::where('user_id', $user_id)->delete();
-        $subjects = $request->subject_id;
-        if ($subjects != null) {
-            foreach ($subjects as $subject) {
-                $prosub = new ProgramSubject();
-                $sub = Subject::where('id', $subject)->first();
-                $prosub->program_id = $sub->programme_id;
-                $prosub->subject_id = $subject;
-                $prosub->user_id = $user_id;
-                $prosub->save();
-            }
-        }
-        return redirect()->route('tutorProfile', $user_id)->with('success', 'Tutor subjects updated Successfully');
-    }
+	public function tutorSubjectsUpdate(Request $request) {
+		$user_id = $request->user_id;
+		ProgramSubject::where('user_id', $user_id)->delete();
+		$subjects = $request->subject_id;
+		if ($subjects != null) {
+			foreach ($subjects as $subject) {
+				$prosub             = new ProgramSubject();
+				$sub                = Subject::where('id', $subject)->first();
+				$prosub->program_id = $sub->programme_id;
+				$prosub->subject_id = $subject;
+				$prosub->user_id    = $user_id;
+				$prosub->save();
+			}
+		}
+		return redirect()->route('tutorProfile', $user_id)->with('success', 'Tutor subjects updated Successfully');
+	}
 
-    public function tutorsEdit(User $user)
-    {
-//
-//        $profilePhotoprogrameId=Program::where('name','ProfilePhoto')->pluck('id')[0];
-//        $cnicprogrameId=Program::where('name','Cnic')->pluck('id')[0];
-//        $profilePhotoSubId=Subject::where('programme_id',$profilePhotoprogrameId)->pluck('id')[0];
-//        $cnicFrontSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_front')->pluck('id')[0];
-//        $cnicBackSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_back')->pluck('id')[0];
+	public function tutorsEdit(User $user) {
+		//
+		//        $profilePhotoprogrameId=Program::where('name','ProfilePhoto')->pluck('id')[0];
+		//        $cnicprogrameId=Program::where('name','Cnic')->pluck('id')[0];
+		//        $profilePhotoSubId=Subject::where('programme_id',$profilePhotoprogrameId)->pluck('id')[0];
+		//        $cnicFrontSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_front')->pluck('id')[0];
+		//        $cnicBackSubId=Subject::where('programme_id',$cnicprogrameId)->where('name','cnic_back')->pluck('id')[0];
 
-//$user->program_subject()-->where('program_id',$profilePhotoprogrameId)->where('subject_id',$profilePhotoSubId);
-        $profile = $user->documents()->where('document_type', 'profile_photo')->exists() ? $user->documents()->where('document_type', 'profile_photo')->orderBy('id', 'desc')->pluck('path')[0] : '0';
-        $cnicfront = $user->documents()->where('document_type', 'cnic_front')->exists() ? $user->documents()->where('document_type', 'cnic_front')->orderBy('id', 'desc')->pluck('path')[0] : '0';
-        $cnicback = $user->documents()->where('document_type', 'cnic_back')->exists() ? $user->documents()->where('document_type', 'cnic_back')->orderBy('id', 'desc')->pluck('path')[0] : '0';
-//dd($profile);
-        return view('admin.tutor.profileEdit', compact('user', 'profile', 'cnicfront', 'cnicback'));
-    }
+		//$user->program_subject()-->where('program_id',$profilePhotoprogrameId)->where('subject_id',$profilePhotoSubId);
+		$profile   = $user->documents()->where('document_type',
+			'profile_photo')->exists() ? $user->documents()->where('document_type', 'profile_photo')->orderBy('id',
+			'desc')->pluck('path')[0] : '0';
+		$cnicfront = $user->documents()->where('document_type',
+			'cnic_front')->exists() ? $user->documents()->where('document_type', 'cnic_front')->orderBy('id',
+			'desc')->pluck('path')[0] : '0';
+		$cnicback  = $user->documents()->where('document_type',
+			'cnic_back')->exists() ? $user->documents()->where('document_type', 'cnic_back')->orderBy('id',
+			'desc')->pluck('path')[0] : '0';
+		//dd($profile);
+		return view('admin.tutor.profileEdit', compact('user', 'profile', 'cnicfront', 'cnicback'));
+	}
 
-    public function tutorUpdate(Request $request, User $user)
-    {
-        $profilePhotoprogrameId = Program::where('name', 'ProfilePhoto')->pluck('id')[0];
-        $cnicprogrameId = Program::where('name', 'Cnic')->pluck('id')[0];
-        $profilePhotoSubId = Subject::where('programme_id', $profilePhotoprogrameId)->pluck('id')[0];
-        $cnicFrontSubId = Subject::where('programme_id', $cnicprogrameId)->where('name', 'cnic_front')->pluck('id')[0];
-        $cnicBackSubId = Subject::where('programme_id', $cnicprogrameId)->where('name', 'cnic_back')->pluck('id')[0];
-        $request->validate([
-            'firstName' => 'required|min:2|max:50',
-            'lastName' => 'required|min:2|max:50',
-            'fatherName' => 'required|min:2|max:50',
-//            'email' =>  [
-//                'required',
-//                'min:2',
-//                'regex:',
-//                Rule::unique('users')->ignore($user->id),
-//            ],
-//            'phone' =>  [
-//                'required',
-//                Rule::unique('users')->ignore($user->id),
-//            ],
-            'password' => 'min:6|max:20|nullable',
-            'confirm_password' => 'min:6|max:20|same:password|nullable',
-            'dob' => 'required',
-            'gender_id' => 'required',
-            'experience' => 'required',
-            'qualification' => 'required',
-            'cnic_no' => 'required',
-            'profile_picture' => [
-                'name' => 'max:300',
-                'image' => 'mimes:jpeg,png',
-                'nullable'
-            ], 'cnic_front' => [
-                'name' => 'max:300',
-                'image' => 'mimes:jpeg,png',
-                'nullable'
-            ], 'cnic_back' => [
-                'name' => 'max:300',
-                'image' => 'mimes:jpeg,png',
-                'nullable'
-            ],
-        ], [
-            'firstName.required' => 'Name is required',
-            'firstName.min' => 'Name must be at least 2 characters.',
-            'firstName.max' => 'Name should not be greater than 50 characters.',
-            'lastName.required' => 'Name is required',
-            'lastName.min' => 'Name must be at least 2 characters.',
-            'fatherName.required' => 'Name is required',
-            'fatherName.min' => 'Name must be at least 2 characters.',
-            'fatherName.max' => 'Name should not be greater than 50 characters.',
-            'dob.required' => 'Date of birth is required.',
-//            'phone.required' => 'Phone number is required.',
-            'gender_id.required' => 'Select gender',
-            'experience.required' => 'Select experience',
-            'qualification.required' => 'Qualification is required',
-            'cnic_no.required' => 'Enter CNIC number',
-            'profile_picture.max' => 'Profile photo name Must be within 300 characters',
-            'profile_picture.mimes' => 'Profile Image must be of type JPEG or PNG',
-            'cnic_front.max' => 'CNIC front photo name Must be within 300 characters',
-            'cnic_front.mimes' => 'CNIC front Image must be of type JPEG or PNG',
-            'cnic_back.max' => 'CNIC back photo name Must be within 300 characters',
-            'cnic_back.mimes' => 'CNIC back Image must be of type JPEG or PNG',
+	public function tutorUpdate(Request $request, User $user) {
+		$profilePhotoprogrameId = Program::where('name', 'ProfilePhoto')->pluck('id')[0];
+		$cnicprogrameId         = Program::where('name', 'Cnic')->pluck('id')[0];
+		$profilePhotoSubId      = Subject::where('programme_id', $profilePhotoprogrameId)->pluck('id')[0];
+		$cnicFrontSubId         = Subject::where('programme_id', $cnicprogrameId)->where('name',
+			'cnic_front')->pluck('id')[0];
+		$cnicBackSubId          = Subject::where('programme_id', $cnicprogrameId)->where('name',
+			'cnic_back')->pluck('id')[0];
+		$request->validate([
+			'firstName'        => 'required|min:2|max:50',
+			'lastName'         => 'required|min:2|max:50',
+			'fatherName'       => 'required|min:2|max:50',
+			//            'email' =>  [
+			//                'required',
+			//                'min:2',
+			//                'regex:',
+			//                Rule::unique('users')->ignore($user->id),
+			//            ],
+			//            'phone' =>  [
+			//                'required',
+			//                Rule::unique('users')->ignore($user->id),
+			//            ],
+			'password'         => 'min:6|max:20|nullable',
+			'confirm_password' => 'min:6|max:20|same:password|nullable',
+			'dob'              => 'required',
+			'gender_id'        => 'required',
+			'experience'       => 'required',
+			'qualification'    => 'required',
+			'cnic_no'          => 'required',
+			'profile_picture'  => [
+				'name'  => 'max:300',
+				'image' => 'mimes:jpeg,png',
+				'nullable'
+			], 'cnic_front'    => [
+				'name'  => 'max:300',
+				'image' => 'mimes:jpeg,png',
+				'nullable'
+			], 'cnic_back'     => [
+				'name'  => 'max:300',
+				'image' => 'mimes:jpeg,png',
+				'nullable'
+			],
+		],
+			[
+				'firstName.required'     => 'Name is required',
+				'firstName.min'          => 'Name must be at least 2 characters.',
+				'firstName.max'          => 'Name should not be greater than 50 characters.',
+				'lastName.required'      => 'Name is required',
+				'lastName.min'           => 'Name must be at least 2 characters.',
+				'fatherName.required'    => 'Name is required',
+				'fatherName.min'         => 'Name must be at least 2 characters.',
+				'fatherName.max'         => 'Name should not be greater than 50 characters.',
+				'dob.required'           => 'Date of birth is required.',
+				//            'phone.required' => 'Phone number is required.',
+				'gender_id.required'     => 'Select gender',
+				'experience.required'    => 'Select experience',
+				'qualification.required' => 'Qualification is required',
+				'cnic_no.required'       => 'Enter CNIC number',
+				'profile_picture.max'    => 'Profile photo name Must be within 300 characters',
+				'profile_picture.mimes'  => 'Profile Image must be of type JPEG or PNG',
+				'cnic_front.max'         => 'CNIC front photo name Must be within 300 characters',
+				'cnic_front.mimes'       => 'CNIC front Image must be of type JPEG or PNG',
+				'cnic_back.max'          => 'CNIC back photo name Must be within 300 characters',
+				'cnic_back.mimes'        => 'CNIC back Image must be of type JPEG or PNG',
 
-        ]);
-//        dd(Document::get()->last()->id);
-//        dd($user->id);
-        $user->firstName = $request->firstName;
-        $user->lastName = $request->lastName;
-        $user->fatherName = $request->fatherName;
-        $user->dob = $request->dob;
-        $user->phone = $request->phone;
-        $user->gender_id = $request->gender_id;
-        $user->experience = $request->experience;
-        $user->qualification = $request->qualification;
-        $user->cnic_no = $request->cnic_no;
-        $user->email = $request->email;
-        $client = new Client();
-//dd($request);
+			]);
+		//        dd(Document::get()->last()->id);
+		//        dd($user->id);
+		$user->firstName     = $request->firstName;
+		$user->lastName      = $request->lastName;
+		$user->fatherName    = $request->fatherName;
+		$user->dob           = $request->dob;
+		$user->phone         = $request->phone;
+		$user->gender_id     = $request->gender_id;
+		$user->experience    = $request->experience;
+		$user->qualification = $request->qualification;
+		$user->cnic_no       = $request->cnic_no;
+		$user->email         = $request->email;
+		$client              = new Client();
+		//dd($request);
 
-        if ($request->hasFile('profile_picture')) {
-            $imageName = time() . '1.' . $request->profile_picture->getClientOriginalExtension();
-            $request->profile_picture->storeAs('/public/documents', $imageName);
-//            $storagePath = self::$documentStoragePath . '/' . $imageName;
-            $fullyQualifiedPath = base_path() . '/storage/app/public/documents/' . $imageName;
-            if (!$user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->exists()) {
-//                dd('profile'.$user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->exists());
+		if ($request->hasFile('profile_picture')) {
+			$imageName = time() . '1.' . $request->profile_picture->getClientOriginalExtension();
+			$request->profile_picture->storeAs('/public/documents', $imageName);
+			//            $storagePath = self::$documentStoragePath . '/' . $imageName;
+			$fullyQualifiedPath = base_path() . '/storage/app/public/documents/' . $imageName;
+			if (!$user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id',
+				$profilePhotoSubId)->exists()
+			) {
+				//                dd('profile'.$user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->exists());
 
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-upload-documents', [
-                    'multipart' => [
-                        [
-                            'name' => 'title',
-                            'contents' => 'Profile Photo'
-                        ],
-                        [
-                            'name' => 'document_type',
-                            'contents' => 'profile_photo'
-                        ],
-                        [
-                            'name' => 'device',
-                            'contents' => 'android'
-                        ],
-                        [
-                            'name' => 'id',
-                            'contents' => $user->id
-                        ],
-                        [
-                            'name' => 'document',
-                            'contents' => fopen($fullyQualifiedPath, 'r')
-                        ]
-                    ]
-                ]);
-//                dd($promise);
+				$promise = $client->request('POST',
+					config('app.api_url', 'www.test.com') . '/admin-upload-documents',
+					[
+						'multipart' => [
+							[
+								'name'     => 'title',
+								'contents' => 'Profile Photo'
+							],
+							[
+								'name'     => 'document_type',
+								'contents' => 'profile_photo'
+							],
+							[
+								'name'     => 'device',
+								'contents' => 'android'
+							],
+							[
+								'name'     => 'id',
+								'contents' => $user->id
+							],
+							[
+								'name'     => 'document',
+								'contents' => fopen($fullyQualifiedPath, 'r')
+							]
+						]
+					]);
+				//                dd($promise);
 
-            }
-            else {
-                $documentId = $user->program_subject()->where('program_id', $profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->pluck('document_id')[0];
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-update-tutors-document', [
-                    'multipart' => [
-                        [
-                            'name' => 'title',
-                            'contents' => 'Profile Photo'
-                        ],
-                        [
-                            'name' => 'document_type',
-                            'contents' => 'profile_photo'
-                        ],
-                        [
-                            'name' => 'device',
-                            'contents' => 'android'
-                        ],
-                        [
-                            'name' => 'id',
-                            'contents' => $user->id
-                        ],
-                        [
-                            'name' => 'document_id',
-                            'contents' => $documentId
-                        ],
-                        [
-                            'name' => 'document',
-                            'contents' => fopen($fullyQualifiedPath, 'r')
-                        ]
-                    ]
-                ]);
+			} else {
+				$documentId = $user->program_subject()->where('program_id',
+					$profilePhotoprogrameId)->where('subject_id', $profilePhotoSubId)->pluck('document_id')[0];
+				$promise    = $client->request('POST',
+					config('app.api_url', 'www.test.com') . '/admin-update-tutors-document',
+					[
+						'multipart' => [
+							[
+								'name'     => 'title',
+								'contents' => 'Profile Photo'
+							],
+							[
+								'name'     => 'document_type',
+								'contents' => 'profile_photo'
+							],
+							[
+								'name'     => 'device',
+								'contents' => 'android'
+							],
+							[
+								'name'     => 'id',
+								'contents' => $user->id
+							],
+							[
+								'name'     => 'document_id',
+								'contents' => $documentId
+							],
+							[
+								'name'     => 'document',
+								'contents' => fopen($fullyQualifiedPath, 'r')
+							]
+						]
+					]);
 
-//                dd($promise);
-            }
-        }
-//        dd(config('app.api_url', 'www.test.com/').'admin-upload-documents');
-        if ($request->hasFile('cnic_back')) {
-            $imageName = time() . '2.' . $request->cnic_back->getClientOriginalExtension();
-            $request->cnic_back->storeAs('/public/documents', $imageName);
-            $storagePath = self::$documentStoragePath . '/' . $imageName;
-            $fullyQualifiedPath = base_path() . '/storage/app/public/documents/' . $imageName;
-//            dd('cnicback'.$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->exists());
+				//                dd($promise);
+			}
+		}
+		//        dd(config('app.api_url', 'www.test.com/').'admin-upload-documents');
+		if ($request->hasFile('cnic_back')) {
+			$imageName = time() . '2.' . $request->cnic_back->getClientOriginalExtension();
+			$request->cnic_back->storeAs('/public/documents', $imageName);
+			$storagePath        = self::$documentStoragePath . '/' . $imageName;
+			$fullyQualifiedPath = base_path() . '/storage/app/public/documents/' . $imageName;
+			//            dd('cnicback'.$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->exists());
 
-            if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->exists()) {
+			if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id',
+				$cnicBackSubId)->exists()
+			) {
 
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-upload-documents', [
-                    'multipart' => [
-                        [
-                            'name' => 'title',
-                            'contents' => 'CNIC Back'
-                        ],
-                        [
-                            'name' => 'document_type',
-                            'contents' => 'cnic_back'
-                        ],
-                        [
-                            'name' => 'device',
-                            'contents' => 'android'
-                        ],
-                        [
-                            'name' => 'id',
-                            'contents' => $user->id
-                        ],
-                        [
-                            'name' => 'document',
-                            'contents' => fopen($fullyQualifiedPath, 'r')
-                        ]
-                    ]
-                ]);
+				$promise = $client->request('POST',
+					config('app.api_url', 'www.test.com') . '/admin-upload-documents',
+					[
+						'multipart' => [
+							[
+								'name'     => 'title',
+								'contents' => 'CNIC Back'
+							],
+							[
+								'name'     => 'document_type',
+								'contents' => 'cnic_back'
+							],
+							[
+								'name'     => 'device',
+								'contents' => 'android'
+							],
+							[
+								'name'     => 'id',
+								'contents' => $user->id
+							],
+							[
+								'name'     => 'document',
+								'contents' => fopen($fullyQualifiedPath, 'r')
+							]
+						]
+					]);
 
-            }
-            else {
-                $documentId = $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicBackSubId)->pluck('document_id')[0];
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-update-tutors-document', [
-                    'multipart' => [
-                        [
-                            'name' => 'title',
-                            'contents' => 'CNIC Back'
-                        ],
-                        [
-                            'name' => 'document_type',
-                            'contents' => 'cnic_back'
-                        ],
-                        [
-                            'name' => 'device',
-                            'contents' => 'android'
-                        ],
-                        [
-                            'name' => 'id',
-                            'contents' => $user->id
-                        ],
-                        [
-                            'name' => 'document_id',
-                            'contents' => $documentId
-                        ],
-                        [
-                            'name' => 'document',
-                            'contents' => fopen($fullyQualifiedPath, 'r')
-                        ]
-                    ]
-                ]);
+			} else {
+				$documentId = $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id',
+					$cnicBackSubId)->pluck('document_id')[0];
+				$promise    = $client->request('POST',
+					config('app.api_url', 'www.test.com') . '/admin-update-tutors-document',
+					[
+						'multipart' => [
+							[
+								'name'     => 'title',
+								'contents' => 'CNIC Back'
+							],
+							[
+								'name'     => 'document_type',
+								'contents' => 'cnic_back'
+							],
+							[
+								'name'     => 'device',
+								'contents' => 'android'
+							],
+							[
+								'name'     => 'id',
+								'contents' => $user->id
+							],
+							[
+								'name'     => 'document_id',
+								'contents' => $documentId
+							],
+							[
+								'name'     => 'document',
+								'contents' => fopen($fullyQualifiedPath, 'r')
+							]
+						]
+					]);
 
-//                dd($promise);
-            }
-
-
-        }
-        if ($request->hasFile('cnic_front')) {
-            $imageName = time() . '3.' . $request->cnic_front->getClientOriginalExtension();
-            $request->cnic_front->storeAs('/public/documents', $imageName);
-            $storagePath = self::$documentStoragePath . '/' . $imageName;
-            $fullyQualifiedPath = base_path() . '/storage/app/public/documents/' . $imageName;
-//            dd('cnicfrotn',$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->exists());
-
-            if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->exists()) {
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-upload-documents', [
-                    'multipart' => [
-                        [
-                            'name' => 'title',
-                            'contents' => 'CNIC Front'
-                        ],
-                        [
-                            'name' => 'document_type',
-                            'contents' => 'cnic_front'
-                        ],
-                        [
-                            'name' => 'device',
-                            'contents' => 'android'
-                        ],
-                        [
-                            'name' => 'id',
-                            'contents' => $user->id
-                        ],
-                        [
-                            'name' => 'document',
-                            'contents' => fopen($fullyQualifiedPath, 'r')
-                        ]
-                    ]
-                ]);
-            }
-            else {
-                $documentId = $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->pluck('document_id')[0];
-
-//                dd($user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->pluck('document_id')[0]);
-                $promise = $client->request('POST', config('app.api_url', 'www.test.com').'/admin-update-tutors-document', [
-                    'multipart' => [
-                        [
-                            'name' => 'title',
-                            'contents' => 'CNIC Front'
-                        ],
-                        [
-                            'name' => 'document_type',
-                            'contents' => 'cnic_front'
-                        ],
-                        [
-                            'name' => 'device',
-                            'contents' => 'android'
-                        ],
-                        [
-                            'name' => 'id',
-                            'contents' => $user->id
-                        ],
-                        [
-                            'name' => 'document_id',
-                            'contents' => $documentId
-                        ],
-                        [
-                            'name' => 'document',
-                            'contents' => fopen($fullyQualifiedPath, 'r')
-                        ]
-                    ]
-                ]);
-
-//                dd($promise);
-            }
-        }
+				//                dd($promise);
+			}
 
 
-        if ($request->password) {
-            $user->password = bcrypt($request->password);
-            $user->save();
-        }
-                else{
-            $user->password = $user->password;
-            $user->save();
-        }
-//        $user->save();
-//        dd('saved');
-        return redirect()->route('tutorsList')->with('success', 'Tutor updated Successfully');
-    }
+		}
+		if ($request->hasFile('cnic_front')) {
+			$imageName = time() . '3.' . $request->cnic_front->getClientOriginalExtension();
+			$request->cnic_front->storeAs('/public/documents', $imageName);
+			$storagePath        = self::$documentStoragePath . '/' . $imageName;
+			$fullyQualifiedPath = base_path() . '/storage/app/public/documents/' . $imageName;
+			//            dd('cnicfrotn',$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->exists());
 
-    public function tutorDelete($tutor)
-    {
-        User::where('id', $tutor)->delete();
-        return redirect()->route('tutorsList')->with('success', 'Tutor Deleted successfully');
-    }
+			if (!$user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id',
+				$cnicFrontSubId)->exists()
+			) {
+				$promise = $client->request('POST',
+					config('app.api_url', 'www.test.com') . '/admin-upload-documents',
+					[
+						'multipart' => [
+							[
+								'name'     => 'title',
+								'contents' => 'CNIC Front'
+							],
+							[
+								'name'     => 'document_type',
+								'contents' => 'cnic_front'
+							],
+							[
+								'name'     => 'device',
+								'contents' => 'android'
+							],
+							[
+								'name'     => 'id',
+								'contents' => $user->id
+							],
+							[
+								'name'     => 'document',
+								'contents' => fopen($fullyQualifiedPath, 'r')
+							]
+						]
+					]);
+			} else {
+				$documentId = $user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id',
+					$cnicFrontSubId)->pluck('document_id')[0];
 
-    public function tutorRestore($tutor)
-    {
-        /*dd($tutor);*/
-        User::withTrashed()->find($tutor)->restore();
-        return redirect()->route('tutorsArchiveList')->with('success', 'Tutor Restored successfully');
-    }
+				//                dd($user->program_subject()->where('program_id', $cnicprogrameId)->where('subject_id', $cnicFrontSubId)->pluck('document_id')[0]);
+				$promise = $client->request('POST',
+					config('app.api_url', 'www.test.com') . '/admin-update-tutors-document',
+					[
+						'multipart' => [
+							[
+								'name'     => 'title',
+								'contents' => 'CNIC Front'
+							],
+							[
+								'name'     => 'document_type',
+								'contents' => 'cnic_front'
+							],
+							[
+								'name'     => 'device',
+								'contents' => 'android'
+							],
+							[
+								'name'     => 'id',
+								'contents' => $user->id
+							],
+							[
+								'name'     => 'document_id',
+								'contents' => $documentId
+							],
+							[
+								'name'     => 'document',
+								'contents' => fopen($fullyQualifiedPath, 'r')
+							]
+						]
+					]);
 
-    public function profileUpdate(Request $request)
-    {
-
-        $userProfile = Profile::where('user_id', $request->user_id)->first();
-
-        if ($request->group_tutor_or_one_on_one == 'group_tutor') {
-            $userProfile->is_group = 1;
-            $userProfile->one_on_one = 0;
-        }
-
-        if ($request->group_tutor_or_one_on_one == 'one_on_one') {
-            $userProfile->is_group = 0;
-            $userProfile->one_on_one = 1;
-        }
-
-        if ($request->group_tutor_or_one_on_one == 'no_pref') {
-            $userProfile->is_group = 1;
-            $userProfile->one_on_one = 1;
-        }
-
-
-        if ($request->call_student_or_go_home == 'call_student') {
-            $userProfile->call_student = 1;
-            $userProfile->is_home = 0;
-        }
-
-        if ($request->call_student_or_go_home == 'go_home') {
-            $userProfile->call_student = 0;
-            $userProfile->is_home = 1;
-        }
-
-        if ($request->call_student_or_go_home == 'no_pref') {
-            $userProfile->call_student = 1;
-            $userProfile->is_home = 1;
-        }
-
-        if ($request->who_would_you_like_to_teach == 'male') {
-            $userProfile->teach_to = 1;
-        }
-        if ($request->who_would_you_like_to_teach == 'female') {
-            $userProfile->teach_to = 2;
-        }
-        if ($request->who_would_you_like_to_teach == 'no_preference') {
-            $userProfile->teach_to = 0;
-        }
-
-
-        if ($request->commercial_or_mentor == 'commercial') {
-            $userProfile->is_mentor = 0;
-        }
-        if ($request->commercial_or_mentor == 'mentor') {
-            $userProfile->is_mentor = 1;
-        }
-
-        $userProfile->save();
+				//                dd($promise);
+			}
+		}
 
 
-        return redirect()->back()->with('success', 'Updated Successfully!');
-    }
+		if ($request->password) {
+			$user->password = bcrypt($request->password);
+			$user->save();
+		} else {
+			$user->password = $user->password;
+			$user->save();
+		}
+		//        $user->save();
+		//        dd('saved');
+		return redirect()->route('tutorsList')->with('success', 'Tutor updated Successfully');
+	}
+
+	public function tutorDelete($tutor) {
+		User::where('id', $tutor)->delete();
+		return redirect()->route('tutorsList')->with('success', 'Tutor Deleted successfully');
+	}
+
+	public function tutorRestore($tutor) {
+		/*dd($tutor);*/
+		User::withTrashed()->find($tutor)->restore();
+		return redirect()->route('tutorsArchiveList')->with('success', 'Tutor Restored successfully');
+	}
+
+	public function profileUpdate(Request $request) {
+
+		$userProfile = Profile::where('user_id', $request->user_id)->first();
+
+		if ($request->group_tutor_or_one_on_one == 'group_tutor') {
+			$userProfile->is_group   = 1;
+			$userProfile->one_on_one = 0;
+		}
+
+		if ($request->group_tutor_or_one_on_one == 'one_on_one') {
+			$userProfile->is_group   = 0;
+			$userProfile->one_on_one = 1;
+		}
+
+		if ($request->group_tutor_or_one_on_one == 'no_pref') {
+			$userProfile->is_group   = 1;
+			$userProfile->one_on_one = 1;
+		}
 
 
-    public function getCoordinatesOfTutors()
-    {
-        $tutors = User::select('latitude as lat', 'longitude as lng', 'firstName', 'lastName', 'phone')
-            ->where('role_id', 2)
-            ->where('is_online', 1)
-            ->where('latitude', '!=', null)
-            ->where('longitude', '!=', null)
-            ->get();
-        return view('admin.tutor.map', compact('tutors'));
-    }
+		if ($request->call_student_or_go_home == 'call_student') {
+			$userProfile->call_student = 1;
+			$userProfile->is_home      = 0;
+		}
 
-    public function fetchProvince(Request $request)
-    {
-        $provicesHtml = $this->getProviceByCountry($request);
-        return $provicesHtml;
-    }
+		if ($request->call_student_or_go_home == 'go_home') {
+			$userProfile->call_student = 0;
+			$userProfile->is_home      = 1;
+		}
 
-    public function fetchCity(Request $request)
-    {
-        $citesHtml = $this->getCityByProvince($request);
-        return $citesHtml;
-    }
+		if ($request->call_student_or_go_home == 'no_pref') {
+			$userProfile->call_student = 1;
+			$userProfile->is_home      = 1;
+		}
 
-    public function fetchArea(Request $request)
-    {
-        $areaHtml = $this->getAreaByCity($request);
-        return $areaHtml;
-    }
+		if ($request->who_would_you_like_to_teach == 'male') {
+			$userProfile->teach_to = 1;
+		}
+		if ($request->who_would_you_like_to_teach == 'female') {
+			$userProfile->teach_to = 2;
+		}
+		if ($request->who_would_you_like_to_teach == 'no_preference') {
+			$userProfile->teach_to = 0;
+		}
 
-    public function fetchSubjects(Request $request)
-    {
-        $where_array = explode(',', $request->input('class'));
-//        $html = '<option value="all">Select Subjects</option>';
-        $html = '';
-        $subjects = Subject::where('status', '!=', '2')->whereIn('programme_id', $where_array)->get();
-        foreach ($subjects as $subject) {
-            $html .= '<option value="' . $subject->id . '">' . $subject->name . '</option>';
-        }
-        return $html;
-    }
+
+		if ($request->commercial_or_mentor == 'commercial') {
+			$userProfile->is_mentor = 0;
+		}
+		if ($request->commercial_or_mentor == 'mentor') {
+			$userProfile->is_mentor = 1;
+		}
+
+		$userProfile->save();
+
+
+		return redirect()->back()->with('success', 'Updated Successfully!');
+	}
+
+
+	public function getCoordinatesOfTutors() {
+		$tutors = User::select('latitude as lat', 'longitude as lng', 'firstName', 'lastName', 'phone')
+					  ->where('role_id', 2)
+					  ->where('is_online', 1)
+					  ->where('latitude', '!=', null)
+					  ->where('longitude', '!=', null)
+					  ->get();
+		return view('admin.tutor.map', compact('tutors'));
+	}
+
+	public function fetchProvince(Request $request) {
+		$provicesHtml = $this->getProviceByCountry($request);
+		return $provicesHtml;
+	}
+
+	public function fetchCity(Request $request) {
+		$citesHtml = $this->getCityByProvince($request);
+		return $citesHtml;
+	}
+
+	public function fetchArea(Request $request) {
+		$areaHtml = $this->getAreaByCity($request);
+		return $areaHtml;
+	}
+
+	public function fetchSubjects(Request $request) {
+		$where_array = explode(',', $request->input('class'));
+		//        $html = '<option value="all">Select Subjects</option>';
+		$html     = '';
+		$subjects = Subject::where('status', '!=', '2')->whereIn('programme_id', $where_array)->get();
+		foreach ($subjects as $subject) {
+			$html .= '<option value="' . $subject->id . '">' . $subject->name . '</option>';
+		}
+		return $html;
+	}
 
 }
