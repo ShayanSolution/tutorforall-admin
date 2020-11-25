@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Disbursement;
 use App\Models\Document;
 use App\Models\Profile;
 use App\Models\Program;
 use App\Models\ProgramSubject;
 use App\Models\SessionPayment;
 use App\Models\Subject;
+use App\Models\TutorInvoice;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http;
@@ -200,6 +202,79 @@ class TutorController extends Controller
         $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
         $mentorOrCommercial = 'Commercial';
         return view('admin.tutor.tutorsList', compact('mentorOrCommercial', 'countries', 'programs'));
+    }
+
+    public function tutorsDisbursementList(Request $request)
+    {
+        $mentorOrCommercial = 'Commercial';
+        if ($request->ajax()) {
+//            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+//                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
+//            } else {
+            $invoices = TutorInvoice::select('tutor_invoices.*','tutors.firstName as tutorname')
+            ->leftJoin('users as tutors', 'tutor_invoices.tutor_id','=','tutors.id');
+//            $invoices = TutorInvoice::get();
+//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
+//                    $q->where('is_mentor', 0);
+//                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
+//            }
+            return datatables()->eloquent($invoices)
+                ->addColumn('tutor_name', function ($invoice) {
+
+                    return $invoice->tutor->firstName." ".$invoice->tutor->lastName;
+                })
+                ->addColumn('amount', function ($invoice) {
+                    return $invoice->amount;
+                })
+                ->addColumn('commission', function ($invoice) {
+                    return $invoice->commission;
+                })
+                ->addColumn('payable', function ($invoice) {
+                    return $invoice->payable;
+                })
+                ->addColumn('receiveable', function ($invoice) {
+                    return $invoice->receiveable;
+                })
+                ->addColumn('due_date', function ($invoice) {
+                    return $invoice->due_date;
+                })
+                ->addColumn('status', function ($invoice) {
+                    return $invoice->status;
+                })
+                ->addColumn('transaction_type', function ($invoice) {
+                    return $invoice->transaction_type?$invoice->transaction_type:"not Paid yet";
+                })
+                ->addColumn('transaction_platform', function ($invoice) {
+                    return $invoice->transaction_platform?$invoice->transaction_platform:"not Paid yet";
+                })
+                ->addColumn('transaction_status', function ($invoice) {
+                    return $invoice->transaction_status?$invoice->transaction_status:"not Paid yet";
+                })
+                ->addColumn('commission_percentage', function ($invoice) {
+                    return $invoice->commission_percentage?$invoice->commission_percentage:"not Paid yet";
+                })
+                ->addColumn('created_at', function ($invoice) {
+                    return dateTimeConverter($invoice->created_at);
+                })
+                ->rawColumns([ 'tutor_name','amount', 'commission', 'payable', 'receiveable', 'due_date', 'status', 'transaction_type', 'transaction_platform', 'transaction_status', 'commission_percentage', 'created_at'])
+                ->orderColumn('tutor_name', 'tutorname $1')
+                ->orderColumn('amount', 'amount $1')
+                ->orderColumn('commission', 'commission $1')
+                ->orderColumn('payable', 'payable $1')
+                ->orderColumn('receiveable', 'receiveable $1')
+                ->orderColumn('due_date', 'due_date $1')
+                ->orderColumn('status', 'status $1')
+                ->orderColumn('transaction_type', 'transaction_type $1')
+                ->orderColumn('transaction_platform', 'transaction_platform $1')
+                ->orderColumn('transaction_status', 'transaction_status $1')
+                ->orderColumn('commission_percentage', 'commission_percentage $1')
+                ->orderColumn('created_at', 'created_at $1')
+                ->make(true);
+        }
+        $countries = User::select('country')->whereNotNull('country')->where('role_id', '2')->groupBy('country')->get();
+        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
+        $mentorOrCommercial = 'Commercial';
+        return view('admin.tutor.tutorsDisbursementList', compact('mentorOrCommercial', 'countries', 'programs'));
     }
 
     public function tutorsArchiveList()

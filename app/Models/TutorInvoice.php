@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NSC
- * Date: 11/20/2020
- * Time: 3:46 PM
- */
+
 
 namespace App\Models;
 
-
-class TutorInvoice
+use Illuminate\Database\Eloquent\Model;
+class TutorInvoice extends Model
 {
     protected $table = 'tutor_invoices';
+    public function tutor(){
+        return $this->belongsTo(User::class, 'tutor_id');
+    }
 }
