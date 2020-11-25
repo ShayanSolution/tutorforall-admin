@@ -43,6 +43,7 @@
                     <li> <a href="{{route('candidates')}}">Document Verification List</a> </li>
                     <li> <a href="{{route('tutorsArchiveList')}}">Archived Tutors</a> </li>
                     <li> <a href="{{route('tutorsDisbursements')}}">Disbursements</a> </li>
+                    <li><a href="{{route('tutorsRevenue')}}">Revenue Reports</a></li>
                     {{--<li> <a href="#">Edit Professor</a> </li>--}}
                     {{--<li> <a href="#">Professor Profile</a> </li>--}}
                 </ul>

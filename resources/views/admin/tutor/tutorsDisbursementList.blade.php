@@ -328,111 +328,144 @@
             function fetch_data(filterDataArray = '')
             {
 
-                let $mentorOrCommercial='{{$mentorOrCommercial}}';
-                let $table = $('#myTable').DataTable({
-                    dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-4"i><"col-sm-8"p>>',
-                    processing: true,
-                    searching: true,
-                    serverSide: true,
-                    ajax : {
-                        url :"{{ route('tutorsDisbursements') }}",
-                        data: {filterDataArray : filterDataArray},
-                        beforeSend: function(){
-                            $('.preloader').css('display','block');
-                        },
-                        complete : function (data) {
-                            $('.preloader').css('display','none');
-                            // Switchery
-                            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-                            $('.js-switch').each(function () {
-                                new Switchery($(this)[0], $(this).data());
-                                var base_url = $(this).data('url');
-                            });
+				let $mentorOrCommercial = "{{$mentorOrCommercial}}";
+				let $table = $("#myTable").DataTable({
+					dom: "<\"row\"<\"col-sm-2\"l><\"col-sm-6\"B><\"col-sm-4\"fr>>t<\"row\"<\"col-sm-4\"i><\"col-sm-8\"p>>",
+					processing: true,
+					searching: true,
+					serverSide: true,
+					ajax: {
+						url: "{{ route('tutorsDisbursements') }}",
+						data: {filterDataArray: filterDataArray},
+						beforeSend: function () {
+							$(".preloader").css("display", "block");
+						},
+						complete: function (data) {
+							$(".preloader").css("display", "none");
+						}
+					},
+					columns: [
+						{
+							data: "id",
+							name: "id"
+						},
+						{
+							data: "tutor",
+							name: "tutor.firstName"
+						},
+						{
+							data: "amount",
+							name: "amount"
+						},
+						{
+							data: "commission",
+							name: "commission"
+						},
+						{
+							data: "payable",
+							name: "payable"
+						},
+						{
+							data: "receiveable",
+							name: "receiveable"
+						},
+						{
+							data: "due_date",
+							name: "due_date"
+						},
+						{
+							data: "status",
+							name: "status"
+						},
+						{
+							data: "transaction_type",
+							name: "transaction_type"
+						},
+						{
+							data: "transaction_platform",
+							name: "transaction_platform"
+						},
+						{
+							data: "transaction_status",
+							name: "transaction_status"
+						},
+						{
+							data: "commission_percentage",
+							name: "commission_percentage"
+						},
+						{
+							data: "created_at",
+							name: "created_at"
+						}
+					],
+					"columnDefs": [
+						{
+							"targets": [0],
+							"visible": false,
+							"searchable": false
+						}
+					],
+					buttons: [
+						{
+							extend: "csv",
+							className: "btn-md",
+							exportOptions: {
+								columns: ["0", "1", "2", "3", "4"]
+							}
+						},
+						{
+							extend: "excel",
+							className: "btn-md",
+							exportOptions: {
+								columns: ["0", "1", "2", "3", "4"]
+							}
+						},
 
-                            // Switchery
-                            var elems = Array.prototype.slice.call(document.querySelectorAll('.is_approved_by_admin'));
-                            $('.is_approved_by_admin').each(function () {
-                                new Switchery($(this)[0], $(this).data());
-                                var base_url = $(this).data('url');
-                            });
-                        }
-                    },
-                    columns: [
-                        {data: 'id',name: 'id'},
-                        {data: 'tutor_name',name: 'tutor_name'},
-                        {data: 'amount',name: 'amount'},
-                        {data: 'commission',name: 'commission'},
-                        {data: 'payable',name: 'payable'},
-                        {data: 'receiveable',name: 'receiveable'},
-                        {data: 'due_date',name: 'due_date'},
-                        {data: 'status',name: 'status'},
-                        {data: 'transaction_type',name: 'transaction_type'},
-                        {data: 'transaction_platform',name: 'transaction_platform'},
-                        {data: 'transaction_status',name: 'transaction_status'},
-                        {data: 'commission_percentage',name: 'commission_percentage'},
-                        {data: 'created_at',name: 'created_at'}
-        ],
-                    "columnDefs": [
-                        {
-                            "targets": [ 0 ],
-                            "visible": false,
-                            "searchable": false
-                        },
-                        {
-                            "targets" : [1],
-                            "searchable":true,
-                        }
-                    ],
-                    buttons: [
-                        { extend: 'csv', className: 'btn-md', exportOptions: {
-                                columns: ['0', '1', '2', '3', '4'],
-                            } },
-                        { extend: 'excel', className: 'btn-md', exportOptions: {
-                                columns: ['0', '1', '2', '3', '4'],
-                            }  },
+						{
+							extend: "print",
+							className: "btn-md",
+							exportOptions: {
+								columns: ["0", "1", "2", "3", "4"]
+							}
+						}
+					],
+					search: {
+						"regex": true
+					},
+					"bSort": true
+				});
 
-                        { extend: 'print', className: 'btn-md', exportOptions: {
-                                columns: ['0', '1', '2', '3', '4'],
-                            } }
-                    ],
-                    search: {
-                        "search":'haris',
-                        "regex": true
-                    },
-                    "bSort": true
-                });
-
-            }
-        });
+			}
+		});
         {{--$('body').on('click', '.delete',function (){--}}
-            {{--var id = $(this).data('id');--}}
-            {{--var href = "{{URL::to('admin/tutor/delete')}}/"+id;--}}
-            {{--$('.modelDeleteBtn').attr("href", href);--}}
-            {{--$('#deleteModaltutor').modal();--}}
+        {{--var id = $(this).data('id');--}}
+        {{--var href = "{{URL::to('admin/tutor/delete')}}/"+id;--}}
+        {{--$('.modelDeleteBtn').attr("href", href);--}}
+        {{--$('#deleteModaltutor').modal();--}}
         {{--});--}}
         {{--$('body').on('change.bootstrapSwitch','.js-switch', function(e) {--}}
-            {{--var base_url = $(this).data('url');--}}
-            {{--var tutor_id = $(this).attr("data-tutor-id");--}}
-            {{--$.ajax({--}}
-                {{--url:base_url+'/admin/changeTutorStatus',--}}
-                {{--type: 'GET',--}}
-                {{--data: { tutor_id :tutor_id, is_active: e.target.checked},--}}
-                {{--success:function(response){--}}
-                    {{--console.log(response);--}}
-                {{--}--}}
-            {{--});--}}
+        {{--var base_url = $(this).data('url');--}}
+        {{--var tutor_id = $(this).attr("data-tutor-id");--}}
+        {{--$.ajax({--}}
+        {{--url:base_url+'/admin/changeTutorStatus',--}}
+        {{--type: 'GET',--}}
+        {{--data: { tutor_id :tutor_id, is_active: e.target.checked},--}}
+        {{--success:function(response){--}}
+        {{--console.log(response);--}}
+        {{--}--}}
+        {{--});--}}
         {{--});--}}
         {{--$('body').on('change.bootstrapSwitch','.is_approved_by_admin', function(e) {--}}
-            {{--var base_url = $(this).data('url');--}}
-            {{--var tutor_id = $(this).attr("data-tutor-id");--}}
-            {{--$.ajax({--}}
-                {{--url:base_url+'/admin/changeTutorApprovedStatus',--}}
-                {{--type: 'GET',--}}
-                {{--data: { tutor_id :tutor_id, is_approved: e.target.checked},--}}
-                {{--success:function(response){--}}
-                    {{--console.log(response);--}}
-                {{--}--}}
-            {{--});--}}
+        {{--var base_url = $(this).data('url');--}}
+        {{--var tutor_id = $(this).attr("data-tutor-id");--}}
+        {{--$.ajax({--}}
+        {{--url:base_url+'/admin/changeTutorApprovedStatus',--}}
+        {{--type: 'GET',--}}
+        {{--data: { tutor_id :tutor_id, is_approved: e.target.checked},--}}
+        {{--success:function(response){--}}
+        {{--console.log(response);--}}
+        {{--}--}}
+        {{--});--}}
         {{--});--}}
 
     </script>

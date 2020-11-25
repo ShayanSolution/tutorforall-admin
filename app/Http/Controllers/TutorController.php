@@ -24,329 +24,414 @@ use function foo\func;
 use Nexmo\Client\Response\ResponseInterface;
 use Nexmo\Message\Shortcode\Alert;
 
-class TutorController extends Controller
-{
-    use TutorFilterTrait;
-    use LocationTrait;
+class TutorController extends Controller {
 
-    private static $documentStoragePath = "/home/devtutor4allapis/public_html/storage/app/public/documents";
+	use TutorFilterTrait;
+	use LocationTrait;
 
-    public function tutorAdd()
-    {
-        $classes = Program::where('status', 1)->get();
-        return view('admin.tutor.tutorAdd', compact('classes'));
-    }
+	private static $documentStoragePath = "/home/devtutor4allapis/public_html/storage/app/public/documents";
 
-    public function getSubjects($class_id)
-    {
-        $subjects = Subject::where('programme_id', $class_id)->get();
-        return response()->json([
-            'subjects' => $subjects,
-        ]);
-    }
+	public function tutorAdd() {
+		$classes = Program::where('status', 1)->get();
+		return view('admin.tutor.tutorAdd', compact('classes'));
+	}
 
-    public function tutorSave(Request $request)
-    {
-//        dd($request->all());
-        request()->validate([
-            'firstName' => 'required|min:2|max:50',
-            'lastName' => 'required|min:2|max:50',
-            'fatherName' => 'required|min:2|max:50',
-            'phone' => 'required|min:10|numeric|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|max:20',
-            'confirm_password' => 'required|min:6|max:20|same:password',
-            'dob' => 'required',
-            'gender_id' => 'required',
-            'qualification' => 'required',
-            'cnic_no' => 'required',
-            'subject_id' => 'required',
-        ], [
-            'firstName.required' => 'Name is required',
-            'firstName.min' => 'Name must be at least 2 characters.',
-            'firstName.max' => 'Name should not be greater than 50 characters.',
-            'lastName.required' => 'Name is required',
-            'lastName.min' => 'Name must be at least 2 characters.',
-            'fatherName.required' => 'Name is required',
-            'fatherName.min' => 'Name must be at least 2 characters.',
-            'fatherName.max' => 'Name should not be greater than 50 characters.',
-            'dob.required' => 'Date of birth is required.',
-            'phone.required' => 'Phone number is required.',
-            'gender_id.required' => 'Select gender',
-            'qualification.required' => 'Qualification is required',
-            'cnic_no.required' => 'Enter CNIC number',
-            'subject_id.required' => 'Select subject',
-        ]);
+	public function getSubjects($class_id) {
+		$subjects = Subject::where('programme_id', $class_id)->get();
+		return response()->json([
+			'subjects' => $subjects,
+		]);
+	}
 
-        $input = request()->except('password', 'confirm_password');
-        $user = new User($input);
-        $user->password = bcrypt(request()->password);
-        $user->uid = str_random(32);
-        $user->is_active = 1;
-        $user->role_id = 2;
-        $user->save();
+	public function tutorSave(Request $request) {
+		//        dd($request->all());
+		request()->validate([
+			'firstName'        => 'required|min:2|max:50',
+			'lastName'         => 'required|min:2|max:50',
+			'fatherName'       => 'required|min:2|max:50',
+			'phone'            => 'required|min:10|numeric|unique:users',
+			'email'            => 'required|email|unique:users',
+			'password'         => 'required|min:6|max:20',
+			'confirm_password' => 'required|min:6|max:20|same:password',
+			'dob'              => 'required',
+			'gender_id'        => 'required',
+			'qualification'    => 'required',
+			'cnic_no'          => 'required',
+			'subject_id'       => 'required',
+		],
+			[
+				'firstName.required'     => 'Name is required',
+				'firstName.min'          => 'Name must be at least 2 characters.',
+				'firstName.max'          => 'Name should not be greater than 50 characters.',
+				'lastName.required'      => 'Name is required',
+				'lastName.min'           => 'Name must be at least 2 characters.',
+				'fatherName.required'    => 'Name is required',
+				'fatherName.min'         => 'Name must be at least 2 characters.',
+				'fatherName.max'         => 'Name should not be greater than 50 characters.',
+				'dob.required'           => 'Date of birth is required.',
+				'phone.required'         => 'Phone number is required.',
+				'gender_id.required'     => 'Select gender',
+				'qualification.required' => 'Qualification is required',
+				'cnic_no.required'       => 'Enter CNIC number',
+				'subject_id.required'    => 'Select subject',
+			]);
 
-        //Create profile table entry
-        $profile = Profile::create(
-            [
-                'is_mentor' => 0,
-                'is_deserving' => 0,
-                'one_on_one' => 0,
-                'call_tutor' => 0,
-                'call_student' => 0,
-                'is_home' => 0,
-                'is_group' => 0,
-                'subject_id' => 0,
-                'programme_id' => 0,
-                'meeting_type_id' => 0,
-                'user_id' => $user->id
-            ]);
+		$input           = request()->except('password', 'confirm_password');
+		$user            = new User($input);
+		$user->password  = bcrypt(request()->password);
+		$user->uid       = str_random(32);
+		$user->is_active = 1;
+		$user->role_id   = 2;
+		$user->save();
 
-        $subjects = $request->subject_id;
-        foreach ($subjects as $subject) {
-            $sub = Subject::where('id', $subject)->first();
-            $prosub = new ProgramSubject();
-            $prosub->user_id = $user->id;
-            $prosub->program_id = $sub->programme_id;
-            $prosub->document_id = 0;
-            $prosub->subject_id = $subject;
-            $prosub->save();
-        }
-        return redirect()->route('tutorsList')->with('success', 'Tutor added Successfully');
-    }
+		//Create profile table entry
+		$profile = Profile::create(
+			[
+				'is_mentor'       => 0,
+				'is_deserving'    => 0,
+				'one_on_one'      => 0,
+				'call_tutor'      => 0,
+				'call_student'    => 0,
+				'is_home'         => 0,
+				'is_group'        => 0,
+				'subject_id'      => 0,
+				'programme_id'    => 0,
+				'meeting_type_id' => 0,
+				'user_id'         => $user->id
+			]);
 
-    public function changeTutorStatus(Request $request)
-    {
-        request()->validate([
-            'tutor_id' => 'required',
-            'is_active' => 'required'
-        ]);
-        $tutor_id = $request->tutor_id;
-        $is_active = $request->is_active;
+		$subjects = $request->subject_id;
+		foreach ($subjects as $subject) {
+			$sub                 = Subject::where('id', $subject)->first();
+			$prosub              = new ProgramSubject();
+			$prosub->user_id     = $user->id;
+			$prosub->program_id  = $sub->programme_id;
+			$prosub->document_id = 0;
+			$prosub->subject_id  = $subject;
+			$prosub->save();
+		}
+		return redirect()->route('tutorsList')->with('success', 'Tutor added Successfully');
+	}
 
-        $tutor = User::where('id', $tutor_id)->first();
-        if ($is_active == 'true') {
-            $tutor->is_active = 1;
-            $tutor->save();
-        } else {
-            $tutor->is_active = 0;
-            $tutor->save();
-        }
-    }
+	public function changeTutorStatus(Request $request) {
+		request()->validate([
+			'tutor_id'  => 'required',
+			'is_active' => 'required'
+		]);
+		$tutor_id  = $request->tutor_id;
+		$is_active = $request->is_active;
 
-    public function changeTutorApprovedStatus(Request $request)
-    {
-        request()->validate([
-            'tutor_id' => 'required',
-            'is_approved' => 'required'
-        ]);
-        $tutor_id = $request->tutor_id;
-        $is_approved = $request->is_approved;
+		$tutor = User::where('id', $tutor_id)->first();
+		if ($is_active == 'true') {
+			$tutor->is_active = 1;
+			$tutor->save();
+		} else {
+			$tutor->is_active = 0;
+			$tutor->save();
+		}
+	}
 
-        $tutor = User::where('id', $tutor_id)->first();
-        if ($is_approved == 'true') {
-            $tutor->is_approved = 1;
-            $tutor->save();
-        } else {
-            $tutor->is_approved = 0;
-            $tutor->save();
-        }
-    }
+	public function changeTutorApprovedStatus(Request $request) {
+		request()->validate([
+			'tutor_id'    => 'required',
+			'is_approved' => 'required'
+		]);
+		$tutor_id    = $request->tutor_id;
+		$is_approved = $request->is_approved;
 
-    public function tutorsList(Request $request)
-    {
-        $mentorOrCommercial = 'Commercial';
-        if ($request->ajax()) {
-            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
-                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
-            } else {
-                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
-                    $q->where('is_mentor', 0);
-                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
-            }
-            return datatables()->eloquent($tutors)
-                ->addColumn('rating', function ($tutor) {
-                    return round($tutor->rating->avg('rating'), 1);
-                })
-                ->addColumn('created_at', function ($tutor) {
-                    return dateTimeConverter($tutor->created_at);
-                })
-                ->addColumn('last_login', function ($tutor) {
-                    return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
-                })
-                ->addColumn('is_active', function ($tutor) {
-                    $is_checked = $tutor->is_active == 1 ? 'checked' : '';
-                    $is_active = '<input type="checkbox" data-tutor-id="' . $tutor->id . '" data-url="' . url('/') . '" class="js-switch" data-color="#99d683"' . $is_checked . '>';
-                    return $is_active;
-                })
-//                ->addColumn('is_approve', function($tutor){
-//                    $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
-//                    $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
-//                    return $is_approve;
-//                })
-//                ->addColumn('edit', function($tutor){
-//                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
-//                    return $btn;
-//                })
-                ->addColumn('delete', function ($tutor) {
-                    $delete_btn = '<div style="text-align: center"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="' . route('tutorProfile', $tutor->id) . '" alt="default">View</a><br><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="' . $tutor->id . '">Delete</a></div>';
-                    return $delete_btn;
-                })
-                ->rawColumns(['rating', 'created_at', 'last_login', 'is_active', 'delete'])
-                ->orderColumn('created_at', 'created_at $1')
-                ->orderColumn('last_login', 'last_login $1')
-                ->orderColumn('is_active', 'is_active $1')
-                ->make(true);
-        }
-        $countries = User::select('country')->whereNotNull('country')->where('role_id', '2')->groupBy('country')->get();
-        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
-        $mentorOrCommercial = 'Commercial';
-        return view('admin.tutor.tutorsList', compact('mentorOrCommercial', 'countries', 'programs'));
-    }
+		$tutor = User::where('id', $tutor_id)->first();
+		if ($is_approved == 'true') {
+			$tutor->is_approved = 1;
+			$tutor->save();
+		} else {
+			$tutor->is_approved = 0;
+			$tutor->save();
+		}
+	}
 
-    public function tutorsDisbursementList(Request $request)
-    {
-        $mentorOrCommercial = 'Commercial';
-        if ($request->ajax()) {
-//            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
-//                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
-//            } else {
-            $invoices = TutorInvoice::select('tutor_invoices.*','tutors.firstName as tutorname')
-            ->leftJoin('users as tutors', 'tutor_invoices.tutor_id','=','tutors.id');
-//            $invoices = TutorInvoice::get();
-//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
-//                    $q->where('is_mentor', 0);
-//                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
-//            }
-            return datatables()->eloquent($invoices)
-                ->addColumn('tutor_name', function ($invoice) {
+	public function tutorsList(Request $request) {
+		$mentorOrCommercial = 'Commercial';
+		if ($request->ajax()) {
+			if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+				$tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved',
+					1)->where('final_phone_verification', 1);
+			} else {
+				$tutors = User::select('id',
+					'firstName',
+					'lastName',
+					'email',
+					'phone',
+					'is_active',
+					'is_approved',
+					'created_at',
+					'last_login')->whereHas('profile',
+					function ($q) {
+						$q->where('is_mentor', 0);
+					})->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',
+					1);
+			}
+			return datatables()->eloquent($tutors)
+							   ->addColumn('rating',
+								   function ($tutor) {
+									   return round($tutor->rating->avg('rating'), 1);
+								   })
+							   ->addColumn('created_at',
+								   function ($tutor) {
+									   return dateTimeConverter($tutor->created_at);
+								   })
+							   ->addColumn('last_login',
+								   function ($tutor) {
+									   return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
+								   })
+							   ->addColumn('is_active',
+								   function ($tutor) {
+									   $is_checked = $tutor->is_active == 1 ? 'checked' : '';
+									   $is_active  = '<input type="checkbox" data-tutor-id="' . $tutor->id . '" data-url="' . url('/') . '" class="js-switch" data-color="#99d683"' . $is_checked . '>';
+									   return $is_active;
+								   })
+				//                ->addColumn('is_approve', function($tutor){
+				//                    $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
+				//                    $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
+				//                    return $is_approve;
+				//                })
+				//                ->addColumn('edit', function($tutor){
+				//                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
+				//                    return $btn;
+				//                })
+							   ->addColumn('delete',
+					function ($tutor) {
+						$delete_btn = '<div style="text-align: center"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="' . route('tutorProfile',
+								$tutor->id) . '" alt="default">View</a><br><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="' . $tutor->id . '">Delete</a></div>';
+						return $delete_btn;
+					})
+							   ->rawColumns(['rating', 'created_at', 'last_login', 'is_active', 'delete'])
+							   ->orderColumn('created_at', 'created_at $1')
+							   ->orderColumn('last_login', 'last_login $1')
+							   ->orderColumn('is_active', 'is_active $1')
+							   ->make(true);
+		}
+		$countries          = User::select('country')->whereNotNull('country')->where('role_id',
+			'2')->groupBy('country')->get();
+		$programs           = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
+		$mentorOrCommercial = 'Commercial';
+		return view('admin.tutor.tutorsList', compact('mentorOrCommercial', 'countries', 'programs'));
+	}
 
-                    return $invoice->tutor->firstName." ".$invoice->tutor->lastName;
-                })
-                ->addColumn('amount', function ($invoice) {
-                    return $invoice->amount;
-                })
-                ->addColumn('commission', function ($invoice) {
-                    return $invoice->commission;
-                })
-                ->addColumn('payable', function ($invoice) {
-                    return $invoice->payable;
-                })
-                ->addColumn('receiveable', function ($invoice) {
-                    return $invoice->receiveable;
-                })
-                ->addColumn('due_date', function ($invoice) {
-                    return $invoice->due_date;
-                })
-                ->addColumn('status', function ($invoice) {
-                    return $invoice->status;
-                })
-                ->addColumn('transaction_type', function ($invoice) {
-                    return $invoice->transaction_type?$invoice->transaction_type:"not Paid yet";
-                })
-                ->addColumn('transaction_platform', function ($invoice) {
-                    return $invoice->transaction_platform?$invoice->transaction_platform:"not Paid yet";
-                })
-                ->addColumn('transaction_status', function ($invoice) {
-                    return $invoice->transaction_status?$invoice->transaction_status:"not Paid yet";
-                })
-                ->addColumn('commission_percentage', function ($invoice) {
-                    return $invoice->commission_percentage?$invoice->commission_percentage:"not Paid yet";
-                })
-                ->addColumn('created_at', function ($invoice) {
-                    return dateTimeConverter($invoice->created_at);
-                })
-                ->rawColumns([ 'tutor_name','amount', 'commission', 'payable', 'receiveable', 'due_date', 'status', 'transaction_type', 'transaction_platform', 'transaction_status', 'commission_percentage', 'created_at'])
-                ->orderColumn('tutor_name', 'tutorname $1')
-                ->orderColumn('amount', 'amount $1')
-                ->orderColumn('commission', 'commission $1')
-                ->orderColumn('payable', 'payable $1')
-                ->orderColumn('receiveable', 'receiveable $1')
-                ->orderColumn('due_date', 'due_date $1')
-                ->orderColumn('status', 'status $1')
-                ->orderColumn('transaction_type', 'transaction_type $1')
-                ->orderColumn('transaction_platform', 'transaction_platform $1')
-                ->orderColumn('transaction_status', 'transaction_status $1')
-                ->orderColumn('commission_percentage', 'commission_percentage $1')
-                ->orderColumn('created_at', 'created_at $1')
-                ->make(true);
-        }
-        $countries = User::select('country')->whereNotNull('country')->where('role_id', '2')->groupBy('country')->get();
-        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
-        $mentorOrCommercial = 'Commercial';
-        return view('admin.tutor.tutorsDisbursementList', compact('mentorOrCommercial', 'countries', 'programs'));
-    }
+	public function tutorsDisbursementList(Request $request) {
+		$mentorOrCommercial = 'Commercial';
+		if ($request->ajax()) {
+			//            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+			//                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
+			//            } else {
+			$invoices = TutorInvoice::with('tutor');
+			//            $invoices = TutorInvoice::get();
+			//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
+			//                    $q->where('is_mentor', 0);
+			//                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
+			//            }
+			return datatables()->eloquent($invoices)
+							   ->addColumn('tutor',
+								   function (TutorInvoice $invoice) {
+									   return $invoice['tutor']['firstName'] . ' ' . $invoice['tutor']['lastName'];
+								   })
+							   ->addColumn('transaction_type',
+								   function ($invoice) {
+									   return $invoice->transaction_type ? $invoice->transaction_type : "not Paid yet";
+								   })
+							   ->addColumn('transaction_platform',
+								   function ($invoice) {
+									   return $invoice->transaction_platform ? $invoice->transaction_platform : "not Paid yet";
+								   })
+							   ->addColumn('transaction_status',
+								   function ($invoice) {
+									   return $invoice->transaction_status ? $invoice->transaction_status : "not Paid yet";
+								   })
+							   ->addColumn('commission_percentage',
+								   function ($invoice) {
+									   return $invoice->commission_percentage ? $invoice->commission_percentage : "not Paid yet";
+								   })
+							   ->addColumn('created_at',
+								   function ($invoice) {
+									   return dateTimeConverter($invoice->created_at);
+								   })
+							   ->rawColumns(['tutor_name', 'amount', 'commission', 'payable', 'receiveable', 'due_date', 'status', 'transaction_type', 'transaction_platform', 'transaction_status', 'commission_percentage', 'created_at'])
+							   ->orderColumn('tutor_name', 'tutorname $1')
+							   ->orderColumn('amount', 'amount $1')
+							   ->orderColumn('commission', 'commission $1')
+							   ->orderColumn('payable', 'payable $1')
+							   ->orderColumn('receiveable', 'receiveable $1')
+							   ->orderColumn('due_date', 'due_date $1')
+							   ->orderColumn('status', 'status $1')
+							   ->orderColumn('transaction_type', 'transaction_type $1')
+							   ->orderColumn('transaction_platform', 'transaction_platform $1')
+							   ->orderColumn('transaction_status', 'transaction_status $1')
+							   ->orderColumn('commission_percentage', 'commission_percentage $1')
+							   ->orderColumn('created_at', 'created_at $1')
+							   ->make(true);
+		}
+		$countries          = User::select('country')->whereNotNull('country')->where('role_id',
+			'2')->groupBy('country')->get();
+		$programs           = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
+		$mentorOrCommercial = 'Commercial';
+		return view('admin.tutor.tutorsDisbursementList', compact('mentorOrCommercial', 'countries', 'programs'));
+	}
 
-    public function tutorsArchiveList()
-    {
-        $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
-            $q->where('is_mentor', 0);
-        })->with('rating')->onlyTrashed()->orderBy('id', 'DESC')->get();
-        $mentorOrCommercial = 'Commercial';
+	public function tutorsRevenueReports(Request $request) {
+		$mentorOrCommercial = 'Commercial';
+		if ($request->ajax()) {
+			//            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+			//                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
+			//            } else {
+			$invoices = TutorInvoice::all();
+			$invoices = $invoices->groupBy('tutor_id');
+			//            $invoices = TutorInvoice::get();
+			//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
+			//                    $q->where('is_mentor', 0);
+			//                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
+			//            }
+			return DataTables::collection($invoices)
+							 ->addColumn('id',
+								 function ($invoice) {
+									 return $invoice[0]->id;
+								 })
+							 ->addColumn('tutor',
+								 function ($invoice) {
+									 return $invoice[0]->tutor->firstName . ' ' . $invoice[0]->tutor->lastName;
+								 })
+							 ->addColumn('tutor_email',
+								 function ($invoice) {
+									 return $invoice[0]->tutor->email;
+								 })
+							 ->addColumn('tutor_phone',
+								 function ($invoice) {
+									 return $invoice[0]->tutor->phone;
+								 })
+							 ->addColumn('amount',
+								 function ($invoice) {
+									 return $invoice->sum('amount');
+								 })
+							 ->addColumn('commission',
+								 function ($invoice) {
+									 return $invoice->sum('commission');
+								 })
+							 ->addColumn('payable',
+								 function ($invoice) {
+									 return $invoice->sum('payable');
+								 })
+							 ->addColumn('receiveable',
+								 function ($invoice) {
+									 return $invoice->sum('receiveable');
+								 })
+							 ->rawColumns(['tutor_name', 'amount', 'commission', 'payable', 'receiveable'])
+				//							 ->orderColumn('tutor_name', 'tutorname $1')
+				//							 ->orderColumn('amount', 'amount $1')
+				//							 ->orderColumn('commission', 'commission $1')
+				//							 ->orderColumn('payable', 'payable $1')
+				//							 ->orderColumn('receiveable', 'receiveable $1')
+							 ->make(true);
+		}
+		$countries          = User::select('country')->whereNotNull('country')->where('role_id',
+			'2')->groupBy('country')->get();
+		$programs           = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
+		$mentorOrCommercial = 'Commercial';
+		return view('admin.tutor.tutorsRevenueList', compact('mentorOrCommercial', 'countries', 'programs'));
+	}
+
+	public function tutorsArchiveList() {
+		$tutors             = User::select('id',
+			'firstName',
+			'lastName',
+			'email',
+			'phone',
+			'is_active',
+			'is_approved',
+			'created_at',
+			'last_login')->whereHas('profile',
+			function ($q) {
+				$q->where('is_mentor', 0);
+			})->with('rating')->onlyTrashed()->orderBy('id', 'DESC')->get();
+		$mentorOrCommercial = 'Commercial';
 
 
-        return view('admin.tutor.tutorsArchiveList', compact('tutors', 'mentorOrCommercial'));
-    }
+		return view('admin.tutor.tutorsArchiveList', compact('tutors', 'mentorOrCommercial'));
+	}
 
-    public function mentorsList(Request $request)
-    {
-        $mentorOrCommercial = 'Mentor';
+	public function mentorsList(Request $request) {
+		$mentorOrCommercial = 'Mentor';
 
-        if ($request->ajax()) {
-            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
-                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
-            } else {
-                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
-                    $q->where('is_mentor', 1);
-                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
-            }
-            return datatables()->eloquent($tutors)
-                ->orderColumn('firstName', function ($query, $order) {
-                    $query->orderBy('status', $order);
-                })
-                ->addColumn('rating', function ($tutor) {
-                    return round($tutor->rating->avg('rating'), 1);
-                })
-                ->addColumn('created_at', function ($tutor) {
-                    return dateTimeConverter($tutor->created_at);
-                })
-                ->addColumn('last_login', function ($tutor) {
-                    return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
-                })
-                ->addColumn('is_active', function ($tutor) {
-                    $is_checked = $tutor->is_active == 1 ? 'checked' : '';
-                    $is_active = '<input type="checkbox" data-tutor-id="' . $tutor->id . '" data-url="' . url('/') . '" class="js-switch" data-color="#99d683"' . $is_checked . '>';
-                    return $is_active;
-                })
-//                ->addColumn('is_approve', function($tutor){
-//                    $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
-//                    $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
-//                    return $is_approve;
-//                })
-//                ->addColumn('edit', function($tutor){
-//                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
-//                    return $btn;
-//                })
-                ->addColumn('delete', function ($tutor) {
-                    $delete_btn = '<div style="text-align: center"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="' . route('tutorProfile', $tutor->id) . '" alt="default">View</a><br><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="' . $tutor->id . '">Delete</a></div>';
-                    return $delete_btn;
-                })
-                ->rawColumns(['rating', 'created_at', 'last_login', 'is_active', 'delete'])
-                ->orderColumn('created_at', 'created_at $1')
-                ->orderColumn('last_login', 'last_login $1')
-                ->orderColumn('is_active', 'is_active $1')
-                ->make(true);
-        }
-        $countries = User::select('country')->where('role_id', '2')->whereNotNull('country')->groupBy('country')->get();
-        $programs = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
+		if ($request->ajax()) {
+			if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+				$tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved',
+					1)->where('final_phone_verification', 1);
+			} else {
+				$tutors = User::select('id',
+					'firstName',
+					'lastName',
+					'email',
+					'phone',
+					'is_active',
+					'is_approved',
+					'created_at',
+					'last_login')->whereHas('profile',
+					function ($q) {
+						$q->where('is_mentor', 1);
+					})->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',
+					1);
+			}
+			return datatables()->eloquent($tutors)
+							   ->orderColumn('firstName',
+								   function ($query, $order) {
+									   $query->orderBy('status', $order);
+								   })
+							   ->addColumn('rating',
+								   function ($tutor) {
+									   return round($tutor->rating->avg('rating'), 1);
+								   })
+							   ->addColumn('created_at',
+								   function ($tutor) {
+									   return dateTimeConverter($tutor->created_at);
+								   })
+							   ->addColumn('last_login',
+								   function ($tutor) {
+									   return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
+								   })
+							   ->addColumn('is_active',
+								   function ($tutor) {
+									   $is_checked = $tutor->is_active == 1 ? 'checked' : '';
+									   $is_active  = '<input type="checkbox" data-tutor-id="' . $tutor->id . '" data-url="' . url('/') . '" class="js-switch" data-color="#99d683"' . $is_checked . '>';
+									   return $is_active;
+								   })
+				//                ->addColumn('is_approve', function($tutor){
+				//                    $is_checked = $tutor->is_approved == 1 ? 'checked' : '';
+				//                    $is_approve = '<input type="checkbox" data-tutor-id="'.$tutor->id.'" data-url="'.url('/').'" class="is_approved_by_admin" data-color="#99d683"'.$is_checked.'>';
+				//                    return $is_approve;
+				//                })
+				//                ->addColumn('edit', function($tutor){
+				//                    $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('tutorProfile',$tutor->id).'" alt="default">View</a>';
+				//                    return $btn;
+				//                })
+							   ->addColumn('delete',
+					function ($tutor) {
+						$delete_btn = '<div style="text-align: center"><a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" style="padding-left: 25px; padding-right: 25px;" href="' . route('tutorProfile',
+								$tutor->id) . '" alt="default">View</a><br><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="' . $tutor->id . '">Delete</a></div>';
+						return $delete_btn;
+					})
+							   ->rawColumns(['rating', 'created_at', 'last_login', 'is_active', 'delete'])
+							   ->orderColumn('created_at', 'created_at $1')
+							   ->orderColumn('last_login', 'last_login $1')
+							   ->orderColumn('is_active', 'is_active $1')
+							   ->make(true);
+		}
+		$countries = User::select('country')->where('role_id', '2')->whereNotNull('country')->groupBy('country')->get();
+		$programs  = Program::with('subjects')->where('status', '!=', '2')->orderBy("id", 'Desc')->get();
 
-        return view('admin.tutor.tutorsList', compact('mentorOrCommercial', 'countries', 'programs'));
-//        $tutors = User::whereHas('profile', function ($q){
-//            $q->where('is_mentor', 1);
-//        })->where('role_id',2)->orderBy('id', 'DESC')->get();
-//        $mentorOrCommercial = 'Mentor';
-//        return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
-    }
+		return view('admin.tutor.tutorsList', compact('mentorOrCommercial', 'countries', 'programs'));
+		//        $tutors = User::whereHas('profile', function ($q){
+		//            $q->where('is_mentor', 1);
+		//        })->where('role_id',2)->orderBy('id', 'DESC')->get();
+		//        $mentorOrCommercial = 'Mentor';
+		//        return view('admin.tutor.tutorsList',compact('tutors', 'mentorOrCommercial'));
+	}
 
     public function tutorProfile(User $user)
     {
