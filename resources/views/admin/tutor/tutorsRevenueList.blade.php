@@ -44,7 +44,8 @@
                 {{--<label class="black-333">Location:</label>--}}
                 {{--<div class="row">--}}
                 {{--<div class="col-md-3 col-sm-6 col-xs-6  placeholder">--}}
-                {{--<select id="" data-role-id="2" name="ratings" class="mySelectDropDown form-control black-333 countries">--}}
+                {{--<select id="" data-role-id="2" name="ratings"--}}
+                {{--class="mySelectDropDown form-control black-333 countries">--}}
                 {{--<option value="all">Select Country</option>--}}
                 {{--@foreach($countries as $country)--}}
                 {{--<option value="{{$country->country}}">{{$country->country}}</option>--}}
@@ -66,7 +67,7 @@
 
                 {{--<div class="col-md-3 col-sm-6 col-xs-6 placeholder">--}}
                 {{--<select id="" name="ratings" class="mySelectDropDown form-control black-333 areas">--}}
-                {{--<option value="all">Select  Area List</option>--}}
+                {{--<option value="all">Select Area List</option>--}}
                 {{--</select>--}}
                 {{--</div>--}}
                 {{--</div>--}}
@@ -102,7 +103,8 @@
                 {{--</select>--}}
                 {{--</div>--}}
                 {{--<div class="col-md-6 col-sm-6 placeholder hide last_login">--}}
-                {{--<input type="text" name="dates" class="form-control" autocomplete="off" value="" placeholder="Last Login" />--}}
+                {{--<input type="text" name="dates" class="form-control" autocomplete="off" value=""--}}
+                {{--placeholder="Last Login"/>--}}
                 {{--</div>--}}
                 {{--</div>--}}
                 {{--</div>--}}
@@ -119,30 +121,48 @@
                 {{--</div>--}}
                 {{--</div>--}}
                 {{--</div>--}}
-                {{--<div class="row">--}}
-                {{--<div class="col-md-6">--}}
-                {{--<label class="black-333">Experience:</label>--}}
-                {{--<div class="row">--}}
-                {{--<div class="col-md-3 col-sm-6  placeholder">--}}
-                {{--<input type="number" class="min_experience form-control" placeholder="Min" min="0">--}}
-                {{--</div>--}}
-                {{--<div class="col-md-3 col-sm-6 placeholder">--}}
-                {{--<input type="number" class="max_experience form-control" placeholder="Max" min="0">--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="col-md-6">--}}
-                {{--<label class="black-333">Rate:</label>--}}
-                {{--<div class="row">--}}
-                {{--<div class="col-md-3 col-sm-6  placeholder">--}}
-                {{--<input type="number" class="min_rating form-control" placeholder="Min" min="0">--}}
-                {{--</div>--}}
-                {{--<div class="col-md-3 col-sm-6 placeholder">--}}
-                {{--<input type="number" class="max_rating form-control" placeholder="Max" min="0">--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--</div>--}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="black-333">Commission:</label>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6  placeholder">
+                                <input type="number" class="min_commission form-control" placeholder="Min" min="0">
+                            </div>
+                            <div class="col-md-3 col-sm-6 placeholder">
+                                <input type="number" class="max_commission form-control" placeholder="Max" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="black-333">Revenue Generated:</label>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6  placeholder">
+                                <input type="number" class="min_revenue form-control" placeholder="Min" min="0">
+                            </div>
+                            <div class="col-md-3 col-sm-6 placeholder">
+                                <input type="number" class="max_revenue form-control" placeholder="Max" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="black-333">Status:</label>
+                        <div class="row">
+                            <div class="col-md-6  placeholder">
+                                <select id="" name="status" class="form-control black-333 status_record">
+                                    <option value="all">Select</option>
+                                    <option value="1">Block</option>
+                                    <option value="0">Active</option>
+                                </select>
+                            </div>
+                            {{--<div class="col-md-3 col-sm-6  placeholder">--}}
+                            {{--<input type="number" class="min_rating form-control" placeholder="Min" min="0">--}}
+                            {{--</div>--}}
+                            {{--<div class="col-md-3 col-sm-6 placeholder">--}}
+                            {{--<input type="number" class="max_rating form-control" placeholder="Max" min="0">--}}
+                            {{--</div>--}}
+                        </div>
+                    </div>
+                </div>
                 {{--<div class="row">--}}
                 {{--<div class="col-md-6">--}}
                 {{--<label class="black-333">Gender:</label>--}}
@@ -198,13 +218,15 @@
                 {{--</div>--}}
                 {{--</div>--}}
                 {{--</div>--}}
-                {{--<div class="row">--}}
-                {{--<div class="col-md-12">--}}
-                {{--<div class="col-md-3" style="margin-top: 20px; margin-left: 5px; margin-bottom: 20px;">--}}
-                {{--<button class="btn apply-filter" style="background-color: #ab8ce4; color: white"> Apply filter</button>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--</div>--}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-3" style="margin-top: 20px; margin-left: 5px; margin-bottom: 20px;">
+                            <button class="btn apply-filter" style="background-color: #ab8ce4; color: white"> Apply
+                                filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 {{-- End Design By Muhammad Talha Jamshed --}}
                 <div class="table-responsive">
                     <br>
@@ -259,68 +281,77 @@
     <script>
 		$(document).ready(function () {
 			fetch_data();
-//            $('body').on('click','.apply-filter',function ()
-//            {
-//                var filterDataArray = {};
-//                $('#myTable').DataTable().clear().destroy();
-//                //Location data
-//                if($('.countries').val() != '')
-//                    filterDataArray['country'] = $('.countries').val();
-//                if($('.provinces').val() != '')
-//                    filterDataArray['province'] = $('.provinces').val();
-//                if($('.cities').val() != '')
-//                    filterDataArray['city'] = $('.cities').val();
-//                if($('.areas').val() != '')
-//                    filterDataArray['area'] = $('.areas').val();
-//
-//                //Classes and subjects
-//                if($('.classes').val() != '')
-//                    filterDataArray['class'] = $('.classes').val();
-//                if($('.subjects').val() != '')
-//                    filterDataArray['subject'] = $('.subjects').val();
-//
-//                //Online Status
-//                if($('.online_status').val() != '' && $('.online_status').val() !== '0' )
-//                    filterDataArray['online_status'] = $('.online_status').val();
-//                if($('input[name="dates"]').val() != '')
-//                    filterDataArray['last_login'] = $('input[name="dates"]').val();
-//                if($('.min_experience').val() != '')
-//                    filterDataArray['min_experience'] = $('.min_experience').val();
-//                if($('.max_experience').val() != '')
-//                    filterDataArray['max_experience'] = $('.max_experience').val();
-//                if($('.min_rating').val() != '')
-//                    filterDataArray['min_rating'] = $('.min_rating').val();
-//                if($('.max_rating').val() != '')
-//                    filterDataArray['max_rating'] = $('.max_rating').val();
-//                if($('.active_record').val() != '')
-//                    filterDataArray['active_record'] = $('.active_record').val();
-//                if($('.gender_record').val() != '')
-//                    filterDataArray['gender_record'] = $('.gender_record').val();
-//                if($('.min_age').val() != '')
-//                    filterDataArray['min_age'] = $('.min_age').val();
-//                if($('.max_age').val() != '')
-//                    filterDataArray['max_age'] = $('.max_age').val();
-//
-//                // Meet Point
-//                if($('.meet_point').val() != '')
-//                    filterDataArray['meet_point'] = $('.meet_point').val();
-//
-//                //Rating Filter
-//                if($('#ratings').val() != '')
-//                    filterDataArray['rating'] = $('#ratings').val();
-//
-//                fetch_data(filterDataArray);
-//            });
-//            $('body').on('change','.online_status',function ()
-//            {
-//                var value = $(this).val();
-//                if(value === '0')
-//                    $('.last_login').removeClass('hide');
-//                else {
-//                    if($('.last_login').not('.hide'))
-//                        $('.last_login').addClass('hide');
-//                }
-//            });
+			$("body").on("click", ".apply-filter", function () {
+				var filterDataArray = {};
+				$("#myTable").DataTable().clear().destroy();
+				//Location data
+				if ($(".countries").val() != "")
+					filterDataArray["country"] = $(".countries").val();
+				if ($(".provinces").val() != "")
+					filterDataArray["province"] = $(".provinces").val();
+				if ($(".cities").val() != "")
+					filterDataArray["city"] = $(".cities").val();
+				if ($(".areas").val() != "")
+					filterDataArray["area"] = $(".areas").val();
+
+				//Classes and subjects
+				if ($(".classes").val() != "")
+					filterDataArray["class"] = $(".classes").val();
+				if ($(".subjects").val() != "")
+					filterDataArray["subject"] = $(".subjects").val();
+
+				//Online Status
+				if ($(".online_status").val() != "" && $(".online_status").val() !== "0")
+					filterDataArray["online_status"] = $(".online_status").val();
+				if ($("input[name=\"dates\"]").val() != "")
+					filterDataArray["last_login"] = $("input[name=\"dates\"]").val();
+
+
+				if ($(".min_commission").val() != "")
+					filterDataArray["min_commission"] = $(".min_commission").val();
+				if ($(".max_commission").val() != "")
+					filterDataArray["max_commission"] = $(".max_commission").val();
+
+				if ($(".min_revenue").val() != "")
+					filterDataArray["min_revenue"] = $(".min_revenue").val();
+				if ($(".max_revenue").val() != "")
+					filterDataArray["max_revenue"] = $(".max_revenue").val();
+
+
+				if ($(".min_rating").val() != "")
+					filterDataArray["min_rating"] = $(".min_rating").val();
+				if ($(".max_rating").val() != "")
+					filterDataArray["max_rating"] = $(".max_rating").val();
+				if ($(".active_record").val() != "")
+					filterDataArray["active_record"] = $(".active_record").val();
+
+				if ($(".status_record").val() != "")
+					filterDataArray["status_record"] = $(".status_record").val();
+
+				if ($(".min_age").val() != "")
+					filterDataArray["min_age"] = $(".min_age").val();
+				if ($(".max_age").val() != "")
+					filterDataArray["max_age"] = $(".max_age").val();
+
+				// Meet Point
+				if ($(".meet_point").val() != "")
+					filterDataArray["meet_point"] = $(".meet_point").val();
+
+				//Rating Filter
+				if ($("#ratings").val() != "")
+					filterDataArray["rating"] = $("#ratings").val();
+
+				fetch_data(filterDataArray);
+			});
+			$("body").on("change", ".online_status", function () {
+				var value = $(this).val();
+				if (value === "0")
+					$(".last_login").removeClass("hide");
+				else {
+					if ($(".last_login").not(".hide"))
+						$(".last_login").addClass("hide");
+				}
+			});
 			function fetch_data(filterDataArray = "") {
 
 				let $mentorOrCommercial = "{{$mentorOrCommercial}}";

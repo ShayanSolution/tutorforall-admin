@@ -19,6 +19,8 @@ use Illuminate\Validation\Rule;
 
 use App\Traits\TutorFilterTrait;
 use App\Traits\LocationTrait;
+use App\Traits\RevenueFilterTrait;
+use App\Traits\DisbursementFilterTrait;
 use Illuminate\Support\Facades\Input;
 use function foo\func;
 use Nexmo\Client\Response\ResponseInterface;
@@ -29,6 +31,8 @@ class TutorController extends Controller {
 
 	use TutorFilterTrait;
 	use LocationTrait;
+	use RevenueFilterTrait;
+	use DisbursementFilterTrait;
 
 	private static $documentStoragePath = "/home/devtutor4allapis/public_html/storage/app/public/documents";
 
@@ -221,15 +225,15 @@ class TutorController extends Controller {
 	public function tutorsDisbursementList(Request $request) {
 		$mentorOrCommercial = 'Commercial';
 		if ($request->ajax()) {
-			//            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
-			//                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
-			//            } else {
-			$invoices = TutorInvoice::with('tutor');
-			//            $invoices = TutorInvoice::get();
-			//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
-			//                    $q->where('is_mentor', 0);
-			//                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
-			//            }
+			if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+				$invoices = $this->disbursementFilter($request, $mentorOrCommercial);
+			} else {
+				$invoices = TutorInvoice::with('tutor');
+				//            $invoices = TutorInvoice::get();
+				//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
+				//                    $q->where('is_mentor', 0);
+				//                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
+			}
 			return datatables()->eloquent($invoices)
 							   ->addColumn('tutor',
 								   function (TutorInvoice $invoice) {
@@ -280,16 +284,18 @@ class TutorController extends Controller {
 	public function tutorsRevenueReports(Request $request) {
 		$mentorOrCommercial = 'Commercial';
 		if ($request->ajax()) {
-			//            if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
-			//                $tutors = $this->tutorFilter($request, $mentorOrCommercial)->where('is_approved', 1)->where('final_phone_verification',1);
-			//            } else {
-			$invoices = TutorInvoice::all();
-			$invoices = $invoices->groupBy('tutor_id');
-			//            $invoices = TutorInvoice::get();
-			//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
-			//                    $q->where('is_mentor', 0);
-			//                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
-			//            }
+			if ($request->input('filterDataArray') != '' && $request->has('filterDataArray')) {
+				$invoices = $this->revenueFilter($request, $mentorOrCommercial)->get();
+				$invoices = $invoices->groupBy('tutor_id');
+				//->where('is_approved',1)->where('final_phone_verification', 1)
+			} else {
+				$invoices = TutorInvoice::all();
+				$invoices = $invoices->groupBy('tutor_id');
+				//            $invoices = TutorInvoice::get();
+				//                $tutors = User::select('id', 'firstName', 'lastName', 'email', 'phone', 'is_active', 'is_approved', 'created_at', 'last_login')->whereHas('profile', function ($q) {
+				//                    $q->where('is_mentor', 0);
+				//                })->with('rating')->where('role_id', 2)->where('is_approved', 1)->where('final_phone_verification',1);
+			}
 			return DataTables::collection($invoices)
 							 ->addColumn('id',
 								 function ($invoice) {
