@@ -226,7 +226,7 @@
                             <li class="tab">
                                 <a href="#tutor_invoices" data-toggle="tab"> <span class="visible-xs"><i
                                                 class="fa fa-home"></i></span> <span
-                                            class="hidden-xs">Tutor Invoices</span> </a>
+                                            class="hidden-xs">Earning History</span> </a>
                             </li>
                         </ul>
                         <!-- /.tabs -->
@@ -720,11 +720,11 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-sm-4">{!! '<b>Duration: </b>'.$duration.'' !!}</div>
-                                                                <div class="col-sm-4">{!! '<b>Total Amount: </b>'.$total_amount.'' !!}</div>
-                                                                <div class="col-sm-4">{!! '<b>Rate: </b>'.$rate.'' !!}</div>
+                                                                <div class="col-sm-4">{!! '<b>Total Amount: </b>'.$total_amount.' PKR' !!}</div>
+                                                                <div class="col-sm-4">{!! '<b>Rate: </b>'.$rate.' PKR' !!}</div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-4">{!! '<b>Commission: </b>'.$commission.'' !!}</div>
+                                                                <div class="col-sm-4">{!! '<b>Commission: </b>'.$commission.'%' !!}</div>
                                                                 <div class="col-sm-4">{!! '<b>Payment Platform: </b>'.$platform.'' !!}</div>
                                                             </div>
 
@@ -758,7 +758,7 @@
         @section('javascripts')
             @parent
 
-            <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+            <script src="https://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
             <script>
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip();

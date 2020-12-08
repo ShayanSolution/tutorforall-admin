@@ -239,6 +239,14 @@ class TutorController extends Controller {
 								   function (TutorInvoice $invoice) {
 									   return $invoice['tutor']['firstName'] . ' ' . $invoice['tutor']['lastName'];
 								   })
+								->addColumn('payable',
+									function ($invoice) {
+										return $invoice->payable > 0 ? $invoice->payable : "0.00";
+									})
+								->addColumn('receiveable',
+									function ($invoice) {
+										return $invoice->receiveable > 0 ? $invoice->receiveable : "0.00";
+									})
 							   ->addColumn('transaction_type',
 								   function ($invoice) {
 									   return $invoice->transaction_type ? $invoice->transaction_type : "not Paid yet";
@@ -323,11 +331,11 @@ class TutorController extends Controller {
 								 })
 							 ->addColumn('payable',
 								 function ($invoice) {
-									 return $invoice->sum('payable');
+									 return $invoice->sum('payable') > 0 ? $invoice->sum('payable') : '0.00';
 								 })
 							 ->addColumn('receiveable',
 								 function ($invoice) {
-									 return $invoice->sum('receiveable');
+									 return $invoice->sum('receiveable') > 0 ? $invoice->sum('receiveable') : '0.00';
 								 })
 							 ->rawColumns(['tutor_name', 'amount', 'commission', 'payable', 'receiveable'])
 				//							 ->orderColumn('tutor_name', 'tutorname $1')
