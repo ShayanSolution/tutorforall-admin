@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class SettingsController extends Controller
 {
     public function getSettings(){
-        $settings = Setting::select("slug","value","label","group_name")->get();
+        $settings = Setting::select("slug","value","label","group_name","after_value")->get();
         $newSettingsArray = [];
         foreach ($settings as $setting) {
             $newKey = ucwords(str_replace('-', ' ', $setting->group_name));
