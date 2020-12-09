@@ -269,7 +269,7 @@ class TutorController extends Controller {
 								   })
 							   ->addColumn('commission_percentage',
 								   function ($invoice) {
-									   return $invoice->commission_percentage ? $invoice->commission_percentage : "not Paid yet";
+									   return $invoice->commission_percentage ? $invoice->commission_percentage. ' %' : "not Paid yet";
 								   })
 							   ->addColumn('created_at',
 								   function ($invoice) {
