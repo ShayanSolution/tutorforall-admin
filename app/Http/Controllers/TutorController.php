@@ -239,6 +239,14 @@ class TutorController extends Controller {
 								   function (TutorInvoice $invoice) {
 									   return $invoice['tutor']['firstName'] . ' ' . $invoice['tutor']['lastName'];
 								   })
+                                ->addColumn('amount',
+                                    function ($invoice) {
+                                        return $invoice->amount > 0 ? $invoice->amount.' PKR' : "0.00 PKR";
+                                    })
+                                ->addColumn('commission',
+                                    function ($invoice) {
+                                        return $invoice->commission > 0 ? $invoice->commission.' PKR' : "0.00 PKR";
+                                    })
 								->addColumn('payable',
 									function ($invoice) {
 										return $invoice->payable > 0 ? $invoice->payable.' PKR' : "0.00 PKR";
