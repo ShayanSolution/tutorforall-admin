@@ -267,6 +267,7 @@
                             <th>Receiveable</th>
                             <th>Due Date</th>
                             <th>Status</th>
+                            <th>Transaction Ref No</th>
                             <th>Transaction Type</th>
                             <th>Transaction Platform</th>
                             <th>Transaction Status</th>
@@ -437,6 +438,10 @@
 							data: "status",
 							name: "status"
 						},
+                        {
+                            data: "transaction_ref_no",
+                            name: "transaction_ref_no"
+                        },
 						{
 							data: "transaction_type",
 							name: "transaction_type"

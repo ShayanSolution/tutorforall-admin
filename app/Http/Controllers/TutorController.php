@@ -241,11 +241,11 @@ class TutorController extends Controller {
 								   })
 								->addColumn('payable',
 									function ($invoice) {
-										return $invoice->payable > 0 ? $invoice->payable : "0.00";
+										return $invoice->payable > 0 ? $invoice->payable.' PKR' : "0.00 PKR";
 									})
 								->addColumn('receiveable',
 									function ($invoice) {
-										return $invoice->receiveable > 0 ? $invoice->receiveable : "0.00";
+										return $invoice->receiveable > 0 ? $invoice->receiveable.' PKR' : "0.00 PKR";
 									})
 							   ->addColumn('transaction_type',
 								   function ($invoice) {
@@ -323,19 +323,19 @@ class TutorController extends Controller {
 								 })
 							 ->addColumn('amount',
 								 function ($invoice) {
-									 return $invoice->sum('amount');
+									 return $invoice->sum('amount').' PKR';
 								 })
 							 ->addColumn('commission',
 								 function ($invoice) {
-									 return $invoice->sum('commission');
+									 return $invoice->sum('commission').' PKR';
 								 })
 							 ->addColumn('payable',
 								 function ($invoice) {
-									 return $invoice->sum('payable') > 0 ? $invoice->sum('payable') : '0.00';
+									 return $invoice->sum('payable') > 0 ? $invoice->sum('payable').' PKR' : '0.00 PKR';
 								 })
 							 ->addColumn('receiveable',
 								 function ($invoice) {
-									 return $invoice->sum('receiveable') > 0 ? $invoice->sum('receiveable') : '0.00';
+									 return $invoice->sum('receiveable') > 0 ? $invoice->sum('receiveable').' PKR' : '0.00 PKR';
 								 })
 							 ->rawColumns(['tutor_name', 'amount', 'commission', 'payable', 'receiveable'])
 				//							 ->orderColumn('tutor_name', 'tutorname $1')
