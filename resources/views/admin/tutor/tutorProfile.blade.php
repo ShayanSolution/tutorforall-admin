@@ -671,7 +671,7 @@
                                             @php $n++ @endphp
                                             <div class="row">
                                                 <span class="m-l-5 pull-right" style="color: orange;" >
-                                                    <a aria-controls={{"collapsedDate".$n}} aria-expanded="false" data-toggle="collapse" href={{"#collapsedDate".$n}}>+</a>
+                                                    <a aria-controls={{"collapsedDate".$n}} aria-expanded="false" data-toggle="collapse" href={{"#collapsedDate".$n}} class="tooglesign">+</a>
                                                 </span>
                                                 <div class="sl-right">
                                                     <div class="m-l-40">{{--<a href="" class="text-info">Jane Doe</a>--}}
@@ -682,7 +682,7 @@
                                                                 <?php
                                                                 $datetime = explode(" ",$review->session->started_at);
                                                                 $date = $datetime[0];
-                                                                $time = $datetime[1];
+                                                                $time = dateTimeConverter($review->session->started_at);
                                                                 $subject = $review->session->subject;
                                                                 $program = $review->session->class;
                                                                 ?>
@@ -710,6 +710,7 @@
                                                     $commisionPercentage = (int)\App\Models\Setting::where('slug','session_commision_percentage')->value('value');
                                                     $commission = ($commisionPercentage/100)*$rate;
                                                     $platform = $review->transaction_platform;
+                                                    $transactionId = $review->transaction_ref_no;
                                                     $meetup_place = $review->session->is_home?"Student Location":"Teacher Location";
 
                                                                 ?>
@@ -726,6 +727,7 @@
                                                             <div class="row">
                                                                 <div class="col-sm-4">{!! '<b>Commission: </b>'.$commission.'%' !!}</div>
                                                                 <div class="col-sm-4">{!! '<b>Payment Platform: </b>'.$platform.'' !!}</div>
+                                                                <div class="col-sm-4">{!! '<b>Transaction ID: </b>'.$transactionId.'' !!}</div>
                                                             </div>
 
                                                         {!! '<div class="col-md-12" style="padding: 0"><hr style="width: 100px; float: left;"></div>' !!}
@@ -763,6 +765,10 @@
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip();
                     $("#accordion").accordion();
+                })
+                $('body').on('click','.tooglesign',function(){
+                	if($(this).attr('aria-expanded') == 'true') $(this).html('+');
+                	else $(this).html('-');
                 })
             </script>
             <!--BlockUI Script -->
