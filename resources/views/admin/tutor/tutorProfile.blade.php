@@ -675,6 +675,15 @@
                                                 </span>
                                                 <div class="sl-right">
                                                     <div class="m-l-40">{{--<a href="" class="text-info">Jane Doe</a>--}}
+                                                        @if($review->transaction_platform == 'card')
+                                                            <div><b><i class="fa fa-credit-card"></i> &nbsp; {!! $review->session->rate.' PKR' !!}</b></div>
+                                                        @endif
+                                                        @if($review->transaction_platform == 'jazzcash')
+                                                            <div><b><i class="fa fa-fighter-jet"></i> &nbsp; {!! $review->session->rate.' PKR' !!}</b></div>
+                                                        @endif
+                                                        @if($review->transaction_platform == 'cash')
+                                                            <div><b><i class="fa fa-money"></i> &nbsp; {!! $review->session->rate.' PKR' !!}</b></div>
+                                                        @endif
                                                         <p class="m-t-10">
 
 
@@ -686,11 +695,13 @@
                                                                 $subject = $review->session->subject;
                                                                 $program = $review->session->class;
                                                                 ?>
+
                                                                     @if(!empty($date))
-                                                                        {!! '&nbsp; &nbsp;<b>'.$program->name.' - '.$subject->name.'</b>' !!}
-                                                                        {!! '&nbsp; <b>'.$time.'</b> &nbsp;' !!}
+                                                                        {!! '<b>'.$program->name.' - '.$subject->name.'</b>' !!}
+                                                                    <br>
+                                                                        {!! '&nbsp;'.$time.' &nbsp;' !!}
                                                                     @endif
-                                                                    <div class="col-md-12" style="padding: 0"><hr style="width: 100px; float: left;"/></div>
+
                                                                 </p>
                                                     </div>
                                                 </div>
@@ -705,7 +716,7 @@
                                                     $program = $review->session->class;
                                                     $duration = $review->session->duration;
                                                     $rate = $review->session->hourly_rate;
-                                                    $total_amount = $review->session->original_hourly_rate;
+                                                    $total_amount = $review->session->rate;
                                                     $commisionPercentage = (int)\App\Models\Setting::where('slug','session_commision_percentage')->value('value');
                                                     $commission = ($commisionPercentage/100)*$rate;
                                                     $platform = $review->transaction_platform;
