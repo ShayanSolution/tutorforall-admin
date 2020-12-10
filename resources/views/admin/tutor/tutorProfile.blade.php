@@ -687,9 +687,8 @@
                                                                 $program = $review->session->class;
                                                                 ?>
                                                                     @if(!empty($date))
-                                                                        {!! '<b> Date: '.$date.'</b> &nbsp;' !!}
-                                                                        {!! '&nbsp; <b> Time: '.$time.'</b> &nbsp;' !!}
-                                                                        {!! '&nbsp; &nbsp;<i>('.$program->name.' - '.$subject->name.')</i>' !!}
+                                                                        {!! '&nbsp; &nbsp;<b>'.$program->name.' - '.$subject->name.'</b>' !!}
+                                                                        {!! '&nbsp; <b>'.$time.'</b> &nbsp;' !!}
                                                                     @endif
                                                                     <div class="col-md-12" style="padding: 0"><hr style="width: 100px; float: left;"/></div>
                                                                 </p>
