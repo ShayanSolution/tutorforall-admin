@@ -309,6 +309,12 @@ Route::group(['middleware' => 'admin'],function (){
 
         Route::resource('notifications', 'NotificationController');
         Route::post('download/document', 'DocumentsController@downloadDocument')->name('downloadDocument');
+
+        Route::get('cms/tootar/tc', 'CMSController@getTootarTC')->name('getTootarTC');
+        Route::post('cms/tootar/postTC', 'CMSController@postTootarTC')->name('postTootarTC');
+        Route::get('cms/tootar-teacher/tc', 'CMSController@getTootarTeacherTC')->name('getTootarTeacherTC');
+        Route::post('cms/tootar-teacher/postTC', 'CMSController@postTootarTeacherTC')->name('postTootarTeacherTC');
+        Route::post('reset-term-condition', 'CMSController@resetTC')->name('resetTC');
     });
 
     Route::post('admin/session/fetchProvince',[

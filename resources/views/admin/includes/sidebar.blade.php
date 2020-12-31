@@ -112,6 +112,18 @@
                     </span>
                 </a>
             </li>
+            <li>
+                <a href="#" class="waves-effect">
+                    <i class="fa fa-fax"></i>
+                    <span class="hide-menu">
+                        CMS<span class="fa arrow"></span>
+                    </span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li> <a href="{{route('getTootarTC')}}">Tootar</a> </li>
+                    <li> <a href="{{route('getTootarTeacherTC')}}">Tootar Teacher</a> </li>
+                </ul>
+            </li>
             {{--<li> <a href="#" class="waves-effect"><i class="fa fa-bars p-r-10"></i> <span class="hide-menu"> Courses <span class="fa arrow"></span></span></a>--}}
                 {{--<ul class="nav nav-second-level">--}}
                     {{--<li> <a href="#">All Courses</a> </li>--}}
