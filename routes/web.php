@@ -315,7 +315,7 @@ Route::group(['middleware' => 'admin'],function (){
         Route::get('cms/tootar-teacher/tc', 'CMSController@getTootarTeacherTC')->name('getTootarTeacherTC');
         Route::post('cms/tootar-teacher/postTC', 'CMSController@postTootarTeacherTC')->name('postTootarTeacherTC');
         Route::post('reset-term-condition', 'CMSController@resetTC')->name('resetTC');
-
+        //Banner
         Route::resource('banners', 'BannerController');
 
     });
