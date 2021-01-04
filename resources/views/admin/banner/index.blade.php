@@ -38,7 +38,7 @@
                                 @else
                                 <td>No Banner Link</td>
                                 @endif
-                                <td><a target="_blank" href={{ config('app.asseturl').$banner->path }}>Banner Image</a></td>
+                                <td><a target="_blank" href={{ $banner->path }}>Banner Image</a></td>
                                 <td>{{dateTimeConverter($banner->created_at)}}</td>
                             </tr>
                         @endforeach
