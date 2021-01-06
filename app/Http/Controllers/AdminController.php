@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\AcceptDocumentNotification;
+use App\Jobs\MasterRejectNotification;
 use App\Models\Document;
 use App\Models\Profile;
 use App\Models\Program;
@@ -361,5 +362,20 @@ return $data;
             return redirect()->back()->with('error','Oops! Something went wrong.');
 
         return redirect()->back()->with('success','Document rejected successfully.');
+    }
+
+    public function masterReject(Request $request){
+        $userId = $request->user_id;
+        $rejectionReason = $request->master_rejection_reason;
+        $job = new MasterRejectNotification($userId,$rejectionReason);
+        $this->dispatch($job);
+        $user = User::findorFail($userId);
+        $userfirstName = $user->firstName;
+        $userlastName = $user->lastName;
+        Document::where('tutor_id', $userId)->delete();
+        ProgramSubject::where('user_id', $userId)->delete();
+        $user->delete();
+
+        return redirect()->route('candidates')->with('success', $userfirstName.' '.$userlastName.' master rejected successfully.');
     }
 }

@@ -293,6 +293,10 @@ Route::group(['middleware' => 'admin'],function (){
         'uses' => 'AuthController@logout'
     ]);
 
+    Route::post('admin/documents/master-reject',[
+        'as' => 'masterReject',
+        'uses' => 'AdminController@masterReject'
+    ]);
 
     Route::prefix('admin')->group(function () {
         Route::resource('percentage-costs', 'PercentageCostForMultiStudentGroupsController');

@@ -187,6 +187,35 @@
                                     </div>
                                 </div>
 
+                                <div id="enterMasterRejectionReason{{$progSubDoc->document!= null ? $progSubDoc->user_id : ''}}"
+                                     class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                        <div class="modal-content">
+                                            <form action="{{route('masterReject')}}" method="post">
+                                                @csrf
+                                                <input name="user_id" hidden
+                                                       value="{{$progSubDoc->document != null ? $progSubDoc->document->tutor_id : ''}}">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
+                                                    <h4 class="modal-title">Master Rejection Reason</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p><textarea name="master_rejection_reason"
+                                                                 class="form-control"></textarea></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit" class="btn btn-warning">Send</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div id="showMore{{$progSubDoc != null ? $progSubDoc->id : ''}}" class="modal fade"
                                      role="dialog">
                                     <div class="modal-dialog">
@@ -213,6 +242,20 @@
                         @endforeach
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="white-box">
+                <h1 class="box-title m-b-0"><b>Master Reject</b></h1>
+                <p><b>Note:</b> Master reject will delete user and it's related classes, subjects and documents permanently </p>
+                <hr>
+                <div class="table-responsive">
+                    <a type="button"
+                       class="fcbtn btn btn-danger btn-outline btn-1d"
+                       data-target="#enterMasterRejectionReason{{$progSubDoc->user_id}}"
+                       data-toggle="modal"
+                    >
+                        Master Reject
+                    </a>
                 </div>
             </div>
         </div>
