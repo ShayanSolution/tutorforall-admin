@@ -37,7 +37,7 @@ class MasterRejectNotification extends Job
             $title  = Config::get('user-constants.APP_NAME');
             $body   = $this->rejectionReason;
             $customData = array(
-                'notification_type' => 'accept_document',
+                'notification_type' => 'master_reject',
             );
             Push::handle($title, $body, $customData, $user);
         }
