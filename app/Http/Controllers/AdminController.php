@@ -374,6 +374,13 @@ return $data;
         $userlastName = $user->lastName;
         Document::where('tutor_id', $userId)->delete();
         ProgramSubject::where('user_id', $userId)->delete();
+        User::where('id', $userId)->update([
+            'final_phone_verification' => 0,
+            'is_approved' => 0,
+            'is_documents_uploaded' => 0,
+            'term_and_condition' => 0,
+            'is_online' => 0,
+        ]);
         $user->delete();
 
         return redirect()->route('candidates')->with('success', $userfirstName.' '.$userlastName.' master rejected successfully.');
