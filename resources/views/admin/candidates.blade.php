@@ -29,6 +29,7 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Created</th>
+                            <th>Updated</th>
                             <th style="text-align: center">Action</th>
                          </tr>
                         </thead>
@@ -93,6 +94,7 @@
                     {data: 'email', name: 'email'},
                     {data: 'phone', name: 'phone'},
                     {data: 'created_at', name: 'created_at'},
+                    {data: 'updated_at', name: 'updated_at'},
                     {data: 'documents', name: 'documents'},
                 ],
                 "columnDefs": [
@@ -103,7 +105,7 @@
                     },
                     {
                         "orderable": false,
-                        "targets": 7
+                        "targets": 8
                     }
                 ],
                 buttons: [

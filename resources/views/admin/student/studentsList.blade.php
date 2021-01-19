@@ -307,7 +307,11 @@
                     search: {
                         "regex": true
                     },
-                    "bSort": true
+                    "bSort": true,
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "All"]
+                    ],
                 } );
             }
             var base_url = '{{url('/')}}';

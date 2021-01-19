@@ -279,12 +279,16 @@ return $data;
                 ->addColumn('created_at', function($tutor){
                     return dateTimeConverter($tutor->created_at);
                 })
+                ->addColumn('updated_at', function($tutor){
+                    return dateTimeConverter($tutor->updated_at);
+                })
                 ->addColumn('documents', function($tutor){
                     $btn = '<a type="button" class="fcbtn btn btn-warning btn-outline btn-1d" href="'.route('candidateDocuments', $tutor->id).'" alt="default">Review Documents</a>';
                     return $btn;
                 })
                 ->rawColumns(['type','created_at','documents'])
                 ->orderColumn('created_at', 'created_at $1')
+                ->orderColumn('updated_at', 'updated_at $1')
                 ->orderColumn('type', 'ismentor $1')
                 ->make(true);
         }
