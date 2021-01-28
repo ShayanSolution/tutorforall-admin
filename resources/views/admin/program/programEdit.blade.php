@@ -25,6 +25,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-12" for="note">Note</label>
+                        <div class="col-md-12">
+                            <textarea type="text" name="note" class="form-control" rows="4" placeholder="Enter note" required>{{$program->note}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-12">Active</label>
                         <div class="col-sm-12">
                             <select class="form-control" name="status" required>

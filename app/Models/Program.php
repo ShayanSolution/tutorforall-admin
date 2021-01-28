@@ -12,6 +12,7 @@ class Program extends Model
     protected $table = 'programmes';
     protected $fillable = [
         'name',
+        'note',
         'status',
     ];
 
@@ -19,5 +20,19 @@ class Program extends Model
 
     public function subjects(){
         return $this->hasMany('App\Models\Subject','programme_id');
+    }
+
+    public function showMessage(){
+
+        $value = $this->note;
+
+        $strLength = 10;
+
+        return
+            strlen($value) > $strLength
+                ?
+                substr($value, 0, $strLength).'....  <a data-toggle="modal" style="cursor:pointer" data-target="#showMessage'.$this->id.'">Show More</a>'
+                :
+                $value;
     }
 }

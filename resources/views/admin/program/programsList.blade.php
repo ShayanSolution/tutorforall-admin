@@ -35,6 +35,7 @@
                         <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Note</th>
                             <th>Active</th>
                             <th>Created</th>
                             <th style="text-align: center">Action</th>
@@ -48,6 +49,7 @@
 
                             <tr>
                                 <td>{{$program->name}}</td>
+                                <td>{!! $program->showMessage() !!}</td>
                                 <td>@if($program->status == 1) Yes @else No @endif</td>
                                 <td>{{dateTimeConverter($program->created_at)}}</td>
                                 <td>
@@ -66,6 +68,24 @@
 {{--                                    </div>--}}
 {{--                                </td>--}}
                             </tr>
+                            <div id="showMessage{{$program->id}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Note Description</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>{{$program->note}}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                             <!-- sample modal content -->
                             <div id="myModal{{$program->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">

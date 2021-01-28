@@ -23,6 +23,7 @@ class ProgramController extends Controller
         ]);
         $program = new Program();
         $program->name     =   $request->name;
+        $program->note     =   $request->note;
         $program->status   =   $request->status;
         $program->save();
         return redirect()->route('programsList')->with('success','Program added Successfully');
@@ -36,6 +37,7 @@ class ProgramController extends Controller
             'status'    => 'required'
         ]);
         $program->name = $request->name;
+        $program->note     =   $request->note;
         $program->status = $request->status;
         $program->save();
         return redirect()->route('programsList')->with('success','Program Updated successfully');
