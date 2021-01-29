@@ -470,10 +470,11 @@ class TutorController extends Controller {
 			'desc')->pluck('path')[0] : '0';
 		$payment_invoices  = SessionPayment::with('session')->whereIn('id',
 			$user->disbursement->pluck('paymentable_id'));
+		$cancelledSessions = User::find($user->id)->session()->where('demo_started_at', null)->where('status', 'cancelled')->get();
 
 		//                        dd($payment_invoices->first()!=null);
 		return view('admin.tutor.tutorProfile',
-			compact('user', 'programs_subjects', 'programs', 'profile', 'cnicfront', 'cnicback', 'payment_invoices'));
+			compact('user', 'programs_subjects', 'programs', 'profile', 'cnicfront', 'cnicback', 'payment_invoices', 'cancelledSessions'));
 	}
 
 	public function tutorSubjectsUpdate(Request $request) {

@@ -228,6 +228,11 @@
                                                 class="fa fa-home"></i></span> <span
                                             class="hidden-xs">Earning History</span> </a>
                             </li>
+                            <li class="tab">
+                                <a href="#tutor_session_cancelled" data-toggle="tab"> <span class="visible-xs"><i
+                                            class="fa fa-home"></i></span> <span
+                                        class="hidden-xs">Cancelled Session</span> </a>
+                            </li>
                         </ul>
                         <!-- /.tabs -->
                         <div class="tab-content">
@@ -659,7 +664,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <!-- /.tabs3 -->
+                            <!-- /.tabs4 -->
                             {{--<!-- .tabs 5 -->--}}
                             <div class="tab-pane" id="tutor_invoices">
                                 @php $payment_invoicestmp = $payment_invoices->orderBy('id','Desc')->get() @endphp
@@ -759,7 +764,45 @@
                                     </div>
                                 @endif
                             </div>
-                            <!-- /.tabs 3 -->
+                            <!-- /.tabs 5 -->
+                            {{--<!-- .tabs 6 -->--}}
+                            <div class="tab-pane" id="tutor_session_cancelled">
+                                @if (count($cancelledSessions)>0)
+                                    <div class="steamline">
+                                        <hr>
+                                        @foreach($cancelledSessions as $cancelledSession)
+                                            <div class="row">
+                                                <div class="sl-right">
+                                                    <div class="m-l-40">
+                                                        <p class="m-t-10">
+                                                            <?php
+                                                                $programName = \App\Models\Program::where('id', $cancelledSession->programme_id)->pluck('name');
+                                                                $subjectName = \App\Models\Subject::where('id', $cancelledSession->subject_id)->pluck('name');
+                                                            ?>
+                                                        @if($cancelledSession)
+                                                        {!!  '<b>Cancelled By:</b> '.($cancelledSession->cancelled_from) .'<br>'!!}
+                                                        {!!  '<b>Session:</b> '.($programName.' - '.$subjectName) .'<br>'!!}
+                                                        {!!  '<b>Session request at:</b> '.(dateTimeConverter($cancelledSession->created_at)) .'<br>'!!}
+                                                        {!!  '<b>Session Location:</b> '.($cancelledSession->session_location) .'<br>'!!}
+                                                        @endif
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="sl-item">
+                                        <div class="sl-right">
+                                            <div class="m-l-40">
+                                                <p class="m-t-10"> No Cancelled Sessions</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            <!-- /.tabs 6 -->
                         </div>
                     </div>
                 </div>
