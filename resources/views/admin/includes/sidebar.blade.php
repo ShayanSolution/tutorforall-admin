@@ -91,6 +91,8 @@
                     <li> <a href="{{route('sessionMissed')}}">Missed</a> </li>
                     <li> <a href="{{route('sessionPending')}}">Pending</a> </li>
                     <li> <a href="{{route('sessionRejected')}}">Rejected</a> </li>
+                    <li> <a href="{{route('sessionCancelledTutor')}}">Cancelled By Tutor</a> </li>
+                    <li> <a href="{{route('sessionCancelledStudent')}}">Cancelled By Student</a> </li>
                 </ul>
             </li>
             <li>

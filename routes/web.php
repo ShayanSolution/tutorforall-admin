@@ -310,6 +310,8 @@ Route::group(['middleware' => 'admin'],function (){
         Route::get('session/missed', 'SessionController@sessionLogs')->name('sessionMissed');
         Route::get('session/pending', 'SessionController@sessionLogs')->name('sessionPending');
         Route::get('session/rejected', 'SessionController@sessionLogs')->name('sessionRejected');
+        Route::get('session/cancelled/tutor', 'SessionController@sessionCancelled')->name('sessionCancelledTutor');
+        Route::get('session/cancelled/student', 'SessionController@sessionCancelled')->name('sessionCancelledStudent');
 
         Route::get('session/list', 'SessionController@sessionList')->name('sessionList');
 
