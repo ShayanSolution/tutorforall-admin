@@ -237,7 +237,7 @@ class TutorController extends Controller {
 			return datatables()->eloquent($invoices)
 							   ->addColumn('tutor',
 								   function (TutorInvoice $invoice) {
-									   return $invoice['tutor']['firstName'] . ' ' . $invoice['tutor']['lastName'];
+									   return $invoice['tutor']['firstName'] . ' ' . $invoice['tutor']['lastName']. ' (' . $invoice['tutor']['phone'].')';
 								   })
                                 ->addColumn('amount',
                                     function ($invoice) {
@@ -319,7 +319,7 @@ class TutorController extends Controller {
 								 })
 							 ->addColumn('tutor',
 								 function ($invoice) {
-									 return $invoice[0]->tutor->firstName . ' ' . $invoice[0]->tutor->lastName;
+									 return $invoice[0]->tutor->firstName . ' ' . $invoice[0]->tutor->lastName. ' (' . $invoice[0]->tutor->phone.')';
 								 })
 							 ->addColumn('tutor_email',
 								 function ($invoice) {

@@ -213,6 +213,7 @@
                             <th hidden>Id</th>
                             <th>First Name</th>
                             <th>Last Name</th>
+                            <th>Phone</th>
                             <th>Booked</th>
                             <th>Started</th>
                             <th>Completed</th>
@@ -334,6 +335,7 @@
                         {data: 'id', name: 'id'},
                         {data: 'firstName', name: 'firstName'},
                         {data: 'lastName', name: 'lastName'},
+                        {data: 'phone', name: 'phone'},
                         {data: 'booked', name: 'booked'},
                         {data: 'started', name: 'started'},
                         {data: 'completed', name: 'completed'},

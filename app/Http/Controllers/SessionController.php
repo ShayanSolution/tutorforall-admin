@@ -61,10 +61,10 @@ class SessionController extends Controller
             }
             return datatables()->eloquent($sessions)
                 ->addColumn('studentName', function($session){
-                    return $session->student ? $session->student->firstName." ". $session->student->lastName: 'N-A';
+                    return $session->student ? $session->student->firstName." ". $session->student->lastName.' ('.$session->student->phone.')': 'N-A';
                 })
                 ->addColumn('tutorName', function($session){
-                    return $session->tutor ? $session->tutor->firstName." ". $session->tutor->lastName: 'N-A';
+                    return $session->tutor ? $session->tutor->firstName." ". $session->tutor->lastName.' ('.$session->tutor  ->phone.')': 'N-A';
                 })
                 ->addColumn('className', function($session){
                     return $session->class ? $session->class->name : 'N-A';
@@ -126,10 +126,10 @@ class SessionController extends Controller
             }
             return datatables()->eloquent($sessions)
                 ->addColumn('studentName', function($session){
-                    return $session->student ? $session->student->firstName." ". $session->student->lastName: 'N-A';
+                    return $session->student ? $session->student->firstName." ". $session->student->lastName.' ('.$session->student->phone.')': 'N-A';
                 })
                 ->addColumn('tutorName', function($session){
-                    return $session->tutor ? $session->tutor->firstName." ". $session->tutor->lastName: 'N-A';
+                    return $session->tutor ? $session->tutor->firstName." ". $session->tutor->lastName.' ('.$session->tutor->phone.')': 'N-A';
                 })
                 ->addColumn('className', function($session){
                     return $session->class ? $session->class->name : 'N-A';
@@ -220,10 +220,10 @@ class SessionController extends Controller
             }
             return datatables()->eloquent($sessions)
                 ->addColumn('studentName', function($session){
-                    return $session->student ? $session->student->firstName." ". $session->student->lastName: 'N-A';
+                    return $session->student ? $session->student->firstName." ". $session->student->lastName.' ('.$session->student->phone.')': 'N-A';
                 })
                 ->addColumn('tutorName', function($session){
-                    return $session->tutor ? $session->tutor->firstName." ". $session->tutor->lastName: 'N-A';
+                    return $session->tutor ? $session->tutor->firstName." ". $session->tutor->lastName.' ('.$session->tutor->phone.')': 'N-A';
                 })
                 ->addColumn('className', function($session){
                     return $session->class ? $session->class->name : 'N-A';
