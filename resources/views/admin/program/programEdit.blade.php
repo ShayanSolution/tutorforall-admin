@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label class="col-md-12" for="note">Note</label>
                         <div class="col-md-12">
-                            <textarea type="text" name="note" class="form-control" rows="4" placeholder="Enter note" required>{{$program->note}}</textarea>
+                            <textarea type="text" name="note" class="form-control" rows="2" placeholder="Enter note (At Max 50 words)" maxlength="50" required>{{$program->note}}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
