@@ -159,7 +159,7 @@
             var base_url = $(this).data('url');
             var category_id = $(this).attr("data-category-id");
             $.ajax({
-                url:base_url+'/admin/changeCategoryStatus',
+                url:base_url+'/zukerbend/changeCategoryStatus',
                 type: 'GET',
                 data: {category_id :category_id, status: e.target.checked},
                 success:function(response){

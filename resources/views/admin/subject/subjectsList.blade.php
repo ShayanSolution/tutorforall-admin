@@ -133,7 +133,7 @@
             var base_url = $(this).data('url');
             var student_id = $(this).attr("data-student-id");
             $.ajax({
-                url:base_url+'/admin/changeStudentDeserving',
+                url:base_url+'/zukerbend/changeStudentDeserving',
                 type: 'GET',
                 data: { student_id :student_id, is_deserving: e.target.checked},
                 success:function(response){

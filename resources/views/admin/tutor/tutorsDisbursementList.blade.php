@@ -504,7 +504,7 @@
 		});
         {{--$('body').on('click', '.delete',function (){--}}
         {{--var id = $(this).data('id');--}}
-        {{--var href = "{{URL::to('admin/tutor/delete')}}/"+id;--}}
+        {{--var href = "{{URL::to('zukerbend/tutor/delete')}}/"+id;--}}
         {{--$('.modelDeleteBtn').attr("href", href);--}}
         {{--$('#deleteModaltutor').modal();--}}
         {{--});--}}
@@ -512,7 +512,7 @@
         {{--var base_url = $(this).data('url');--}}
         {{--var tutor_id = $(this).attr("data-tutor-id");--}}
         {{--$.ajax({--}}
-        {{--url:base_url+'/admin/changeTutorStatus',--}}
+        {{--url:base_url+'/zukerbend/changeTutorStatus',--}}
         {{--type: 'GET',--}}
         {{--data: { tutor_id :tutor_id, is_active: e.target.checked},--}}
         {{--success:function(response){--}}
@@ -524,7 +524,7 @@
         {{--var base_url = $(this).data('url');--}}
         {{--var tutor_id = $(this).attr("data-tutor-id");--}}
         {{--$.ajax({--}}
-        {{--url:base_url+'/admin/changeTutorApprovedStatus',--}}
+        {{--url:base_url+'/zukerbend/changeTutorApprovedStatus',--}}
         {{--type: 'GET',--}}
         {{--data: { tutor_id :tutor_id, is_approved: e.target.checked},--}}
         {{--success:function(response){--}}

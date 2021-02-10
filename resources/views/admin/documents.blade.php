@@ -16,10 +16,10 @@
                     {{--                    <li><a href="#">Admin</a></li>--}}
                     {{--                    <li class="active">Documents and Subjects List</li>--}}
                     <? global $href; ?>
-                    <? $href = "/admin/candidates"?>
+                    <? $href = "/zukerbend/candidates"?>
                     @foreach($tutorDocuments as $progSubDoc)
                         @if($progSubDoc->status != 'Pending')
-                            <? $href = "/admin/tutors/list"?>
+                            <? $href = "/zukerbend/tutors/list"?>
                         @endif
                     @endforeach
 
@@ -97,7 +97,7 @@
                                     <td>
                                         <a
                                             {{--                                        href="{{$showarray.$progSubDoc->document->path}}"--}}
-                                            {{--href="/admin/documents/{{$document->id}}"--}}
+                                            {{--href="/zukerbend/documents/{{$document->id}}"--}}
                                             name="{{$progSubDoc->document != null ? $showarray.$progSubDoc->document->path: ''}}"
                                             class="fcbtn btn btn-default btn-outline btn-1d downloadImage"
                                         >
@@ -274,7 +274,7 @@
             $(".downloadImage").click(function () {
                 var url = $(this).attr("name");
                 $.ajax({
-                    url: base_url + '/admin/download/document',
+                    url: base_url + '/zukerbend/download/document',
                     type: "POST",
                     data: {url_doc: url, _token: _token},
                     success: function (response) {

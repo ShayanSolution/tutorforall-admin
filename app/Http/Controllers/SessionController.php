@@ -15,27 +15,27 @@ class SessionController extends Controller
     use LocationTrait;
 
     public function sessionLogs(Request $request){
-        if ($request->path() == "admin/session/booked"){
+        if ($request->path() == "zukerbend/session/booked"){
             $sessionStatus = 'sessionBooked';
             $status = 'booked';
         }
-        if ($request->path() == "admin/session/started"){
+        if ($request->path() == "zukerbend/session/started"){
             $sessionStatus = 'sessionStarted';
             $status = 'started';
         }
-        if ($request->path() == "admin/session/completed"){
+        if ($request->path() == "zukerbend/session/completed"){
             $sessionStatus = 'sessionCompleted';
             $status = 'ended';
         }
-        if ($request->path() == "admin/session/missed"){
+        if ($request->path() == "zukerbend/session/missed"){
             $sessionStatus = 'sessionMissed';
             $status = 'expired';
         }
-        if ($request->path() == "admin/session/pending"){
+        if ($request->path() == "zukerbend/session/pending"){
             $sessionStatus = 'sessionPending';
             $status = 'pending';
         }
-        if ($request->path() == "admin/session/rejected"){
+        if ($request->path() == "zukerbend/session/rejected"){
             $sessionStatus = 'sessionRejected';
             $status = 'reject';
         }
@@ -186,12 +186,12 @@ class SessionController extends Controller
 
     public function sessionCancelled(Request $request) {
 
-        if ($request->path() == "admin/session/cancelled/tutor"){
+        if ($request->path() == "zukerbend/session/cancelled/tutor"){
             $sessionStatus = 'sessionCancelledTutor';
             $status = 'cancelled';
             $cancelledFrom = 'tutor';
         }
-        if ($request->path() == "admin/session/cancelled/student"){
+        if ($request->path() == "zukerbend/session/cancelled/student"){
             $sessionStatus = 'sessionCancelledStudent';
             $status = 'cancelled';
             $cancelledFrom = 'student';

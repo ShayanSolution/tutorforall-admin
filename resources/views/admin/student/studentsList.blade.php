@@ -243,7 +243,7 @@
             });
             $('body').on('click', '.delete',function (){
                 var id = $(this).data('id');
-                var href = "{{URL::to('admin/student/delete')}}/"+id;
+                var href = "{{URL::to('zukerbend/student/delete')}}/"+id;
                 $('.deleteModalStudent').attr("href", href);
                 $('#deleteModalStudent').modal();
             });
@@ -319,7 +319,7 @@
             $('body').on('change.bootstrapSwitch','.js-switch', function(e) {
                 var student_id = $(this).attr("data-student-id");
                 $.ajax({
-                    url:base_url+'/admin/changeStudentDeserving',
+                    url:base_url+'/zukerbend/changeStudentDeserving',
                     type: 'POST',
                     data: { student_id :student_id, is_deserving: e.target.checked, _token:_token},
                     success:function(response){
@@ -330,7 +330,7 @@
             $('body').on('change.bootstrapSwitch','.js-switch-is_active',function (e) {
                 var student_id = $(this).attr("data-student-id");
                 $.ajax({
-                    url:base_url+'/admin/changeStudentStatus',
+                    url:base_url+'/zukerbend/changeStudentStatus',
                     type:'POST',
                     data:{student_id: student_id, is_active:e.target.checked, _token:_token},
                     success:function (response) {

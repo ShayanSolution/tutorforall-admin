@@ -57,7 +57,7 @@
             let userRoleId = 2;
             $.ajax({
                 type: 'POST',
-                url: '/admin/reset-term-condition',
+                url: '/zukerbend/reset-term-condition',
                 dataType: 'json',
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 data: {id:userRoleId,"_token": "{{ csrf_token() }}"},

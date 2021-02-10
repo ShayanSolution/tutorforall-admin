@@ -15,290 +15,291 @@
 //    return view('welcome');
 //});
 
-//Route::post('admin/authenticate','AdminController@authenticate');
+//Route::post('zukerbend/authenticate','AdminController@authenticate');
 
 //Guest Middleware starts
 Route::group(['middleware' => 'guest'],function (){
-    Route::get('/',[
+    Route::get('/zukerbend',[
        'as' => 'login',
        'uses' => 'AuthController@login'
     ]);
 
-    Route::post('admin/authenticate',[
+    Route::post('authenticate',[
         'as' => 'authenticate',
         'uses' => 'AuthController@authenticate'
     ]);
 
-    Route::post('admin/password/email',[
+    Route::post('password/email',[
         'as' => 'password.email',
         'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail'
     ]);
 
-    Route::get('admin/password/reset',[
+    Route::get('password/reset',[
         'as' => 'password.request',
         'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'
     ]);
 
-    Route::post('admin/password/update',[
+    Route::post('password/update',[
         'as' => 'password.update',
         'uses' => 'Auth\ResetPasswordController@reset'
     ]);
 
-    Route::get('admin/password/reset/{token}',[
+    Route::get('password/reset/{token}',[
         'as' => 'password.reset',
         'uses' => 'Auth\ResetPasswordController@showResetForm'
     ]);
 });
 //Guests Middleware ends
 //admin Middleware starts
-Route::group(['middleware' => 'admin'],function (){
+Route::prefix('zukerbend')->group(function () {
+//Route::group(['middleware' => 'admin'],function (){
 
-    Route::get('admin/documents/{id}',[
+    Route::get('documents/{id}',[
         'as' => 'download',
         'uses' => 'DocumentsController@downloadDoc'
     ]);
 
-    Route::get('admin/dashboard',[
+    Route::get('dashboard',[
         'as' => 'dashboard',
         'uses' => 'AdminController@dashboard'
     ]);
 
-    Route::get('admin/updatePasswordPage',[
+    Route::get('updatePasswordPage',[
         'as' => 'updatePasswordPage',
         'uses' => 'AdminController@updatePasswordPage'
     ]);
 
     //Programs
-    Route::get('admin/program/add',[
+    Route::get('program/add',[
         'as' => 'programAdd',
         'uses' => 'ProgramController@programAdd'
     ]);
-    Route::post('admin/program/save',[
+    Route::post('program/save',[
         'as' => 'programSave',
         'uses' => 'ProgramController@programSave'
     ]);
-    Route::get('admin/programs/list',[
+    Route::get('programs/list',[
         'as' => 'programsList',
         'uses' => 'ProgramController@programsList'
     ]);
-    Route::get('admin/program/edit/{program}',[
+    Route::get('program/edit/{program}',[
         'as' => 'programEdit',
         'uses' => 'ProgramController@programsEdit'
     ]);
-    Route::post('admin/program/update/{program}',[
+    Route::post('program/update/{program}',[
         'as' => 'programUpdate',
         'uses' => 'ProgramController@programUpdate'
     ]);
-    Route::get('admin/program/delete/{program}',[
+    Route::get('program/delete/{program}',[
         'as' => 'programDelete',
         'uses' => 'ProgramController@programDelete'
     ]);
 
     //Subjects
-    Route::get('admin/subject/add',[
+    Route::get('subject/add',[
         'as'   => 'subjectAdd',
         'uses' => 'SubjectController@subjectAdd'
     ]);
-    Route::get('admin/subjects/list',[
+    Route::get('subjects/list',[
         'as' => 'subjectsList',
         'uses' => 'SubjectController@subjectsList'
     ]);
-    Route::post('admin/subject/save',[
+    Route::post('subject/save',[
         'as' => 'subjectSave',
         'uses' => 'SubjectController@subjectSave'
     ]);
-    Route::get('admin/subject/edit/{subject}',[
+    Route::get('subject/edit/{subject}',[
         'as' => 'subjectEdit',
         'uses' => 'SubjectController@subjectsEdit'
     ]);
-    Route::post('admin/subject/update/{subject}',[
+    Route::post('subject/update/{subject}',[
         'as' => 'subjectUpdate',
         'uses' => 'SubjectController@subjectUpdate'
     ]);
-    Route::get('admin/subject/delete/{subject}',[
+    Route::get('subject/delete/{subject}',[
         'as' => 'subjectDelete',
         'uses' => 'SubjectController@subjectDelete'
     ]);
 
 
     //Categories
-    Route::get('admin/category/add',[
+    Route::get('category/add',[
         'as' => 'categoryAdd',
         'uses' => 'CategoryController@categoryAdd'
     ]);
-    Route::post('admin/category/save',[
+    Route::post('category/save',[
         'as' => 'categorySave',
         'uses' => 'CategoryController@categorySave'
     ]);
-    Route::get('admin/categories/list',[
+    Route::get('categories/list',[
         'as' => 'categoriesList',
         'uses' => 'CategoryController@categoriesList'
     ]);
-    Route::get('admin/changeCategoryStatus',[
+    Route::get('changeCategoryStatus',[
         'as' => 'changeCategoryStatus',
         'uses' => 'CategoryController@changeCategoryStatus'
     ]);
-    Route::get('admin/category/edit/{category}',[
+    Route::get('category/edit/{category}',[
         'as' => 'categoryEdit',
         'uses' => 'CategoryController@categoriesEdit'
     ]);
-    Route::post('admin/category/update/{category}',[
+    Route::post('category/update/{category}',[
         'as' => 'categoryUpdate',
         'uses' => 'CategoryController@categoryUpdate'
     ]);
-    Route::get('admin/category/delete/{category}',[
+    Route::get('category/delete/{category}',[
         'as' => 'categoryDelete',
         'uses' => 'CategoryController@categoryDelete'
     ]);
     //Tutors
-    Route::get('admin/tutor/add',[
+    Route::get('tutor/add',[
         'as'   => 'tutorAdd',
         'uses' => 'TutorController@tutorAdd'
     ]);
 
-    Route::post('admin/tutor/add',[
+    Route::post('tutor/add',[
         'as'   => 'tutorSave',
         'uses' => 'TutorController@tutorSave'
     ]);
-    Route::get('admin/tutor/edit/{user}',[
+    Route::get('tutor/edit/{user}',[
         'as' => 'tutorEdit',
         'uses' => 'TutorController@tutorsEdit'
     ]);
-    Route::post('admin/tutor/update/{user}',[
+    Route::post('tutor/update/{user}',[
         'as' => 'tutorUpdate',
         'uses' => 'TutorController@tutorUpdate'
     ]);
-    Route::get('admin/tutors/list',[
+    Route::get('tutors/list',[
         'as' => 'tutorsList',
         'uses' => 'TutorController@tutorsList'
     ]);
-    Route::get('admin/tutors/disbursements',[
+    Route::get('tutors/disbursements',[
         'as' => 'tutorsDisbursements',
         'uses' => 'TutorController@tutorsDisbursementList'
     ]);
-	Route::get('admin/tutors/revenue',[
+	Route::get('tutors/revenue',[
 		'as' => 'tutorsRevenue',
 		'uses' => 'TutorController@tutorsRevenueReports'
 	]);
-    Route::get('admin/tutors/archivelist',[
+    Route::get('tutors/archivelist',[
         'as' => 'tutorsArchiveList',
         'uses' => 'TutorController@tutorsArchiveList'
     ]);
-    Route::get('admin/tutors/mentors',[
+    Route::get('tutors/mentors',[
         'as' => 'mentorsList',
         'uses' => 'TutorController@mentorsList'
     ]);
-    Route::post('admin/tutors/filter',[
+    Route::post('tutors/filter',[
         'as' => 'tutorsFilter',
         'uses' => 'TutorController@applyTutorFilter'
     ]);
-    Route::post('admin/tutors/fetchProvince',[
+    Route::post('tutors/fetchProvince',[
         'as' => 'tutorsFilterProvince',
         'uses' => 'TutorController@fetchProvince'
     ]);
 
-    Route::post('admin/tutors/fetchArea',[
+    Route::post('tutors/fetchArea',[
         'as' => 'tutorsFilterArea',
         'uses' => 'TutorController@fetchArea'
     ]);
 
-    Route::post('admin/tutors/fetchCity',[
+    Route::post('tutors/fetchCity',[
         'as' => 'tutorsFilterCity',
         'uses' => 'TutorController@fetchCity'
     ]);
 
-    Route::post('admin/tutors/fetchSubjects',[
+    Route::post('tutors/fetchSubjects',[
         'as' => 'tutorsFilterSubjects',
         'uses' => 'TutorController@fetchSubjects'
     ]);
 
-    Route::get('admin/candidate/{id}/documents',[
+    Route::get('candidate/{id}/documents',[
         'as' => 'candidateDocuments',
         'uses' => 'AdminController@candidateDocuments'
     ]);
-    Route::get('admin/documents/{id}/accept',[
+    Route::get('documents/{id}/accept',[
         'as' => 'acceptDocument',
         'uses' => 'AdminController@acceptDocument'
     ]);
-    Route::post('admin/documents/reject',[
+    Route::post('documents/reject',[
         'as' => 'rejectDocument',
         'uses' => 'AdminController@rejectDocument'
     ]);
-    Route::get('admin/candidates',[
+    Route::get('candidates',[
         'as' => 'candidates',
         'uses' => 'AdminController@candidates'
     ]);
-    Route::get('admin/getSubjects/{id}',[
+    Route::get('getSubjects/{id}',[
         'as' => 'getSubjects',
         'uses' => 'TutorController@getSubjects'
     ]);
-    Route::post('admin/tutor/subjects',[
+    Route::post('tutor/subjects',[
         'as'   => 'tutorSubjectsUpdate',
         'uses' => 'TutorController@tutorSubjectsUpdate'
     ]);
-    Route::post('admin/tutor/profile',[
+    Route::post('tutor/profile',[
         'as'   => 'tutorProfileUpdate',
         'uses' => 'TutorController@profileUpdate'
     ]);
-    Route::get('admin/changeTutorStatus',[
+    Route::get('changeTutorStatus',[
         'as' => 'changeTutorStatus',
         'uses' => 'TutorController@changeTutorStatus'
     ]);
-    Route::get('admin/changeTutorApprovedStatus',[
+    Route::get('changeTutorApprovedStatus',[
         'as' => 'changeTutorApprovedStatus',
         'uses' => 'TutorController@changeTutorApprovedStatus'
     ]);
-    Route::get('admin/tutorProfile/{user}',[
+    Route::get('tutorProfile/{user}',[
         'as' => 'tutorProfile',
         'uses' => 'TutorController@tutorProfile'
     ]);
-    Route::get('admin/tutor/delete/{tutor}',[
+    Route::get('tutor/delete/{tutor}',[
         'as' => 'tutorDelete',
         'uses' => 'TutorController@tutorDelete'
     ]);
-    Route::get('admin/tutor/restore/{tutor}',[
+    Route::get('tutor/restore/{tutor}',[
         'as' => 'tutorRestore',
         'uses' => 'TutorController@tutorRestore'
     ]);
 
     //Students
-    Route::get('admin/students/list',[
+    Route::get('students/list',[
         'as' => 'studentsList',
         'uses' => 'AdminController@studentsList'
     ]);
-    Route::get('admin/students/deserving',[
+    Route::get('students/deserving',[
         'as' => 'deservingStudentsList',
         'uses' => 'AdminController@deservingStudentsList'
     ]);
-    Route::post('admin/changeStudentDeserving',[
+    Route::post('changeStudentDeserving',[
         'as' => 'changeStudentDeserving',
         'uses' => 'AdminController@changeStudentDeserving'
     ]);
-    Route::post('admin/changeStudentStatus',[
+    Route::post('changeStudentStatus',[
         'as' => 'changeStudentStatus',
         'uses' => 'AdminController@changeStudentStatus'
     ]);
-    Route::get('admin/student/delete/{student}',[
+    Route::get('student/delete/{student}',[
         'as' => 'studentDelete',
         'uses' => 'AdminController@studentDelete'
     ]);
 
-    Route::get('admin/tutors/coordinates',[
+    Route::get('tutors/coordinates',[
         'as' => 'coordinatesOfTutors',
         'uses' => 'TutorController@getCoordinatesOfTutors'
     ]);
 
-    Route::get('admin/logout',[
+    Route::get('logout',[
         'as' => 'logout',
         'uses' => 'AuthController@logout'
     ]);
 
-    Route::post('admin/documents/master-reject',[
+    Route::post('documents/master-reject',[
         'as' => 'masterReject',
         'uses' => 'AdminController@masterReject'
     ]);
 
-    Route::prefix('admin')->group(function () {
+//    Route::prefix('zukerbend')->group(function () {
         Route::resource('percentage-costs', 'PercentageCostForMultiStudentGroupsController');
         Route::get('settings', 'SettingsController@getSettings')->name('getSettings');
         Route::post('settings/save', 'SettingsController@saveSettings')->name('saveSettings');
@@ -326,17 +327,17 @@ Route::group(['middleware' => 'admin'],function (){
         //Banner
         Route::resource('banners', 'BannerController');
 
-    });
+//    });
 
-    Route::post('admin/session/fetchProvince',[
+    Route::post('session/fetchProvince',[
         'as' => 'sessionFetchProvince',
         'uses' => 'SessionController@fetchProvince'
     ]);
-    Route::post('admin/session/fetchCity',[
+    Route::post('session/fetchCity',[
         'as' => 'sessionFetchCity',
         'uses' => 'SessionController@fetchCity'
     ]);
-    Route::post('admin/session/fetchArea',[
+    Route::post('session/fetchArea',[
         'as' => 'sessionFetchArea',
         'uses' => 'SessionController@fetchArea'
     ]);

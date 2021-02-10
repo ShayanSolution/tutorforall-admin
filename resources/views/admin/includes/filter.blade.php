@@ -32,7 +32,7 @@
                 fd.append('class',value);
                 fd.append('_token', "{{ csrf_token() }}");
                 $.ajax({
-                    url : "{{URL::to('/admin/tutors/fetchSubjects')}}",
+                    url : "{{URL::to('/zukerbend/tutors/fetchSubjects')}}",
                     type : 'POST',
                     data : fd,
                     dataType: 'html',
@@ -73,7 +73,7 @@
             var role = $(this).data('role-id');
             var url = "";
             if(role != '' && role !== undefined)
-                url = "{{URL::to('/admin/tutors/fetchProvince')}}";
+                url = "{{URL::to('/zukerbend/tutors/fetchProvince')}}";
             else
                 url = "{{route('sessionFetchProvince')}}";
             if(value !== 'all')
@@ -111,7 +111,7 @@
             var role = $('.countries').data('role-id');
             var url= '';
             if(role != '' && role !== undefined)
-                url = "{{URL::to('/admin/tutors/fetchCity')}}";
+                url = "{{URL::to('/zukerbend/tutors/fetchCity')}}";
             else
                 url = "{{route('sessionFetchCity')}}";
             if(value !== 'all')
@@ -148,7 +148,7 @@
             var role = $('.countries').data('role-id');
             var url= '';
             if(role != '' && role !== undefined)
-                url = "{{URL::to('/admin/tutors/fetchArea')}}";
+                url = "{{URL::to('/zukerbend/tutors/fetchArea')}}";
             else
                 url = "{{route('sessionFetchArea')}}";
 

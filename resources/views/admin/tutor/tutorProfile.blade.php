@@ -77,7 +77,7 @@
                     {{--<li><a href="#">Admin</a></li>--}}
                     {{--<li class="active">TutorProfile</li>--}}
                     <li><a class="btn btn-inverse waves-effect waves-light" style="color: white;"
-                           href="/admin/tutors/list">Back</a></li>
+                           href="/zukerbend/tutors/list">Back</a></li>
                 </ol>
             </div>
             <!-- /.col-lg-12 -->

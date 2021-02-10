@@ -53,7 +53,7 @@
                     <br>
                     <br>
                     <div class="col-xs-12">
-                        <a href="/admin/password/reset">Forgot Password</a>
+                        <a href="/zukerbend/password/reset">Forgot Password</a>
                     </div>
                 </div>
             </form>

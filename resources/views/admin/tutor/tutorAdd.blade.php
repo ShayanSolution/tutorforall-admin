@@ -233,7 +233,7 @@
             console.log(e);
             var class_id = e.target.value;
             console.log(class_id);
-            $.get('{{url('/admin/getSubjects/')}}/'+class_id, function(data) {
+            $.get('{{url('/zukerbend/getSubjects/')}}/'+class_id, function(data) {
                 $('#subject').empty();
                 console.log('Data: ', data.subjects);
                 $.each(data.subjects, function(index,subCatObj){
