@@ -184,6 +184,10 @@ class TutorController extends Controller {
 								   function ($tutor) {
 									   return dateTimeConverter($tutor->created_at);
 								   })
+                                ->addColumn('updated_at',
+                                    function ($tutor) {
+                                        return dateTimeConverter($tutor->updated_at);
+                                    })
 							   ->addColumn('last_login',
 								   function ($tutor) {
 									   return $tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login);
@@ -209,8 +213,9 @@ class TutorController extends Controller {
 								$tutor->id) . '" alt="default">View</a><br><a type="button" class="fcbtn btn btn-danger btn-outline btn-1d delete" style="margin-top: 5px" data-id="' . $tutor->id . '">Delete</a></div>';
 						return $delete_btn;
 					})
-							   ->rawColumns(['rating', 'created_at', 'last_login', 'is_active', 'delete'])
+							   ->rawColumns(['rating', 'created_at','updated_at', 'last_login', 'is_active', 'delete'])
 							   ->orderColumn('created_at', 'created_at $1')
+							   ->orderColumn('updated_at', 'updated_at $1')
 							   ->orderColumn('last_login', 'last_login $1')
 							   ->orderColumn('is_active', 'is_active $1')
 							   ->make(true);

@@ -361,6 +361,7 @@
                         {data: 'phone', name: 'phone'},
                         {data: 'rating', name: 'rating'},
                         {data: 'created_at', name: 'created_at'},
+                        {data: 'updated_at', name: 'updated_at'},
                         {data: 'last_login', name: 'last_login'},
                         {data: 'is_active', name: 'is_active'},
                         // {data: 'is_approve', name: 'is_approve'},
