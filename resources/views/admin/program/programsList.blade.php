@@ -35,7 +35,7 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th style="padding-right: 40px;">Active</th>
+                            <th style="padding-right: 45px;">Active</th>
                             <th>Note</th>
                             <th>Created</th>
                             <th style="text-align: center">Action</th>
