@@ -219,6 +219,7 @@
                             <th>Phone</th>
                             <th>Rating</th>
                             <th>Created</th>
+                            <th>Updated</th>
                             <th>Last Login</th>
                             <th>Active</th>
 {{--                            <th>Approved</th>--}}
