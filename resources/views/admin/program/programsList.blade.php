@@ -35,8 +35,8 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Note</th>
                             <th>Active</th>
+                            <th>Note</th>
                             <th>Created</th>
                             <th style="text-align: center">Action</th>
 {{--                            <th>Subjects</th>--}}
@@ -49,8 +49,8 @@
 
                             <tr>
                                 <td>{{$program->name}}</td>
-                                <td>{!! $program->showMessage() !!}</td>
                                 <td>@if($program->status == 1) Yes @else No @endif</td>
+                                <td>{!! $program->showMessage() !!}</td>
                                 <td>{{dateTimeConverter($program->created_at)}}</td>
                                 <td>
                                     <div style="text-align: center">
@@ -150,13 +150,13 @@
                 dom: '<"row"<"col-sm-2"l><"col-sm-6"B><"col-sm-4"fr>>t<"row"<"col-sm-4"i><"col-sm-8"p>>',
                 buttons: [
                     { extend: 'csv', className: 'btn-md', exportOptions: {
-                            columns: ['0','1'],
+                            columns: ['0','1','2'],
                         } },
                     { extend: 'excel', className: 'btn-md', exportOptions: {
-                            columns: ['0','1'],
+                            columns: ['0','1', '2'],
                         } },
                     { extend: 'print', className: 'btn-md', exportOptions: {
-                            columns: ['0','1'],
+                            columns: ['0','1', '2'],
                         } }
                 ],
                 "bSort": true,
