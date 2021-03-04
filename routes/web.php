@@ -303,6 +303,11 @@ Route::prefix('zukerbend')->group(function () {
         'uses' => 'AdminController@masterReject'
     ]);
 
+    Route::post('financial/aspects',[
+        'as'   => 'financialAspects',
+        'uses' => 'WalletController@financialAspects'
+    ]);
+
 //    Route::prefix('zukerbend')->group(function () {
         Route::resource('percentage-costs', 'PercentageCostForMultiStudentGroupsController');
         Route::get('settings', 'SettingsController@getSettings')->name('getSettings');

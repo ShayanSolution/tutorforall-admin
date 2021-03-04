@@ -8,11 +8,13 @@ use App\Models\ProgramSubject;
 use App\Models\SessionPayment;
 use App\Models\User;
 use App\Traits\StudentFilterTrait;
+use App\Traits\WalletTrait;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
     use StudentFilterTrait;
+    use WalletTrait;
 
     public function studentsList(Request $request){
         $listType = 'studentsList';
@@ -162,6 +164,8 @@ class StudentController extends Controller
     }
 
     public function studentProfile(User $user) {
-        return view('admin.student.studentProfile',compact('user'));
+        $studentWallets = User::find($user->id)->studentWalletTransactions;
+        $walletAmount = $this->wallet($user->id);
+        return view('admin.student.studentProfile',compact('user', 'studentWallets', 'walletAmount'));
     }
 }
