@@ -253,6 +253,10 @@ Route::prefix('zukerbend')->group(function () {
         'as' => 'tutorProfile',
         'uses' => 'TutorController@tutorProfile'
     ]);
+    Route::get('studentProfile/{user}',[
+        'as' => 'studentProfile',
+        'uses' => 'StudentController@studentProfile'
+    ]);
     Route::get('tutor/delete/{tutor}',[
         'as' => 'tutorDelete',
         'uses' => 'TutorController@tutorDelete'
@@ -265,23 +269,23 @@ Route::prefix('zukerbend')->group(function () {
     //Students
     Route::get('students/list',[
         'as' => 'studentsList',
-        'uses' => 'AdminController@studentsList'
+        'uses' => 'StudentController@studentsList'
     ]);
     Route::get('students/deserving',[
         'as' => 'deservingStudentsList',
-        'uses' => 'AdminController@deservingStudentsList'
+        'uses' => 'StudentController@deservingStudentsList'
     ]);
     Route::post('changeStudentDeserving',[
         'as' => 'changeStudentDeserving',
-        'uses' => 'AdminController@changeStudentDeserving'
+        'uses' => 'StudentController@changeStudentDeserving'
     ]);
     Route::post('changeStudentStatus',[
         'as' => 'changeStudentStatus',
-        'uses' => 'AdminController@changeStudentStatus'
+        'uses' => 'StudentController@changeStudentStatus'
     ]);
     Route::get('student/delete/{student}',[
         'as' => 'studentDelete',
-        'uses' => 'AdminController@studentDelete'
+        'uses' => 'StudentController@studentDelete'
     ]);
 
     Route::get('tutors/coordinates',[
