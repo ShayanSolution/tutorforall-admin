@@ -17,5 +17,8 @@ class Wallet extends Model
         'created_at',
         'updated_at',
         'notes',
+        'added_by',
+        'admin_user_name',
+        'reason_from_admin'
     ];
 }
