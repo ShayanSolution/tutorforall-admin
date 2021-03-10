@@ -217,6 +217,7 @@
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>CNIC/BForm</th>
                             <th>Rating</th>
                             <th>Created</th>
                             <th>Updated</th>
@@ -360,6 +361,7 @@
                         {data: 'lastName', name: 'lastName'},
                         {data: 'email', name: 'email'},
                         {data: 'phone', name: 'phone'},
+                        {data: 'cnic_no', name: 'cnic_no'},
                         {data: 'rating', name: 'rating'},
                         {data: 'created_at', name: 'created_at'},
                         {data: 'updated_at', name: 'updated_at'},

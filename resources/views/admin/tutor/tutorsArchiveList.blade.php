@@ -50,6 +50,7 @@
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>CNIC/BForm</th>
                             <th>Rating</th>
                             <th>Created</th>
                             <th>Last Login</th>
@@ -64,6 +65,7 @@
                                     <td>{{$tutor->lastName ? $tutor->lastName : 'N-A'}}</td>
                                     <td>{{$tutor->email}}</td>
                                     <td>{{$tutor->phone}}</td>
+                                    <td>{{$tutor->cnic_no}}</td>
                                     <td>{{round($tutor->rating->avg('rating'),1)}}</td>
                                     <td>{{dateTimeConverter($tutor->created_at)}}</td>
                                     <td>{{$tutor->last_login == null ? 'N-A' : dateTimeConverter($tutor->last_login)}}</td>

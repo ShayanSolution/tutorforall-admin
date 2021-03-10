@@ -169,6 +169,7 @@ class TutorController extends Controller {
 					'lastName',
 					'email',
 					'phone',
+					'cnic_no',
 					'is_active',
 					'is_approved',
 					'created_at',
@@ -245,7 +246,9 @@ class TutorController extends Controller {
 			return datatables()->eloquent($invoices)
 							   ->addColumn('tutor',
 								   function (TutorInvoice $invoice) {
-									   return $invoice['tutor']['firstName'] . ' ' . $invoice['tutor']['lastName']. ' (' . $invoice['tutor']['phone'].')';
+                                       $phoneNo = $invoice['tutor']['phone'] ? ' (' . $invoice['tutor']['phone'].')' : '';
+                                       $cnicNo = $invoice['tutor']['cnic_no'] ? ' (' . $invoice['tutor']['cnic_no'].')' : '';
+									   return $invoice['tutor']['firstName'] . ' ' . $invoice['tutor']['lastName'].$phoneNo.$cnicNo ;
 								   })
                                 ->addColumn('amount',
                                     function ($invoice) {
@@ -374,6 +377,7 @@ class TutorController extends Controller {
 			'lastName',
 			'email',
 			'phone',
+			'cnic_no',
 			'is_active',
 			'is_approved',
 			'created_at',
@@ -400,9 +404,11 @@ class TutorController extends Controller {
 					'lastName',
 					'email',
 					'phone',
+					'cnic_no',
 					'is_active',
 					'is_approved',
 					'created_at',
+					'updated_at',
 					'last_login')->whereHas('profile',
 					function ($q) {
 						$q->where('is_mentor', 1);
