@@ -130,12 +130,16 @@ class TutorController extends Controller {
 		$is_active = $request->is_active;
 
 		$tutor = User::where('id', $tutor_id)->first();
+
 		if ($is_active == 'true') {
 			$tutor->is_active = 1;
 			$tutor->save();
 		} else {
-			$tutor->is_active = 0;
-			$tutor->save();
+            //find tutors against CNIC/BFom No
+            $sameCnicTutors = User::where('cnic_no', $tutor->cnic_no)->pluck('id')->toArray();
+            User::whereIn('id', $sameCnicTutors)->update([
+                'is_active' => 0
+            ]);
 		}
 	}
 
