@@ -233,6 +233,10 @@
                                             class="fa fa-home"></i></span> <span
                                         class="hidden-xs">Cancelled Session</span> </a>
                             </li>
+                            <li class="tab">
+                                <a href="#walletTab" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span>
+                                    <span class="hidden-xs">Debit/Credit</span> </a>
+                            </li>
                         </ul>
                         <!-- /.tabs -->
                         <div class="tab-content">
@@ -803,6 +807,77 @@
                                 @endif
                             </div>
                             <!-- /.tabs 6 -->
+                            <!-- .tabs 7 -->
+                            <div class="tab-pane col-md-12" id="walletTab">
+                                <!-- .Wallet are Start -->
+                                <div class="row col-md-5">
+                                    <div class="panel panel-default block2" style="outline: auto;">
+                                        <div class="panel-heading">
+                                            Wallet
+                                        </div>
+                                        <div class="panel-wrapper collapse in">
+                                            <form id="validation" class="form-horizontal" action="{{route('financialAspects')}}" method="POST">
+                                                <input type="hidden" value="{{$user->id}}" name="user_id">
+                                                <input type="hidden" value="tutor" name="role">
+                                                {{ csrf_field() }}
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="row col-md-4">
+                                                            <label for="">Type</label>
+                                                            <select name="type" required>
+                                                                <option value="">Select Type</option>
+                                                                <option value="credit">Credit</option>
+                                                                <option value="debit">Debit</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="row col-md-4">
+                                                            <label for="">Amount</label>
+                                                            <input id="amount" type="number" min="1" name="amount" value="" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="row col-md-4">
+                                                            <label for="">Reason</label>
+                                                            <textarea id="reason" type="text" name="reason_from_admin" value="" style="margin: 0px; width: 225px; height: 100px;" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-info waves-effect waves-light m-r-10 pull-right">OK</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.Wallet are end -->
+                                <!-- .Empty Start -->
+                                <div class="row col-md-1"></div>
+                                <!-- /.Empty end -->
+                                <!-- /.Listing Start -->
+                                <div class="row col-md-6">
+                                    <div class="panel panel-default block2" style="outline: auto; padding-bottom: 10px">
+                                        <div class="panel-heading">
+                                            Transactions
+                                        </div>
+                                        <div class="panel-heading right">
+                                            Total Wallet : {{$walletAmount}} PKR
+                                        </div>
+                                        @foreach($tutorWallets as $tutorWallet)
+                                            <div class="panel panel-default block2" style="outline: auto; margin: 10px; padding: 5px">
+                                                @if($tutorWallet)
+                                                    {!!  '<b>Created At:</b> '.(dateTimeConverter(($tutorWallet->created_at))) .'<br>'!!}
+                                                    {!!  '<b>Created By:</b> '.$tutorWallet->admin_user_name."-".$tutorWallet->added_by.'<br>'!!}
+                                                    {!!  '<b>Type:</b> '.$tutorWallet->type.'<br>'!!}
+                                                    {!!  '<b>Amount:</b> '.$tutorWallet->amount.'<br>'!!}
+                                                    {!!  '<b>Note:</b> '.$tutorWallet->reason_from_admin.'<br>'!!}
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <!-- /.Listing end -->
+                            </div>
+                            <!-- /.tabs7 -->
                         </div>
                     </div>
                 </div>

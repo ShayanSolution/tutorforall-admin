@@ -10,6 +10,7 @@ use App\Models\ProgramSubject;
 use App\Models\SessionPayment;
 use App\Models\Subject;
 use App\Models\TutorInvoice;
+use App\Traits\WalletTrait;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http;
@@ -33,6 +34,7 @@ class TutorController extends Controller {
 	use LocationTrait;
 	use RevenueFilterTrait;
 	use DisbursementFilterTrait;
+    use WalletTrait;
 
 	private static $documentStoragePath = "/home/devtutor4allapis/public_html/storage/app/public/documents";
 
@@ -476,10 +478,12 @@ class TutorController extends Controller {
 		$payment_invoices  = SessionPayment::with('session')->whereIn('id',
 			$user->disbursement->pluck('paymentable_id'));
 		$cancelledSessions = User::find($user->id)->session()->where('demo_started_at', null)->where('status', 'cancelled')->get();
+        $tutorWallets = User::find($user->id)->tutorWalletTransactions;
+        $walletAmount = $this->wallet($user->id);
 
 		//                        dd($payment_invoices->first()!=null);
 		return view('admin.tutor.tutorProfile',
-			compact('user', 'programs_subjects', 'programs', 'profile', 'cnicfront', 'cnicback', 'payment_invoices', 'cancelledSessions'));
+			compact('user', 'programs_subjects', 'programs', 'profile', 'cnicfront', 'cnicback', 'payment_invoices', 'cancelledSessions', 'tutorWallets', 'walletAmount'));
 	}
 
 	public function tutorSubjectsUpdate(Request $request) {

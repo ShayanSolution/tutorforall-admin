@@ -95,4 +95,8 @@ class User extends Authenticatable implements CanResetPasswordInterface
     public function studentWalletTransactions() {
         return $this->hasMany(Wallet::class, 'from_user_id');
     }
+
+    public function tutorWalletTransactions() {
+        return $this->hasMany(Wallet::class, 'to_user_id');
+    }
 }

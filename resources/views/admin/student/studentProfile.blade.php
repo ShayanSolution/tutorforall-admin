@@ -184,7 +184,7 @@
                                                         <div class="row">
                                                             <div class="row col-md-4">
                                                                 <label for="">Amount</label>
-                                                                <input id="amount" type="number" min="0" name="amount" value="" required>
+                                                                <input id="amount" type="number" min="1" name="amount" value="" required>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -216,7 +216,7 @@
                                                 <div class="panel panel-default block2" style="outline: auto; margin: 10px; padding: 5px">
                                                     @if($studentWallet)
                                                         {!!  '<b>Created At:</b> '.(dateTimeConverter(($studentWallet->created_at))) .'<br>'!!}
-                                                        {!!  '<b>Created By:</b> '.$studentWallet->admin_user_name."-".$studentWallet->to_user_id.'<br>'!!}
+                                                        {!!  '<b>Created By:</b> '.$studentWallet->admin_user_name."-".$studentWallet->added_by.'<br>'!!}
                                                         {!!  '<b>Type:</b> '.$studentWallet->type.'<br>'!!}
                                                         {!!  '<b>Amount:</b> '.$studentWallet->amount.'<br>'!!}
                                                         {!!  '<b>Note:</b> '.$studentWallet->reason_from_admin.'<br>'!!}
