@@ -11,25 +11,55 @@ use Illuminate\Support\Facades\DB;
 
 trait WalletTrait {
 
-    public function wallet($id) {
-        $debit      = Wallet::where('type', 'debit')
-            ->where(function ($query) use ($id) {
-                $query->where('from_user_id', '=', $id)
-                    ->orWhere('to_user_id', '=', $id);
-            })->sum('amount');
+    public function wallet($id, $role) {
+        if ($role == 'student'){
+            $studentId = $id;
+            list($debit, $credit) = $this->studentWallet($studentId);
 
-        $credit = Wallet::where('type', 'credit')
-            ->where(function ($query) use ($id) {
-                $query->where('from_user_id', '=', $id)
-                    ->orWhere('to_user_id', '=', $id);
-            })->sum('amount');
+        } else {
+            $tutorId = $id;
+            list($debit, $credit) = $this->tutorWallet($tutorId);
+        }
 
         if ($credit >= 0 && $debit >= 0) {
             $totalAmount = $credit - $debit;
-            return (string)$totalAmount;
+            return $totalAmount;
         } else {
-            return (string)0;
+            return 0;
         }
+
+    }
+
+    public function studentWallet($studentId) {
+        $debit      = Wallet::where('type', 'debit')
+            ->where(function ($query) use ($studentId) {
+                $query->where('from_user_id', '=', $studentId)
+                    ->orWhere('to_user_id', '=', $studentId);
+            })->sum('amount');
+
+        $credit = Wallet::where('type', 'credit')
+            ->where(function ($query) use ($studentId) {
+                $query->where('from_user_id', '=', $studentId)
+                    ->orWhere('to_user_id', '=', $studentId);
+            })->sum('amount');
+
+        return [$debit, $credit];
+    }
+
+    public function tutorWallet($tutorId) {
+        $debit      = Wallet::where('type', 'debit')
+            ->where(function ($query) use ($tutorId) {
+                $query->Where('to_user_id', '=', $tutorId)
+                    ->whereNotNull('added_by');
+            })->sum('amount');
+
+        $credit = Wallet::where('type', 'credit')
+            ->where(function ($query) use ($tutorId) {
+                $query->Where('to_user_id', '=', $tutorId)
+                    ->whereNotNull('added_by');
+            })->sum('amount');
+
+        return [$debit, $credit];
     }
 
 }

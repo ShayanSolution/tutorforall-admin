@@ -165,7 +165,7 @@ class StudentController extends Controller
 
     public function studentProfile(User $user) {
         $studentWallets = User::find($user->id)->studentWalletTransactions;
-        $walletAmount = $this->wallet($user->id);
+        $walletAmount = $this->wallet($user->id, 'student');
         return view('admin.student.studentProfile',compact('user', 'studentWallets', 'walletAmount'));
     }
 }

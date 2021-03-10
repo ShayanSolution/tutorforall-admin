@@ -10,6 +10,7 @@ use App\Models\ProgramSubject;
 use App\Models\SessionPayment;
 use App\Models\Subject;
 use App\Models\TutorInvoice;
+use App\Models\Wallet;
 use App\Traits\WalletTrait;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -478,8 +479,9 @@ class TutorController extends Controller {
 		$payment_invoices  = SessionPayment::with('session')->whereIn('id',
 			$user->disbursement->pluck('paymentable_id'));
 		$cancelledSessions = User::find($user->id)->session()->where('demo_started_at', null)->where('status', 'cancelled')->get();
-        $tutorWallets = User::find($user->id)->tutorWalletTransactions;
-        $walletAmount = $this->wallet($user->id);
+//        $tutorWallets = User::find($user->id)->tutorWalletTransactions;
+        $tutorWallets = Wallet::where('to_user_id', $user->id)->whereNotNull('added_by')->get();
+        $walletAmount = $this->wallet($user->id, 'tutor');
 
 		//                        dd($payment_invoices->first()!=null);
 		return view('admin.tutor.tutorProfile',
