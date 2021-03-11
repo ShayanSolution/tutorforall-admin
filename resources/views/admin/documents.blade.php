@@ -142,6 +142,12 @@
                                                 <h4 class="modal-title">Document Preview</h4>
                                             </div>
                                             <div class="modal-body">
+                                                @if($progSubDoc->document->document_type== "cnic_front" || $progSubDoc->document->document_type== "cnic_back")
+                                                <p>
+                                                    <span><b>CNIC/BForm #: </b>{{$progSubDoc->user->cnic_no}}</span>
+                                                </p>
+                                                <br>
+                                                @endif
                                                 <img
                                                     src="{{$progSubDoc->document != null ? $showarray.$progSubDoc->document->path : ''}}"
                                                     width="500">

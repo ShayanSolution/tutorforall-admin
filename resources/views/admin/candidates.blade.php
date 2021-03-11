@@ -28,6 +28,7 @@
                             <th>Type</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>CNIC/BForm</th>
                             <th>Created</th>
                             <th>Updated</th>
                             <th style="text-align: center">Action</th>
@@ -93,6 +94,7 @@
                     {data: 'type', name: 'type'},
                     {data: 'email', name: 'email'},
                     {data: 'phone', name: 'phone'},
+                    {data: 'cnic_no', name: 'cnic_no'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'updated_at', name: 'updated_at'},
                     {data: 'documents', name: 'documents'},
