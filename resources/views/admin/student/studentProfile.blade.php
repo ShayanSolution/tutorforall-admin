@@ -77,7 +77,7 @@
                     {{--<li><a href="#">Admin</a></li>--}}
                     {{--<li class="active">TutorProfile</li>--}}
                     <li><a class="btn btn-inverse waves-effect waves-light" style="color: white;"
-                           href="/zukerbend/student/list">Back</a></li>
+                           href="/zukerbend/students/list">Back</a></li>
                 </ol>
             </div>
             <!-- /.col-lg-12 -->
@@ -127,15 +127,15 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="row text-center m-t-10">
-                                <div class="col-md-12"><strong>Address</strong>
-                                    <p>@if ($user->address != '')
-                                            {{$user->address}}
-                                        @else
-                                            {{'Not Available'}}
-                                        @endif</p>
-                                </div>
-                            </div>
+{{--                            <div class="row text-center m-t-10">--}}
+{{--                                <div class="col-md-12"><strong>Address</strong>--}}
+{{--                                    <p>@if ($user->address != '')--}}
+{{--                                            {{$user->address}}--}}
+{{--                                        @else--}}
+{{--                                            {{'Not Available'}}--}}
+{{--                                        @endif</p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
                             <!-- /.row -->
                         </div>
